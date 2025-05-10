@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Elden Paths™ Admin Panel</title>
+  <style>
+    body { font-family: sans-serif; padding: 1rem; background: #f5f5f5; }
+    h1 { margin-bottom: 1rem; }
+    #mapCanvas { position: relative; width: 100%; height: 900px; background: #e0e0dc; border: 2px solid #444; }
+    .tile { position: absolute; width: 100px; height: 100px; border: 1px solid #999; background: #fff2e5; cursor: pointer; z-index: 1; }
+    .fog { background-color: rgba(0, 0, 0, 0.6); color: white; }
+    #infoPanel { margin-top: 1rem; padding: 1rem; background: white; border: 1px solid #ccc; max-width: 600px; }
+    label { display: block; margin-top: 0.5rem; }
+    button { margin-top: 0.5rem; }
+  </style>
+</head>
+<body>
+  <h1>🧰 Elden Paths™ Admin Panel</h1>
+  <div id="mapCanvas"></div>
+  <div id="infoPanel">
+    <h2>Tile Info</h2>
+    <div id="tileInfo">Click a tile to view data.</div>
+    <div id="controls" style="display:none;">
+      <button onclick="toggleFog()">Toggle Fog</button>
+      <label>Move Player:
+        <select id="playerSelect"></select>
+        <button onclick="movePlayer()">Move</button>
+      </label>
+    </div>
+  </div>
+
+  <script>
+    const mapCanvas = document.getElementById('mapCanvas');
+    const tileInfo = document.getElementById('tileInfo');
+    const controls = document.getElementById('controls');
+    const playerSelect = document.getElementById('playerSelect');
+
+    const offsetX = 100;
+    const offsetY = 100;
+    const tiles = {};
+    let selectedTile = null;
+
+    function tileToCoord(tileId) {
+      const match = tileId.match(/tile_(\d+)_(-?\d+)/);
+      if (!match) return [0, 0];
+      const lat = parseInt(match[1]), lon = parseInt(match[2]);
+      const x = (lon + 180) * 2;
+      const y = (90 - lat) * 2;
+      return [x + offsetX, y + offsetY];
+    }
+
+    Promise.all([
+      fetch('tile_index.json').then(r => r.json()),
+      fetch('tile_meta.json').then(r => r.json()),
+      fetch('players.json').then(r => r.json())
+    ]).then(([tileIndex, tileMeta, players]) => {
+      const active = tileIndex.active_tiles || {};
+      const inactive = tileIndex.inactive_tiles || [];
+
+      Object.keys({...active, ...Object.fromEntries(inactive.map(t => [t, {}]))}).forEach(tile => {
+        const [x, y] = tileToCoord(tile);
+        const div = document.createElement('div');
+        div.className = 'tile';
+        div.style.left = x + 'px';
+        div.style.top = y + 'px';
+        div.dataset.id = tile;
+        if (inactive.includes(tile)) div.classList.add('fog');
+        mapCanvas.appendChild(div);
+        tiles[tile] = div;
+
+        div.addEventListener('click', () => {
+          selectedTile = tile;
+          const terrain = tileMeta[tile]?.terrain || "unknown";
+          const fogged = div.classList.contains('fog');
+          tileInfo.innerHTML = `<strong>${tile}</strong><br>Terrain: ${terrain}<br>Status: ${fogged ? "Fogged" : "Revealed"}`;
+          controls.style.display = 'block';
+        });
+      });
+
+      players.players.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = `${p.name} (${p.id})`;
+        playerSelect.appendChild(opt);
+      });
+    });
+
+    function toggleFog() {
+      if (!selectedTile) return;
+      tiles[selectedTile].classList.toggle('fog');
+    }
+
+    function movePlayer() {
+      const playerId = playerSelect.value;
+      alert(`Player ${playerId} would be moved to ${selectedTile} (simulate write to players.json)`);
+    }
+  </script>
+</body>
+</html>
