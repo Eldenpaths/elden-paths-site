@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>World Map Tiles | Elden Paths™</title>
+  <style>
+    body { font-family: serif; padding: 2rem; background: #fdf9f3; }
+    .tile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+    .tile-card { border: 1px solid #ccc; border-radius: 12px; padding: 1rem; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .tile-card h3 { margin-top: 0; }
+    .tile-card a { text-decoration: none; color: #333; }
+  </style>
+</head>
+<body>
+  <h1>🌍 Elden Paths™ - Active World Regions</h1>
+  <p>Each tile below represents a real-world zone ready for exploration. Others remain covered by the Fog of Discovery™.</p>
+  <div class="tile-grid">
+    <div class="tile-card"><h3><a href="tiles/tile_42_-124/lore.md">Oregon Coast (tile_42_-124)</a></h3></div>
+    <div class="tile-card"><h3><a href="tiles/tile_44_-123/lore.md">Willamette Valley (tile_44_-123)</a></h3></div>
+    <div class="tile-card"><h3><a href="tiles/tile_46_-123/lore.md">Puget Sound (tile_46_-123)</a></h3></div>
+    <div class="tile-card"><h3><a href="tiles/tile_37_-122/lore.md">Bay Area (tile_37_-122)</a></h3></div>
+    <div class="tile-card"><h3><a href="tiles/tile_43_-114/lore.md">South Idaho (tile_43_-114)</a></h3></div>
+    <!-- Add more as you unlock -->
+  </div>
+</body>
+</html>
