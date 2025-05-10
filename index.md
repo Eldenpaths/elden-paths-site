@@ -12,7 +12,7 @@ _A living fantasy world shaped by your choices._
 > **Explore. Build. Reincarnate.**
 
 ## 🌍 Begin Your Journey
-[🎲 Start Playing](/play)
+![image](https://github.com/user-attachments/assets/df7c1a54-867b-4e4d-936d-a8ea7eea479e)
 
 ## 🗺 Explore the World
 [🗺 View World Map](/maps)
