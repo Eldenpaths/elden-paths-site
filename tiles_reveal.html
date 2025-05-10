@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Elden Paths™ | Revealed Map + Trails</title>
+  <style>
+    body { font-family: serif; padding: 2rem; background: #fdf9f3; }
+    .map-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .tile-card { position: relative; border: 1px solid #ccc; border-radius: 12px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; }
+    .tile-card img { width: 100%; display: block; }
+    .tile-card .fog { position: absolute; top: 0; left: 0; width: 100%; opacity: 0.85; cursor: pointer; transition: opacity 0.4s ease; z-index: 2; }
+    .tile-card .fog.hidden { display: none; }
+    .tile-card h3 { margin: 0; padding: 0.5rem; font-size: 1rem; background: #fff; position: relative; z-index: 1; }
+    .legend { margin-top: 2rem; border-top: 2px solid #ccc; padding-top: 1rem; }
+    .legend-item { margin-bottom: 0.5rem; }
+    .trail-line { display: inline-block; width: 2rem; height: 4px; margin-right: 0.5rem; vertical-align: middle; }
+    .historic { background-color: goldenrod; }
+    .player-made { background-color: saddlebrown; }
+    .animal { background-color: gray; opacity: 0.5; }
+  </style>
+</head>
+<body>
+  <h1>🗺️ Elden Paths™ - Map With Trail Visibility</h1>
+  <div class="map-container">
+
+    <div class="tile-card">
+      <img src="tiles/tile_44_-123/map.jpg" alt="Willamette Valley">
+      <img src="tiles/tile_44_-123/fog.png" class="fog" onclick="this.classList.add('hidden')" alt="Fog Overlay">
+      <h3>Willamette Valley</h3>
+    </div>
+    
+    <div class="tile-card">
+      <img src="tiles/tile_45_-122/map.jpg" alt="South Cascades">
+      <img src="tiles/tile_45_-122/fog.png" class="fog" onclick="this.classList.add('hidden')" alt="Fog Overlay">
+      <h3>South Cascades</h3>
+    </div>
+    
+    <div class="tile-card">
+      <img src="tiles/tile_47_-124/map.jpg" alt="Northern Shroud">
+      <img src="tiles/tile_47_-124/fog.png" class="fog" onclick="this.classList.add('hidden')" alt="Fog Overlay">
+      <h3>Northern Shroud</h3>
+    </div>
+    
+  </div>
+  <div class="legend">
+    <h2>🗝️ Map Key</h2>
+    <div class="legend-item"><span class="trail-line historic"></span> Historic Trail</div>
+    <div class="legend-item"><span class="trail-line player-made"></span> Player-Made Trail</div>
+    <div class="legend-item"><span class="trail-line animal"></span> Animal Trail</div>
+    <div class="legend-item">🟪 Fog Overlay = Unexplored Tile</div>
+    <div class="legend-item">🏕 Camp, 🏔 Mountain, 📜 Lore = Coming soon</div>
+  </div>
+</body>
+</html>
