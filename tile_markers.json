@@ -1,0 +1,32 @@
+{
+  "markers": [
+    {
+      "tile": "tile_44_-123",
+      "type": "scroll",
+      "label": "Old Ranger Note",
+      "description": "A faded parchment wedged into the bark of a dead pine.",
+      "icon": "\ud83d\udcdc"
+    },
+    {
+      "tile": "tile_43_-123",
+      "type": "grave",
+      "label": "Unmarked Grave",
+      "description": "A shallow mound and a rusted sword hilt.",
+      "icon": "\ud83e\udea6"
+    },
+    {
+      "tile": "tile_45_-122",
+      "type": "camp",
+      "label": "Abandoned Camp",
+      "description": "Scattered coals and a broken kettle.",
+      "icon": "\ud83c\udfd5"
+    },
+    {
+      "tile": "tile_42_-124",
+      "type": "structure",
+      "label": "Warden\u2019s Watchtower",
+      "description": "An old wooden tower overlooking the bay.",
+      "icon": "\ud83c\udff0"
+    }
+  ]
+}
