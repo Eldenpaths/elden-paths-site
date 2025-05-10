@@ -1,0 +1,32 @@
+{
+  "tile_42_-124": {
+    "terrain": "coast"
+  },
+  "tile_43_-124": {
+    "terrain": "coast"
+  },
+  "tile_44_-124": {
+    "terrain": "coast"
+  },
+  "tile_44_-123": {
+    "terrain": "forest"
+  },
+  "tile_45_-123": {
+    "terrain": "forest"
+  },
+  "tile_46_-123": {
+    "terrain": "plains"
+  },
+  "tile_43_-123": {
+    "terrain": "swamp"
+  },
+  "tile_44_-122": {
+    "terrain": "mountain"
+  },
+  "tile_45_-122": {
+    "terrain": "mountain"
+  },
+  "tile_47_-124": {
+    "terrain": "highlands"
+  }
+}
