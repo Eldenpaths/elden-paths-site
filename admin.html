@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ Admin Panel</title>
+  <title>Elden Paths™ Admin Panel (Export Mode)</title>
   <style>
     body { font-family: sans-serif; padding: 1rem; background: #f5f5f5; }
     h1 { margin-bottom: 1rem; }
@@ -13,6 +13,7 @@
     #infoPanel { margin-top: 1rem; padding: 1rem; background: white; border: 1px solid #ccc; max-width: 600px; }
     label { display: block; margin-top: 0.5rem; }
     button { margin-top: 0.5rem; }
+    textarea { width: 100%; height: 150px; margin-top: 1rem; }
   </style>
 </head>
 <body>
@@ -28,6 +29,8 @@
         <button onclick="movePlayer()">Move</button>
       </label>
     </div>
+    <button onclick="exportData()">📤 Export Changes</button>
+    <textarea id="outputBox" placeholder="Exported JSON will appear here..."></textarea>
   </div>
 
   <script>
@@ -35,11 +38,14 @@
     const tileInfo = document.getElementById('tileInfo');
     const controls = document.getElementById('controls');
     const playerSelect = document.getElementById('playerSelect');
+    const outputBox = document.getElementById('outputBox');
 
     const offsetX = 100;
     const offsetY = 100;
     const tiles = {};
     let selectedTile = null;
+    let tileIndex = { active_tiles: {}, inactive_tiles: [] };
+    let players = [];
 
     function tileToCoord(tileId) {
       const match = tileId.match(/tile_(\d+)_(-?\d+)/);
@@ -54,31 +60,34 @@
       fetch('tile_index.json').then(r => r.json()),
       fetch('tile_meta.json').then(r => r.json()),
       fetch('players.json').then(r => r.json())
-    ]).then(([tileIndex, tileMeta, players]) => {
-      const active = tileIndex.active_tiles || {};
-      const inactive = tileIndex.inactive_tiles || [];
+    ]).then(([index, meta, playerData]) => {
+      tileIndex = index;
+      players = playerData.players;
 
-      Object.keys({...active, ...Object.fromEntries(inactive.map(t => [t, {}]))}).forEach(tile => {
+      const allTiles = { ...tileIndex.active_tiles };
+      tileIndex.inactive_tiles.forEach(t => allTiles[t] = {});
+
+      Object.keys(allTiles).forEach(tile => {
         const [x, y] = tileToCoord(tile);
         const div = document.createElement('div');
         div.className = 'tile';
         div.style.left = x + 'px';
         div.style.top = y + 'px';
         div.dataset.id = tile;
-        if (inactive.includes(tile)) div.classList.add('fog');
+        if (tileIndex.inactive_tiles.includes(tile)) div.classList.add('fog');
         mapCanvas.appendChild(div);
         tiles[tile] = div;
 
         div.addEventListener('click', () => {
           selectedTile = tile;
-          const terrain = tileMeta[tile]?.terrain || "unknown";
+          const terrain = meta[tile]?.terrain || "unknown";
           const fogged = div.classList.contains('fog');
           tileInfo.innerHTML = `<strong>${tile}</strong><br>Terrain: ${terrain}<br>Status: ${fogged ? "Fogged" : "Revealed"}`;
           controls.style.display = 'block';
         });
       });
 
-      players.players.forEach(p => {
+      players.forEach(p => {
         const opt = document.createElement('option');
         opt.value = p.id;
         opt.textContent = `${p.name} (${p.id})`;
@@ -88,12 +97,31 @@
 
     function toggleFog() {
       if (!selectedTile) return;
+      const fogList = tileIndex.inactive_tiles;
+      const fogged = fogList.includes(selectedTile);
+      if (fogged) {
+        tileIndex.inactive_tiles = fogList.filter(t => t !== selectedTile);
+      } else {
+        fogList.push(selectedTile);
+      }
       tiles[selectedTile].classList.toggle('fog');
     }
 
     function movePlayer() {
       const playerId = playerSelect.value;
-      alert(`Player ${playerId} would be moved to ${selectedTile} (simulate write to players.json)`);
+      const player = players.find(p => p.id === playerId);
+      if (player) {
+        player.tile = selectedTile;
+        alert(`${player.name} moved to ${selectedTile}`);
+      }
+    }
+
+    function exportData() {
+      const exportObj = {
+        "tile_index.json": tileIndex,
+        "players.json": { players }
+      };
+      outputBox.value = JSON.stringify(exportObj, null, 2);
     }
   </script>
 </body>
