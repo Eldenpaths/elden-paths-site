@@ -1,0 +1,26 @@
+{
+  "active_tiles": {
+    "tile_42_-124": {
+      "name": "Oregon Coast",
+      "thumb": "tiles/tile_42_-124/map.jpg"
+    },
+    "tile_44_-123": {
+      "name": "Willamette Valley",
+      "thumb": "tiles/tile_44_-123/map.jpg"
+    },
+    "tile_46_-123": {
+      "name": "Puget Sound",
+      "thumb": "tiles/tile_46_-123/map.jpg"
+    },
+    "tile_37_-122": {
+      "name": "Bay Area",
+      "thumb": "tiles/tile_37_-122/map.jpg"
+    },
+    "tile_43_-114": {
+      "name": "South Idaho",
+      "thumb": "tiles/tile_43_-114/map.jpg"
+    }
+  },
+  "inactive_tiles": [],
+  "tracked_movements": []
+}
