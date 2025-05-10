@@ -21,6 +21,20 @@
       "thumb": "tiles/tile_43_-114/map.jpg"
     }
   },
-  "inactive_tiles": [],
-  "tracked_movements": []
+  "inactive_tiles": [
+    "tile_45_-122",
+    "tile_43_-123",
+    "tile_43_-122",
+    "tile_44_-124",
+    "tile_44_-122",
+    "tile_45_-124"
+  ],
+  "tracked_movements": [
+    {
+      "player_id": "echo_012",
+      "from_tile": "tile_44_-123",
+      "to_tile": "tile_45_-122",
+      "timestamp": "2025-05-10T21:38:48.795650Z"
+    }
+  ]
 }
