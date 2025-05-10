@@ -1,34 +1,54 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Maps of Elden Paths™</title>
+  <meta charset="UTF-8" />
+  <title>Elden Paths™ | World Map</title>
   <style>
-    body { font-family: serif; padding: 2rem; background: #fdf9f3; }
-    .map-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
-    .map-card { border: 1px solid #ccc; border-radius: 12px; padding: 1rem; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .map-card img { width: 100%; border-radius: 8px; }
+    body { font-family: serif; padding: 2rem; background: #eae7df; }
+    h1 { margin-bottom: 1rem; }
+    #mapCanvas { position: relative; width: 100%; height: 800px; background-color: #d3e4c0; border: 2px solid #666; }
+    .trail-line { position: absolute; height: 4px; border-radius: 2px; }
+    .historic { background: goldenrod; }
+    .player-made { background: saddlebrown; }
+    .animal { background: gray; opacity: 0.5; }
   </style>
 </head>
 <body>
-  <h1>Maps of Elden Paths™</h1>
-  <p>Explore the known terrain and evolving discoveries across the world.</p>
-  <div class="map-grid">
-    <div class="map-card">
-      <img src="maps/worldmap.jpg" alt="World Map">
-      <h2>🌍 Master Map</h2>
-      <p>Entire world terrain of Elden Paths™ based on Oregon geography.</p>
-    </div>
-    <div class="map-card">
-      <img src="maps/shatter_coast_zoom.webp" alt="Shatter Coast">
-      <h2>🌊 Shatter Coast</h2>
-      <p>Western coastline with hidden cliffs and mist-bound factions.</p>
-    </div>
-    <div class="map-card">
-      <img src="maps/watchers_crown_sketch.png" alt="Watcher’s Crown">
-      <h2>🏔 Watcher’s Crown</h2>
-      <p>High pass nestled between peaks — treacherous and remote.</p>
-    </div>
-  </div>
+  <h1>🌍 Elden Paths™ - World Map with Trail Integration</h1>
+  <div id="mapCanvas"></div>
+
+  <script>
+    const tileSize = 100; // size of each tile on canvas for spacing
+    const tileOffsetX = 100;
+    const tileOffsetY = 100;
+
+    function tileToCoord(tileId) {
+      const match = tileId.match(/tile_(\d+)_(-?\d+)/);
+      if (!match) return [0, 0];
+      const lat = parseInt(match[1]), lon = parseInt(match[2]);
+      return [(lon + 180) * 2, (90 - lat) * 2]; // pseudo coordinates
+    }
+
+    fetch('trails.json')
+      .then(res => res.json())
+      .then(data => {
+        const canvas = document.getElementById('mapCanvas');
+
+        data.trails.forEach(trail => {
+          for (let i = 0; i < trail.tiles.length - 1; i++) {
+            const [x1, y1] = tileToCoord(trail.tiles[i]);
+            const [x2, y2] = tileToCoord(trail.tiles[i + 1]);
+            const line = document.createElement('div');
+            line.className = `trail-line ${trail.type}`;
+            line.style.left = Math.min(x1, x2) + tileOffsetX + 'px';
+            line.style.top = Math.min(y1, y2) + tileOffsetY + 'px';
+            line.style.width = Math.max(4, Math.abs(x2 - x1)) + 'px';
+            line.style.height = Math.max(4, Math.abs(y2 - y1)) + 'px';
+            canvas.appendChild(line);
+          }
+        });
+      });
+  </script>
 </body>
 </html>
