@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ | World Map + Terrain</title>
+  <title>Elden Paths™ | Map + Hover Info</title>
   <style>
     body { font-family: serif; padding: 2rem; background: #eae7df; }
     #mapCanvas { position: relative; width: 100%; height: 1000px; background-color: #d3e4c0; border: 2px solid #666; }
@@ -34,16 +34,31 @@
       z-index: 3;
       pointer-events: none;
     }
+
+    .tooltip {
+      position: absolute;
+      padding: 6px 10px;
+      background: #fff;
+      border: 1px solid #ccc;
+      font-size: 0.9rem;
+      pointer-events: none;
+      z-index: 100;
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <h1>🌍 Elden Paths™ - Terrain + Fog Map</h1>
+  <h1>🌍 Elden Paths™ - Map with Terrain + Hover Info</h1>
   <div id="mapCanvas"></div>
+  <div id="tooltip" class="tooltip"></div>
 
   <script>
     const tileSize = 100;
     const offsetX = 100;
     const offsetY = 100;
+
+    const canvas = document.getElementById('mapCanvas');
+    const tooltip = document.getElementById('tooltip');
 
     function tileToCoord(tileId) {
       const match = tileId.match(/tile_(\d+)_(-?\d+)/);
@@ -54,8 +69,6 @@
       return [x + offsetX, y + offsetY];
     }
 
-    const canvas = document.getElementById('mapCanvas');
-
     Promise.all([
       fetch('tile_meta.json').then(r => r.json()),
       fetch('tile_index.json').then(r => r.json()),
@@ -64,14 +77,33 @@
       const explored = Object.keys(index.active_tiles || {});
       const fogged = index.inactive_tiles || [];
 
-      // TERRAIN
+      // TERRAIN TILES + HOVER INFO
       for (const tile in meta) {
         const [x, y] = tileToCoord(tile);
         const terrain = meta[tile].terrain;
+
         const div = document.createElement('div');
         div.className = `tile-terrain ${terrain}`;
         div.style.left = x + 'px';
         div.style.top = y + 'px';
+        div.dataset.tile = tile;
+        div.dataset.terrain = terrain;
+        div.dataset.status = fogged.includes(tile) ? "unexplored" : "explored";
+
+        div.addEventListener('mouseenter', e => {
+          tooltip.style.display = 'block';
+          tooltip.innerHTML = `<strong>${div.dataset.tile}</strong><br>Terrain: ${div.dataset.terrain}<br>Status: ${div.dataset.status}`;
+        });
+
+        div.addEventListener('mousemove', e => {
+          tooltip.style.left = (e.pageX + 10) + 'px';
+          tooltip.style.top = (e.pageY - 20) + 'px';
+        });
+
+        div.addEventListener('mouseleave', () => {
+          tooltip.style.display = 'none';
+        });
+
         canvas.appendChild(div);
       }
 
