@@ -1,0 +1,23 @@
+[
+  {
+    "id": "echo_001",
+    "name": "Warden Alder",
+    "tile": "tile_44_-123",
+    "status": "active",
+    "color": "green"
+  },
+  {
+    "id": "echo_017",
+    "name": "Red Wanderer",
+    "tile": "tile_45_-123",
+    "status": "active",
+    "color": "red"
+  },
+  {
+    "id": "echo_042",
+    "name": "Mist Scout",
+    "tile": "tile_44_-124",
+    "status": "inactive",
+    "color": "blue"
+  }
+]
