@@ -1,0 +1,1 @@
+{"name": "Hero", "stats": {"Strength": 15, "Dexterity": 12, "Constitution": 14, "Intelligence": 10, "Wisdom": 11, "Charisma": 8}, "HP": 20, "physical_progression": {"muscle_growth": 3, "scars": 1, "injuries": 0}, "map_marker": {"location": "tile_44_-123", "tags": ["muscle_3", "scars_1", "injuries_0"]}}
