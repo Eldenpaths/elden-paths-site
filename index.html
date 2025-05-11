@@ -3,12 +3,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™ - Castle Rim</title>
+  <title>Elden Paths™</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: url('castle_background.jpg') no-repeat center center fixed;
+      background: url('splash_background.jpg') no-repeat center center fixed;
       background-size: cover;
       font-family: 'Georgia', serif;
       color: #fdf4dc;
@@ -20,42 +20,53 @@
       background-color: #000;
     }
     .overlay {
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.65);
       padding: 2em;
+      max-width: 800px;
+      margin: auto;
     }
     h1 {
-      font-size: 3em;
-      margin-bottom: 0.2em;
+      font-size: 3.5em;
+      margin-bottom: 0.3em;
+      letter-spacing: 1px;
     }
     p {
-      font-size: 1.3em;
+      font-size: 1.25em;
       margin-bottom: 2em;
     }
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1em;
+    }
     a.button {
-      background-color: #5c4421;
+      background-color: #4d3a21;
       color: #fff;
-      padding: 0.8em 2em;
+      padding: 1em 2em;
       text-decoration: none;
       font-weight: bold;
-      font-size: 1.2em;
-      border-radius: 10px;
-      margin: 0.5em;
+      font-size: 1.1em;
+      border-radius: 8px;
       transition: background 0.3s ease;
-      display: inline-block;
     }
     a.button:hover {
-      background-color: #8a6845;
+      background-color: #7a5c39;
     }
   </style>
 </head>
 <body>
   <div class="overlay">
-    <h1>Castle on Heart Mountain</h1>
-    <p>Welcome to Elden Paths™ — where the ancient stone of Heart Mountain watches over the dry vale below.</p>
-    <a class="button" href="/play.html">Enter the World</a>
-    <a class="button" href="/guide.html">View Player Guide</a>
-    <a class="button" href="/maps.html">Explore the Map</a>
-    <a class="button" href="/admin.html">Admin Panel</a>
+    <h1>Elden Paths™</h1>
+    <p>Begin your legend in a living world shaped by terrain, memory, and myth. Choose your path — and walk it well.</p>
+    <div class="menu">
+      <a class="button" href="/play.html">Play Game</a>
+      <a class="button" href="/guide.html">Player Guide</a>
+      <a class="button" href="/create.html">Create Character</a>
+      <a class="button" href="/maps.html">World Map</a>
+      <a class="button" href="/journal.html">My Journal</a>
+      <a class="button" href="/admin.html" onclick="return confirm('Admin access is restricted. Continue?');">Admin Panel</a>
+    </div>
   </div>
 </body>
 </html>
