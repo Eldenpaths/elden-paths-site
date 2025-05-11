@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Play Elden Paths™ - Dice Roll Integration</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #f0e6c1;
+      text-align: center;
+      padding: 2rem;
+    }
+    .dice-container {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      margin-top: 1rem;
+      background-color: #f5d4b2;
+      border-radius: 8px;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    }
+    .dice-face {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      color: #3b2d1d;
+      font-weight: bold;
+    }
+    button {
+      padding: 0.75rem 1.5rem;
+      background-color: #3b2d1d;
+      color: #f0e6c1;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      margin-top: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #f5d4b2;
+      color: #3b2d1d;
+    }
+    @keyframes rollDice {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(1080deg); }
+      100% { transform: rotate(2160deg); }
+    }
+    .roll-animation {
+      animation: rollDice 2s ease-in-out forwards;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎲 Elden Paths™ Dice Roll</h1>
+  <div class="dice-container">
+    <div id="dice" class="dice-face">
+      🎲
+    </div>
+  </div>
+  <button onclick="rollDice()">Roll Dice</button>
+
+  <script>
+    function rollDice() {
+      const dice = document.getElementById('dice');
+      const diceType = Math.random() < 0.5 ? 'd20' : 'd12';  // Randomly pick d20 or d12
+      const rollResult = diceType === 'd20' ? Math.floor(Math.random() * 20) + 1 : Math.floor(Math.random() * 12) + 1;
+      
+      // Set the dice roll face based on the random result
+      dice.textContent = rollResult;
+      dice.classList.add('roll-animation');
+
+      // After animation completes, remove the animation class for next roll
+      setTimeout(() => dice.classList.remove('roll-animation'), 2000);
+    }
+  </script>
+</body>
+</html>
