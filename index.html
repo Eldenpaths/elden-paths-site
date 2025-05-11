@@ -3,57 +3,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™ | World Gateway</title>
+  <title>Elden Paths™ - Castle Rim</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Georgia', serif;
-      background: url('https://images.unsplash.com/photo-1583160341660-d109af6c6ee2') no-repeat center center fixed;
+      background: url('castle_background.jpg') no-repeat center center fixed;
       background-size: cover;
-      color: #fdf6e3;
-      text-shadow: 1px 1px 2px #000;
+      font-family: 'Georgia', serif;
+      color: #fdf4dc;
+      text-align: center;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
       height: 100vh;
+      background-color: #000;
+    }
+    .overlay {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 2em;
     }
     h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
+      font-size: 3em;
+      margin-bottom: 0.2em;
     }
     p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-      text-align: center;
-      max-width: 700px;
+      font-size: 1.3em;
+      margin-bottom: 2em;
     }
     a.button {
-      display: inline-block;
-      margin: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      background: rgba(0, 0, 0, 0.7);
-      border: 2px solid #fdf6e3;
-      border-radius: 6px;
-      color: #fdf6e3;
+      background-color: #5c4421;
+      color: #fff;
+      padding: 0.8em 2em;
       text-decoration: none;
-      font-size: 1rem;
-      transition: 0.3s;
+      font-weight: bold;
+      font-size: 1.2em;
+      border-radius: 10px;
+      margin: 0.5em;
+      transition: background 0.3s ease;
+      display: inline-block;
     }
     a.button:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: #fff;
+      background-color: #8a6845;
     }
   </style>
 </head>
 <body>
-  <h1>🗺️ Elden Paths™</h1>
-  <p>A living, persistent RPG world mapped onto real terrain. Explore, build, and uncover ancient secrets as your actions shape the world for others.</p>
-  <div>
-    <a href="maps.html" class="button">🌍 Enter the World Map</a>
-    <a href="admin.html" class="button">🧰 Admin Panel</a>
-    <a href="tiles_reveal.html" class="button">🧭 Region Viewer</a>
+  <div class="overlay">
+    <h1>Castle on Heart Mountain</h1>
+    <p>Welcome to Elden Paths™ — where the ancient stone of Heart Mountain watches over the dry vale below.</p>
+    <a class="button" href="/play.html">Enter the World</a>
+    <a class="button" href="/guide.html">View Player Guide</a>
+    <a class="button" href="/maps.html">Explore the Map</a>
+    <a class="button" href="/admin.html">Admin Panel</a>
   </div>
 </body>
 </html>
