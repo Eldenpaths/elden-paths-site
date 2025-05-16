@@ -1,38 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Elden Paths</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elden Paths™ — Enter the World</title>
+  <link id="themeStylesheet" rel="stylesheet" href="style.css">
+  <script defer src="theme-toggle.js"></script>
 </head>
-<body class="parchment">
-  <header>
-    <h1>Enter the Elden Paths</h1>
-    <p class="tagline">Explore. Discover. Leave your mark.</p>
-    <nav>
-      <a href="/maps/index.html">🌍 World Map</a>
-      <a href="/codex/index.html">📜 Codex</a>
-      <a href="/journal/index.html">🧾 Journal</a>
-      <a href="/play.html">🎮 Play Now</a>
-    </nav>
-  </header>
-  <main>
-    <section>
-      <h2>Known Lands</h2>
-      <img src="/assets/map-preview.jpg" alt="Map of Known Lands" class="preview" />
-    </section>
-    <section>
-      <h2>Current Players</h2>
-      <p>12 adventurers in-world</p>
-    </section>
-    <section>
-      <h2>From the Trail</h2>
-      <img src="/assets/campfire-sketch.jpg" alt="Campfire sketch" class="preview" />
-    </section>
-  </main>
-  <footer>
-    <p>Created by Ryan Iverson • Powered by GPT & Myth</p>
-  </footer>
+<body>
+  <div class="container">
+    <div style="text-align:right; margin-bottom: 1em;">
+      <label for="themeSelect">🎨 Theme:</label>
+      <select id="themeSelect">
+        <option value="default">Parchment</option>
+        <option value="dark">Dark Mode</option>
+        <option value="frazetta">Frazetta Mode</option>
+        <option value="snow">Winter Fog</option>
+      </select>
+    </div>
+
+    <h1>🌍 Welcome to Elden Paths™</h1>
+    <p>Choose your destiny. Explore the wilderness, shape the world, or simply observe.</p>
+
+    <ul>
+      <li><a href="play.html">▶️ Play Elden Paths</a></li>
+      <li><a href="journal.html">📓 Player Journal</a></li>
+      <li><a href="vote.html">🗳️ Cast Your Vote</a></li>
+      <li><a href="codex.html">📖 Codex of Echoes</a></li>
+      <li><a href="relics.html">💎 Relic Registry</a></li>
+      <li><a href="craft.html">🛠 Crafting</a></li>
+      <li><a href="admin.html">🛡 Admin Panel</a></li>
+    </ul>
+  </div>
 </body>
 </html>
+
