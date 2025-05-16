@@ -7,6 +7,8 @@
   <link id="themeStylesheet" rel="stylesheet" href="style.css" />
   <script defer src="theme-toggle.js"></script>
   <script defer src="weather-router.js"></script>
+  <script defer src="sketch-context.js"></script>
+  <script defer src="auto-sketch.js"></script>
 </head>
 <body>
   <div class="container">
@@ -36,16 +38,32 @@
       function submitAction() {
         const input = document.getElementById("playerCommand");
         const log = document.getElementById("gameLog");
-        const text = input.value.trim();
-        if (text) {
-          const entry = document.createElement("div");
-          entry.textContent = `> ${text}`;
-          log.prepend(entry);
-          input.value = "";
+        const text = input.value.trim().toLowerCase();
+
+        if (!text) return;
+
+        const entry = document.createElement("div");
+        entry.textContent = `> ${text}`;
+        log.prepend(entry);
+
+        // Trigger sketch if appropriate command
+        if (text === "look around" || text === "ms") {
+          const sketch = window.getSketchPromptModifier?.() || "";
+          const region = window.regionName || "Unknown region";
+          const prompt = `A view of the land in ${region}, surrounded by ${sketch}.`;
+
+          const sketchEntry = document.createElement("div");
+          sketchEntry.textContent = `🖼️ Sketch Prompt: ${prompt}`;
+          log.prepend(sketchEntry);
+
+          window.generatedSketchPrompt = prompt;
         }
+
+        input.value = "";
       }
     </script>
   </div>
 </body>
 </html>
+
 
