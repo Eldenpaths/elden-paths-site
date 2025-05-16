@@ -1,72 +1,36 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Elden Paths™</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: url('splash_background.jpg') no-repeat center center fixed;
-      background-size: cover;
-      font-family: 'Georgia', serif;
-      color: #fdf4dc;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      height: 100vh;
-      background-color: #000;
-    }
-    .overlay {
-      background: rgba(0, 0, 0, 0.65);
-      padding: 2em;
-      max-width: 800px;
-      margin: auto;
-    }
-    h1 {
-      font-size: 3.5em;
-      margin-bottom: 0.3em;
-      letter-spacing: 1px;
-    }
-    p {
-      font-size: 1.25em;
-      margin-bottom: 2em;
-    }
-    .menu {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1em;
-    }
-    a.button {
-      background-color: #4d3a21;
-      color: #fff;
-      padding: 1em 2em;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.1em;
-      border-radius: 8px;
-      transition: background 0.3s ease;
-    }
-    a.button:hover {
-      background-color: #7a5c39;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elden Paths</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div class="overlay">
-    <h1>Elden Paths™</h1>
-    <p>Begin your legend in a living world shaped by terrain, memory, and myth. Choose your path — and walk it well.</p>
-    <div class="menu">
-      <a class="button" href="/play.html">Play Game</a>
-      <a class="button" href="/guide.html">Player Guide</a>
-      <a class="button" href="/create.html">Create Character</a>
-      <a class="button" href="/maps.html">World Map</a>
-      <a class="button" href="/journal.html">My Journal</a>
-      <a class="button" href="/admin.html" onclick="return confirm('Admin access is restricted. Continue?');">Admin Panel</a>
-    </div>
-  </div>
+  <header>
+    <h1>Elden Paths<sup>™</sup></h1>
+    <nav>
+      <a href="/">Core</a>
+      <a href="/trail/">Oregon Trail</a>
+      <a href="/kinder/">Kinder</a>
+      <a href="/paleo/">Paleo</a>
+      <a href="/homeless/">Homeless</a>
+    </nav>
+  </header>
+  <main>
+    <section id="map-panel">
+      <canvas id="map-canvas">Loading map...</canvas>
+    </section>
+    <section id="sketch-panel">
+      <img id="scene-sketch" src="assets/placeholder_sketch.png" alt="Current scene sketch" />
+    </section>
+    <section id="lore-panel">
+      <div id="lore-text">Click a tile to view lore...</div>
+    </section>
+  </main>
+  <footer>
+    <p>Crafted by Ryan Iverson | Powered by GPT & Trail Engine</p>
+  </footer>
+  <script src="scripts/map.js"></script>
 </body>
 </html>
