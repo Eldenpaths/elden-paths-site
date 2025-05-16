@@ -1,0 +1,26 @@
+body {
+  background: linear-gradient(#201611, #2a1c15);
+  color: #f0dac0;
+  font-family: "Georgia", serif;
+}
+
+.container {
+  background-color: #3b2a20;
+  color: #f0dac0;
+  box-shadow: 0 0 20px rgba(255, 180, 100, 0.2);
+  border: 2px solid #4a2e1f;
+}
+
+button {
+  background-color: #7c2f10;
+  color: #ffe6cc;
+}
+button:hover {
+  background-color: #5a1e08;
+}
+
+input, select, textarea {
+  background-color: #2a1810;
+  color: #ffe6cc;
+  border: 1px solid #7c4a35;
+}
