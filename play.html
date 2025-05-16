@@ -2,125 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Enter Elden Paths™</title>
-  <style>
-    body {
-      background: #f9f6ee url('/assets/parchment-bg.jpg') repeat;
-      font-family: 'Georgia', serif;
-      color: #2e1f13;
-      margin: 0;
-      padding: 30px;
-    }
-
-    h1 {
-      text-align: center;
-    }
-
-    #map-container {
-      width: 800px;
-      height: 600px;
-      position: relative;
-      margin: 20px auto;
-      background: url('/assets/maps/oregon-parchment-map.png') center/cover no-repeat;
-      border: 3px solid #3e2b1b;
-      border-radius: 12px;
-      box-shadow: 0 0 14px rgba(0,0,0,0.3);
-    }
-
-    .marker, .label {
-      position: absolute;
-      transform: translate(-50%, -50%);
-    }
-
-    .marker {
-      width: 20px;
-      height: 20px;
-      background-color: red;
-      border: 2px solid white;
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 2;
-    }
-
-    .label {
-      background: rgba(255,255,240,0.95);
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      white-space: nowrap;
-      z-index: 1;
-    }
-
-    .hidden {
-      display: none;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elden Paths™ — Begin Your Journey</title>
+  <link id="themeStylesheet" rel="stylesheet" href="style.css" />
+  <script defer src="theme-toggle.js"></script>
+  <!-- Optionally include player.js or game logic scripts -->
 </head>
 <body>
-  <h1>🌄 Elden Paths™ World Map</h1>
-  <div id="map-container"></div>
+  <div class="container">
+    <div style="text-align:right; margin-bottom: 1em;">
+      <label for="themeSelect">🎨 Theme:</label>
+      <select id="themeSelect">
+        <option value="default">Parchment</option>
+        <option value="dark">Dark Mode</option>
+        <option value="frazetta">Frazetta Mode</option>
+        <option value="snow">Winter Fog</option>
+      </select>
+    </div>
 
-  <script>
-    async function loadJSON(path) {
-      const res = await fetch(path);
-      return res.json();
-    }
+    <h1>🎮 Elden Paths™ — Player Console</h1>
+    <p>Explore, act, or interact using the commands below.</p>
 
-    function addMarker(container, top, left, label, color = 'red') {
-      const marker = document.createElement('div');
-      marker.className = 'marker';
-      marker.style.top = top;
-      marker.style.left = left;
-      marker.style.backgroundColor = color;
-      container.appendChild(marker);
+    <input type="text" id="playerCommand" placeholder="Type your action..." style="width:100%; padding:1em;"/>
+    <button onclick="submitAction()">Submit</button>
 
-      const text = document.createElement('div');
-      text.className = 'label';
-      text.style.top = `calc(${top} + 4%)`;
-      text.style.left = left;
-      text.textContent = label;
-      container.appendChild(text);
-    }
+    <div id="gameLog" style="margin-top:2em;"></div>
 
-    async function renderMap() {
-      const container = document.getElementById('map-container');
-
-      const [tileData, playerData, markerData, relicData] = await Promise.all([
-        loadJSON('/tile_index.json'),
-        loadJSON('/players.json'),
-        loadJSON('/tile_markers.json'),
-        loadJSON('/world_relics.json')
-      ]);
-
-      // Only render if tile is not fogged
-      function isTileVisible(tileKey) {
-        return tileData[tileKey] && tileData[tileKey].fog === false;
-      }
-
-      // Player Markers
-      for (const [player, info] of Object.entries(playerData)) {
-        if (isTileVisible(info.tile)) {
-          addMarker(container, info.position.top, info.position.left, player, 'blue');
+    <script>
+      function submitAction() {
+        const input = document.getElementById("playerCommand");
+        const log = document.getElementById("gameLog");
+        const text = input.value.trim();
+        if (text) {
+          const entry = document.createElement("div");
+          entry.textContent = `> ${text}`;
+          log.prepend(entry);
+          input.value = "";
         }
       }
-
-      // Relics
-      for (const [relic, info] of Object.entries(relicData)) {
-        if (isTileVisible(info.tile)) {
-          addMarker(container, info.position.top, info.position.left, relic, 'gold');
-        }
-      }
-
-      // World Markers
-      for (const [marker, info] of Object.entries(markerData)) {
-        if (isTileVisible(info.tile)) {
-          addMarker(container, info.position.top, info.position.left, marker, 'black');
-        }
-      }
-    }
-
-    renderMap();
-  </script>
+    </script>
+  </div>
 </body>
 </html>
+
