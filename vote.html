@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elden Paths™ — World Vote</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="vote.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>🗳️ World Vote: Shape the Future of Elden Paths™</h1>
+    <p>Cast your vote. The most supported change may be enacted at the Hall of Echoes.</p>
+
+    <form id="voteForm">
+      <label>
+        <input type="radio" name="vote" value="expand_wilds" required />
+        Expand the Wilds: Open new frontier zones
+      </label><br/>
+
+      <label>
+        <input type="radio" name="vote" value="fortify_vale" />
+        Fortify the Vale: Strengthen defenses in central lands
+      </label><br/>
+
+      <label>
+        <input type="radio" name="vote" value="free_trade" />
+        Free Trade Pact: Allow player trading between factions
+      </label><br/>
+
+      <label>
+        <input type="radio" name="vote" value="unlock_class" />
+        Unlock New Class: Enable one rare player archetype
+      </label><br/>
+
+      <button type="submit">Submit Vote</button>
+    </form>
+
+    <div id="confirmation" style="display:none; margin-top: 1em;"></div>
+
+    <hr/>
+
+    <h2>📊 Current Vote Totals</h2>
+    <ul id="voteResults">
+      <li>Expand the Wilds: <span id="expand_wilds_count">0</span></li>
+      <li>Fortify the Vale: <span id="fortify_vale_count">0</span></li>
+      <li>Free Trade Pact: <span id="free_trade_count">0</span></li>
+      <li>Unlock New Class: <span id="unlock_class_count">0</span></li>
+    </ul>
+  </div>
+</body>
+</html>
