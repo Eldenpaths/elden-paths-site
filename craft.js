@@ -1,51 +1,47 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("craftForm");
-  const tool = document.getElementById("tool");
-  const materials = document.getElementById("materials");
-  const result = document.getElementById("craftResult");
-  const craftedList = document.getElementById("craftedList");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elden Paths™ — Crafting</title>
+  <link id="themeStylesheet" rel="stylesheet" href="style.css" />
+  <script defer src="craft.js"></script>
+  <script defer src="theme-toggle.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div style="text-align:right; margin-bottom: 1em;">
+      <label for="themeSelect">🎨 Theme:</label>
+      <select id="themeSelect">
+        <option value="default">Parchment</option>
+        <option value="dark">Dark Mode</option>
+        <option value="frazetta">Frazetta Mode</option>
+        <option value="snow">Winter Fog</option>
+      </select>
+    </div>
 
-  let craftedItems = JSON.parse(localStorage.getItem("eldenCrafted")) || [];
+    <h1>🛠 Crafting Station</h1>
+    <form id="craftForm">
+      <label for="tool">Crafting Tool or Station:</label>
+      <select id="tool" required>
+        <option value="">-- Select One --</option>
+        <option value="forge">Forge 🔥</option>
+        <option value="workbench">Workbench 🪵</option>
+        <option value="alchemy">Alchemy Table ⚗️</option>
+      </select>
 
-  const renderCrafted = () => {
-    craftedList.innerHTML = "";
-    craftedItems.forEach((item, i) => {
-      const li = document.createElement("li");
-      li.textContent = item;
-      craftedList.appendChild(li);
-    });
-  };
+      <label for="materials">Materials (comma-separated):</label>
+      <input type="text" id="materials" placeholder="e.g., iron, leather, coal" required />
 
-  const craftLogic = (tool, mats) => {
-    const base = mats.join(" + ");
-    switch (tool) {
-      case "forge":
-        return `Forged: ${base.toUpperCase()}`;
-      case "workbench":
-        return `Assembled: ${base}`;
-      case "alchemy":
-        return `Brewed: ${base.replaceAll(" ", "_")}`;
-      default:
-        return `Crafted: ${base}`;
-    }
-  };
+      <button type="submit">Craft Item</button>
+    </form>
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const toolValue = tool.value;
-    const mats = materials.value.split(",").map(m => m.trim()).filter(Boolean);
+    <div id="craftResult" style="margin-top: 1em;"></div>
 
-    if (!toolValue || mats.length === 0) return;
+    <hr/>
 
-    const crafted = craftLogic(toolValue, mats);
-    craftedItems.push(crafted);
-    localStorage.setItem("eldenCrafted", JSON.stringify(craftedItems));
-
-    result.innerHTML = `✅ <strong>${crafted}</strong> added to your items.`;
-    materials.value = "";
-    tool.value = "";
-    renderCrafted();
-  });
-
-  renderCrafted();
-});
+    <h2>📦 Crafted Items</h2>
+    <ul id="craftedList"></ul>
+  </div>
+</body>
+</html>
