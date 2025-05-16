@@ -2,134 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ Admin Panel</title>
-  <style>
-    body {
-      font-family: 'Georgia', serif;
-      background: #fefce6;
-      color: #333;
-      padding: 40px;
-    }
-    h1 {
-      text-align: center;
-      font-size: 26px;
-    }
-    .panel {
-      max-width: 920px;
-      margin: 40px auto;
-      background: #fff9dc;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 15px;
-    }
-    input, select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 4px;
-      margin-bottom: 12px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    button {
-      background: #3e2b1b;
-      color: #fff;
-      padding: 10px 18px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    button:hover {
-      background: #593d26;
-    }
-    .marker-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    .marker-table th, .marker-table td {
-      border: 1px solid #aaa;
-      padding: 8px;
-      text-align: left;
-    }
-    .marker-table th {
-      background: #f0e6cc;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elden Paths™ — Admin Panel</title>
+  <link id="themeStylesheet" rel="stylesheet" href="style.css" />
+  <script defer src="admin.js"></script>
+  <script defer src="theme-toggle.js"></script>
 </head>
 <body>
-  <h1>🛠 Elden Paths™ Admin Panel</h1>
-  <div class="panel">
+  <div class="container">
+    <div style="text-align:right; margin-bottom: 1em;">
+      <label for="themeSelect">🎨 Theme:</label>
+      <select id="themeSelect">
+        <option value="default">Parchment</option>
+        <option value="dark">Dark Mode</option>
+        <option value="frazetta">Frazetta Mode</option>
+        <option value="snow">Winter Fog</option>
+      </select>
+    </div>
 
-    <label>📍 Add New Marker</label>
-    <input type="text" id="markerLabel" placeholder="Label (e.g. Ancient Ruin)">
-    <input type="text" id="markerTile" placeholder="Tile (e.g. 2_1)">
-    <input type="text" id="markerColor" placeholder="Hex Color (e.g. #ff4444)">
-    <button onclick="addMarker()">Add Marker</button>
+    <h1>🛠 Admin Panel — Elden Paths™</h1>
 
-    <div id="markerManager"></div>
+    <section>
+      <h2>📍 Tile Tools</h2>
+      <p>Use this panel to toggle Fog of Discovery, move players, or inspect tile metadata.</p>
+      <!-- Your actual admin tool controls go here -->
+    </section>
+
+    <hr/>
+
+    <section>
+      <h2>🗳️ World Vote Status</h2>
+      <ul id="voteStats">
+        <li>Expand the Wilds: <span id="expand_wilds_count">0</span></li>
+        <li>Fortify the Vale: <span id="fortify_vale_count">0</span></li>
+        <li>Free Trade Pact: <span id="free_trade_count">0</span></li>
+        <li>Unlock New Class: <span id="unlock_class_count">0</span></li>
+      </ul>
+      <p><strong>Leading:</strong> <span id="leadingVote">TBD</span></p>
+    </section>
+
+    <hr/>
+
+    <footer>
+      <p>Admin-only access. All data reflects current browser-local storage until synced.</p>
+    </footer>
   </div>
-
-  <script>
-    let markerList = [];
-
-    async function loadMarkers() {
-      const res = await fetch('/tile_markers.json');
-      markerList = await res.json();
-      renderMarkerTable();
-    }
-
-    function renderMarkerTable() {
-      const div = document.getElementById('markerManager');
-      if (!markerList.length) {
-        div.innerHTML = "<p>No markers found.</p>";
-        return;
-      }
-      let html = '<table class="marker-table"><tr><th>Label</th><th>Tile</th><th>Color</th><th>Actions</th></tr>';
-      markerList.forEach((m, i) => {
-        html += `<tr>
-          <td><input value="${m.label}" onchange="updateMarker(${i}, 'label', this.value)"></td>
-          <td><input value="${m.tile}" onchange="updateMarker(${i}, 'tile', this.value)"></td>
-          <td><input value="${m.color}" onchange="updateMarker(${i}, 'color', this.value)"></td>
-          <td><button onclick="deleteMarker(${i})">Delete</button></td>
-        </tr>`;
-      });
-      html += '</table><button onclick="downloadMarkers()">💾 Save All Changes</button>';
-      div.innerHTML = html;
-    }
-
-    function updateMarker(index, key, value) {
-      markerList[index][key] = value;
-    }
-
-    function deleteMarker(index) {
-      markerList.splice(index, 1);
-      renderMarkerTable();
-    }
-
-    function addMarker() {
-      const label = document.getElementById('markerLabel').value.trim();
-      const tile = document.getElementById('markerTile').value.trim();
-      const color = document.getElementById('markerColor').value.trim();
-      if (!label || !tile || !color) return alert("All fields required.");
-      markerList.push({ label, tile, color, type: "custom" });
-      renderMarkerTable();
-    }
-
-    function downloadMarkers() {
-      const blob = new Blob([JSON.stringify(markerList, null, 2)], { type: 'application/json' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'tile_markers.json';
-      a.click();
-    }
-
-    loadMarkers();
-  </script>
 </body>
 </html>
