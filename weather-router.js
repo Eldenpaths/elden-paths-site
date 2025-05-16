@@ -1,10 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Example placeholder data — will be replaced by real tile_meta lookup
+  // Placeholder: replace with dynamic tile lookup later
   const playerTile = "will_03_north";
-  const tileMeta = {
-    region: "Gravesport",
-    weather: "fog"
+
+  // Example tile metadata
+  const tileMetaData = {
+    "will_03_north": { region: "Gravesport", weather: "fog" },
+    "auber_rim_east": { region: "Auber Rim", weather: "snow" },
+    "watchers_pass": { region: "Watcher’s Crown", weather: "clear" },
+    "sunspire_south": { region: "Desert Frontier", weather: "heat" },
+    "glowstone_depths": { region: "Ancient Depths", weather: "glow" },
+    "rainfall_hollow": { region: "Coastal Valley", weather: "rain" }
   };
+
+  const currentTile = tileMetaData[playerTile] || { region: "Unknown", weather: "clear" };
+  const currentWeather = currentTile.weather || "clear";
 
   const themeMap = {
     fog: "fog",
@@ -18,25 +27,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const overlayMap = {
     fog: "fog-overlay.js",
     snow: "snow-overlay.js",
-    rain: "rain-overlay.js"
+    rain: "rain-overlay.js",
+    heat: "heat-overlay.js",
+    glow: "magic-overlay.js"
   };
 
-  const theme = themeMap[tileMeta.weather] || "default";
-  const overlay = overlayMap[tileMeta.weather];
+  const selectedTheme = themeMap[currentWeather] || "default";
+  const overlayScript = overlayMap[currentWeather];
 
-  // Load theme (if not already handled by theme-toggle.js)
+  // ✅ Apply Theme (if not already handled by dropdown)
   const themeLink = document.getElementById("themeStylesheet");
-  if (theme !== "default") {
-    themeLink.href = `theme-${theme}.css`;
-  }
-
-  // Load overlay
-  if (overlay) {
-    const script = document.createElement("script");
-    script.src = overlay;
-    document.body.appendChild(script);
-  }
-
-  // Set a global sketch context variable
-  window.sketchWeatherTag = tileMeta.weather;
-});
+  if (themeLink && selectedTheme !== "default") {
+    themeLink.href = `
