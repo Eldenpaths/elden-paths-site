@@ -9,6 +9,7 @@
   <script defer src="weather-router.js"></script>
   <script defer src="sketch-context.js"></script>
   <script defer src="auto-sketch.js"></script>
+  <script defer src="sketch-log.js"></script>
 </head>
 <body>
   <div class="container">
@@ -56,6 +57,7 @@
           sketchEntry.textContent = `🖼️ Sketch Prompt: ${prompt}`;
           log.prepend(sketchEntry);
 
+          // Expose to sketch-log.js
           window.generatedSketchPrompt = prompt;
         }
 
@@ -65,5 +67,3 @@
   </div>
 </body>
 </html>
-
-
