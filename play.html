@@ -4,88 +4,95 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Elden Paths™ Game Portal</title>
+  <title>Elden Paths™ Portal</title>
   <style>
     body {
-      background: url('https://eldenpaths.com/assets/parchment-bg.jpg') repeat;
+      background: #faf7ea;
       font-family: 'Georgia', serif;
       color: #2e1f13;
-      padding: 40px;
       margin: 0;
+      padding: 0;
+    }
+    .wrapper {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 20px;
     }
     .panel {
-      background: rgba(255, 255, 240, 0.94);
-      border: 2px solid #5c4328;
+      background: #fffef6;
+      border: 2px solid #6e4d2e;
       border-radius: 12px;
       padding: 30px;
-      max-width: 800px;
-      margin: 30px auto;
-      box-shadow: 0 0 12px rgba(0,0,0,0.3);
-      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     h1, h2 {
-      margin-bottom: 15px;
+      text-align: center;
+      margin-top: 0;
     }
-    button, .link-button {
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
       font-size: 16px;
       background-color: #6e4d2e;
-      color: white;
-      padding: 12px 24px;
-      border: none;
+      color: #fff;
       border-radius: 8px;
       text-decoration: none;
-      cursor: pointer;
-      margin-top: 10px;
+      margin-top: 15px;
     }
-    .link-button:hover {
+    .button:hover {
       background-color: #503721;
-    }
-    .img-frame {
-      border: 2px solid #3b2b1c;
-      border-radius: 8px;
-      margin-top: 10px;
-      max-width: 90%;
     }
     iframe {
       width: 100%;
       height: 300px;
-      border: none;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    img.sketch {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      border: 2px solid #3a2b1f;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
+  <div class="wrapper">
 
-  <div class="panel">
-    <h1>Enter Elden Paths™</h1>
-    <p>Begin your myth. A living world awaits, shaped by your story and your scars.</p>
-    <a class="link-button" href="https://chat.openai.com/g/g-681c69f892c8191a5223470fb8a08c6-elden-paths-world-engine" target="_blank">
-      Join the Game
-    </a>
+    <div class="panel">
+      <h1>Enter Elden Paths™</h1>
+      <p style="text-align:center;">Step into the wilds of mythic Oregon. Your journey echoes across a living world. Sketch your fate in ink, or let the world carve your name in stone.</p>
+      <p style="text-align:center;">
+        <a href="https://chat.openai.com/g/g-681c69f892c8191a5223470fb8a08c6-elden-paths-world-engine" class="button" target="_blank">Join the Game</a>
+      </p>
+    </div>
+
+    <div class="panel">
+      <h2>🖋️ Latest Player Sketch</h2>
+      <img class="sketch" src="/assets/sketches/trailborn.png" alt="Trailborn character sketch"/>
+      <p style="text-align:center;"><em>“Trailborn, first of the Wardens.”</em></p>
+    </div>
+
+    <div class="panel">
+      <h2>📘 Player Codex</h2>
+      <iframe src="/codex/index.html" title="Codex Viewer"></iframe>
+      <p style="text-align:center;"><a class="button" href="/codex/index.html">Open Full Codex</a></p>
+    </div>
+
+    <div class="panel">
+      <h2>📖 Journal of Echoes</h2>
+      <iframe src="/journal/index.html" title="Journal Viewer"></iframe>
+      <p style="text-align:center;"><a class="button" href="/journal/index.html">View Full Journal</a></p>
+    </div>
+
+    <div class="panel">
+      <h2>🗺️ Map of the Realm</h2>
+      <p style="text-align:center;">Navigate known regions and discovered terrain across Oregon’s fantasy wilderness.</p>
+      <p style="text-align:center;"><a class="button" href="/maps/index.html">Open Map Viewer</a></p>
+    </div>
+
   </div>
-
-  <div class="panel">
-    <h2>📜 Latest Character Sketch</h2>
-    <img class="img-frame" src="/assets/sketches/trailborn.png" alt="Latest character sketch"/>
-    <p><em>Trailborn, Warden of Whispering Pines</em></p>
-  </div>
-
-  <div class="panel">
-    <h2>📘 Codex of Known Players</h2>
-    <iframe src="/codex/index.html"></iframe>
-    <p><a class="link-button" href="/codex/index.html">Open Full Codex</a></p>
-  </div>
-
-  <div class="panel">
-    <h2>🪶 Journal of Echoes</h2>
-    <iframe src="/journal/index.html"></iframe>
-    <p><a class="link-button" href="/journal/index.html">View Journal</a></p>
-  </div>
-
-  <div class="panel">
-    <h2>🗺️ Map of the Realm</h2>
-    <p>Explore discovered tiles and their sketches.</p>
-    <a class="link-button" href="/maps/index.html">Open World Map</a>
-  </div>
-
 </body>
 </html>
