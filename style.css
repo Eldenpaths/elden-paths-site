@@ -1,0 +1,33 @@
+
+body.parchment {
+  background-color: #f7f0d9;
+  font-family: 'Georgia', serif;
+  color: #2e1f13;
+  padding: 20px;
+}
+header {
+  text-align: center;
+  border-bottom: 2px solid #a58c65;
+  margin-bottom: 20px;
+}
+.tagline {
+  font-style: italic;
+}
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #593f2b;
+}
+main section {
+  margin-bottom: 30px;
+}
+.preview {
+  width: 100%;
+  max-width: 800px;
+  border: 2px solid #a58c65;
+}
+footer {
+  text-align: center;
+  font-size: 0.9em;
+  color: #666;
+}

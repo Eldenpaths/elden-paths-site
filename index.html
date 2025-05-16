@@ -4,49 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Elden Paths</title>
-  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="parchment">
   <header>
-    <h1>Elden Paths<sup>™</sup></h1>
+    <h1>Enter the Elden Paths</h1>
+    <p class="tagline">Explore. Discover. Leave your mark.</p>
     <nav>
-      <a href="/">Core</a>
-      <a href="/trail/">Oregon Trail</a>
-      <a href="/kinder/">Kinder</a>
-      <a href="/paleo/">Paleo</a>
-      <a href="/homeless/">Homeless</a>
-      <a href="/book/guide.html">Guidebook</a>
-      <a href="/codex/">Codex</a>
-      <a href="/law.html">Law</a>
-      <a href="/journal.html">Journal</a>
-      <a href="/admin.html">Admin</a>
+      <a href="/maps/index.html">🌍 World Map</a>
+      <a href="/codex/index.html">📜 Codex</a>
+      <a href="/journal/index.html">🧾 Journal</a>
+      <a href="/play.html">🎮 Play Now</a>
     </nav>
   </header>
   <main>
-    <section id="map-panel">
-      <canvas id="map-canvas">Loading map...</canvas>
+    <section>
+      <h2>Known Lands</h2>
+      <img src="/assets/map-preview.jpg" alt="Map of Known Lands" class="preview" />
     </section>
-    <section id="sketch-panel">
-      <img id="scene-sketch" src="/assets/placeholder_sketch.png" alt="Current scene sketch" />
+    <section>
+      <h2>Current Players</h2>
+      <p>12 adventurers in-world</p>
     </section>
-    <section id="lore-panel">
-      <div id="lore-text">Click a tile to view lore...</div>
+    <section>
+      <h2>From the Trail</h2>
+      <img src="/assets/campfire-sketch.jpg" alt="Campfire sketch" class="preview" />
     </section>
   </main>
   <footer>
-    <p>Crafted by Ryan Iverson | Powered by GPT & Trail Engine</p>
-    <div style="margin-top: 1em; font-size: 0.9em;">
-      <strong>Founders & Forge-Bearers:</strong><br>
-      🔥 <a href="https://pacfiregrill.com" target="_blank">PAC Fire Grill</a>  
-      🪵 <a href="https://cosmoshabby.com" target="_blank">Cosmoshabby Industrial</a><br>
-      <em>(This world runs on sparks from real fires. More supporters to be added soon.)</em>
-    </div>
-    <div style="margin-top: 1.5em; font-size: 0.9em;">
-      <strong>Have a message, inquiry, or want to support?</strong><br>
-      Send a raven to <a href="mailto:patioandcamp@gmail.com">patioandcamp@gmail.com</a><br>
-      Or leave an in-game note at your nearest trail post (coming soon!)
-    </div>
+    <p>Created by Ryan Iverson • Powered by GPT & Myth</p>
   </footer>
-  <script src="/scripts/map.js"></script>
 </body>
 </html>
