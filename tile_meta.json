@@ -1,0 +1,14 @@
+{
+  "will_03_north": {
+    "region": "Gravesport",
+    "weather": "fog"
+  },
+  "auber_rim_east": {
+    "region": "Auber Rim",
+    "weather": "snow"
+  },
+  "watchers_pass": {
+    "region": "Watcher's Crown",
+    "weather": "clear"
+  }
+}
