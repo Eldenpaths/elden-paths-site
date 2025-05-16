@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Elden Paths™ Map Viewer</title>
   <style>
     body {
@@ -12,9 +12,11 @@
       margin: 0;
       padding: 30px;
     }
+
     h1 {
       text-align: center;
     }
+
     .map-container {
       width: 800px;
       height: 600px;
@@ -23,8 +25,9 @@
       background: url('/assets/maps/oregon-parchment-map.png') center/cover no-repeat;
       border: 3px solid #3e2b1b;
       border-radius: 12px;
-      box-shadow: 0 0 14px rgba(0,0,0,0.3);
+      box-shadow: 0 0 14px rgba(0, 0, 0, 0.3);
     }
+
     .marker {
       position: absolute;
       width: 24px;
@@ -35,23 +38,42 @@
       cursor: pointer;
       transform: translate(-50%, -50%);
     }
+
     .label {
       position: absolute;
-      background: rgba(255,255,240,0.95);
+      background: rgba(255, 255, 240, 0.95);
       padding: 3px 8px;
       border-radius: 6px;
       font-size: 14px;
       border: 1px solid #ccc;
       white-space: nowrap;
     }
+
+    .marker:hover::after {
+      content: attr(title);
+      position: absolute;
+      top: 28px;
+      left: 0;
+      background: #fff8dc;
+      padding: 4px 6px;
+      font-size: 12px;
+      color: #333;
+      border: 1px solid #3e2b1b;
+      border-radius: 6px;
+      white-space: nowrap;
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
   <h1>🗺️ Map of the Elden Realm</h1>
   <div class="map-container" id="map">
-    <!-- Marker example -->
-    <div class="marker" style="top: 45%; left: 55%;" title="Trailborn"></div>
-    <div class="label" style="top: 49%; left: 58%;">Trailborn</div>
+
+    <!-- Marker: Trailborn -->
+    <div class="marker" style="top: 45%; left: 55%;" title="Trailborn, Warden of Whispering Pines"></div>
+    <!-- Optional static label: -->
+    <!-- <div class="label" style="top: 49%; left: 58%;">Trailborn</div> -->
+
   </div>
 </body>
 </html>
