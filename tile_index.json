@@ -1,1 +1,8 @@
+{
+  "tiles": {
+    "0_0": { "visible": true },
+    "0_1": { "visible": false },
+    "1_0": { "visible": false }
+  }
+}
 
