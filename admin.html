@@ -1,1 +1,133 @@
-<html><body><h1>Admin Panel</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Elden Paths™ Admin Panel</title>
+  <style>
+    body {
+      background: #f8f5e9 url('/assets/parchment-bg.jpg') repeat;
+      font-family: 'Georgia', serif;
+      color: #3a2b1c;
+      margin: 0;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .panel {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(255, 255, 240, 0.95);
+      border: 2px solid #5d4228;
+      border-radius: 10px;
+      padding: 24px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section h2 {
+      margin-bottom: 10px;
+      font-size: 1.4em;
+    }
+
+    label {
+      display: inline-block;
+      width: 160px;
+      font-weight: bold;
+    }
+
+    input, select, button {
+      margin: 6px 0;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    button {
+      background: #6e4d2e;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #4a341d;
+    }
+
+    .log {
+      background: #fff9e6;
+      border: 1px solid #b29b72;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 13px;
+      height: 120px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>🛠️ Elden Paths™ Admin Panel</h1>
+  <div class="panel">
+
+    <!-- Section: Fog Control -->
+    <div class="section">
+      <h2>Fog of Discovery™</h2>
+      <label for="tile-id">Tile (e.g. 4-B):</label>
+      <input type="text" id="tile-id" placeholder="Enter tile ID">
+      <button onclick="logAction('Fog toggled for tile ' + get('tile-id'))">Toggle Fog</button>
+    </div>
+
+    <!-- Section: Move Player -->
+    <div class="section">
+      <h2>Move Player</h2>
+      <label for="player-name">Player Name:</label>
+      <input type="text" id="player-name" placeholder="e.g. Trailborn"><br>
+      <label for="destination">Destination Tile:</label>
+      <input type="text" id="destination" placeholder="e.g. 5-C">
+      <button onclick="logAction('Moved ' + get('player-name') + ' to tile ' + get('destination'))">Move Player</button>
+    </div>
+
+    <!-- Section: Place Marker -->
+    <div class="section">
+      <h2>Place World Marker</h2>
+      <label for="marker-label">Label:</label>
+      <input type="text" id="marker-label" placeholder="e.g. Ruins of Narthil">
+      <button onclick="logAction('Placed marker: ' + get('marker-label'))">Place Marker</button>
+    </div>
+
+    <!-- Section: Spawn Relic -->
+    <div class="section">
+      <h2>Spawn Relic</h2>
+      <label for="relic-name">Relic Name:</label>
+      <input type="text" id="relic-name" placeholder="e.g. Echo Totem">
+      <button onclick="logAction('Spawned relic: ' + get('relic-name'))">Spawn Relic</button>
+    </div>
+
+    <!-- Action Log -->
+    <div class="section">
+      <h2>Action Log</h2>
+      <div class="log" id="log-box">Ready.</div>
+    </div>
+  </div>
+
+  <script>
+    function get(id) {
+      return document.getElementById(id).value.trim();
+    }
+
+    function logAction(msg) {
+      const box = document.getElementById("log-box");
+      const now = new Date().toLocaleTimeString();
+      box.innerHTML += `<div>[${now}] ${msg}</div>`;
+      box.scrollTop = box.scrollHeight;
+    }
+  </script>
+</body>
+</html>
