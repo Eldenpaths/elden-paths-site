@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +5,7 @@
   <title>Elden Paths™ Map Viewer</title>
   <style>
     body {
-      background: #f9f6ee url('/assets/parchment-bg.jpg') repeat;
+      background: #f9f6ee url('/assets/maps/oregon-parchment-map.png') center/cover no-repeat;
       font-family: 'Georgia', serif;
       color: #2e1f13;
       margin: 0;
@@ -18,14 +17,13 @@
     }
 
     .map-container {
+      position: relative;
       width: 800px;
       height: 600px;
       margin: 0 auto;
-      position: relative;
-      background: url('/assets/maps/oregon-parchment-map.png') center/cover no-repeat;
       border: 3px solid #3e2b1b;
       border-radius: 12px;
-      box-shadow: 0 0 14px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 14px rgba(0,0,0,0.3);
     }
 
     .marker {
@@ -37,16 +35,6 @@
       border-radius: 50%;
       cursor: pointer;
       transform: translate(-50%, -50%);
-    }
-
-    .label {
-      position: absolute;
-      background: rgba(255, 255, 240, 0.95);
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      white-space: nowrap;
     }
 
     .marker:hover::after {
@@ -63,16 +51,39 @@
       white-space: nowrap;
       z-index: 10;
     }
+
+    .label {
+      position: absolute;
+      background: rgba(255,255,240,0.95);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
   <h1>🗺️ Map of the Elden Realm</h1>
   <div class="map-container" id="map">
 
-    <!-- Marker: Trailborn -->
-    <div class="marker" style="top: 45%; left: 55%;" title="Trailborn, Warden of Whispering Pines"></div>
-    <!-- Optional static label: -->
+    <!-- Trailborn -->
+    <div class="marker" style="top: 45%; left: 55%;" title="Trailborn"></div>
     <!-- <div class="label" style="top: 49%; left: 58%;">Trailborn</div> -->
+
+    <!-- Canonical Markers -->
+    <div class="marker" style="top: 28%; left: 21%;" title="Gravesport"></div>
+    <div class="marker" style="top: 72%; left: 38%;" title="Salt Hollow"></div>
+    <div class="marker" style="top: 15%; left: 52%;" title="Watcher’s Crown"></div>
+    <div class="marker" style="top: 50%; left: 60%;" title="Hall of Echoes"></div>
+
+    <!-- Optional label view -->
+    <!--
+    <div class="label" style="top: 31%; left: 24%;">Gravesport</div>
+    <div class="label" style="top: 75%; left: 41%;">Salt Hollow</div>
+    <div class="label" style="top: 18%; left: 55%;">Watcher’s Crown</div>
+    <div class="label" style="top: 53%; left: 63%;">Hall of Echoes</div>
+    -->
 
   </div>
 </body>
