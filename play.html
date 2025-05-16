@@ -1,15 +1,26 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Enter the Elden Paths</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enter Elden Paths™</title>
   <style>
     body {
-      background: #f7f0d9;
-      font-family: Georgia, serif;
+      background: url('https://eldenpaths.com/assets/parchment-bg.jpg') repeat;
+      font-family: 'Georgia', serif;
       color: #2e1f13;
       padding: 40px;
       text-align: center;
+    }
+    .panel {
+      background: rgba(255, 255, 240, 0.95);
+      border: 2px solid #5c4328;
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
     h1 {
       font-size: 2.5em;
@@ -19,24 +30,28 @@
       font-style: italic;
       margin-bottom: 30px;
     }
-    a.button {
-      background: #8c6d47;
+    .enter-button {
+      font-size: 18px;
+      background-color: #6e4d2e;
       color: white;
-      padding: 15px 30px;
-      border-radius: 8px;
+      padding: 14px 26px;
+      border: none;
+      border-radius: 10px;
       text-decoration: none;
-      font-weight: bold;
-      box-shadow: 2px 2px 6px #aaa;
+      cursor: pointer;
     }
-    a.button:hover {
-      background: #a58c65;
+    .enter-button:hover {
+      background-color: #503721;
     }
   </style>
 </head>
 <body>
-  <h1>Begin Your Journey</h1>
-  <p>You stand at the edge of the known world.<br>Will you enter the Elden Paths?</p>
-  <a class="button" href="https://chat.openai.com/g/g-eldensession">🧭 Enter Now</a>
-  <p style="margin-top:40px;font-size:0.8em;color:#888;">Powered by GPT & Elden World Engine™</p>
+  <div class="panel">
+    <h1>Enter Elden Paths™</h1>
+    <p>Step into the wilds of mythic Oregon. Your journey echoes across a living world. Sketch your fate in ink, or let the world carve your name in stone.</p>
+    <a class="enter-button" href="https://chat.openai.com/g/g-681c69f892c8191a5223470fb8a08c6-elden-paths-world-engine" target="_blank">
+      Join the Game
+    </a>
+  </div>
 </body>
 </html>
