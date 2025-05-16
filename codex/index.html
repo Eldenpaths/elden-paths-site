@@ -2,99 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ Codex of Known Echoes</title>
-  <style>
-    body {
-      background: #f7f1df url('/assets/parchment-bg.jpg') repeat;
-      font-family: 'Georgia', serif;
-      color: #3b2b1a;
-      margin: 0;
-      padding: 40px;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 2em;
-    }
-
-    .codex-container {
-      max-width: 960px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 24px;
-      justify-content: center;
-    }
-
-    .entry {
-      width: 260px;
-      background: rgba(255, 255, 240, 0.94);
-      border: 2px solid #5e4329;
-      border-radius: 10px;
-      padding: 16px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .entry img {
-      max-width: 100%;
-      border-radius: 8px;
-      border: 1px solid #3b2b1a;
-      margin-bottom: 12px;
-    }
-
-    .entry h3 {
-      margin: 10px 0 5px;
-    }
-
-    .entry p {
-      margin: 4px 0;
-      font-size: 14px;
-    }
-
-    .entry button {
-      margin-top: 10px;
-      padding: 6px 12px;
-      background: #6e4d2e;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .entry button:hover {
-      background: #4a341d;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elden Paths™ — Codex of Echoes</title>
+  <link id="themeStylesheet" rel="stylesheet" href="style.css" />
+  <script defer src="theme-toggle.js"></script>
 </head>
 <body>
-  <h1>📜 Codex of Known Echoes</h1>
-  <div class="codex-container">
-
-    <!-- Sample Entry 1 -->
-    <div class="entry">
-      <img src="/assets/sketches/trailborn.png" alt="Trailborn">
-      <h3>Trailborn</h3>
-      <p><strong>Origin:</strong> Whispering Pines</p>
-      <p><strong>Class:</strong> Warden</p>
-      <p><strong>Status:</strong> Alive</p>
-      <button onclick="location.href='/journal/trailborn.html'">View Journal</button>
+  <div class="container">
+    <div style="text-align:right; margin-bottom: 1em;">
+      <label for="themeSelect">🎨 Theme:</label>
+      <select id="themeSelect">
+        <option value="default">Parchment</option>
+        <option value="dark">Dark Mode</option>
+        <option value="frazetta">Frazetta Mode</option>
+        <option value="snow">Winter Fog</option>
+      </select>
     </div>
 
-    <!-- Sample Entry 2 -->
-    <div class="entry">
-      <img src="/assets/sketches/sample-npc.png" alt="Watcher NPC">
-      <h3>Watcher Grey</h3>
-      <p><strong>Origin:</strong> Crownlands</p>
-      <p><strong>Class:</strong> Seer</p>
-      <p><strong>Status:</strong> Unknown</p>
-      <button onclick="location.href='/journal/watcher-grey.html'">View Journal</button>
-    </div>
+    <h1>📖 Codex of Echoes</h1>
+    <p>All creatures, myths, and recorded anomalies encountered in Elden Paths™.</p>
 
+    <ul id="codexList">
+      <li><strong>Fogborn Wyrm</strong> — Sighted near Shatter Coast. Emits whispering calls before attack.</li>
+      <li><strong>Sunken Watcher</strong> — A stone statue that sometimes moves… said to guard relics.</li>
+      <li><strong>Wisp Elk</strong> — Ethereal deer seen at twilight. Players report memory flashes nearby.</li>
+      <!-- More codex entries injected here or scripted -->
+    </ul>
   </div>
 </body>
 </html>
