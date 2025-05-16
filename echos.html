@@ -1,106 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Elden Paths™ Hall of Echoes</title>
+  <meta charset="UTF-8">
+  <title>Echo Chamber Votes</title>
   <style>
     body {
-      font-family: 'Georgia', serif;
-      background: #fdf8e4 url('/assets/parchment-bg.jpg') repeat;
-      color: #3b2b1a;
-      margin: 0;
+      font-family: Georgia, serif;
+      background: #f9f6ee;
       padding: 40px;
+      color: #2e1f13;
     }
 
     h1 {
       text-align: center;
-      margin-bottom: 30px;
-      font-size: 2em;
-    }
-
-    .echo-container {
-      max-width: 960px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
+      margin-bottom: 40px;
     }
 
     .case {
-      background: rgba(255, 255, 240, 0.96);
-      border: 2px solid #5e4329;
-      border-radius: 12px;
+      background: #fffaf0;
       padding: 20px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
     }
 
-    .case h3 {
-      margin-top: 0;
+    .vote-buttons {
+      margin-top: 10px;
     }
 
-    .case p {
-      font-size: 15px;
-    }
-
-    .buttons {
-      margin-top: 15px;
-    }
-
-    .buttons button {
-      background: #6e4d2e;
-      color: white;
-      padding: 8px 14px;
-      border: none;
-      border-radius: 6px;
+    button {
       margin-right: 10px;
+      padding: 6px 14px;
+      font-size: 14px;
+      background: #f0e6d2;
+      border: 1px solid #999;
+      border-radius: 4px;
       cursor: pointer;
     }
 
-    .buttons button:hover {
-      background: #4a341d;
-    }
-
-    .log {
-      font-size: 13px;
-      margin-top: 12px;
-      color: #555;
+    button:hover {
+      background: #e6dbb5;
     }
   </style>
 </head>
 <body>
-  <h1>⚖️ Elden Paths™ Hall of Echoes</h1>
-  <div class="echo-container">
-
-    <!-- Echo Case 1 -->
-    <div class="case">
-      <h3>Should Trailborn be allowed to bind the Relic: “Shadowbrand”?</h3>
-      <p>The blade has shown signs of dark influence. Some say it whispers during sleep. Trailborn claims it is a tool for justice. Others worry it cannot be tamed.</p>
-      <div class="buttons">
-        <button onclick="vote('Case1', 'Yes')">✅ Allow Binding</button>
-        <button onclick="vote('Case1', 'No')">❌ Deny Binding</button>
-      </div>
-      <div class="log" id="log-Case1">No votes yet.</div>
-    </div>
-
-    <!-- Echo Case 2 -->
-    <div class="case">
-      <h3>Should the Hall ban use of the Echo Totem in cursed regions?</h3>
-      <p>Following a surge in spectral sightings near Fogveil, some propose a ban on ritual items within corrupted zones. Others argue this would limit defensive tactics.</p>
-      <div class="buttons">
-        <button onclick="vote('Case2', 'Yes')">✅ Enact Ban</button>
-        <button onclick="vote('Case2', 'No')">❌ No Ban</button>
-      </div>
-      <div class="log" id="log-Case2">No votes yet.</div>
-    </div>
-
-  </div>
+  <h1>Echo Chamber Voting</h1>
+  <div id="voteContainer">Loading votes...</div>
 
   <script>
-    function vote(caseId, choice) {
-      const log = document.getElementById('log-' + caseId);
-      const now = new Date().toLocaleTimeString();
-      log.innerText = `Latest vote: ${choice} at ${now}`;
+    async function loadVotes() {
+      try {
+        const res = await fetch('echo_votes.json');
+        const votes = await res.json();
+        const container = document.getElementById('voteContainer');
+        container.innerHTML = '';
+
+        Object.keys(votes).forEach(caseName => {
+          const caseVotes = votes[caseName];
+          const div = document.createElement('div');
+          div.className = 'case';
+          div.innerHTML = `
+            <h3>${caseName}</h3>
+            <p>Yes: <span id="${caseName}-yes">${caseVotes.yes}</span> | 
+               No: <span id="${caseName}-no">${caseVotes.no}</span></p>
+            <div class="vote-buttons">
+              <button onclick="castVote('${caseName}', 'yes')">Vote Yes</button>
+              <button onclick="castVote('${caseName}', 'no')">Vote No</button>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      } catch (err) {
+        document.getElementById('voteContainer').innerText = 'Failed to load votes.';
+      }
     }
+
+    function castVote(caseName, type) {
+      const id = `${caseName}-${type}`;
+      const countSpan = document.getElementById(id);
+      let current = parseInt(countSpan.textContent || '0');
+      current++;
+      countSpan.textContent = current;
+
+      // Simulated POST request — to persist this you'd need GitHub API, database, or server
+      console.log(`Voted ${type} for ${caseName}`);
+    }
+
+    loadVotes();
   </script>
 </body>
 </html>
