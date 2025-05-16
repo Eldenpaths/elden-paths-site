@@ -2,94 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ Codex of Relics</title>
-  <style>
-    body {
-      background: #f6f1df url('/assets/parchment-bg.jpg') repeat;
-      font-family: 'Georgia', serif;
-      color: #3a2814;
-      margin: 0;
-      padding: 40px;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .relics-container {
-      max-width: 960px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 24px;
-      justify-content: center;
-    }
-
-    .relic {
-      width: 280px;
-      background: rgba(255, 255, 240, 0.96);
-      border: 2px solid #5d4228;
-      border-radius: 10px;
-      padding: 16px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .relic img {
-      max-width: 100%;
-      border-radius: 6px;
-      border: 1px solid #3b2b1a;
-      margin-bottom: 12px;
-    }
-
-    .relic h3 {
-      margin: 8px 0 6px;
-    }
-
-    .relic p {
-      font-size: 14px;
-      margin: 4px 0;
-    }
-
-    .relic .tag {
-      background: #6e4d2e;
-      color: white;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 12px;
-      margin-top: 8px;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elden Paths™ — Relic Registry</title>
+  <link id="themeStylesheet" rel="stylesheet" href="style.css" />
+  <script defer src="theme-toggle.js"></script>
 </head>
 <body>
-  <h1>🗝️ Codex of Relics</h1>
-  <div class="relics-container">
-
-    <!-- Sample Relic 1 -->
-    <div class="relic">
-      <img src="/assets/relics/shadowbrand.png" alt="Shadowbrand Blade">
-      <h3>Shadowbrand</h3>
-      <p><strong>Type:</strong> Blade of Night</p>
-      <p><strong>Wielder:</strong> Trailborn</p>
-      <p><strong>Power:</strong> Draws strength from unseen wounds. Glows when truth is betrayed.</p>
-      <div class="tag">Bound</div>
+  <div class="container">
+    <div style="text-align:right; margin-bottom: 1em;">
+      <label for="themeSelect">🎨 Theme:</label>
+      <select id="themeSelect">
+        <option value="default">Parchment</option>
+        <option value="dark">Dark Mode</option>
+        <option value="frazetta">Frazetta Mode</option>
+        <option value="snow">Winter Fog</option>
+      </select>
     </div>
 
-    <!-- Sample Relic 2 -->
-    <div class="relic">
-      <img src="/assets/relics/echo-totem.png" alt="Echo Totem">
-      <h3>Echo Totem</h3>
-      <p><strong>Type:</strong> Ritual Anchor</p>
-      <p><strong>Discovered by:</strong> Watcher Grey</p>
-      <p><strong>Power:</strong> Allows distant communion through the veil. Location-bound.</p>
-      <div class="tag">Unbound</div>
-    </div>
+    <h1>💎 Relic Registry</h1>
+    <p>Recovered relics are listed here. Their names, effects, and current ownership (if known).</p>
 
+    <ul id="relicList">
+      <li><strong>Ring of Hollow Flame</strong> — Burns in the rain. Last held by Willa of Smoke.</li>
+      <li><strong>Stone-Eyed Idol</strong> — Emits an aura that reveals hidden trails.</li>
+      <li><strong>Echo Glass Pendant</strong> — Allows glimpses into other player timelines.</li>
+    </ul>
   </div>
 </body>
 </html>
+
 
