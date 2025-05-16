@@ -4,11 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Elden Paths™ — World Vote</title>
-  <link rel="stylesheet" href="style.css" />
+  <link id="themeStylesheet" rel="stylesheet" href="style.css" />
   <script defer src="vote.js"></script>
+  <script defer src="theme-toggle.js"></script>
 </head>
 <body>
   <div class="container">
+    <div style="text-align:right; margin-bottom: 1em;">
+      <label for="themeSelect">🎨 Theme:</label>
+      <select id="themeSelect">
+        <option value="default">Parchment</option>
+        <option value="dark">Dark Mode</option>
+        <option value="frazetta">Frazetta Mode</option>
+        <option value="snow">Winter Fog</option>
+      </select>
+    </div>
+
     <h1>🗳️ World Vote: Shape the Future of Elden Paths™</h1>
     <p>Cast your vote. The most supported change may be enacted at the Hall of Echoes.</p>
 
@@ -30,23 +41,4 @@
 
       <label>
         <input type="radio" name="vote" value="unlock_class" />
-        Unlock New Class: Enable one rare player archetype
-      </label><br/>
-
-      <button type="submit">Submit Vote</button>
-    </form>
-
-    <div id="confirmation" style="display:none; margin-top: 1em;"></div>
-
-    <hr/>
-
-    <h2>📊 Current Vote Totals</h2>
-    <ul id="voteResults">
-      <li>Expand the Wilds: <span id="expand_wilds_count">0</span></li>
-      <li>Fortify the Vale: <span id="fortify_vale_count">0</span></li>
-      <li>Free Trade Pact: <span id="free_trade_count">0</span></li>
-      <li>Unlock New Class: <span id="unlock_class_count">0</span></li>
-    </ul>
-  </div>
-</body>
-</html>
+        Unlock New Class
