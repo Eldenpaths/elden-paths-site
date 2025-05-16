@@ -15,7 +15,7 @@
       font-size: 26px;
     }
     .panel {
-      max-width: 720px;
+      max-width: 920px;
       margin: 40px auto;
       background: #fff9dc;
       padding: 20px;
@@ -47,95 +47,89 @@
     button:hover {
       background: #593d26;
     }
+    .marker-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .marker-table th, .marker-table td {
+      border: 1px solid #aaa;
+      padding: 8px;
+      text-align: left;
+    }
+    .marker-table th {
+      background: #f0e6cc;
+    }
   </style>
 </head>
 <body>
   <h1>🛠 Elden Paths™ Admin Panel</h1>
   <div class="panel">
-    <label>🗺️ Toggle Fog on Tile</label>
-    <input type="text" id="fogTile" placeholder="Example: 1_0" />
-    <button onclick="toggleFog()">Toggle Fog</button>
 
-    <label>🎯 Move Player to Tile</label>
-    <input type="text" id="playerName" placeholder="Player name (e.g. Trailborn)" />
-    <input type="text" id="playerTile" placeholder="Tile (e.g. 0_1)" />
-    <button onclick="movePlayer()">Move Player</button>
-
-    <label>📍 Add Custom Map Marker</label>
-    <input type="text" id="markerLabel" placeholder="Label (e.g. Ancient Ruin)" />
-    <input type="text" id="markerTile" placeholder="Tile (e.g. 2_1)" />
-    <input type="text" id="markerColor" placeholder="Hex Color (e.g. #ff4444)" />
+    <label>📍 Add New Marker</label>
+    <input type="text" id="markerLabel" placeholder="Label (e.g. Ancient Ruin)">
+    <input type="text" id="markerTile" placeholder="Tile (e.g. 2_1)">
+    <input type="text" id="markerColor" placeholder="Hex Color (e.g. #ff4444)">
     <button onclick="addMarker()">Add Marker</button>
 
-    <label>🧿 Add Relic to World</label>
-    <input type="text" id="relicName" placeholder="Relic Name (e.g. Sunshard Ring)" />
-    <input type="text" id="relicLocation" placeholder="Tile (e.g. 3_0)" />
-    <input type="text" id="relicDesc" placeholder="Description" />
-    <button onclick="addRelic()">Add Relic</button>
+    <div id="markerManager"></div>
   </div>
 
   <script>
-    async function updateJSON(file, content) {
-      const blob = new Blob([JSON.stringify(content, null, 2)], { type: 'application/json' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = file;
-      a.click();
+    let markerList = [];
+
+    async function loadMarkers() {
+      const res = await fetch('/tile_markers.json');
+      markerList = await res.json();
+      renderMarkerTable();
     }
 
-    async function toggleFog() {
-      const tile = document.getElementById('fogTile').value.trim();
-      if (!tile) return alert("Enter a tile.");
-      const response = await fetch('tile_index.json');
-      const json = await response.json();
-      json.tiles[tile] = { visible: !(json.tiles[tile]?.visible) };
-      updateJSON('tile_index.json', json);
+    function renderMarkerTable() {
+      const div = document.getElementById('markerManager');
+      if (!markerList.length) {
+        div.innerHTML = "<p>No markers found.</p>";
+        return;
+      }
+      let html = '<table class="marker-table"><tr><th>Label</th><th>Tile</th><th>Color</th><th>Actions</th></tr>';
+      markerList.forEach((m, i) => {
+        html += `<tr>
+          <td><input value="${m.label}" onchange="updateMarker(${i}, 'label', this.value)"></td>
+          <td><input value="${m.tile}" onchange="updateMarker(${i}, 'tile', this.value)"></td>
+          <td><input value="${m.color}" onchange="updateMarker(${i}, 'color', this.value)"></td>
+          <td><button onclick="deleteMarker(${i})">Delete</button></td>
+        </tr>`;
+      });
+      html += '</table><button onclick="downloadMarkers()">💾 Save All Changes</button>';
+      div.innerHTML = html;
     }
 
-    async function movePlayer() {
-      const name = document.getElementById('playerName').value.trim();
-      const tile = document.getElementById('playerTile').value.trim();
-      if (!name || !tile) return alert("Enter both name and tile.");
-      const response = await fetch('players.json');
-      const json = await response.json();
-      json[name] = {
-        tile,
-        last_seen: new Date().toISOString()
-      };
-      updateJSON('players.json', json);
+    function updateMarker(index, key, value) {
+      markerList[index][key] = value;
     }
 
-    async function addMarker() {
+    function deleteMarker(index) {
+      markerList.splice(index, 1);
+      renderMarkerTable();
+    }
+
+    function addMarker() {
       const label = document.getElementById('markerLabel').value.trim();
       const tile = document.getElementById('markerTile').value.trim();
       const color = document.getElementById('markerColor').value.trim();
-      if (!label || !tile || !color) return alert("Enter label, tile, and color.");
-      const response = await fetch('tile_markers.json');
-      const json = await response.json();
-      json.push({
-        label,
-        tile,
-        type: "custom",
-        color
-      });
-      updateJSON('tile_markers.json', json);
+      if (!label || !tile || !color) return alert("All fields required.");
+      markerList.push({ label, tile, color, type: "custom" });
+      renderMarkerTable();
     }
 
-    async function addRelic() {
-      const name = document.getElementById('relicName').value.trim();
-      const location = document.getElementById('relicLocation').value.trim();
-      const description = document.getElementById('relicDesc').value.trim();
-      if (!name || !location || !description) return alert("Enter all relic details.");
-      const response = await fetch('world_relics.json');
-      const json = await response.json();
-      json.push({
-        name,
-        owner: null,
-        location,
-        description
-      });
-      updateJSON('world_relics.json', json);
+    function downloadMarkers() {
+      const blob = new Blob([JSON.stringify(markerList, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'tile_markers.json';
+      a.click();
     }
+
+    loadMarkers();
   </script>
 </body>
 </html>
