@@ -5,128 +5,136 @@
   <title>Elden Paths™ Admin Panel</title>
   <style>
     body {
-      background: #f8f5e9 url('/assets/parchment-bg.jpg') repeat;
       font-family: 'Georgia', serif;
-      color: #3a2b1c;
-      margin: 0;
+      background: #fefce6;
+      color: #333;
       padding: 40px;
     }
-
     h1 {
       text-align: center;
-      margin-bottom: 20px;
+      font-size: 26px;
     }
-
     .panel {
-      max-width: 900px;
-      margin: 0 auto;
-      background: rgba(255, 255, 240, 0.95);
-      border: 2px solid #5d4228;
-      border-radius: 10px;
-      padding: 24px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+      max-width: 720px;
+      margin: 40px auto;
+      background: #fff9dc;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
-    .section {
-      margin-bottom: 30px;
-    }
-
-    .section h2 {
-      margin-bottom: 10px;
-      font-size: 1.4em;
-    }
-
     label {
-      display: inline-block;
-      width: 160px;
       font-weight: bold;
+      display: block;
+      margin-top: 15px;
     }
-
-    input, select, button {
-      margin: 6px 0;
-      padding: 6px 10px;
-      border-radius: 6px;
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      margin-bottom: 12px;
       border: 1px solid #ccc;
-      font-size: 14px;
+      border-radius: 4px;
     }
-
     button {
-      background: #6e4d2e;
-      color: white;
+      background: #3e2b1b;
+      color: #fff;
+      padding: 10px 18px;
       border: none;
+      border-radius: 6px;
       cursor: pointer;
-    }
-
-    button:hover {
-      background: #4a341d;
-    }
-
-    .log {
-      background: #fff9e6;
-      border: 1px solid #b29b72;
-      padding: 12px;
       margin-top: 10px;
-      font-size: 13px;
-      height: 120px;
-      overflow-y: auto;
+    }
+    button:hover {
+      background: #593d26;
     }
   </style>
 </head>
 <body>
-  <h1>🛠️ Elden Paths™ Admin Panel</h1>
+  <h1>🛠 Elden Paths™ Admin Panel</h1>
   <div class="panel">
+    <label>🗺️ Toggle Fog on Tile</label>
+    <input type="text" id="fogTile" placeholder="Example: 1_0" />
+    <button onclick="toggleFog()">Toggle Fog</button>
 
-    <!-- Section: Fog Control -->
-    <div class="section">
-      <h2>Fog of Discovery™</h2>
-      <label for="tile-id">Tile (e.g. 4-B):</label>
-      <input type="text" id="tile-id" placeholder="Enter tile ID">
-      <button onclick="logAction('Fog toggled for tile ' + get('tile-id'))">Toggle Fog</button>
-    </div>
+    <label>🎯 Move Player to Tile</label>
+    <input type="text" id="playerName" placeholder="Player name (e.g. Trailborn)" />
+    <input type="text" id="playerTile" placeholder="Tile (e.g. 0_1)" />
+    <button onclick="movePlayer()">Move Player</button>
 
-    <!-- Section: Move Player -->
-    <div class="section">
-      <h2>Move Player</h2>
-      <label for="player-name">Player Name:</label>
-      <input type="text" id="player-name" placeholder="e.g. Trailborn"><br>
-      <label for="destination">Destination Tile:</label>
-      <input type="text" id="destination" placeholder="e.g. 5-C">
-      <button onclick="logAction('Moved ' + get('player-name') + ' to tile ' + get('destination'))">Move Player</button>
-    </div>
+    <label>📍 Add Custom Map Marker</label>
+    <input type="text" id="markerLabel" placeholder="Label (e.g. Ancient Ruin)" />
+    <input type="text" id="markerTile" placeholder="Tile (e.g. 2_1)" />
+    <input type="text" id="markerColor" placeholder="Hex Color (e.g. #ff4444)" />
+    <button onclick="addMarker()">Add Marker</button>
 
-    <!-- Section: Place Marker -->
-    <div class="section">
-      <h2>Place World Marker</h2>
-      <label for="marker-label">Label:</label>
-      <input type="text" id="marker-label" placeholder="e.g. Ruins of Narthil">
-      <button onclick="logAction('Placed marker: ' + get('marker-label'))">Place Marker</button>
-    </div>
-
-    <!-- Section: Spawn Relic -->
-    <div class="section">
-      <h2>Spawn Relic</h2>
-      <label for="relic-name">Relic Name:</label>
-      <input type="text" id="relic-name" placeholder="e.g. Echo Totem">
-      <button onclick="logAction('Spawned relic: ' + get('relic-name'))">Spawn Relic</button>
-    </div>
-
-    <!-- Action Log -->
-    <div class="section">
-      <h2>Action Log</h2>
-      <div class="log" id="log-box">Ready.</div>
-    </div>
+    <label>🧿 Add Relic to World</label>
+    <input type="text" id="relicName" placeholder="Relic Name (e.g. Sunshard Ring)" />
+    <input type="text" id="relicLocation" placeholder="Tile (e.g. 3_0)" />
+    <input type="text" id="relicDesc" placeholder="Description" />
+    <button onclick="addRelic()">Add Relic</button>
   </div>
 
   <script>
-    function get(id) {
-      return document.getElementById(id).value.trim();
+    async function updateJSON(file, content) {
+      const blob = new Blob([JSON.stringify(content, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = file;
+      a.click();
     }
 
-    function logAction(msg) {
-      const box = document.getElementById("log-box");
-      const now = new Date().toLocaleTimeString();
-      box.innerHTML += `<div>[${now}] ${msg}</div>`;
-      box.scrollTop = box.scrollHeight;
+    async function toggleFog() {
+      const tile = document.getElementById('fogTile').value.trim();
+      if (!tile) return alert("Enter a tile.");
+      const response = await fetch('tile_index.json');
+      const json = await response.json();
+      json.tiles[tile] = { visible: !(json.tiles[tile]?.visible) };
+      updateJSON('tile_index.json', json);
+    }
+
+    async function movePlayer() {
+      const name = document.getElementById('playerName').value.trim();
+      const tile = document.getElementById('playerTile').value.trim();
+      if (!name || !tile) return alert("Enter both name and tile.");
+      const response = await fetch('players.json');
+      const json = await response.json();
+      json[name] = {
+        tile,
+        last_seen: new Date().toISOString()
+      };
+      updateJSON('players.json', json);
+    }
+
+    async function addMarker() {
+      const label = document.getElementById('markerLabel').value.trim();
+      const tile = document.getElementById('markerTile').value.trim();
+      const color = document.getElementById('markerColor').value.trim();
+      if (!label || !tile || !color) return alert("Enter label, tile, and color.");
+      const response = await fetch('tile_markers.json');
+      const json = await response.json();
+      json.push({
+        label,
+        tile,
+        type: "custom",
+        color
+      });
+      updateJSON('tile_markers.json', json);
+    }
+
+    async function addRelic() {
+      const name = document.getElementById('relicName').value.trim();
+      const location = document.getElementById('relicLocation').value.trim();
+      const description = document.getElementById('relicDesc').value.trim();
+      if (!name || !location || !description) return alert("Enter all relic details.");
+      const response = await fetch('world_relics.json');
+      const json = await response.json();
+      json.push({
+        name,
+        owner: null,
+        location,
+        description
+      });
+      updateJSON('world_relics.json', json);
     }
   </script>
 </body>
