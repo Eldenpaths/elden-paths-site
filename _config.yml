@@ -1,7 +1,0 @@
-title: Elden Paths
-description: A mythic RPG world shaped by player choices and Oregon terrain
-baseurl: "" # leave blank for root deployment
-url: ""      # set custom domain later if needed
-markdown: kramdown
-theme: minima
-exclude: [README.md, Gemfile, Gemfile.lock]
