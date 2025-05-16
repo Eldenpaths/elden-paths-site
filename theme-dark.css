@@ -1,0 +1,24 @@
+body {
+  background-color: #1a1a1a;
+  color: #e0e0d6;
+  font-family: "Georgia", serif;
+}
+
+.container {
+  background-color: #2b2b2b;
+  color: #f0f0f0;
+  box-shadow: 0 0 15px #00000099;
+}
+
+button {
+  background-color: #444;
+  color: #fff;
+}
+button:hover {
+  background-color: #666;
+}
+input, select, textarea {
+  background-color: #111;
+  color: #e0e0d6;
+  border: 1px solid #555;
+}
