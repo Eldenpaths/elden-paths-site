@@ -4,54 +4,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Enter Elden Paths™</title>
+  <title>Elden Paths™ Game Portal</title>
   <style>
     body {
       background: url('https://eldenpaths.com/assets/parchment-bg.jpg') repeat;
       font-family: 'Georgia', serif;
       color: #2e1f13;
       padding: 40px;
-      text-align: center;
+      margin: 0;
     }
     .panel {
-      background: rgba(255, 255, 240, 0.95);
+      background: rgba(255, 255, 240, 0.94);
       border: 2px solid #5c4328;
       border-radius: 12px;
-      padding: 40px;
-      max-width: 600px;
-      margin: 0 auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      padding: 30px;
+      max-width: 800px;
+      margin: 30px auto;
+      box-shadow: 0 0 12px rgba(0,0,0,0.3);
+      text-align: center;
     }
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
+    h1, h2 {
+      margin-bottom: 15px;
     }
-    p {
-      font-style: italic;
-      margin-bottom: 30px;
-    }
-    .enter-button {
-      font-size: 18px;
+    button, .link-button {
+      font-size: 16px;
       background-color: #6e4d2e;
       color: white;
-      padding: 14px 26px;
+      padding: 12px 24px;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       text-decoration: none;
       cursor: pointer;
+      margin-top: 10px;
     }
-    .enter-button:hover {
+    .link-button:hover {
       background-color: #503721;
+    }
+    .img-frame {
+      border: 2px solid #3b2b1c;
+      border-radius: 8px;
+      margin-top: 10px;
+      max-width: 90%;
+    }
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
     }
   </style>
 </head>
 <body>
+
   <div class="panel">
     <h1>Enter Elden Paths™</h1>
-    <p>Step into the wilds of mythic Oregon. Your journey echoes across a living world. Sketch your fate in ink, or let the world carve your name in stone.</p>
-    <a class="enter-button" href="https://chat.openai.com/g/g-681c69f892c8191a5223470fb8a08c6-elden-paths-world-engine" target="_blank">
+    <p>Begin your myth. A living world awaits, shaped by your story and your scars.</p>
+    <a class="link-button" href="https://chat.openai.com/g/g-681c69f892c8191a5223470fb8a08c6-elden-paths-world-engine" target="_blank">
       Join the Game
     </a>
   </div>
+
+  <div class="panel">
+    <h2>📜 Latest Character Sketch</h2>
+    <img class="img-frame" src="/assets/sketches/trailborn.png" alt="Latest character sketch"/>
+    <p><em>Trailborn, Warden of Whispering Pines</em></p>
+  </div>
+
+  <div class="panel">
+    <h2>📘 Codex of Known Players</h2>
+    <iframe src="/codex/index.html"></iframe>
+    <p><a class="link-button" href="/codex/index.html">Open Full Codex</a></p>
+  </div>
+
+  <div class="panel">
+    <h2>🪶 Journal of Echoes</h2>
+    <iframe src="/journal/index.html"></iframe>
+    <p><a class="link-button" href="/journal/index.html">View Journal</a></p>
+  </div>
+
+  <div class="panel">
+    <h2>🗺️ Map of the Realm</h2>
+    <p>Explore discovered tiles and their sketches.</p>
+    <a class="link-button" href="/maps/index.html">Open World Map</a>
+  </div>
+
 </body>
 </html>
