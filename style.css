@@ -30,4 +30,12 @@ footer {
   text-align: center;
   font-size: 0.9em;
   color: #666;
+.journal-entry {
+  background-color: #fdf6e3;
+  border: 1px solid #ccc;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-radius: 5px;
+  font-family: "Georgia", serif;
+}
 }
