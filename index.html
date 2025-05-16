@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elden Paths</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Elden Paths<sup>™</sup></h1>
+    <nav>
+      <a href="/">Core</a>
+      <a href="/trail/">Oregon Trail</a>
+      <a href="/kinder/">Kinder</a>
+      <a href="/paleo/">Paleo</a>
+      <a href="/homeless/">Homeless</a>
+    </nav>
+  </header>
+  <main>
+    <section id="map-panel">
+      <canvas id="map-canvas">Loading map...</canvas>
+    </section>
+    <section id="sketch-panel">
+      <img id="scene-sketch" src="assets/placeholder_sketch.png" alt="Current scene sketch" />
+    </section>
+    <section id="lore-panel">
+      <div id="lore-text">Click a tile to view lore...</div>
+    </section>
+  </main>
+  <footer>
+    <p>Crafted by Ryan Iverson | Powered by GPT & Trail Engine</p>
+  </footer>
+  <script src="scripts/map.js"></script>
+</body>
+</html>
