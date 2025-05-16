@@ -2,23 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ Map Viewer</title>
-  <style>
-    body {
-      background: #f9f6ee url('/assets/maps/oregon-parchment-map.png') center/cover no-repeat;
-      font-family: 'Georgia', serif;
-      color: #2e1f13;
-      margin: 0;
-      padding: 30px;
-    }
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elden Paths™ — World Map</title>
+  <link id="themeStylesheet" rel="stylesheet" href="style.css" />
+  <script defer src="theme-toggle.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div style="text-align:right; margin-bottom: 1em;">
+      <label for="themeSelect">🎨 Theme:</label>
+      <select id="themeSelect">
+        <option value="default">Parchment</option>
+        <option value="dark">Dark Mode</option>
+        <option value="frazetta">Frazetta Mode</option>
+        <option value="snow">Winter Fog</option>
+      </select>
+    </div>
 
-    h1 {
-      text-align: center;
-    }
+    <h1>🗺 Elden Paths Map Viewer</h1>
+    <p>View the known world. Zoom, pan, or select a tile to inspect.</p>
 
-    .map-container {
-      position: relative;
-      width: 800px;
-      height: 600px;
-      margin: 0 auto;
-      b
+    <div id="mapContainer">
+      <!-- Embed or draw map here -->
+      <img src="map.jpg" alt="World Map" style="max-width:100%; border:1px solid #ccc; border-radius:8px;">
+    </div>
+  </div>
+</body>
+</html>
+
