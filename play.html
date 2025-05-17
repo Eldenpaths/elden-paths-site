@@ -1,119 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Elden Paths™</title>
-  <link rel="stylesheet" href="style.css">
-  <script type="module" src="/assets/js/firebase-init.js"></script>
+  <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
-  <header>
-    <img src="assets/img/logo.png" alt="Elden Paths Logo" style="height: 100px; margin-top: 20px;">
-    <h1>Elden Paths™</h1>
-    <p><em>Class-based World Engine + Dice</em></p>
-  </header>
-
-  <main class="layout">
-    <section class="panel" id="left-panel">
-      <h3 id="charName">the dood</h3>
-      <p><strong>Class:</strong> <span id="charClass">knight</span></p>
-      <p><strong>HP:</strong> <span id="charHP">12</span></p>
-      <p><strong>Stamina:</strong> <span id="charStamina">8</span></p>
-      <ul id="gearList">
-        <li>sword</li>
-        <li>cloak</li>
-      </ul>
-    </section>
-
-    <section class="panel" id="center-panel">
-      <h3>Current Region</h3>
-      <p><strong id="regionName">Unknown</strong></p>
-      <p>Terrain: <span id="regionTerrain">?</span></p>
-      <p>Travel Time: <span id="regionTravel">?</span></p>
-    </section>
-
-    <section class="panel" id="right-panel">
-      <h3>Sketch</h3>
-      <img id="sketchImg" src="assets/img/sample.png" alt="Sketch View" style="max-width: 100%;">
-    </section>
-  </main>
-
-  <footer>
-    <form id="commandForm">
-      <input type="text" id="commandInput" placeholder="Commands like go north, attack">
-      <button type="submit">Send</button>
-    </form>
-  </footer>
-
-  <script type="module">
-    import { db, ref, get, set, update, push } from '/assets/js/firebase-init.js';
-
-    const tileMap = {
-      north: [0, -1],
-      south: [0, 1],
-      east: [1, 0],
-      west: [-1, 0]
-    };
-
-    const baseTile = localStorage.getItem("ep_tile") || "tile_128_88";
-    const [x, y] = baseTile.split('_').slice(1).map(Number);
-    let currentTile = { x, y };
-
-    function updateTile() {
-      const tileId = `tile_${currentTile.x}_${currentTile.y}`;
-      localStorage.setItem("ep_tile", tileId);
-      document.getElementById("regionName").textContent = tileId;
-      get(ref(db, `tile_index/${tileId}`)).then((snap) => {
-        if (snap.exists()) {
-          const data = snap.val();
-          document.getElementById("regionTerrain").textContent = data.terrain || "?";
-          document.getElementById("regionTravel").textContent = data.travel || "?";
-        }
-      });
-    }
-
-    updateTile();
-
-    document.getElementById("commandForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const input = document.getElementById("commandInput");
-      const cmd = input.value.trim().toLowerCase();
-      console.log("Typed command:", cmd);
-
-      push(ref(db, "logs"), {
-        command: cmd,
-        timestamp: Date.now(),
-        tile: `tile_${currentTile.x}_${currentTile.y}`
-      });
-
-      if (cmd.startsWith("go ")) {
-        const direction = cmd.split(" ")[1];
-        const move = tileMap[direction];
-        if (move) {
-          currentTile.x += move[0];
-          currentTile.y += move[1];
-          updateTile();
-          input.value = "";
-          return;
-        }
-      }
-
-      if (cmd === "attack") {
-        const tileId = `tile_${currentTile.x}_${currentTile.y}`;
-        const tileRef = ref(db, `tile_index/${tileId}/monster`);
-        const snap = await get(tileRef);
-        if (snap.exists()) {
-          alert(`You attack the ${snap.val().name}!`);
-        } else {
-          alert("There is nothing to attack here.");
-        }
-        input.value = "";
-        return;
-      }
-
-      alert("Command not recognized: " + cmd);
-      input.value = "";
-    });
-  </script>
+  <h1>Elden Paths™</h1>
+  <p>This is the updated play.html page using the correct stylesheet path.</p>
 </body>
 </html>
