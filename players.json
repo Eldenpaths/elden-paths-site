@@ -1,7 +1,17 @@
 {
-  "Trailborn": {
-    "tile": "0_0",
-    "last_seen": "2025-05-16T20:00:00Z",
-    "notes": "Started game near Gravesport"
+  "test_player": {
+    "name": "test_player",
+    "tile": "tile_130_90",
+    "inventory": [
+      "cloak",
+      "flint",
+      "binding_scroll"
+    ],
+    "discovered": [
+      "tile_130_90"
+    ],
+    "hp": 10,
+    "stamina": 8,
+    "last_action": "joined"
   }
 }
