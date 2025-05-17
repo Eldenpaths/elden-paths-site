@@ -1,55 +1,37 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Elden Paths™</title>
-  <link rel="stylesheet" href="theme-toggle.js">
+  <link id="themeStylesheet" rel="stylesheet" href="theme-frazetta.css" />
   <script src="theme-toggle.js" defer></script>
-  <link id="theme-stylesheet" rel="stylesheet" href="theme-frazetta.css">
+  <script src="play.js" defer></script>
 </head>
-<body>
+<body class="frazetta">
   <header>
     <img src="assets/img/logo.png" alt="Elden Paths Logo" />
     <h1>Elden Paths™</h1>
-    <small>Class-based World Engine + Dice</small>
-    <div style="position:absolute; right:10px; top:10px;">
-      Theme:
-      <select id="theme-select" onchange="changeTheme(this.value)">
-        <option value="theme-parchment.css" selected>Parchment</option>
-        <option value="theme-frazetta.css">Frazetta</option>
-        <option value="theme-dark.css">Dark</option>
-        <option value="theme-snow.css">Snow</option>
-      </select>
-    </div>
+    <p>Class-based World Engine + Dice</p>
+    <label for="themeSelector">Theme:</label>
+    <select id="themeSelector">
+      <option value="parchment" selected>Parchment</option>
+      <option value="frazetta">Frazetta</option>
+      <option value="dark">Dark</option>
+      <option value="snow">Snow</option>
+    </select>
   </header>
-  <main>
-    <section id="player">
-      <h2>the dood</h2>
-      <p><strong>Class:</strong> knight</p>
-      <p><strong>HP:</strong> 12</p>
-      <p><strong>Stamina:</strong> 8</p>
-      <ul>
-        <li>sword</li>
-        <li>cloak</li>
-      </ul>
-    </section>
-    <section id="region">
-      <h2>Current Region</h2>
-      <p><strong>Unknown</strong></p>
-      <p>Terrain: ?</p>
-      <p>Travel Time: ?</p>
-    </section>
-    <section id="sketch">
-      <h2>Sketch</h2>
-      <img src="" alt="Sketch View" id="sketch-img"/>
-      <div id="sketch-caption">Awaiting command...</div>
+  <main class="three-panel">
+    <section id="playerInfo" class="panel">Loading...</section>
+    <section id="regionInfo" class="panel">Loading...</section>
+    <section id="sketchView" class="panel">
+      <img id="sketchImage" src="assets/img/sketch_placeholder.png" alt="Sketch View" />
+      <div id="sketchNote">Awaiting command…</div>
     </section>
   </main>
   <footer>
-    <input type="text" id="command" placeholder="Commands like go north, attack">
+    <input type="text" id="commandInput" placeholder="Commands like go north, attack" />
     <button onclick="submitCommand()">Send</button>
   </footer>
-  <script src="sketch-map.js"></script>
 </body>
 </html>

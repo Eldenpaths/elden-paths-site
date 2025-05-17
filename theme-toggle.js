@@ -1,22 +1,20 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const selector = document.getElementById("themeSelect");
-  const link = document.getElementById("themeStylesheet");
+const themeMap = {
+  parchment: "theme-parchment.css",
+  frazetta: "theme-frazetta.css",
+  dark: "theme-dark.css",
+  snow: "theme-snow.css"
+};
 
-  const stored = localStorage.getItem("eldenTheme") || "default";
-  selector.value = stored;
+const themeSelector = document.getElementById("themeSelector");
+const stylesheetLink = document.getElementById("themeStylesheet");
 
-  const applyTheme = (theme) => {
-    if (theme === "default") {
-      link.href = "style.css";
-    } else {
-      link.href = `theme-${theme}.css`;
-    }
-    localStorage.setItem("eldenTheme", theme);
-  };
+themeSelector.addEventListener("change", () => {
+  const selected = themeSelector.value;
+  stylesheetLink.href = themeMap[selected] || "theme-parchment.css";
+});
 
-  selector.addEventListener("change", () => {
-    applyTheme(selector.value);
-  });
-
-  applyTheme(stored);
+window.addEventListener("DOMContentLoaded", () => {
+  const defaultTheme = "parchment";
+  themeSelector.value = defaultTheme;
+  stylesheetLink.href = themeMap[defaultTheme];
 });
