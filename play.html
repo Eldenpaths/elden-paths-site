@@ -112,8 +112,10 @@
         const data = await res.json();
 
         const isIncomplete =
-          !data.name || !data.stats || !data.stats.STR ||
-          !data.race || !data.class;
+          !data.name ||
+          !data.race || data.race === 'undefined' ||
+          !data.class || data.class === 'undefined' ||
+          !data.stats || typeof data.stats.STR !== 'number';
 
         if (isIncomplete) {
           await character_creation();
