@@ -21,11 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const observer = new MutationObserver(() => {
     const prompt = window.generatedSketchPrompt;
     if (prompt) {
-      const image = getSketchImage(prompt); // Placeholder now, upgrade later
-      const newEntry = { prompt, image };
-      log.unshift(newEntry);
-      localStorage.setItem("sketchLog", JSON.stringify(log));
-      addSketch(prompt, image);
+      generateImage(prompt).then(image => {
+        const newEntry = { prompt, image };
+        log.unshift(newEntry);
+        localStorage.setItem("sketchLog", JSON.stringify(log));
+        addSketch(prompt, image);
+      });
       window.generatedSketchPrompt = null;
     }
   });
@@ -38,9 +39,18 @@ document.addEventListener("DOMContentLoaded", () => {
     list.prepend(li);
   }
 
-  // 🛠 Replace this later with real sketch API
-  function getSketchImage(prompt) {
-    const seed = encodeURIComponent(prompt).slice(0, 16);
-    return `https://placehold.co/400x200?text=${seed}`;
+  async function generateImage(prompt) {
+    try {
+      const response = await fetch("http://localhost:3001/generate-sketch", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+      const data = await response.json();
+      return data.url || `https://placehold.co/400x200?text=Sketch+Error`;
+    } catch (err) {
+      console.error("Image generation error:", err);
+      return `https://placehold.co/400x200?text=Sketch+Failed`;
+    }
   }
 });
