@@ -3,7 +3,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™ — Save & Load</title>
+  <title>Elden Paths™ — Cloud Connected</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
   <script src="sketch_map.js"></script>
   <style>
     body {
@@ -53,9 +55,6 @@
       cursor: pointer;
       margin: 4px;
     }
-    .console input[type="file"] {
-      margin-left: 10px;
-    }
     .sketch {
       grid-area: sketch;
       padding: 20px;
@@ -88,132 +87,6 @@
       padding-left: 0;
     }
   </style>
-  <script>
-    const playerName = "test_player";
-    let tileIndex = {};
-    let players = {};
-    let playerTileId = "";
-
-    function speak(text) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.pitch = 1;
-      utterance.rate = 1;
-      speechSynthesis.speak(utterance);
-    }
-
-    async function loadState() {
-      const [tileData, playerData] = await Promise.all([
-        fetch('tile_index.json').then(res => res.json()),
-        fetch('players.json').then(res => res.json())
-      ]);
-
-      tileIndex = tileData;
-      players = playerData;
-
-      playerTileId = players[playerName].tile;
-      updateDisplay(playerTileId);
-      updateStats();
-    }
-
-    function updateDisplay(tileId) {
-      const tile = tileIndex[tileId];
-      const log = document.getElementById("log");
-      const sketch = document.getElementById("sketch-img");
-
-      log.innerHTML = `
-        <strong>${tile.name}</strong><br>
-        Terrain: ${tile.terrain}<br>
-        Travel Time: ${tile.travel_minutes} minutes<br>
-      `;
-
-      const sketchPath = (typeof sketchArtByTerrain !== 'undefined' && sketchArtByTerrain[tile.terrain])
-        ? sketchArtByTerrain[tile.terrain]
-        : "assets/sketches/sample.png";
-
-      sketch.src = sketchPath;
-      speak(`You have entered ${tile.name}, a ${tile.terrain} terrain.`);
-    }
-
-    function updateStats() {
-      const stats = players[playerName];
-      const gearList = stats.inventory.map(item => `<li>• ${item}</li>`).join("");
-      document.getElementById("statsBox").innerHTML = `
-        <h2>Your Status</h2>
-        <p><strong>HP:</strong> ${stats.hp}</p>
-        <p><strong>Stamina:</strong> ${stats.stamina}</p>
-        <h3>Inventory</h3>
-        <ul>${gearList}</ul>
-      `;
-    }
-
-    function handleCommand() {
-      const input = document.getElementById("command").value.trim().toLowerCase();
-      document.getElementById("command").value = "";
-
-      if (input.startsWith("go ")) {
-        const direction = input.split(" ")[1];
-        const [_, xStr, yStr] = playerTileId.split("_");
-        let x = parseInt(xStr);
-        let y = parseInt(yStr);
-
-        switch (direction) {
-          case "north": y -= 1; break;
-          case "south": y += 1; break;
-          case "east": x += 1; break;
-          case "west": x -= 1; break;
-          default:
-            speak("Unknown direction. Try north, south, east, or west.");
-            return;
-        }
-
-        const nextTileId = `tile_${x}_${y}`;
-        if (tileIndex[nextTileId]) {
-          playerTileId = nextTileId;
-          players[playerName].tile = nextTileId;
-          players[playerName].discovered.push(nextTileId);
-          tileIndex[nextTileId].fog = false;
-          updateDisplay(nextTileId);
-        } else {
-          speak("You cannot go that way.");
-        }
-      } else {
-        speak("Unknown command. Try 'go north', 'go south', etc.");
-      }
-    }
-
-    function savePlayer() {
-      const data = JSON.stringify(players[playerName], null, 2);
-      const blob = new Blob([data], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${playerName}_save.json`;
-      link.click();
-      URL.revokeObjectURL(url);
-    }
-
-    function loadPlayerFile(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const loadedData = JSON.parse(e.target.result);
-          players[playerName] = loadedData;
-          playerTileId = loadedData.tile;
-          updateDisplay(playerTileId);
-          updateStats();
-          speak("Player data loaded.");
-        } catch {
-          alert("Failed to load save file.");
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    window.onload = loadState;
-  </script>
 </head>
 <body>
   <div class="container">
@@ -230,8 +103,6 @@
     <div class="console">
       <input type="text" id="command" placeholder="Command (e.g. go north)" onkeydown="if(event.key==='Enter') handleCommand()" />
       <button onclick="handleCommand()">Send</button>
-      <button onclick="savePlayer()">💾 Save Progress</button>
-      <input type="file" onchange="loadPlayerFile(event)" />
     </div>
     <div class="sketch">
       <h2>Sketch</h2>
@@ -239,5 +110,109 @@
       <div class="log" id="log-text">Awaiting command...</div>
     </div>
   </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAiZZyiy8Y38uJU1z1lVGnXU14vqKxbg6s",
+      authDomain: "elden-paths.firebaseapp.com",
+      databaseURL: "https://elden-paths-default-rtdb.firebaseio.com",
+      projectId: "elden-paths",
+      storageBucket: "elden-paths.appspot.com",
+      messagingSenderId: "514433622971",
+      appId: "1:514433622971:web:b9103716c78acf6c7c01a9"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const playerName = "test_player";
+    let playerData = {};
+    let tileIndex = {};
+    let playerTileId = "";
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      speechSynthesis.speak(utterance);
+    }
+
+    async function loadData() {
+      const [tileSnap, playerSnap] = await Promise.all([
+        db.ref("tile_index").get(),
+        db.ref("players/" + playerName).get()
+      ]);
+
+      tileIndex = tileSnap.val() || {};
+      playerData = playerSnap.val() || {};
+      playerTileId = playerData.tile || "tile_0_0";
+      updateDisplay(playerTileId);
+      updateStats();
+    }
+
+    function updateStats() {
+      const gearList = (playerData.inventory || []).map(item => `<li>• ${item}</li>`).join("");
+      document.getElementById("statsBox").innerHTML = `
+        <h2>Your Status</h2>
+        <p><strong>HP:</strong> ${playerData.hp}</p>
+        <p><strong>Stamina:</strong> ${playerData.stamina}</p>
+        <h3>Inventory</h3>
+        <ul>${gearList}</ul>
+      `;
+    }
+
+    function updateDisplay(tileId) {
+      const tile = tileIndex[tileId] || { name: "Unknown", terrain: "unknown", travel_minutes: "?" };
+      const log = document.getElementById("log");
+      const sketch = document.getElementById("sketch-img");
+
+      log.innerHTML = `
+        <strong>${tile.name}</strong><br>
+        Terrain: ${tile.terrain}<br>
+        Travel Time: ${tile.travel_minutes} minutes<br>
+      `;
+
+      const sketchPath = sketchArtByTerrain[tile.terrain] || "assets/sketches/sample.png";
+      sketch.src = sketchPath;
+      speak(`You have entered ${tile.name}, a ${tile.terrain} terrain.`);
+    }
+
+    async function handleCommand() {
+      const input = document.getElementById("command").value.trim().toLowerCase();
+      document.getElementById("command").value = "";
+
+      if (!input.startsWith("go ")) {
+        speak("Unknown command.");
+        return;
+      }
+
+      const dir = input.split(" ")[1];
+      const [_, xStr, yStr] = playerTileId.split("_");
+      let x = parseInt(xStr), y = parseInt(yStr);
+      if (dir === "north") y--;
+      else if (dir === "south") y++;
+      else if (dir === "east") x++;
+      else if (dir === "west") x--;
+      else return speak("Invalid direction");
+
+      const nextTileId = `tile_${x}_${y}`;
+      if (!tileIndex[nextTileId]) {
+        speak("You can't go that way.");
+        return;
+      }
+
+      // update fog
+      tileIndex[nextTileId].fog = false;
+      playerTileId = nextTileId;
+      playerData.tile = nextTileId;
+      playerData.discovered = Array.from(new Set([...(playerData.discovered || []), nextTileId]));
+
+      await db.ref("tile_index/" + nextTileId + "/fog").set(false);
+      await db.ref("players/" + playerName).set(playerData);
+
+      updateDisplay(nextTileId);
+      updateStats();
+    }
+
+    window.onload = loadData;
+  </script>
 </body>
 </html>
