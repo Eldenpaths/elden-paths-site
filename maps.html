@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Elden Paths Map Viewer</title>
+  <style>
+    body {
+      font-family: 'Garamond', serif;
+      background-color: #f8f5e1;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    #map {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .tile {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      text-align: center;
+      border: 1px solid #bbb;
+      background-color: #ddd;
+      transition: background 0.3s ease;
+    }
+    .tile.player {
+      background-color: #bada55;
+      font-weight: bold;
+    }
+    .tile.fog {
+      background-color: #222;
+      color: transparent;
+    }
+  </style>
+</head>
+<body>
+  <h1>Elden Paths — Region View</h1>
+  <div id="map">Loading map...</div>
+
+  <script>
+    const playerName = "test_player";
+    let tileIndex = {};
+    let players = {};
+
+    async function loadMap() {
+      const [tileData, playerData] = await Promise.all([
+        fetch('tile_index.json').then(res => res.json()),
+        fetch('players.json').then(res => res.json())
+      ]);
+
+      tileIndex = tileData;
+      players = playerData;
+
+      const playerTile = players[playerName].tile;
+      const [px, py] = playerTile.split('_').slice(1).map(Number);
+
+      const visibleTiles = [];
+
+      for (let y = py - 3; y <= py + 3; y++) {
+        for (let x = px - 3; x <= px + 3; x++) {
+          const key = `tile_${x}_${y}`;
+          if (tileIndex[key]) visibleTiles.push({ ...tileIndex[key], id: key, x, y });
+        }
+      }
+
+      const mapContainer = document.getElementById("map");
+      mapContainer.innerHTML = "";
+
+      visibleTiles.forEach(tile => {
+        const div = document.createElement("div");
+        div.className = "tile";
+        if (tile.id === playerTile) div.classList.add("player");
+        if (tile.fog) div.classList.add("fog");
+        div.title = `${tile.name}\n${tile.terrain} (${tile.travel_minutes} min)`;
+        div.innerText = tile.name.split(" ")[0];
+        mapContainer.appendChild(div);
+      });
+    }
+
+    loadMap();
+  </script>
+</body>
+</html>
