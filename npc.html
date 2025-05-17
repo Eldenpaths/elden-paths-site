@@ -2,54 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Elden Paths™ — NPC Portraits</title>
-  <link id="themeStylesheet" rel="stylesheet" href="style.css" />
-  <script defer src="theme-toggle.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPC Viewer</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
-  <div class="container">
-    <div style="text-align:right; margin-bottom: 1em;">
-      <label for="themeSelect">🎨 Theme:</label>
-      <select id="themeSelect">
-        <option value="default">Parchment</option>
-        <option value="dark">Dark Mode</option>
-        <option value="frazetta">Frazetta Mode</option>
-        <option value="snow">Winter Fog</option>
-        <option value="fog">Fog</option>
-        <option value="rain">Rain</option>
-        <option value="heat">Heat</option>
-        <option value="glow">Glow</option>
-      </select>
-    </div>
-
-    <h1>📜 NPC Portrait Codex</h1>
-    <p>All characters you've met are recorded here.</p>
-
-    <div id="npcGallery" style="display: grid; gap: 1em; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 2em;"></div>
-  </div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const npcGallery = document.getElementById("npcGallery");
-      const npcData = JSON.parse(localStorage.getItem("npcPortraits") || "{}");
-
-      Object.entries(npcData).forEach(([name, entry]) => {
-        const card = document.createElement("div");
-        card.style.border = "1px solid #ccc";
-        card.style.borderRadius = "8px";
-        card.style.padding = "1em";
-        card.style.background = "white";
-
-        card.innerHTML = `
-          <strong>${name}</strong><br/>
-          <img src="${entry.image}" alt="${name}" style="width:100%; border-radius: 4px; margin: 0.5em 0;" />
-          <details><summary>Prompt</summary><p style="font-size: 0.9em;">${entry.prompt}</p></details>
-        `;
-
-        npcGallery.appendChild(card);
-      });
-    });
-  </script>
+  <h1>NPC Viewer</h1>
+  <p>This is the updated npc.html page using the correct stylesheet path.</p>
 </body>
 </html>
