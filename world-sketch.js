@@ -2,6 +2,7 @@ window.generateWorldSketch = async function(type, name, options = {}) {
   const region = window.regionName || "Unknown";
   const weather = window.sketchWeatherTag || "clear";
   const details = options.details || "";
+  const player = window.currentPlayerName || "Player";
   const seed = `${type}-${name}`.toLowerCase().replace(/\s+/g, "-");
 
   const prompt = {
@@ -20,12 +21,19 @@ window.generateWorldSketch = async function(type, name, options = {}) {
   const data = await response.json();
   const image = data.url || `https://placehold.co/400x200?text=Sketch+Error`;
 
-  // Log it (optional — hook this into tile system or codex)
+  const newEntry = {
+    type,
+    name,
+    prompt,
+    image,
+    createdAt: new Date().toISOString(),
+    createdBy: player
+  };
+
   const sketchLog = JSON.parse(localStorage.getItem("worldSketches") || "{}");
-  sketchLog[seed] = { type, name, prompt, image };
+  sketchLog[seed] = newEntry;
   localStorage.setItem("worldSketches", JSON.stringify(sketchLog));
 
-  // Display if in play mode
   const log = document.getElementById("gameLog");
   if (log) {
     const div = document.createElement("div");
