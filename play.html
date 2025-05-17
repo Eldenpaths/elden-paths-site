@@ -1,13 +1,63 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Elden Paths™</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
+    <meta charset="UTF-8">
+    <title>Elden Paths™</title>
+    <link id="themeStylesheet" rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-  <h1>Elden Paths™</h1>
-  <p>This is the updated play.html page using the correct stylesheet path.</p>
+    <header>
+        <img src="assets/img/logo.png" alt="Elden Paths Logo" height="60">
+        <h1>Elden Paths™</h1>
+        <p><em>Class-based World Engine + Dice</em></p>
+        <label style="float:right">
+            Theme:
+            <select id="themeToggle" onchange="changeTheme(this.value)">
+                <option value="style.css" selected>Parchment</option>
+                <option value="theme-dark.css">Dark</option>
+                <option value="theme-frazetta.css">Frazetta</option>
+                <option value="theme-snow.css">Snow</option>
+            </select>
+        </label>
+    </header>
+    <main>
+        <div class="left-column">
+            <h3 id="playerName">the dood</h3>
+            <p><strong>Class:</strong> knight</p>
+            <p><strong>HP:</strong> 12</p>
+            <p><strong>Stamina:</strong> 8</p>
+            <ul>
+                <li>sword</li>
+                <li>cloak</li>
+            </ul>
+        </div>
+        <div class="center-column">
+            <h3>Current Region</h3>
+            <p><strong id="regionName">Unknown</strong></p>
+            <p>Terrain: <span id="regionTerrain">?</span></p>
+            <p>Travel Time: <span id="regionTime">?</span></p>
+        </div>
+        <div class="right-column">
+            <h3>Sketch</h3>
+            <img src="assets/img/sketch.png" alt="Sketch View" style="width:100%">
+        </div>
+    </main>
+    <footer>
+        <input type="text" id="commandInput" placeholder="Commands like go north, attack" />
+        <button onclick="submitCommand()">Send</button>
+    </footer>
+
+    <script>
+        function changeTheme(themeFile) {
+            document.getElementById('themeStylesheet').href = 'assets/css/' + themeFile;
+        }
+
+        function submitCommand() {
+            const command = document.getElementById('commandInput').value;
+            console.log("Command entered:", command);
+            // Add command handling logic or fetch call
+        }
+    </script>
 </body>
 </html>
