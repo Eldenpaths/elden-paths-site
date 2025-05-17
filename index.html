@@ -16,6 +16,11 @@
     .logo {
       height: 100px;
       margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeIn 2s ease-in forwards;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
     }
     h1 {
       font-size: 3em;
@@ -37,11 +42,26 @@
       text-decoration: none;
       color: #3e2d1c;
       font-weight: bold;
+      transition: all 0.3s ease;
     }
     .button:hover {
       background-color: #e6d1a4;
+      transform: scale(1.05);
+      box-shadow: 0 0 6px #b89464;
+    }
+    #admin {
+      display: none;
     }
   </style>
+  <script>
+    // Reveal admin if ?admin=true in URL
+    window.onload = function () {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("admin") === "true") {
+        document.getElementById("admin").style.display = "inline-block";
+      }
+    };
+  </script>
 </head>
 <body>
   <img src="assets/img/logo.png" alt="Elden Paths Logo" class="logo" />
@@ -50,6 +70,6 @@
 
   <a href="play.html" class="button">Begin Journey</a>
   <a href="codex/index.html" class="button">View Codex</a>
-  <a href="admin.html" class="button">Admin Panel</a>
+  <a href="admin.html" class="button" id="admin">Admin Panel</a>
 </body>
 </html>
