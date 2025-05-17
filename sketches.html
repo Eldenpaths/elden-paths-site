@@ -14,16 +14,25 @@
     h1 {
       text-align: center;
     }
-    button {
-      display: block;
-      margin: 1rem auto 2rem;
-      padding: 0.6rem 1.2rem;
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    button, select {
+      padding: 0.6rem 1rem;
       font-size: 1rem;
+      border-radius: 8px;
+      border: none;
       background: #333;
       color: white;
-      border: none;
-      border-radius: 8px;
       cursor: pointer;
+    }
+    select {
+      background: #555;
     }
     .gallery {
       display: grid;
@@ -52,39 +61,59 @@
   </style>
 </head>
 <body>
+
   <h1>Player & Scene Sketches</h1>
-  <button onclick="downloadPDF()">📄 Download Sketches as PDF</button>
+
+  <div class="controls">
+    <label for="gameFilter">Filter by Game:</label>
+    <select id="gameFilter" onchange="filterCards()">
+      <option value="all">All</option>
+      <option value="elden">Elden Paths™</option>
+      <option value="homeless">Homeless™</option>
+      <option value="kinder">Elden Kinder™</option>
+    </select>
+
+    <button onclick="downloadPDF()">📄 Download as PDF</button>
+  </div>
 
   <div class="gallery">
-
-    <!-- Sample Sketch Cards - Replace with real paths -->
-    <div class="card">
+    <!-- Example Cards -->
+    <div class="card" data-game="elden">
       <img src="/assets/players/Callan/portrait.png" alt="Callan">
       <div class="info">Callan | Elden Paths™<br>📍 Watcher’s Crown</div>
     </div>
-    <div class="card">
+    <div class="card" data-game="elden">
       <img src="/assets/players/Chonce/portrait.png" alt="Chonce">
-      <div class="info">Chonce | Elden Paths™<br>📍 Ruins</div>
+      <div class="info">Chonce | Elden Paths™<br>📍 Cragspire Ruins</div>
     </div>
-    <div class="card">
+    <div class="card" data-game="homeless">
       <img src="/assets/sketches/homeless/ringo_riverlot.png" alt="Ringo">
       <div class="info">Ringo | Homeless™<br>📍 Eugene River Lot</div>
     </div>
-    <div class="card">
+    <div class="card" data-game="kinder">
       <img src="/assets/sketches/kinder/roslin_foxden.png" alt="Roslin">
       <div class="info">Roslin | Elden Kinder™<br>📍 Sunpatch Edge</div>
     </div>
-
   </div>
 
-  <!-- PDF Export Scripts -->
+  <!-- Scripts -->
   <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script>
+    function filterCards() {
+      const selected = document.getElementById("gameFilter").value;
+      const cards = document.querySelectorAll(".card");
+
+      cards.forEach(card => {
+        const game = card.getAttribute("data-game");
+        card.style.display = (selected === "all" || game === selected) ? "block" : "none";
+      });
+    }
+
     async function downloadPDF() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
-      const cards = document.querySelectorAll('.card');
+      const cards = document.querySelectorAll(".card");
 
       for (let i = 0; i < cards.length; i++) {
         const canvas = await html2canvas(cards[i]);
@@ -99,5 +128,7 @@
       doc.save('eldenpaths_sketches.pdf');
     }
   </script>
+
 </body>
 </html>
+
