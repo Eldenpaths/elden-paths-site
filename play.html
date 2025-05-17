@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™ — Structures Enabled</title>
+  <title>Elden Paths™ — Core World Engine</title>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
   <script src="sketch_map.js"></script>
@@ -105,7 +105,7 @@
     <header>
       <img src="assets/img/logo.png" alt="Elden Paths Logo" style="height:80px;">
       <h1>Elden Paths™</h1>
-      <p><em>Structures. Persistence. Shared world memory.</em></p>
+      <p><em>Core World Engine: Explore, build, battle, remember.</em></p>
     </header>
     <div class="stats" id="statsBox">Loading stats...</div>
     <div class="map">
@@ -113,7 +113,7 @@
       <p id="log">Loading...</p>
     </div>
     <div class="console">
-      <input type="text" id="command" placeholder="go north / build camp" onkeydown="if(event.key==='Enter') handleCommand()" />
+      <input type="text" id="command" placeholder="go north / build camp / attack / note ..." onkeydown="if(event.key==='Enter') handleCommand()" />
       <button onclick="handleCommand()">Send</button>
     </div>
     <div class="sketch">
@@ -136,10 +136,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    let playerName = "";
-    let playerData = {};
-    let tileIndex = {};
-    let playerTileId = "";
+    let playerName = "", playerData = {}, tileIndex = {}, playerTileId = "";
 
     function speak(text) {
       const utterance = new SpeechSynthesisUtterance(text);
@@ -163,7 +160,8 @@
         inventory: ["cloak", "flint"],
         hp: 10,
         stamina: 10,
-        discovered: ["tile_130_90"]
+        discovered: ["tile_130_90"],
+        trail: []
       };
 
       playerTileId = playerData.tile;
@@ -182,16 +180,23 @@
       `;
     }
 
-    function updateDisplay(tileId) {
+    async function updateDisplay(tileId) {
       const tile = tileIndex[tileId] || { name: "Unknown", terrain: "unknown", travel_minutes: "?" };
       const sketchPath = sketchArtByTerrain[tile.terrain] || "assets/sketches/sample.png";
       const structure = tile.structure ? `<br><strong>Structure:</strong> ${tile.structure.type} (by ${tile.structure.owner})` : "";
+      const notes = tile.notes && tile.notes[playerName] ? `<br><em>Your note:</em> "${tile.notes[playerName]}"` : "";
       document.getElementById("log").innerHTML = `
         <strong>${tile.name}</strong><br>
         Terrain: ${tile.terrain}<br>
-        Travel Time: ${tile.travel_minutes} minutes${structure}
+        Travel Time: ${tile.travel_minutes} minutes${structure}${notes}
       `;
       document.getElementById("sketch-img").src = sketchPath;
+
+      // Apply effects
+      if (tile.structure && tile.structure.type === "camp") playerData.hp = Math.min(playerData.hp + 2, 10);
+      if (tile.structure && tile.structure.type === "shrine") playerData.stamina = Math.min(playerData.stamina + 1, 10);
+
+      await db.ref("players/" + playerName).set(playerData);
       speak(`You have entered ${tile.name}, a ${tile.terrain} terrain.`);
     }
 
@@ -199,6 +204,7 @@
       const input = document.getElementById("command").value.trim().toLowerCase();
       document.getElementById("command").value = "";
 
+      if (!input) return;
       if (input.startsWith("go ")) {
         const dir = input.split(" ")[1];
         let [_, xStr, yStr] = playerTileId.split("_");
@@ -208,16 +214,12 @@
         else if (dir === "east") x++;
         else if (dir === "west") x--;
         else return speak("Invalid direction.");
-
         const nextTileId = `tile_${x}_${y}`;
         if (!tileIndex[nextTileId]) return speak("You can't go that way.");
-
         playerTileId = nextTileId;
         playerData.tile = nextTileId;
-        if (!playerData.discovered.includes(nextTileId)) {
-          playerData.discovered.push(nextTileId);
-        }
-
+        if (!playerData.discovered.includes(nextTileId)) playerData.discovered.push(nextTileId);
+        if (!playerData.trail.includes(nextTileId)) playerData.trail.push(nextTileId);
         await db.ref("players/" + playerName).set(playerData);
         updateDisplay(nextTileId);
         updateStats();
@@ -225,16 +227,39 @@
       }
 
       if (input.startsWith("build ")) {
-        const structureType = input.split(" ")[1];
-        const structureData = {
-          type: structureType,
-          owner: playerName,
-          built_at: new Date().toISOString()
-        };
-        await db.ref("tile_index/" + playerTileId + "/structure").set(structureData);
-        tileIndex[playerTileId].structure = structureData;
-        speak(`You built a ${structureType}.`);
+        const type = input.split(" ")[1];
+        const structure = { type, owner: playerName, built_at: new Date().toISOString() };
+        await db.ref("tile_index/" + playerTileId + "/structure").set(structure);
+        tileIndex[playerTileId].structure = structure;
+        speak(`You built a ${type}.`);
         updateDisplay(playerTileId);
+        return;
+      }
+
+      if (input.startsWith("note ")) {
+        const message = input.slice(5).trim();
+        await db.ref(`tile_index/${playerTileId}/notes/${playerName}`).set(message);
+        speak("Note saved.");
+        updateDisplay(playerTileId);
+        return;
+      }
+
+      if (input === "attack") {
+        const roll = Math.floor(Math.random() * 20) + 1 + 2;
+        const result = roll >= 12 ? "You hit the creature!" : "You missed!";
+        if (roll < 12) playerData.hp -= 2;
+        speak(`${result}`);
+        updateStats();
+        await db.ref("players/" + playerName).set(playerData);
+        return;
+      }
+
+      if (input.startsWith("loot ")) {
+        const item = input.split(" ")[1];
+        if (!playerData.inventory.includes(item)) playerData.inventory.push(item);
+        speak(`You looted a ${item}.`);
+        updateStats();
+        await db.ref("players/" + playerName).set(playerData);
         return;
       }
 
