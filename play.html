@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Elden Paths™ — Player Console</title>
+  <script src="sketch_map.js"></script>
   <style>
     body {
       font-family: 'Garamond', serif;
@@ -121,7 +122,11 @@
         Travel Time: ${tile.travel_minutes} minutes<br>
       `;
 
-      sketch.src = "assets/sketches/sample.png";
+      const sketchPath = (typeof sketchArtByTerrain !== 'undefined' && sketchArtByTerrain[tile.terrain])
+        ? sketchArtByTerrain[tile.terrain]
+        : "assets/sketches/sample.png";
+
+      sketch.src = sketchPath;
       speak(`You have entered ${tile.name}, a ${tile.terrain} terrain.`);
     }
 
