@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,9 +44,9 @@
       const charClass = prompt("Choose your class (Warden, Seer, Fighter):");
       const gearMode = confirm("OK = Auto-start gear, Cancel = Shop");
 
-      player.name = name;
-      player.race = race;
-      player.class = charClass;
+      player.name = name || '';
+      player.race = race || '';
+      player.class = charClass || '';
       player.stats = generateStats();
       player.appearance_id = `${name.toLowerCase()}-v1-final`;
       player.last_seen = new Date().toISOString();
@@ -55,6 +54,8 @@
       player.level = 1;
       player.xp = 0;
       player.conditions = [];
+      player.tile = 'A1';
+      player.fog = ['A1'];
 
       if (gearMode) {
         player.gear.equipped = ["Starter Weapon"];
@@ -109,8 +110,17 @@
         await character_creation();
       } else {
         const data = await res.json();
-        player = { name, ...data };
-        render();
+
+        const isIncomplete =
+          !data.name || !data.stats || !data.stats.STR ||
+          !data.race || !data.class;
+
+        if (isIncomplete) {
+          await character_creation();
+        } else {
+          player = { name, ...data };
+          render();
+        }
       }
     }
 
