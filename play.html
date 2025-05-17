@@ -3,13 +3,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™</title>
+  <title>Elden Paths™ — Player View</title>
   <style>
     body {
-      margin: 0;
       font-family: 'Garamond', serif;
       background-image: url('assets/img/parchment-bg.jpg');
       background-size: cover;
+      margin: 0;
+      padding: 20px;
       color: #3e2d1c;
     }
     .container {
@@ -25,26 +26,23 @@
     header {
       grid-area: header;
       text-align: center;
-      padding: 20px;
     }
     .map {
       grid-area: map;
-      background: rgba(255,255,255,0.8);
-      border-right: 2px solid #8b5a2b;
       padding: 20px;
     }
     .console {
       grid-area: console;
-      background: rgba(255, 248, 220, 0.95);
       padding: 20px;
+      background: rgba(255,248,220,0.95);
       border-top: 2px solid #8b5a2b;
     }
     .console input[type="text"] {
       width: 80%;
       padding: 10px;
       margin-right: 10px;
-      border: 1px solid #5c4323;
       border-radius: 6px;
+      border: 1px solid #5c4323;
     }
     .console button {
       padding: 10px 16px;
@@ -55,24 +53,28 @@
     }
     .sketch {
       grid-area: sketch;
-      background: rgba(255, 255, 255, 0.85);
       padding: 20px;
+      background: rgba(255, 255, 255, 0.85);
       border-left: 2px solid #8b5a2b;
     }
     .sketch img {
-      max-width: 100%;
-      border: 1px solid #3e2d1c;
+      width: 100%;
       margin-bottom: 10px;
+      border: 1px solid #3e2d1c;
     }
     .sketch .log {
-      font-size: 0.9em;
       background: #f9f3e3;
       border: 1px solid #c2a56c;
       padding: 10px;
       border-radius: 6px;
+      font-size: 0.95em;
     }
   </style>
   <script>
+    const playerName = "test_player";
+    let tileIndex = {};
+    let players = {};
+
     function speak(text) {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.pitch = 1;
@@ -80,30 +82,33 @@
       speechSynthesis.speak(utterance);
     }
 
-    function handleCommand() {
-      const input = document.getElementById("command").value.trim().toLowerCase();
+    async function loadState() {
+      const [tileData, playerData] = await Promise.all([
+        fetch('tile_index.json').then(res => res.json()),
+        fetch('players.json').then(res => res.json())
+      ]);
+
+      tileIndex = tileData;
+      players = playerData;
+
+      const playerTileId = players[playerName].tile;
+      const tile = tileIndex[playerTileId];
+
       const log = document.getElementById("log");
-      let response = "";
+      const sketch = document.getElementById("sketch-img");
 
-      switch(input) {
-        case "join game":
-          response = "You awaken beneath a moss-covered cedar. The wind carries whispers of an age long past.";
-          break;
-        case "look":
-        case "look around":
-          response = "You see a clearing ringed with ancient stone pillars. A faint glimmer rises to the west.";
-          break;
-        case "go north":
-          response = "You step into shadowed woods, leaves crunching underfoot as birds scatter.";
-          break;
-        default:
-          response = "The world waits. Try: join game, look, go north.";
-      }
+      log.innerHTML = `
+        <strong>${tile.name}</strong><br>
+        Terrain: ${tile.terrain}<br>
+        Travel Time: ${tile.travel_minutes} minutes<br>
+      `;
 
-      log.innerText = response;
-      speak(response);
-      document.getElementById("command").value = "";
+      speak(`You have entered ${tile.name}, a ${tile.terrain} terrain.`);
+
+      sketch.src = "assets/sketches/sample.png"; // Replace with tile-specific art later
     }
+
+    window.onload = loadState;
   </script>
 </head>
 <body>
@@ -114,17 +119,17 @@
       <p><em>Explore the forgotten world. Let the echoes guide you…</em></p>
     </header>
     <div class="map">
-      <h2>Map View</h2>
-      <p>[Map will be rendered here. Travel paths animate, fog-of-discovery visible.]</p>
+      <h2>Current Region</h2>
+      <p id="log">Loading...</p>
     </div>
     <div class="console">
-      <input type="text" id="command" placeholder="Speak to the world..." onkeydown="if(event.key==='Enter') handleCommand()" />
-      <button onclick="handleCommand()">Send</button>
+      <input type="text" placeholder="Command..." />
+      <button>Send</button>
     </div>
     <div class="sketch">
-      <h2>Sketch & Lore</h2>
-      <img src="assets/sketches/sample.png" alt="Sketch Preview" />
-      <div class="log" id="log">Awaiting command...</div>
+      <h2>Sketch</h2>
+      <img id="sketch-img" src="assets/sketches/sample.png" alt="Sketch View" />
+      <div class="log" id="log-text">Awaiting command...</div>
     </div>
   </div>
 </body>
