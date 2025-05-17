@@ -1,258 +1,119 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™ – Class & Dice Engine</title>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-  <script>
-    function rollDice(sides = 20) {
-      const roll = Math.floor(Math.random() * sides) + 1;
-      const diceBox = document.getElementById("diceBox");
-      if (!diceBox) return roll;
-      diceBox.innerHTML = "";
-      const rollDiv = document.createElement("div");
-      rollDiv.style.fontSize = "48px";
-      rollDiv.style.fontWeight = "bold";
-      rollDiv.style.animation = "bounce 1s ease";
-      rollDiv.textContent = "🎲 " + roll;
-      diceBox.appendChild(rollDiv);
-      return roll;
-    }
-  </script>
-  <style>
-    body {
-      font-family: 'Garamond', serif;
-      background-color: #f9f3e3;
-      margin: 0;
-      padding: 0;
-      color: #3e2d1c;
-    }
-    .container {
-      display: none;
-      grid-template-columns: 1fr 2fr 1fr;
-      grid-template-rows: auto 1fr auto;
-      grid-template-areas:
-        "header header header"
-        "stats map sketch"
-        "console console sketch";
-      height: 100vh;
-    }
-    header {
-      grid-area: header;
-      text-align: center;
-      padding: 1em;
-      background-color: #d9c49a;
-    }
-    .map {
-      grid-area: map;
-      padding: 20px;
-    }
-    .console {
-      grid-area: console;
-      padding: 20px;
-      background: #f2e8d5;
-      border-top: 2px solid #8b5a2b;
-    }
-    .console input[type="text"] {
-      width: 60%;
-      padding: 10px;
-      margin-right: 10px;
-    }
-    .console button {
-      padding: 10px 16px;
-      background-color: #e6d1a4;
-      border: 1px solid #5c4323;
-      cursor: pointer;
-      margin: 4px;
-    }
-    .sketch {
-      grid-area: sketch;
-      padding: 20px;
-      background: #ffffff;
-      border-left: 2px solid #8b5a2b;
-    }
-    .stats {
-      grid-area: stats;
-      padding: 20px;
-      background: #fff9e6;
-      border-right: 2px solid #8b5a2b;
-    }
-    .login {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background: #fcf5dd;
-    }
-    .login input, .login select {
-      padding: 10px;
-      font-size: 1.1em;
-      margin-bottom: 10px;
-    }
-    #diceBox {
-      font-size: 36px;
-      text-align: center;
-      padding: 10px;
-    }
-    @keyframes bounce {
-      0% { transform: scale(0.5); opacity: 0; }
-      50% { transform: scale(1.2); opacity: 1; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-  </style>
+  <title>Elden Paths™</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="/assets/js/firebase-init.js"></script>
 </head>
 <body>
-  <div class="login" id="loginScreen">
+  <header>
+    <img src="assets/img/logo.png" alt="Elden Paths Logo" style="height: 100px; margin-top: 20px;">
     <h1>Elden Paths™</h1>
-    <input id="nameInput" placeholder="Character Name" />
-    <select id="classSelect">
-      <option value="knight">🛡️ Knight</option>
-      <option value="druid">🌿 Druid</option>
-      <option value="rogue">🗡️ Rogue</option>
-      <option value="warden">🏕️ Warden</option>
-    </select>
-    <button onclick="enterGame()">Enter World</button>
-  </div>
+    <p><em>Class-based World Engine + Dice</em></p>
+  </header>
 
-  <div class="container" id="gameUI">
-    <header>
-      <h1>Elden Paths™</h1>
-      <p><em>Class-based World Engine + Dice</em></p>
-    </header>
-    <div class="stats" id="statsBox">Loading...</div>
-    <div class="map">
-      <h2>Current Region</h2>
-      <p id="log">Loading...</p>
-    </div>
-    <div class="console">
-      <input type="text" id="command" placeholder="Commands like go north, attack" onkeydown="if(event.key==='Enter') handleCommand()" />
-      <button onclick="handleCommand()">Send</button>
-      <div id="diceBox"></div>
-    </div>
-    <div class="sketch">
-      <h2>Sketch</h2>
-      <img id="sketch-img" src="assets/sketches/sample.png" alt="Sketch View" width="100%" />
-    </div>
-  </div>
+  <main class="layout">
+    <section class="panel" id="left-panel">
+      <h3 id="charName">the dood</h3>
+      <p><strong>Class:</strong> <span id="charClass">knight</span></p>
+      <p><strong>HP:</strong> <span id="charHP">12</span></p>
+      <p><strong>Stamina:</strong> <span id="charStamina">8</span></p>
+      <ul id="gearList">
+        <li>sword</li>
+        <li>cloak</li>
+      </ul>
+    </section>
 
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyAiZZyiy8Y38uJU1z1lVGnXU14vqKxbg6s",
-      authDomain: "elden-paths.firebaseapp.com",
-      databaseURL: "https://elden-paths-default-rtdb.firebaseio.com",
-      projectId: "elden-paths",
-      storageBucket: "elden-paths.appspot.com",
-      messagingSenderId: "514433622971",
-      appId: "1:514433622971:web:b9103716c78acf6c7c01a9"
+    <section class="panel" id="center-panel">
+      <h3>Current Region</h3>
+      <p><strong id="regionName">Unknown</strong></p>
+      <p>Terrain: <span id="regionTerrain">?</span></p>
+      <p>Travel Time: <span id="regionTravel">?</span></p>
+    </section>
+
+    <section class="panel" id="right-panel">
+      <h3>Sketch</h3>
+      <img id="sketchImg" src="assets/img/sample.png" alt="Sketch View" style="max-width: 100%;">
+    </section>
+  </main>
+
+  <footer>
+    <form id="commandForm">
+      <input type="text" id="commandInput" placeholder="Commands like go north, attack">
+      <button type="submit">Send</button>
+    </form>
+  </footer>
+
+  <script type="module">
+    import { db, ref, get, set, update, push } from '/assets/js/firebase-init.js';
+
+    const tileMap = {
+      north: [0, -1],
+      south: [0, 1],
+      east: [1, 0],
+      west: [-1, 0]
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+    const baseTile = localStorage.getItem("ep_tile") || "tile_128_88";
+    const [x, y] = baseTile.split('_').slice(1).map(Number);
+    let currentTile = { x, y };
 
-    let playerName = "", playerData = {}, playerClass = "", playerTileId = "";
-    const classStats = {
-      knight: { hp: 12, stamina: 8, inventory: ["sword", "cloak"] },
-      druid: { hp: 8, stamina: 12, inventory: ["herbs", "staff"] },
-      rogue: { hp: 10, stamina: 10, inventory: ["dagger", "cloak"] },
-      warden: { hp: 9, stamina: 10, inventory: ["tent", "hammer"] }
-    };
-
-    function speak(txt) { const u = new SpeechSynthesisUtterance(txt); speechSynthesis.speak(u); }
-
-    async function enterGame() {
-      playerName = document.getElementById("nameInput").value.trim().toLowerCase();
-      playerClass = document.getElementById("classSelect").value;
-      if (!playerName) return alert("Enter a name.");
-      document.getElementById("loginScreen").style.display = "none";
-      document.getElementById("gameUI").style.display = "grid";
-      const [tileSnap, playerSnap] = await Promise.all([
-        db.ref("tile_index").get(),
-        db.ref("players/" + playerName).get()
-      ]);
-      const tileIndex = tileSnap.val() || {};
-      const saved = playerSnap.val();
-      if (saved) {
-        playerData = saved;
-      } else {
-        playerData = {
-          class: playerClass,
-          hp: classStats[playerClass].hp,
-          stamina: classStats[playerClass].stamina,
-          inventory: classStats[playerClass].inventory,
-          discovered: ["tile_130_90"],
-          tile: "tile_130_90",
-          trail: []
-        };
-        await db.ref("players/" + playerName).set(playerData);
-      }
-      playerTileId = playerData.tile;
-      updateStats();
-      updateDisplay(tileIndex[playerTileId] || {});
+    function updateTile() {
+      const tileId = `tile_${currentTile.x}_${currentTile.y}`;
+      localStorage.setItem("ep_tile", tileId);
+      document.getElementById("regionName").textContent = tileId;
+      get(ref(db, `tile_index/${tileId}`)).then((snap) => {
+        if (snap.exists()) {
+          const data = snap.val();
+          document.getElementById("regionTerrain").textContent = data.terrain || "?";
+          document.getElementById("regionTravel").textContent = data.travel || "?";
+        }
+      });
     }
 
-    function updateStats() {
-      const gear = playerData.inventory.map(i => `<li>${i}</li>`).join("");
-      document.getElementById("statsBox").innerHTML = `
-        <h2>${playerName}</h2>
-        <p>Class: ${playerData.class}</p>
-        <p>HP: ${playerData.hp}</p>
-        <p>Stamina: ${playerData.stamina}</p>
-        <ul>${gear}</ul>
-      `;
-    }
+    updateTile();
 
-    async function updateDisplay(tile) {
-      document.getElementById("log").innerHTML = `
-        <strong>${tile.name || "Unknown"}</strong><br>
-        Terrain: ${tile.terrain || "?"}<br>
-        Travel Time: ${tile.travel_minutes || "?"}
-      `;
-      speak(`You entered ${tile.name || "a region"}`);
-    }
+    document.getElementById("commandForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const input = document.getElementById("commandInput");
+      const cmd = input.value.trim().toLowerCase();
+      console.log("Typed command:", cmd);
 
-    async function handleCommand() {
-      const cmd = document.getElementById("command").value.trim().toLowerCase();
-      document.getElementById("command").value = "";
-      const tileRef = db.ref("tile_index/" + playerTileId);
-      const tileSnap = await tileRef.get();
-      const tile = tileSnap.val() || {};
+      push(ref(db, "logs"), {
+        command: cmd,
+        timestamp: Date.now(),
+        tile: `tile_${currentTile.x}_${currentTile.y}`
+      });
 
       if (cmd.startsWith("go ")) {
-        let [_, xStr, yStr] = playerTileId.split("_");
-        let x = parseInt(xStr), y = parseInt(yStr);
-        if (cmd.includes("north")) y--;
-        else if (cmd.includes("south")) y++;
-        else if (cmd.includes("east")) x++;
-        else if (cmd.includes("west")) x--;
-        const newTile = `tile_${x}_${y}`;
-        playerTileId = newTile;
-        playerData.tile = newTile;
-        if (!playerData.discovered.includes(newTile)) playerData.discovered.push(newTile);
-        if (!playerData.trail.includes(newTile)) playerData.trail.push(newTile);
-        await db.ref("players/" + playerName).set(playerData);
-        handleCommand(); // recurse into the new tile
-        return;
+        const direction = cmd.split(" ")[1];
+        const move = tileMap[direction];
+        if (move) {
+          currentTile.x += move[0];
+          currentTile.y += move[1];
+          updateTile();
+          input.value = "";
+          return;
+        }
       }
 
       if (cmd === "attack") {
-        const roll = rollDice(20);
-        const bonus = playerData.class === "knight" ? 2 : 0;
-        const total = roll + bonus;
-        speak(`You rolled a ${total}`);
-        if (total >= 12) speak("Hit!"); else {
-          speak("Miss.");
-          playerData.hp -= 2;
+        const tileId = `tile_${currentTile.x}_${currentTile.y}`;
+        const tileRef = ref(db, `tile_index/${tileId}/monster`);
+        const snap = await get(tileRef);
+        if (snap.exists()) {
+          alert(`You attack the ${snap.val().name}!`);
+        } else {
+          alert("There is nothing to attack here.");
         }
-        await db.ref("players/" + playerName).set(playerData);
-        updateStats();
+        input.value = "";
         return;
       }
 
-      speak("Command not recognized.");
-    }
+      alert("Command not recognized: " + cmd);
+      input.value = "";
+    });
   </script>
 </body>
 </html>
