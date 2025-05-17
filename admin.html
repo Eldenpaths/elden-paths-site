@@ -1,51 +1,70 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Elden Paths™ — Admin Panel</title>
-  <link id="themeStylesheet" rel="stylesheet" href="style.css" />
-  <script defer src="admin.js"></script>
-  <script defer src="theme-toggle.js"></script>
+  <meta charset="UTF-8">
+  <title>Elden Paths™ Admin Panel</title>
+  <style>
+    body {
+      font-family: 'Garamond', serif;
+      background: #fdf7e3;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    #tileInfo {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #999;
+      background: #fffdf7;
+    }
+    input, button {
+      padding: 6px 10px;
+      font-size: 1em;
+      margin: 4px 0;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div style="text-align:right; margin-bottom: 1em;">
-      <label for="themeSelect">🎨 Theme:</label>
-      <select id="themeSelect">
-        <option value="default">Parchment</option>
-        <option value="dark">Dark Mode</option>
-        <option value="frazetta">Frazetta Mode</option>
-        <option value="snow">Winter Fog</option>
-      </select>
-    </div>
+  <h1>Elden Paths™ Admin Panel</h1>
+  <p>Enter a tile ID (e.g., tile_130_90) to inspect and toggle fog:</p>
+  <input type="text" id="tileId" placeholder="tile_130_90" />
+  <button onclick="checkTile()">Check Tile</button>
+  <button onclick="toggleFog()">Toggle Fog</button>
 
-    <h1>🛠 Admin Panel — Elden Paths™</h1>
+  <div id="tileInfo"></div>
 
-    <section>
-      <h2>📍 Tile Tools</h2>
-      <p>Use this panel to toggle Fog of Discovery, move players, or inspect tile metadata.</p>
-      <!-- Your actual admin tool controls go here -->
-    </section>
+  <script>
+    let tileData = {};
 
-    <hr/>
+    async function loadTiles() {
+      tileData = await fetch("tile_index.json").then(res => res.json());
+    }
 
-    <section>
-      <h2>🗳️ World Vote Status</h2>
-      <ul id="voteStats">
-        <li>Expand the Wilds: <span id="expand_wilds_count">0</span></li>
-        <li>Fortify the Vale: <span id="fortify_vale_count">0</span></li>
-        <li>Free Trade Pact: <span id="free_trade_count">0</span></li>
-        <li>Unlock New Class: <span id="unlock_class_count">0</span></li>
-      </ul>
-      <p><strong>Leading:</strong> <span id="leadingVote">TBD</span></p>
-    </section>
+    async function checkTile() {
+      const id = document.getElementById("tileId").value;
+      const info = document.getElementById("tileInfo");
 
-    <hr/>
+      if (!tileData[id]) {
+        info.innerText = "Tile not found.";
+        return;
+      }
 
-    <footer>
-      <p>Admin-only access. All data reflects current browser-local storage until synced.</p>
-    </footer>
-  </div>
+      const tile = tileData[id];
+      info.innerHTML = `<strong>${id}</strong><br>Terrain: ${tile.terrain}<br>Travel Time: ${tile.travel_minutes} min<br>Fogged: ${tile.fog}`;
+    }
+
+    async function toggleFog() {
+      const id = document.getElementById("tileId").value;
+      if (!tileData[id]) return alert("Tile not found.");
+
+      tileData[id].fog = !tileData[id].fog;
+      alert("Fog toggled locally — note: changes not saved to server.");
+      checkTile();
+    }
+
+    loadTiles();
+  </script>
 </body>
 </html>
