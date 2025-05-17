@@ -3,91 +3,85 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths Map Viewer</title>
+  <title>Elden Paths™ Map Viewer</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
   <style>
     body {
-      font-family: 'Garamond', serif;
-      background-color: #f8f5e1;
+      background: #2b2b2b;
+      color: #f2f2f2;
+      font-family: sans-serif;
+      text-align: center;
       margin: 0;
       padding: 20px;
     }
-    h1 {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-    #map {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 2px;
-      max-width: 560px;
-      margin: 0 auto;
-    }
-    .tile {
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      text-align: center;
-      border: 1px solid #bbb;
-      background-color: #ddd;
-      transition: background 0.3s ease;
-    }
-    .tile.player {
-      background-color: #bada55;
-      font-weight: bold;
-    }
-    .tile.fog {
-      background-color: #222;
-      color: transparent;
+    canvas {
+      background: #121212;
+      border: 2px solid #ccc;
+      image-rendering: pixelated;
     }
   </style>
 </head>
 <body>
-  <h1>Elden Paths — Region View</h1>
-  <div id="map">Loading map...</div>
+  <h1>Elden Paths™ Map Viewer</h1>
+  <canvas id="mapCanvas" width="800" height="800"></canvas>
+  <p>🟨 = explored • 🟥 = structure • 🔥 = trail heavy</p>
 
   <script>
-    const playerName = "test_player";
-    let tileIndex = {};
-    let players = {};
+    const firebaseConfig = {
+      apiKey: "AIzaSyAiZZyiy8Y38uJU1z1lVGnXU14vqKxbg6s",
+      authDomain: "elden-paths.firebaseapp.com",
+      databaseURL: "https://elden-paths-default-rtdb.firebaseio.com",
+      projectId: "elden-paths",
+      storageBucket: "elden-paths.appspot.com",
+      messagingSenderId: "514433622971",
+      appId: "1:514433622971:web:b9103716c78acf6c7c01a9"
+    };
 
-    async function loadMap() {
-      const [tileData, playerData] = await Promise.all([
-        fetch('tile_index.json').then(res => res.json()),
-        fetch('players.json').then(res => res.json())
-      ]);
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-      tileIndex = tileData;
-      players = playerData;
+    const canvas = document.getElementById("mapCanvas");
+    const ctx = canvas.getContext("2d");
+    const TILE_SIZE = 10;
+    const OFFSET_X = 120; // to center area like tile_130_90
+    const OFFSET_Y = 80;
 
-      const playerTile = players[playerName].tile;
-      const [px, py] = playerTile.split('_').slice(1).map(Number);
+    async function drawMap() {
+      const tileSnap = await db.ref("tile_index").get();
+      const playerSnap = await db.ref("players").get();
+      const tileIndex = tileSnap.val() || {};
+      const players = playerSnap.val() || {};
 
-      const visibleTiles = [];
+      // Count how often tiles appear in trails
+      const heatmap = {};
+      Object.values(players).forEach(player => {
+        (player.trail || []).forEach(t => {
+          heatmap[t] = (heatmap[t] || 0) + 1;
+        });
+      });
 
-      for (let y = py - 3; y <= py + 3; y++) {
-        for (let x = px - 3; x <= px + 3; x++) {
-          const key = `tile_${x}_${y}`;
-          if (tileIndex[key]) visibleTiles.push({ ...tileIndex[key], id: key, x, y });
-        }
-      }
+      Object.keys(tileIndex).forEach(tileId => {
+        const [_, x, y] = tileId.split("_");
+        const px = (parseInt(x) - OFFSET_X) * TILE_SIZE;
+        const py = (parseInt(y) - OFFSET_Y) * TILE_SIZE;
 
-      const mapContainer = document.getElementById("map");
-      mapContainer.innerHTML = "";
+        const isDiscovered = Object.values(players).some(p => (p.discovered || []).includes(tileId));
+        const isStructure = tileIndex[tileId].structure;
+        const visits = heatmap[tileId] || 0;
 
-      visibleTiles.forEach(tile => {
-        const div = document.createElement("div");
-        div.className = "tile";
-        if (tile.id === playerTile) div.classList.add("player");
-        if (tile.fog) div.classList.add("fog");
-        div.title = `${tile.name}\n${tile.terrain} (${tile.travel_minutes} min)`;
-        div.innerText = tile.name.split(" ")[0];
-        mapContainer.appendChild(div);
+        let color = "#000000";
+        if (isStructure) color = "#ff4444";
+        else if (visits > 5) color = "#ffaa00";
+        else if (visits > 0) color = "#4444ff";
+        else if (isDiscovered) color = "#aaaa00";
+
+        ctx.fillStyle = color;
+        ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE);
       });
     }
 
-    loadMap();
+    drawMap();
   </script>
 </body>
 </html>
