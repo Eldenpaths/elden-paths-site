@@ -24,11 +24,22 @@
     </div>
 
     <h1>🌍 Elden Paths™ — World Sketch Codex</h1>
-    <p>Every known structure, relic, scene, and landscape you've uncovered is recorded here.</p>
+    <p>All known terrain, structures, relics, and scenes are recorded here.</p>
+
+    <button onclick="exportCodex()" style="margin-top: 1em;">📤 Export Codex JSON</button>
 
     <div id="worldCodex" style="display: grid; gap: 1.5em; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 2em;"></div>
 
     <script>
+      function exportCodex() {
+        const worldData = JSON.parse(localStorage.getItem("worldSketches") || "{}");
+        const blob = new Blob([JSON.stringify(worldData, null, 2)], { type: "application/json" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "elden_world_codex.json";
+        link.click();
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
         const codex = document.getElementById("worldCodex");
         const worldData = JSON.parse(localStorage.getItem("worldSketches") || "{}");
@@ -55,9 +66,12 @@
               card.style.padding = "1em";
               card.style.background = "white";
 
+              const date = new Date(entry.createdAt).toLocaleString();
+
               card.innerHTML = `
                 <strong>${entry.name}</strong><br/>
                 <img src="${entry.image}" alt="${entry.name}" style="width:100%; border-radius: 4px; margin: 0.5em 0;" />
+                <div style="font-size: 0.85em; margin-bottom: 0.5em;">🧙 ${entry.createdBy} | 🕒 ${date}</div>
                 <details><summary>Prompt</summary><p style="font-size: 0.9em;">${entry.prompt}</p></details>
               `;
               codex.appendChild(card);
