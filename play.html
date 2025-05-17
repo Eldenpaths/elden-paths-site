@@ -74,6 +74,7 @@
     const playerName = "test_player";
     let tileIndex = {};
     let players = {};
+    let playerTileId = "";
 
     function speak(text) {
       const utterance = new SpeechSynthesisUtterance(text);
@@ -91,9 +92,12 @@
       tileIndex = tileData;
       players = playerData;
 
-      const playerTileId = players[playerName].tile;
-      const tile = tileIndex[playerTileId];
+      playerTileId = players[playerName].tile;
+      updateDisplay(playerTileId);
+    }
 
+    function updateDisplay(tileId) {
+      const tile = tileIndex[tileId];
       const log = document.getElementById("log");
       const sketch = document.getElementById("sketch-img");
 
@@ -103,9 +107,43 @@
         Travel Time: ${tile.travel_minutes} minutes<br>
       `;
 
+      sketch.src = "assets/sketches/sample.png";
       speak(`You have entered ${tile.name}, a ${tile.terrain} terrain.`);
+    }
 
-      sketch.src = "assets/sketches/sample.png"; // Replace with tile-specific art later
+    function handleCommand() {
+      const input = document.getElementById("command").value.trim().toLowerCase();
+      document.getElementById("command").value = "";
+
+      if (input.startsWith("go ")) {
+        const direction = input.split(" ")[1];
+        const [_, xStr, yStr] = playerTileId.split("_");
+        let x = parseInt(xStr);
+        let y = parseInt(yStr);
+
+        switch (direction) {
+          case "north": y -= 1; break;
+          case "south": y += 1; break;
+          case "east": x += 1; break;
+          case "west": x -= 1; break;
+          default:
+            speak("Unknown direction. Try north, south, east, or west.");
+            return;
+        }
+
+        const nextTileId = `tile_${x}_${y}`;
+        if (tileIndex[nextTileId]) {
+          playerTileId = nextTileId;
+          players[playerName].tile = nextTileId;
+          players[playerName].discovered.push(nextTileId);
+          tileIndex[nextTileId].fog = false;
+          updateDisplay(nextTileId);
+        } else {
+          speak("You cannot go that way.");
+        }
+      } else {
+        speak("Unknown command. Try 'go north', 'go south', etc.");
+      }
     }
 
     window.onload = loadState;
@@ -123,8 +161,8 @@
       <p id="log">Loading...</p>
     </div>
     <div class="console">
-      <input type="text" placeholder="Command..." />
-      <button>Send</button>
+      <input type="text" id="command" placeholder="Command (e.g. go north)" onkeydown="if(event.key==='Enter') handleCommand()" />
+      <button onclick="handleCommand()">Send</button>
     </div>
     <div class="sketch">
       <h2>Sketch</h2>
