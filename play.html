@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™ — Player View</title>
+  <title>Elden Paths™ — Player Console</title>
   <style>
     body {
       font-family: 'Garamond', serif;
@@ -15,13 +15,13 @@
     }
     .container {
       display: grid;
-      grid-template-columns: 2fr 1fr;
+      grid-template-columns: 1fr 2fr 1fr;
       grid-template-rows: auto 1fr auto;
-      height: 100vh;
       grid-template-areas:
-        "header header"
-        "map sketch"
-        "console sketch";
+        "header header header"
+        "stats map sketch"
+        "console console sketch";
+      height: 100vh;
     }
     header {
       grid-area: header;
@@ -69,6 +69,19 @@
       border-radius: 6px;
       font-size: 0.95em;
     }
+    .stats {
+      grid-area: stats;
+      padding: 20px;
+      background: rgba(255, 255, 240, 0.9);
+      border-right: 2px solid #8b5a2b;
+    }
+    .stats h2 {
+      margin-top: 0;
+    }
+    .stats ul {
+      list-style: none;
+      padding-left: 0;
+    }
   </style>
   <script>
     const playerName = "test_player";
@@ -94,6 +107,7 @@
 
       playerTileId = players[playerName].tile;
       updateDisplay(playerTileId);
+      updateStats();
     }
 
     function updateDisplay(tileId) {
@@ -109,6 +123,18 @@
 
       sketch.src = "assets/sketches/sample.png";
       speak(`You have entered ${tile.name}, a ${tile.terrain} terrain.`);
+    }
+
+    function updateStats() {
+      const stats = players[playerName];
+      const gearList = stats.inventory.map(item => `<li>• ${item}</li>`).join("");
+      document.getElementById("statsBox").innerHTML = `
+        <h2>Your Status</h2>
+        <p><strong>HP:</strong> ${stats.hp}</p>
+        <p><strong>Stamina:</strong> ${stats.stamina}</p>
+        <h3>Inventory</h3>
+        <ul>${gearList}</ul>
+      `;
     }
 
     function handleCommand() {
@@ -156,6 +182,7 @@
       <h1>Elden Paths™</h1>
       <p><em>Explore the forgotten world. Let the echoes guide you…</em></p>
     </header>
+    <div class="stats" id="statsBox">Loading stats...</div>
     <div class="map">
       <h2>Current Region</h2>
       <p id="log">Loading...</p>
