@@ -1,49 +1,46 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const logContainer = document.createElement("div");
-  logContainer.id = "sketchLog";
-  logContainer.style.marginTop = "2em";
+  const container = document.createElement("div");
+  container.id = "sketchLog";
+  container.style.marginTop = "2em";
 
-  const logTitle = document.createElement("h2");
-  logTitle.textContent = "🖼️ Sketch Logbook";
-  logContainer.appendChild(logTitle);
+  const title = document.createElement("h2");
+  title.textContent = "🖼️ Sketch Logbook";
+  container.appendChild(title);
 
-  const logList = document.createElement("ul");
-  logList.id = "sketchLogList";
-  logList.style.paddingLeft = "1.5em";
-  logContainer.appendChild(logList);
+  const list = document.createElement("ul");
+  list.id = "sketchLogList";
+  list.style.paddingLeft = "1.5em";
+  container.appendChild(list);
 
-  const logOutput = document.getElementById("gameLog");
-  if (logOutput) {
-    logOutput.after(logContainer);
-  }
+  const gameLog = document.getElementById("gameLog");
+  if (gameLog) gameLog.after(container);
 
-  // Load saved log
-  const sketchLog = JSON.parse(localStorage.getItem("sketchLog") || "[]");
-  sketchLog.forEach(p => appendToLog(p.prompt, p.image));
+  let log = JSON.parse(localStorage.getItem("sketchLog") || "[]");
+  log.forEach(entry => addSketch(entry.prompt, entry.image));
 
-  // Watch for new generated sketches
   const observer = new MutationObserver(() => {
     const prompt = window.generatedSketchPrompt;
     if (prompt) {
-      const fakeImage = generateSketchImage(prompt); // Placeholder
-      sketchLog.unshift({ prompt, image: fakeImage });
-      localStorage.setItem("sketchLog", JSON.stringify(sketchLog));
-      appendToLog(prompt, fakeImage);
+      const image = getSketchImage(prompt); // Placeholder now, upgrade later
+      const newEntry = { prompt, image };
+      log.unshift(newEntry);
+      localStorage.setItem("sketchLog", JSON.stringify(log));
+      addSketch(prompt, image);
       window.generatedSketchPrompt = null;
     }
   });
   observer.observe(document.body, { childList: true, subtree: true });
 
-  function appendToLog(prompt, image) {
+  function addSketch(prompt, image) {
     const li = document.createElement("li");
-    li.innerHTML = `<strong>${prompt}</strong><br/><img src="${image}" alt="Sketch" style="width:100%; max-width:400px; border:1px solid #ccc; margin-top:0.5em;" />`;
-    logList.prepend(li);
+    li.innerHTML = `<strong>${prompt}</strong><br/>
+      <img src="${image}" alt="Sketch" style="width:100%; max-width:400px; border:1px solid #ccc; margin-top:0.5em;" />`;
+    list.prepend(li);
   }
 
-  // Replace this with real sketch logic later
-  function generateSketchImage(prompt) {
-    const seed = encodeURIComponent(prompt).slice(0, 20);
+  // 🛠 Replace this later with real sketch API
+  function getSketchImage(prompt) {
+    const seed = encodeURIComponent(prompt).slice(0, 16);
     return `https://placehold.co/400x200?text=${seed}`;
   }
 });
-
