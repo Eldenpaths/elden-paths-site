@@ -24,3 +24,79 @@
         <option value="snow">Winter Fog</option>
         <option value="fog">Fog</option>
         <option value="rain">Rain</option>
+        <option value="heat">Heat</option>
+        <option value="glow">Glow</option>
+      </select>
+    </div>
+
+    <h1>🎮 Elden Paths™ — Player Console</h1>
+    <p>Explore, act, or interact using the commands below.</p>
+
+    <input type="text" id="playerCommand" placeholder="Type your action..." style="width:100%; padding:1em;"/>
+    <button onclick="submitAction()">Submit</button>
+
+    <div id="gameLog" style="margin-top:2em;"></div>
+
+    <script>
+      function submitAction() {
+        const input = document.getElementById("playerCommand");
+        const log = document.getElementById("gameLog");
+        const text = input.value.trim().toLowerCase();
+
+        if (!text) return;
+
+        const entry = document.createElement("div");
+        entry.textContent = `> ${text}`;
+        log.prepend(entry);
+
+        // Terrain or weather-based sketch prompt
+        if (text === "look around" || text === "ms") {
+          const sketch = window.getSketchPromptModifier?.() || "";
+          const region = window.regionName || "Unknown region";
+          const prompt = `A view of the land in ${region}, surrounded by ${sketch}.`;
+
+          const sketchEntry = document.createElement("div");
+          sketchEntry.textContent = `🖼️ Sketch Prompt: ${prompt}`;
+          log.prepend(sketchEntry);
+
+          window.generatedSketchPrompt = prompt;
+        }
+
+        // Generate NPC portrait
+        if (text.startsWith("meet ")) {
+          const npcName = text.replace("meet ", "").trim();
+          if (npcName) {
+            generateNpcPortrait(npcName);
+          }
+        }
+
+        // Generate world structure sketch
+        if (text.startsWith("build ")) {
+          const name = text.replace("build ", "").trim();
+          generateWorldSketch("structure", name, { details: "player-constructed, early phase" });
+        }
+
+        // Generate relic sketch
+        if (text.startsWith("found ")) {
+          const name = text.replace("found ", "").trim();
+          generateWorldSketch("relic", name, { details: "mystical, glowing, half-buried" });
+        }
+
+        // Generate scene sketch
+        if (text.startsWith("scene ")) {
+          const name = text.replace("scene ", "").trim();
+          generateWorldSketch("scene", name, { details: "dramatic lighting, intense moment" });
+        }
+
+        // Generate terrain sketch
+        if (text.startsWith("terrain ")) {
+          const name = text.replace("terrain ", "").trim();
+          generateWorldSketch("terrain", name);
+        }
+
+        input.value = "";
+      }
+    </script>
+  </div>
+</body>
+</html>
