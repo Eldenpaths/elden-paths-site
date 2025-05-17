@@ -1,37 +1,55 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elden Paths™ — Enter the World</title>
-  <link id="themeStylesheet" rel="stylesheet" href="style.css">
-  <script defer src="theme-toggle.js"></script>
+  <title>Elden Paths™</title>
+  <style>
+    body {
+      background-image: url('assets/img/parchment-bg.jpg');
+      background-size: cover;
+      font-family: 'Garamond', serif;
+      color: #3e2d1c;
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .logo {
+      height: 100px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 3em;
+      margin: 10px 0;
+    }
+    p.tagline {
+      font-style: italic;
+      font-size: 1.3em;
+      margin-bottom: 40px;
+    }
+    .button {
+      display: inline-block;
+      padding: 14px 30px;
+      margin: 10px;
+      font-size: 1.1em;
+      background-color: #f1e4c1;
+      border: 2px solid #5c4323;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #3e2d1c;
+      font-weight: bold;
+    }
+    .button:hover {
+      background-color: #e6d1a4;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div style="text-align:right; margin-bottom: 1em;">
-      <label for="themeSelect">🎨 Theme:</label>
-      <select id="themeSelect">
-        <option value="default">Parchment</option>
-        <option value="dark">Dark Mode</option>
-        <option value="frazetta">Frazetta Mode</option>
-        <option value="snow">Winter Fog</option>
-      </select>
-    </div>
+  <img src="assets/img/logo.png" alt="Elden Paths Logo" class="logo" />
+  <h1>Elden Paths™</h1>
+  <p class="tagline">Step into the forgotten world of echoes and ruins…</p>
 
-    <h1>🌍 Welcome to Elden Paths™</h1>
-    <p>Choose your destiny. Explore the wilderness, shape the world, or simply observe.</p>
-
-    <ul>
-      <li><a href="play.html">▶️ Play Elden Paths</a></li>
-      <li><a href="journal.html">📓 Player Journal</a></li>
-      <li><a href="vote.html">🗳️ Cast Your Vote</a></li>
-      <li><a href="codex.html">📖 Codex of Echoes</a></li>
-      <li><a href="relics.html">💎 Relic Registry</a></li>
-      <li><a href="craft.html">🛠 Crafting</a></li>
-      <li><a href="admin.html">🛡 Admin Panel</a></li>
-    </ul>
-  </div>
+  <a href="play.html" class="button">Begin Journey</a>
+  <a href="codex/index.html" class="button">View Codex</a>
+  <a href="admin.html" class="button">Admin Panel</a>
 </body>
 </html>
-
