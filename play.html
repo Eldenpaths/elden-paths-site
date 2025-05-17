@@ -1,9 +1,30 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Elden Paths™</title>
   <link id="themeStylesheet" rel="stylesheet" href="assets/css/style.css">
+  <script type="module" src="/assets/js/firebase-init.js"></script>
+  <style>
+    #minimap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 10px;
+    }
+    .tile {
+      width: 60px;
+      height: 60px;
+      background: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      border: 1px solid #aaa;
+    }
+    .current { background: #aaffaa; }
+  </style>
 </head>
 <body>
   <header>
@@ -16,12 +37,92 @@
     </select>
   </header>
   <main>
-    <div class="left-column"><h3>the dood</h3><p>Class: Knight</p></div>
-    <div class="center-column"><h3>Region</h3><p id="regionName">Unknown</p></div>
-    <div class="right-column"><h3>Sketch</h3><img src="assets/img/sample.png" alt="Sketch" width="100%"></div>
+    <div class="left-column">
+      <h3 id="playerName">the dood</h3>
+      <p>Class: Knight</p>
+      <p>HP: <span id="playerHP">12</span></p>
+      <p>Stamina: <span id="playerStamina">8</span></p>
+    </div>
+    <div class="center-column">
+      <h3>Region</h3>
+      <p id="regionName">Unknown</p>
+      <p>Terrain: <span id="regionTerrain">?</span></p>
+      <p>Travel Time: <span id="regionTime">?</span></p>
+      <div id="minimap"></div>
+    </div>
+    <div class="right-column">
+      <h3>Sketch</h3>
+      <img id="sketchImg" src="assets/img/sample.png" alt="Sketch View" width="100%">
+    </div>
   </main>
   <footer>
-    <input id="commandInput" placeholder="e.g., go north"><button onclick="alert('Command sent!')">Send</button>
+    <input id="commandInput" placeholder="e.g., go north, roll d6">
+    <button onclick="submitCommand()">Send</button>
   </footer>
+
+  <script type="module">
+    import { db, ref, get, set } from '/assets/js/firebase-init.js';
+
+    const input = document.getElementById('commandInput');
+    const regionName = document.getElementById('regionName');
+    const regionTerrain = document.getElementById('regionTerrain');
+    const regionTime = document.getElementById('regionTime');
+    const sketchImg = document.getElementById('sketchImg');
+    const minimap = document.getElementById('minimap');
+
+    let tile = { x: 130, y: 90 };
+    let tileId = `tile_${tile.x}_${tile.y}`;
+
+    function updateView(data) {
+      regionName.textContent = tileId;
+      regionTerrain.textContent = data.terrain || '?';
+      regionTime.textContent = data.travel_time || '?';
+      sketchImg.src = `assets/img/${data.sketch || 'sample.png'}`;
+    }
+
+    function updateMinimap() {
+      minimap.innerHTML = '';
+      for (let dy = -1; dy <= 1; dy++) {
+        for (let dx = -1; dx <= 1; dx++) {
+          const tx = tile.x + dx;
+          const ty = tile.y + dy;
+          const id = `tile_${tx}_${ty}`;
+          const div = document.createElement('div');
+          div.className = 'tile' + (dx === 0 && dy === 0 ? ' current' : '');
+          div.textContent = `${tx},${ty}`;
+          minimap.appendChild(div);
+        }
+      }
+    }
+
+    function fetchTile() {
+      tileId = `tile_${tile.x}_${tile.y}`;
+      get(ref(db, 'tile_index/' + tileId)).then(snap => {
+        updateView(snap.exists() ? snap.val() : {});
+        updateMinimap();
+      });
+    }
+
+    function submitCommand() {
+      const cmd = input.value.trim().toLowerCase();
+      if (cmd.startsWith('go ')) {
+        const dir = cmd.split(' ')[1];
+        if (dir === 'north') tile.y -= 1;
+        else if (dir === 'south') tile.y += 1;
+        else if (dir === 'east') tile.x += 1;
+        else if (dir === 'west') tile.x -= 1;
+        fetchTile();
+      } else if (cmd.startsWith('roll d')) {
+        const sides = parseInt(cmd.split('d')[1]);
+        const roll = Math.floor(Math.random() * sides) + 1;
+        alert(`🎲 You rolled: ${roll}`);
+      } else {
+        alert('Command not recognized.');
+      }
+      input.value = '';
+    }
+
+    fetchTile();
+  </script>
 </body>
 </html>
