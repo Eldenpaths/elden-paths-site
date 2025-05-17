@@ -1,102 +1,80 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Elden Paths™ — Begin Your Journey</title>
-  <link id="themeStylesheet" rel="stylesheet" href="style.css" />
-  <script defer src="theme-toggle.js"></script>
-  <script defer src="weather-router.js"></script>
-  <script defer src="sketch-context.js"></script>
-  <script defer src="auto-sketch.js"></script>
-  <script defer src="sketch-log.js"></script>
-  <script defer src="npc-sketch.js"></script>
-  <script defer src="world-sketch.js"></script>
+  <meta charset="UTF-8">
+  <title>Elden Paths™ — Player Console</title>
+  <style>
+    body {
+      background-image: url('assets/img/parchment-bg.jpg');
+      background-size: cover;
+      font-family: 'Garamond', serif;
+      color: #3e2d1c;
+      padding: 30px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .logo {
+      height: 80px;
+    }
+    .title {
+      font-size: 2.5em;
+      margin: 10px 0 0 0;
+    }
+    .subtitle {
+      font-style: italic;
+      font-size: 1.2em;
+      color: #6a4d2e;
+    }
+    .console-box {
+      background: rgba(255, 248, 220, 0.9);
+      border: 2px solid #8b5a2b;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    }
+    input[type="text"] {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #8b5a2b;
+    }
+    .logbook {
+      margin-top: 30px;
+      text-align: center;
+    }
+    .logbook img {
+      height: 32px;
+      vertical-align: middle;
+    }
+    .logbook span {
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-left: 8px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div style="text-align:right; margin-bottom: 1em;">
-      <label for="themeSelect">🎨 Theme:</label>
-      <select id="themeSelect">
-        <option value="default">Parchment</option>
-        <option value="dark">Dark Mode</option>
-        <option value="frazetta">Frazetta Mode</option>
-        <option value="snow">Winter Fog</option>
-        <option value="fog">Fog</option>
-        <option value="rain">Rain</option>
-        <option value="heat">Heat</option>
-        <option value="glow">Glow</option>
-      </select>
-    </div>
+  <div class="header">
+    <img src="assets/img/logo.png" class="logo" alt="Game Logo" />
+    <h1 class="title">Elden Paths™</h1>
+    <p class="subtitle">Begin your journey across the Echoes...</p>
+  </div>
 
-    <h1>🎮 Elden Paths™ — Player Console</h1>
+  <div class="console-box">
     <p>Explore, act, or interact using the commands below.</p>
+    <input type="text" placeholder="Type your action..." />
+    <button>Submit</button>
+  </div>
 
-    <input type="text" id="playerCommand" placeholder="Type your action..." style="width:100%; padding:1em;"/>
-    <button onclick="submitAction()">Submit</button>
-
-    <div id="gameLog" style="margin-top:2em;"></div>
-
-    <script>
-      function submitAction() {
-        const input = document.getElementById("playerCommand");
-        const log = document.getElementById("gameLog");
-        const text = input.value.trim().toLowerCase();
-
-        if (!text) return;
-
-        const entry = document.createElement("div");
-        entry.textContent = `> ${text}`;
-        log.prepend(entry);
-
-        // Terrain or weather-based sketch prompt
-        if (text === "look around" || text === "ms") {
-          const sketch = window.getSketchPromptModifier?.() || "";
-          const region = window.regionName || "Unknown region";
-          const prompt = `A view of the land in ${region}, surrounded by ${sketch}.`;
-
-          const sketchEntry = document.createElement("div");
-          sketchEntry.textContent = `🖼️ Sketch Prompt: ${prompt}`;
-          log.prepend(sketchEntry);
-
-          window.generatedSketchPrompt = prompt;
-        }
-
-        // Generate NPC portrait
-        if (text.startsWith("meet ")) {
-          const npcName = text.replace("meet ", "").trim();
-          if (npcName) {
-            generateNpcPortrait(npcName);
-          }
-        }
-
-        // Generate world structure sketch
-        if (text.startsWith("build ")) {
-          const name = text.replace("build ", "").trim();
-          generateWorldSketch("structure", name, { details: "player-constructed, early phase" });
-        }
-
-        // Generate relic sketch
-        if (text.startsWith("found ")) {
-          const name = text.replace("found ", "").trim();
-          generateWorldSketch("relic", name, { details: "mystical, glowing, half-buried" });
-        }
-
-        // Generate scene sketch
-        if (text.startsWith("scene ")) {
-          const name = text.replace("scene ", "").trim();
-          generateWorldSketch("scene", name, { details: "dramatic lighting, intense moment" });
-        }
-
-        // Generate terrain sketch
-        if (text.startsWith("terrain ")) {
-          const name = text.replace("terrain ", "").trim();
-          generateWorldSketch("terrain", name);
-        }
-
-        input.value = "";
-      }
-    </script>
+  <div class="logbook">
+    <img src="assets/icons/sword.png" alt="Sketch Icon" />
+    <span>Sketch Logbook</span>
   </div>
 </body>
 </html>
