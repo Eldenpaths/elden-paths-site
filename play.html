@@ -3,78 +3,129 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™ — Player Console</title>
+  <title>Elden Paths™</title>
   <style>
     body {
+      margin: 0;
+      font-family: 'Garamond', serif;
       background-image: url('assets/img/parchment-bg.jpg');
       background-size: cover;
-      font-family: 'Garamond', serif;
       color: #3e2d1c;
-      padding: 30px;
     }
-    .header {
+    .container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      grid-template-rows: auto 1fr auto;
+      height: 100vh;
+      grid-template-areas:
+        "header header"
+        "map sketch"
+        "console sketch";
+    }
+    header {
+      grid-area: header;
       text-align: center;
-      margin-bottom: 30px;
-    }
-    .logo {
-      height: 80px;
-    }
-    .title {
-      font-size: 2.5em;
-      margin: 10px 0 0 0;
-    }
-    .subtitle {
-      font-style: italic;
-      font-size: 1.2em;
-      color: #6a4d2e;
-    }
-    .console-box {
-      background: rgba(255, 248, 220, 0.9);
-      border: 2px solid #8b5a2b;
-      border-radius: 12px;
       padding: 20px;
-      max-width: 600px;
-      margin: auto;
-      box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
     }
-    input[type="text"] {
-      width: 90%;
+    .map {
+      grid-area: map;
+      background: rgba(255,255,255,0.8);
+      border-right: 2px solid #8b5a2b;
+      padding: 20px;
+    }
+    .console {
+      grid-area: console;
+      background: rgba(255, 248, 220, 0.95);
+      padding: 20px;
+      border-top: 2px solid #8b5a2b;
+    }
+    .console input[type="text"] {
+      width: 80%;
       padding: 10px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: 1px solid #8b5a2b;
+      margin-right: 10px;
+      border: 1px solid #5c4323;
+      border-radius: 6px;
     }
-    .logbook {
-      margin-top: 30px;
-      text-align: center;
+    .console button {
+      padding: 10px 16px;
+      background-color: #e6d1a4;
+      border: 1px solid #5c4323;
+      border-radius: 6px;
+      cursor: pointer;
     }
-    .logbook img {
-      height: 32px;
-      vertical-align: middle;
+    .sketch {
+      grid-area: sketch;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 20px;
+      border-left: 2px solid #8b5a2b;
     }
-    .logbook span {
-      font-weight: bold;
-      font-size: 1.1em;
-      margin-left: 8px;
+    .sketch img {
+      max-width: 100%;
+      border: 1px solid #3e2d1c;
+      margin-bottom: 10px;
+    }
+    .sketch .log {
+      font-size: 0.9em;
+      background: #f9f3e3;
+      border: 1px solid #c2a56c;
+      padding: 10px;
+      border-radius: 6px;
     }
   </style>
+  <script>
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.pitch = 1;
+      utterance.rate = 1;
+      speechSynthesis.speak(utterance);
+    }
+
+    function handleCommand() {
+      const input = document.getElementById("command").value.trim().toLowerCase();
+      const log = document.getElementById("log");
+      let response = "";
+
+      switch(input) {
+        case "join game":
+          response = "You awaken beneath a moss-covered cedar. The wind carries whispers of an age long past.";
+          break;
+        case "look":
+        case "look around":
+          response = "You see a clearing ringed with ancient stone pillars. A faint glimmer rises to the west.";
+          break;
+        case "go north":
+          response = "You step into shadowed woods, leaves crunching underfoot as birds scatter.";
+          break;
+        default:
+          response = "The world waits. Try: join game, look, go north.";
+      }
+
+      log.innerText = response;
+      speak(response);
+      document.getElementById("command").value = "";
+    }
+  </script>
 </head>
 <body>
-  <div class="header">
-    <img src="assets/img/logo.png" class="logo" alt="Game Logo" />
-    <h1 class="title">Elden Paths™</h1>
-    <p class="subtitle">Begin your journey across the Echoes...</p>
-  </div>
-
-  <div class="console-box">
-    <p>Explore, act, or interact using the commands below.</p>
-    <input type="text" placeholder="Type your action..." />
-    <button>Submit</button>
-  </div>
-
-  <div class="logbook">
-    <img src="assets/icons/sword.png" alt="Sketch Icon" />
-    <span>Sketch Logbook</span>
+  <div class="container">
+    <header>
+      <img src="assets/img/logo.png" alt="Elden Paths Logo" style="height:80px;">
+      <h1>Elden Paths™</h1>
+      <p><em>Explore the forgotten world. Let the echoes guide you…</em></p>
+    </header>
+    <div class="map">
+      <h2>Map View</h2>
+      <p>[Map will be rendered here. Travel paths animate, fog-of-discovery visible.]</p>
+    </div>
+    <div class="console">
+      <input type="text" id="command" placeholder="Speak to the world..." onkeydown="if(event.key==='Enter') handleCommand()" />
+      <button onclick="handleCommand()">Send</button>
+    </div>
+    <div class="sketch">
+      <h2>Sketch & Lore</h2>
+      <img src="assets/sketches/sample.png" alt="Sketch Preview" />
+      <div class="log" id="log">Awaiting command...</div>
+    </div>
   </div>
 </body>
 </html>
