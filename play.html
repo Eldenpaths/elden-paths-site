@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™ — Player Console</title>
+  <title>Elden Paths™ — Save & Load</title>
   <script src="sketch_map.js"></script>
   <style>
     body {
@@ -39,7 +39,7 @@
       border-top: 2px solid #8b5a2b;
     }
     .console input[type="text"] {
-      width: 80%;
+      width: 60%;
       padding: 10px;
       margin-right: 10px;
       border-radius: 6px;
@@ -51,6 +51,7 @@
       border: 1px solid #5c4323;
       border-radius: 6px;
       cursor: pointer;
+      margin: 4px;
     }
     .sketch {
       grid-area: sketch;
@@ -177,6 +178,17 @@
       }
     }
 
+    function savePlayer() {
+      const data = JSON.stringify(players[playerName], null, 2);
+      const blob = new Blob([data], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${playerName}_save.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
     window.onload = loadState;
   </script>
 </head>
@@ -195,6 +207,7 @@
     <div class="console">
       <input type="text" id="command" placeholder="Command (e.g. go north)" onkeydown="if(event.key==='Enter') handleCommand()" />
       <button onclick="handleCommand()">Send</button>
+      <button onclick="savePlayer()">💾 Save Progress</button>
     </div>
     <div class="sketch">
       <h2>Sketch</h2>
