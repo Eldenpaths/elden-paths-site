@@ -1,14 +1,32 @@
 {
-  "will_03_north": {
-    "region": "Gravesport",
-    "weather": "fog"
+  "plains": {
+    "travel_minutes": 10,
+    "encounter_chance": 0.1,
+    "description": "Open terrain with long grass and rolling hills."
   },
-  "auber_rim_east": {
-    "region": "Auber Rim",
-    "weather": "snow"
+  "forest": {
+    "travel_minutes": 15,
+    "encounter_chance": 0.2,
+    "description": "Dense woodland with scattered wildlife and old paths."
   },
-  "watchers_pass": {
-    "region": "Watcher's Crown",
-    "weather": "clear"
+  "ruins": {
+    "travel_minutes": 20,
+    "encounter_chance": 0.35,
+    "description": "Crumbled stone structures lost to time."
+  },
+  "swamp": {
+    "travel_minutes": 25,
+    "encounter_chance": 0.3,
+    "description": "Muddy, mist-filled lowland dotted with willows."
+  },
+  "mountain": {
+    "travel_minutes": 30,
+    "encounter_chance": 0.15,
+    "description": "Rocky cliffs, steep passes, and chilling winds."
+  },
+  "water": {
+    "travel_minutes": 60,
+    "encounter_chance": 0.05,
+    "description": "Open water, only crossable by boat or magic."
   }
 }
