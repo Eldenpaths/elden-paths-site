@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sketches | Elden Paths</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: serif;
+      background: #f4f0e5;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+    }
+    button {
+      display: block;
+      margin: 1rem auto 2rem;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      background: #333;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .card img {
+      width: 100%;
+      display: block;
+    }
+    .card .info {
+      padding: 0.75rem;
+      font-size: 0.9rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Player & Scene Sketches</h1>
+  <button onclick="downloadPDF()">📄 Download Sketches as PDF</button>
+
+  <div class="gallery">
+
+    <!-- Sample Sketch Cards - Replace with real paths -->
+    <div class="card">
+      <img src="/assets/players/Callan/portrait.png" alt="Callan">
+      <div class="info">Callan | Elden Paths™<br>📍 Watcher’s Crown</div>
+    </div>
+    <div class="card">
+      <img src="/assets/players/Chonce/portrait.png" alt="Chonce">
+      <div class="info">Chonce | Elden Paths™<br>📍 Ruins</div>
+    </div>
+    <div class="card">
+      <img src="/assets/sketches/homeless/ringo_riverlot.png" alt="Ringo">
+      <div class="info">Ringo | Homeless™<br>📍 Eugene River Lot</div>
+    </div>
+    <div class="card">
+      <img src="/assets/sketches/kinder/roslin_foxden.png" alt="Roslin">
+      <div class="info">Roslin | Elden Kinder™<br>📍 Sunpatch Edge</div>
+    </div>
+
+  </div>
+
+  <!-- PDF Export Scripts -->
+  <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const cards = document.querySelectorAll('.card');
+
+      for (let i = 0; i < cards.length; i++) {
+        const canvas = await html2canvas(cards[i]);
+        const imgData = canvas.toDataURL('image/png');
+        const width = doc.internal.pageSize.getWidth();
+        const height = (canvas.height * width) / canvas.width;
+
+        if (i > 0) doc.addPage();
+        doc.addImage(imgData, 'PNG', 0, 10, width, height);
+      }
+
+      doc.save('eldenpaths_sketches.pdf');
+    }
+  </script>
+</body>
+</html>
