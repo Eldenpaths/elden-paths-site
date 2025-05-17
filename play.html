@@ -2,36 +2,130 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Elden Paths™</title>
-  <link id="themeStylesheet" rel="stylesheet" href="theme-frazetta.css" />
-  <script src="theme-toggle.js" defer></script>
-  <script src="play.js" defer></script>
+  <title>Elden Paths™ Play</title>
+  <script>
+    let player = {
+      name: '',
+      tile: 'A1',
+      fog: ['A1'],
+      race: '',
+      class: '',
+      stats: {},
+      gear: { equipped: [], inventory: [] },
+      xp: 0,
+      level: 1,
+      conditions: [],
+      appearance_id: '',
+      last_seen: ''
+    };
+
+    function generateStats() {
+      return {
+        STR: Math.floor(Math.random() * 6) + 10,
+        DEX: Math.floor(Math.random() * 6) + 10,
+        INT: Math.floor(Math.random() * 6) + 10
+      };
+    }
+
+    function character_creation() {
+      const name = prompt("Enter your character name:");
+      const race = prompt("Choose your race (Human, Elf, Dwarf):");
+      const charClass = prompt("Choose your class (Warden, Seer, Fighter):");
+      const appearance_id = `${name.toLowerCase()}-v1-final`;
+
+      player.name = name;
+      player.race = race;
+      player.class = charClass;
+      player.stats = generateStats();
+      player.appearance_id = appearance_id;
+      player.last_seen = new Date().toISOString();
+      player.gear.equipped = ["Starter Weapon"];
+      player.gear.inventory = ["Bread", "Torch"];
+      player.xp = 0;
+      player.level = 1;
+      player.conditions = [];
+
+      savePlayer();
+      alert("Character created!");
+      render();
+    }
+
+    function savePlayer() {
+      player.last_seen = new Date().toISOString();
+      fetch('players.json')
+        .then(res => res.json())
+        .then(data => {
+          data[player.name] = {
+            tile: player.tile,
+            fog: player.fog,
+            race: player.race,
+            class: player.class,
+            stats: player.stats,
+            gear: player.gear,
+            xp: player.xp,
+            level: player.level,
+            conditions: player.conditions,
+            appearance_id: player.appearance_id,
+            last_seen: player.last_seen
+          };
+          return fetch('players.json', {
+            method: 'POST',
+            body: JSON.stringify(data, null, 2)
+          });
+        });
+    }
+
+    function loadPlayer(name) {
+      fetch('players.json')
+        .then(res => res.json())
+        .then(data => {
+          if (data[name]) {
+            player = { name, ...data[name] };
+            alert("Player loaded.");
+            render();
+          } else {
+            alert("Player not found. Creating new.");
+            character_creation();
+          }
+        });
+    }
+
+    function move(direction) {
+      player.tile = `Moved-${direction}`; // placeholder logic
+      if (!player.fog.includes(player.tile)) {
+        player.fog.push(player.tile);
+      }
+      savePlayer();
+      render();
+    }
+
+    function render() {
+      document.getElementById('out').innerText = `
+Name: ${player.name}
+Race: ${player.race}
+Class: ${player.class}
+Stats: STR ${player.stats.STR}, DEX ${player.stats.DEX}, INT ${player.stats.INT}
+Tile: ${player.tile}
+Fog: ${player.fog.join(", ")}
+XP: ${player.xp}, Level: ${player.level}
+Gear: Equipped - ${player.gear.equipped.join(", ")}, Inventory - ${player.gear.inventory.join(", ")}
+Conditions: ${player.conditions.join(", ") || 'None'}
+Last Seen: ${player.last_seen}
+      `;
+    }
+
+    window.onload = () => {
+      const name = prompt("Enter your character name to load:");
+      loadPlayer(name);
+    };
+  </script>
 </head>
-<body class="frazetta">
-  <header>
-    <img src="assets/img/logo.png" alt="Elden Paths Logo" />
-    <h1>Elden Paths™</h1>
-    <p>Class-based World Engine + Dice</p>
-    <label for="themeSelector">Theme:</label>
-    <select id="themeSelector">
-      <option value="parchment" selected>Parchment</option>
-      <option value="frazetta">Frazetta</option>
-      <option value="dark">Dark</option>
-      <option value="snow">Snow</option>
-    </select>
-  </header>
-  <main class="three-panel">
-    <section id="playerInfo" class="panel">Loading...</section>
-    <section id="regionInfo" class="panel">Loading...</section>
-    <section id="sketchView" class="panel">
-      <img id="sketchImage" src="assets/img/sketch_placeholder.png" alt="Sketch View" />
-      <div id="sketchNote">Awaiting command…</div>
-    </section>
-  </main>
-  <footer>
-    <input type="text" id="commandInput" placeholder="Commands like go north, attack" />
-    <button onclick="submitCommand()">Send</button>
-  </footer>
+<body>
+  <h1>Elden Paths™ — Play</h1>
+  <div id="out" style="white-space: pre-wrap;"></div>
+  <button onclick="move('north')">Go North</button>
+  <button onclick="move('south')">Go South</button>
+  <button onclick="move('east')">Go East</button>
+  <button onclick="move('west')">Go West</button>
 </body>
 </html>
