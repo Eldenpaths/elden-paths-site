@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™ — Cloud Connected</title>
+  <title>Elden Paths™ — Structures Enabled</title>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
   <script src="sketch_map.js"></script>
@@ -13,11 +13,11 @@
       background-image: url('assets/img/parchment-bg.jpg');
       background-size: cover;
       margin: 0;
-      padding: 20px;
+      padding: 0;
       color: #3e2d1c;
     }
     .container {
-      display: grid;
+      display: none;
       grid-template-columns: 1fr 2fr 1fr;
       grid-template-rows: auto 1fr auto;
       grid-template-areas:
@@ -29,6 +29,7 @@
     header {
       grid-area: header;
       text-align: center;
+      padding: 1em;
     }
     .map {
       grid-area: map;
@@ -66,34 +67,45 @@
       margin-bottom: 10px;
       border: 1px solid #3e2d1c;
     }
-    .sketch .log {
-      background: #f9f3e3;
-      border: 1px solid #c2a56c;
-      padding: 10px;
-      border-radius: 6px;
-      font-size: 0.95em;
-    }
     .stats {
       grid-area: stats;
       padding: 20px;
       background: rgba(255, 255, 240, 0.9);
       border-right: 2px solid #8b5a2b;
     }
-    .stats h2 {
-      margin-top: 0;
+    .login {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: rgba(255, 248, 220, 0.9);
     }
-    .stats ul {
-      list-style: none;
-      padding-left: 0;
+    .login input {
+      padding: 10px;
+      font-size: 1.1em;
+      margin-bottom: 10px;
+    }
+    .login button {
+      padding: 10px 20px;
+      font-size: 1.1em;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="login" id="loginScreen">
+    <h1>Elden Paths™</h1>
+    <p>Enter your character name:</p>
+    <input id="nameInput" type="text" placeholder="roslin, ringo..." />
+    <button onclick="enterGame()">Enter World</button>
+  </div>
+
+  <div class="container" id="gameUI">
     <header>
       <img src="assets/img/logo.png" alt="Elden Paths Logo" style="height:80px;">
       <h1>Elden Paths™</h1>
-      <p><em>Explore the forgotten world. Let the echoes guide you…</em></p>
+      <p><em>Structures. Persistence. Shared world memory.</em></p>
     </header>
     <div class="stats" id="statsBox">Loading stats...</div>
     <div class="map">
@@ -101,13 +113,12 @@
       <p id="log">Loading...</p>
     </div>
     <div class="console">
-      <input type="text" id="command" placeholder="Command (e.g. go north)" onkeydown="if(event.key==='Enter') handleCommand()" />
+      <input type="text" id="command" placeholder="go north / build camp" onkeydown="if(event.key==='Enter') handleCommand()" />
       <button onclick="handleCommand()">Send</button>
     </div>
     <div class="sketch">
       <h2>Sketch</h2>
       <img id="sketch-img" src="assets/sketches/sample.png" alt="Sketch View" />
-      <div class="log" id="log-text">Awaiting command...</div>
     </div>
   </div>
 
@@ -125,7 +136,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    const playerName = "test_player";
+    let playerName = "";
     let playerData = {};
     let tileIndex = {};
     let playerTileId = "";
@@ -135,23 +146,35 @@
       speechSynthesis.speak(utterance);
     }
 
-    async function loadData() {
+    async function enterGame() {
+      playerName = document.getElementById("nameInput").value.trim().toLowerCase();
+      if (!playerName) return alert("Enter a name.");
+      document.getElementById("loginScreen").style.display = "none";
+      document.getElementById("gameUI").style.display = "grid";
+
       const [tileSnap, playerSnap] = await Promise.all([
         db.ref("tile_index").get(),
         db.ref("players/" + playerName).get()
       ]);
 
       tileIndex = tileSnap.val() || {};
-      playerData = playerSnap.val() || {};
-      playerTileId = playerData.tile || "tile_0_0";
+      playerData = playerSnap.val() || {
+        tile: "tile_130_90",
+        inventory: ["cloak", "flint"],
+        hp: 10,
+        stamina: 10,
+        discovered: ["tile_130_90"]
+      };
+
+      playerTileId = playerData.tile;
       updateDisplay(playerTileId);
       updateStats();
     }
 
     function updateStats() {
-      const gearList = (playerData.inventory || []).map(item => `<li>• ${item}</li>`).join("");
+      const gearList = (playerData.inventory || []).map(i => `<li>• ${i}</li>`).join("");
       document.getElementById("statsBox").innerHTML = `
-        <h2>Your Status</h2>
+        <h2>${playerName}</h2>
         <p><strong>HP:</strong> ${playerData.hp}</p>
         <p><strong>Stamina:</strong> ${playerData.stamina}</p>
         <h3>Inventory</h3>
@@ -161,17 +184,14 @@
 
     function updateDisplay(tileId) {
       const tile = tileIndex[tileId] || { name: "Unknown", terrain: "unknown", travel_minutes: "?" };
-      const log = document.getElementById("log");
-      const sketch = document.getElementById("sketch-img");
-
-      log.innerHTML = `
+      const sketchPath = sketchArtByTerrain[tile.terrain] || "assets/sketches/sample.png";
+      const structure = tile.structure ? `<br><strong>Structure:</strong> ${tile.structure.type} (by ${tile.structure.owner})` : "";
+      document.getElementById("log").innerHTML = `
         <strong>${tile.name}</strong><br>
         Terrain: ${tile.terrain}<br>
-        Travel Time: ${tile.travel_minutes} minutes<br>
+        Travel Time: ${tile.travel_minutes} minutes${structure}
       `;
-
-      const sketchPath = sketchArtByTerrain[tile.terrain] || "assets/sketches/sample.png";
-      sketch.src = sketchPath;
+      document.getElementById("sketch-img").src = sketchPath;
       speak(`You have entered ${tile.name}, a ${tile.terrain} terrain.`);
     }
 
@@ -179,40 +199,47 @@
       const input = document.getElementById("command").value.trim().toLowerCase();
       document.getElementById("command").value = "";
 
-      if (!input.startsWith("go ")) {
-        speak("Unknown command.");
+      if (input.startsWith("go ")) {
+        const dir = input.split(" ")[1];
+        let [_, xStr, yStr] = playerTileId.split("_");
+        let x = parseInt(xStr), y = parseInt(yStr);
+        if (dir === "north") y--;
+        else if (dir === "south") y++;
+        else if (dir === "east") x++;
+        else if (dir === "west") x--;
+        else return speak("Invalid direction.");
+
+        const nextTileId = `tile_${x}_${y}`;
+        if (!tileIndex[nextTileId]) return speak("You can't go that way.");
+
+        playerTileId = nextTileId;
+        playerData.tile = nextTileId;
+        if (!playerData.discovered.includes(nextTileId)) {
+          playerData.discovered.push(nextTileId);
+        }
+
+        await db.ref("players/" + playerName).set(playerData);
+        updateDisplay(nextTileId);
+        updateStats();
         return;
       }
 
-      const dir = input.split(" ")[1];
-      const [_, xStr, yStr] = playerTileId.split("_");
-      let x = parseInt(xStr), y = parseInt(yStr);
-      if (dir === "north") y--;
-      else if (dir === "south") y++;
-      else if (dir === "east") x++;
-      else if (dir === "west") x--;
-      else return speak("Invalid direction");
-
-      const nextTileId = `tile_${x}_${y}`;
-      if (!tileIndex[nextTileId]) {
-        speak("You can't go that way.");
+      if (input.startsWith("build ")) {
+        const structureType = input.split(" ")[1];
+        const structureData = {
+          type: structureType,
+          owner: playerName,
+          built_at: new Date().toISOString()
+        };
+        await db.ref("tile_index/" + playerTileId + "/structure").set(structureData);
+        tileIndex[playerTileId].structure = structureData;
+        speak(`You built a ${structureType}.`);
+        updateDisplay(playerTileId);
         return;
       }
 
-      // update fog
-      tileIndex[nextTileId].fog = false;
-      playerTileId = nextTileId;
-      playerData.tile = nextTileId;
-      playerData.discovered = Array.from(new Set([...(playerData.discovered || []), nextTileId]));
-
-      await db.ref("tile_index/" + nextTileId + "/fog").set(false);
-      await db.ref("players/" + playerName).set(playerData);
-
-      updateDisplay(nextTileId);
-      updateStats();
+      speak("Unknown command.");
     }
-
-    window.onload = loadData;
   </script>
 </body>
 </html>
