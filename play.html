@@ -53,6 +53,9 @@
       cursor: pointer;
       margin: 4px;
     }
+    .console input[type="file"] {
+      margin-left: 10px;
+    }
     .sketch {
       grid-area: sketch;
       padding: 20px;
@@ -189,6 +192,26 @@
       URL.revokeObjectURL(url);
     }
 
+    function loadPlayerFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const loadedData = JSON.parse(e.target.result);
+          players[playerName] = loadedData;
+          playerTileId = loadedData.tile;
+          updateDisplay(playerTileId);
+          updateStats();
+          speak("Player data loaded.");
+        } catch {
+          alert("Failed to load save file.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
     window.onload = loadState;
   </script>
 </head>
@@ -208,6 +231,7 @@
       <input type="text" id="command" placeholder="Command (e.g. go north)" onkeydown="if(event.key==='Enter') handleCommand()" />
       <button onclick="handleCommand()">Send</button>
       <button onclick="savePlayer()">💾 Save Progress</button>
+      <input type="file" onchange="loadPlayerFile(event)" />
     </div>
     <div class="sketch">
       <h2>Sketch</h2>
