@@ -3,15 +3,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™ — Core World Engine</title>
+  <title>Elden Paths™ – Class & Dice Engine</title>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-  <script src="sketch_map.js"></script>
+  <script>
+    function rollDice(sides = 20) {
+      const roll = Math.floor(Math.random() * sides) + 1;
+      const diceBox = document.getElementById("diceBox");
+      if (!diceBox) return roll;
+      diceBox.innerHTML = "";
+      const rollDiv = document.createElement("div");
+      rollDiv.style.fontSize = "48px";
+      rollDiv.style.fontWeight = "bold";
+      rollDiv.style.animation = "bounce 1s ease";
+      rollDiv.textContent = "🎲 " + roll;
+      diceBox.appendChild(rollDiv);
+      return roll;
+    }
+  </script>
   <style>
     body {
       font-family: 'Garamond', serif;
-      background-image: url('assets/img/parchment-bg.jpg');
-      background-size: cover;
+      background-color: #f9f3e3;
       margin: 0;
       padding: 0;
       color: #3e2d1c;
@@ -30,6 +43,7 @@
       grid-area: header;
       text-align: center;
       padding: 1em;
+      background-color: #d9c49a;
     }
     .map {
       grid-area: map;
@@ -38,39 +52,31 @@
     .console {
       grid-area: console;
       padding: 20px;
-      background: rgba(255,248,220,0.95);
+      background: #f2e8d5;
       border-top: 2px solid #8b5a2b;
     }
     .console input[type="text"] {
       width: 60%;
       padding: 10px;
       margin-right: 10px;
-      border-radius: 6px;
-      border: 1px solid #5c4323;
     }
     .console button {
       padding: 10px 16px;
       background-color: #e6d1a4;
       border: 1px solid #5c4323;
-      border-radius: 6px;
       cursor: pointer;
       margin: 4px;
     }
     .sketch {
       grid-area: sketch;
       padding: 20px;
-      background: rgba(255, 255, 255, 0.85);
+      background: #ffffff;
       border-left: 2px solid #8b5a2b;
-    }
-    .sketch img {
-      width: 100%;
-      margin-bottom: 10px;
-      border: 1px solid #3e2d1c;
     }
     .stats {
       grid-area: stats;
       padding: 20px;
-      background: rgba(255, 255, 240, 0.9);
+      background: #fff9e6;
       border-right: 2px solid #8b5a2b;
     }
     .login {
@@ -79,46 +85,56 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
-      background: rgba(255, 248, 220, 0.9);
+      background: #fcf5dd;
     }
-    .login input {
+    .login input, .login select {
       padding: 10px;
       font-size: 1.1em;
       margin-bottom: 10px;
     }
-    .login button {
-      padding: 10px 20px;
-      font-size: 1.1em;
-      cursor: pointer;
+    #diceBox {
+      font-size: 36px;
+      text-align: center;
+      padding: 10px;
+    }
+    @keyframes bounce {
+      0% { transform: scale(0.5); opacity: 0; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
 <body>
   <div class="login" id="loginScreen">
     <h1>Elden Paths™</h1>
-    <p>Enter your character name:</p>
-    <input id="nameInput" type="text" placeholder="roslin, ringo..." />
+    <input id="nameInput" placeholder="Character Name" />
+    <select id="classSelect">
+      <option value="knight">🛡️ Knight</option>
+      <option value="druid">🌿 Druid</option>
+      <option value="rogue">🗡️ Rogue</option>
+      <option value="warden">🏕️ Warden</option>
+    </select>
     <button onclick="enterGame()">Enter World</button>
   </div>
 
   <div class="container" id="gameUI">
     <header>
-      <img src="assets/img/logo.png" alt="Elden Paths Logo" style="height:80px;">
       <h1>Elden Paths™</h1>
-      <p><em>Core World Engine: Explore, build, battle, remember.</em></p>
+      <p><em>Class-based World Engine + Dice</em></p>
     </header>
-    <div class="stats" id="statsBox">Loading stats...</div>
+    <div class="stats" id="statsBox">Loading...</div>
     <div class="map">
       <h2>Current Region</h2>
       <p id="log">Loading...</p>
     </div>
     <div class="console">
-      <input type="text" id="command" placeholder="go north / build camp / attack / note ..." onkeydown="if(event.key==='Enter') handleCommand()" />
+      <input type="text" id="command" placeholder="Commands like go north, attack" onkeydown="if(event.key==='Enter') handleCommand()" />
       <button onclick="handleCommand()">Send</button>
+      <div id="diceBox"></div>
     </div>
     <div class="sketch">
       <h2>Sketch</h2>
-      <img id="sketch-img" src="assets/sketches/sample.png" alt="Sketch View" />
+      <img id="sketch-img" src="assets/sketches/sample.png" alt="Sketch View" width="100%" />
     </div>
   </div>
 
@@ -136,134 +152,106 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    let playerName = "", playerData = {}, tileIndex = {}, playerTileId = "";
+    let playerName = "", playerData = {}, playerClass = "", playerTileId = "";
+    const classStats = {
+      knight: { hp: 12, stamina: 8, inventory: ["sword", "cloak"] },
+      druid: { hp: 8, stamina: 12, inventory: ["herbs", "staff"] },
+      rogue: { hp: 10, stamina: 10, inventory: ["dagger", "cloak"] },
+      warden: { hp: 9, stamina: 10, inventory: ["tent", "hammer"] }
+    };
 
-    function speak(text) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      speechSynthesis.speak(utterance);
-    }
+    function speak(txt) { const u = new SpeechSynthesisUtterance(txt); speechSynthesis.speak(u); }
 
     async function enterGame() {
       playerName = document.getElementById("nameInput").value.trim().toLowerCase();
+      playerClass = document.getElementById("classSelect").value;
       if (!playerName) return alert("Enter a name.");
       document.getElementById("loginScreen").style.display = "none";
       document.getElementById("gameUI").style.display = "grid";
-
       const [tileSnap, playerSnap] = await Promise.all([
         db.ref("tile_index").get(),
         db.ref("players/" + playerName).get()
       ]);
-
-      tileIndex = tileSnap.val() || {};
-      playerData = playerSnap.val() || {
-        tile: "tile_130_90",
-        inventory: ["cloak", "flint"],
-        hp: 10,
-        stamina: 10,
-        discovered: ["tile_130_90"],
-        trail: []
-      };
-
+      const tileIndex = tileSnap.val() || {};
+      const saved = playerSnap.val();
+      if (saved) {
+        playerData = saved;
+      } else {
+        playerData = {
+          class: playerClass,
+          hp: classStats[playerClass].hp,
+          stamina: classStats[playerClass].stamina,
+          inventory: classStats[playerClass].inventory,
+          discovered: ["tile_130_90"],
+          tile: "tile_130_90",
+          trail: []
+        };
+        await db.ref("players/" + playerName).set(playerData);
+      }
       playerTileId = playerData.tile;
-      updateDisplay(playerTileId);
       updateStats();
+      updateDisplay(tileIndex[playerTileId] || {});
     }
 
     function updateStats() {
-      const gearList = (playerData.inventory || []).map(i => `<li>• ${i}</li>`).join("");
+      const gear = playerData.inventory.map(i => `<li>${i}</li>`).join("");
       document.getElementById("statsBox").innerHTML = `
         <h2>${playerName}</h2>
-        <p><strong>HP:</strong> ${playerData.hp}</p>
-        <p><strong>Stamina:</strong> ${playerData.stamina}</p>
-        <h3>Inventory</h3>
-        <ul>${gearList}</ul>
+        <p>Class: ${playerData.class}</p>
+        <p>HP: ${playerData.hp}</p>
+        <p>Stamina: ${playerData.stamina}</p>
+        <ul>${gear}</ul>
       `;
     }
 
-    async function updateDisplay(tileId) {
-      const tile = tileIndex[tileId] || { name: "Unknown", terrain: "unknown", travel_minutes: "?" };
-      const sketchPath = sketchArtByTerrain[tile.terrain] || "assets/sketches/sample.png";
-      const structure = tile.structure ? `<br><strong>Structure:</strong> ${tile.structure.type} (by ${tile.structure.owner})` : "";
-      const notes = tile.notes && tile.notes[playerName] ? `<br><em>Your note:</em> "${tile.notes[playerName]}"` : "";
+    async function updateDisplay(tile) {
       document.getElementById("log").innerHTML = `
-        <strong>${tile.name}</strong><br>
-        Terrain: ${tile.terrain}<br>
-        Travel Time: ${tile.travel_minutes} minutes${structure}${notes}
+        <strong>${tile.name || "Unknown"}</strong><br>
+        Terrain: ${tile.terrain || "?"}<br>
+        Travel Time: ${tile.travel_minutes || "?"}
       `;
-      document.getElementById("sketch-img").src = sketchPath;
-
-      // Apply effects
-      if (tile.structure && tile.structure.type === "camp") playerData.hp = Math.min(playerData.hp + 2, 10);
-      if (tile.structure && tile.structure.type === "shrine") playerData.stamina = Math.min(playerData.stamina + 1, 10);
-
-      await db.ref("players/" + playerName).set(playerData);
-      speak(`You have entered ${tile.name}, a ${tile.terrain} terrain.`);
+      speak(`You entered ${tile.name || "a region"}`);
     }
 
     async function handleCommand() {
-      const input = document.getElementById("command").value.trim().toLowerCase();
+      const cmd = document.getElementById("command").value.trim().toLowerCase();
       document.getElementById("command").value = "";
+      const tileRef = db.ref("tile_index/" + playerTileId);
+      const tileSnap = await tileRef.get();
+      const tile = tileSnap.val() || {};
 
-      if (!input) return;
-      if (input.startsWith("go ")) {
-        const dir = input.split(" ")[1];
+      if (cmd.startsWith("go ")) {
         let [_, xStr, yStr] = playerTileId.split("_");
         let x = parseInt(xStr), y = parseInt(yStr);
-        if (dir === "north") y--;
-        else if (dir === "south") y++;
-        else if (dir === "east") x++;
-        else if (dir === "west") x--;
-        else return speak("Invalid direction.");
-        const nextTileId = `tile_${x}_${y}`;
-        if (!tileIndex[nextTileId]) return speak("You can't go that way.");
-        playerTileId = nextTileId;
-        playerData.tile = nextTileId;
-        if (!playerData.discovered.includes(nextTileId)) playerData.discovered.push(nextTileId);
-        if (!playerData.trail.includes(nextTileId)) playerData.trail.push(nextTileId);
+        if (cmd.includes("north")) y--;
+        else if (cmd.includes("south")) y++;
+        else if (cmd.includes("east")) x++;
+        else if (cmd.includes("west")) x--;
+        const newTile = `tile_${x}_${y}`;
+        playerTileId = newTile;
+        playerData.tile = newTile;
+        if (!playerData.discovered.includes(newTile)) playerData.discovered.push(newTile);
+        if (!playerData.trail.includes(newTile)) playerData.trail.push(newTile);
         await db.ref("players/" + playerName).set(playerData);
-        updateDisplay(nextTileId);
+        handleCommand(); // recurse into the new tile
+        return;
+      }
+
+      if (cmd === "attack") {
+        const roll = rollDice(20);
+        const bonus = playerData.class === "knight" ? 2 : 0;
+        const total = roll + bonus;
+        speak(`You rolled a ${total}`);
+        if (total >= 12) speak("Hit!"); else {
+          speak("Miss.");
+          playerData.hp -= 2;
+        }
+        await db.ref("players/" + playerName).set(playerData);
         updateStats();
         return;
       }
 
-      if (input.startsWith("build ")) {
-        const type = input.split(" ")[1];
-        const structure = { type, owner: playerName, built_at: new Date().toISOString() };
-        await db.ref("tile_index/" + playerTileId + "/structure").set(structure);
-        tileIndex[playerTileId].structure = structure;
-        speak(`You built a ${type}.`);
-        updateDisplay(playerTileId);
-        return;
-      }
-
-      if (input.startsWith("note ")) {
-        const message = input.slice(5).trim();
-        await db.ref(`tile_index/${playerTileId}/notes/${playerName}`).set(message);
-        speak("Note saved.");
-        updateDisplay(playerTileId);
-        return;
-      }
-
-      if (input === "attack") {
-        const roll = Math.floor(Math.random() * 20) + 1 + 2;
-        const result = roll >= 12 ? "You hit the creature!" : "You missed!";
-        if (roll < 12) playerData.hp -= 2;
-        speak(`${result}`);
-        updateStats();
-        await db.ref("players/" + playerName).set(playerData);
-        return;
-      }
-
-      if (input.startsWith("loot ")) {
-        const item = input.split(" ")[1];
-        if (!playerData.inventory.includes(item)) playerData.inventory.push(item);
-        speak(`You looted a ${item}.`);
-        updateStats();
-        await db.ref("players/" + playerName).set(playerData);
-        return;
-      }
-
-      speak("Unknown command.");
+      speak("Command not recognized.");
     }
   </script>
 </body>
