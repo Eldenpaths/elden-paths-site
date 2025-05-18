@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths - Inventory System</title>
+  <title>Elden Paths - Save/Load System</title>
   <style>
     body {
       background: #f9f4e7;
@@ -13,18 +13,21 @@
     .log { white-space: pre-wrap; background: #fff; border: 1px solid #aaa; padding: 15px; margin-top: 20px; }
     button {
       padding: 10px 20px;
-      margin-top: 10px;
+      margin: 5px 5px 5px 0;
       font-size: 1em;
       cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <h1>🎒 Elden Paths: Gear + Loot Integration</h1>
+  <h1>🎒 Elden Paths: Gear + Save System</h1>
   <button onclick="simulatePlayerMove('warden')">🚶 Move Player</button>
   <button onclick="simulateCombat()">⚔️ Combat Test</button>
   <button onclick="showCharacterSheet()">📜 Character Sheet</button>
   <button onclick="toggleInventory()">🎒 Inventory</button>
+  <button onclick="savePlayerState()">💾 Save Progress</button>
+  <button onclick="loadPlayerState()">📂 Load Progress</button>
+
   <div class="log" id="combatLog">Click a button to explore, battle, and collect gear.</div>
 
   <!-- Character Sheet Overlay -->
@@ -40,9 +43,14 @@
   </div>
 
   <!-- Inventory UI Panel -->
-  <div id="inventoryPanel" style="display:none; position:absolute; top:60px; left:60px; background:#fff; border:2px solid #222; padding:15px; width:200px; box-shadow:2px 2px 10px rgba(0,0,0,0.3);">
+  <div id="inventoryPanel" style="display:none; position:absolute; top:60px; left:60px; background:#fff; border:2px solid #222; padding:15px; width:240px; box-shadow:2px 2px 10px rgba(0,0,0,0.3);">
     <h3>🎒 Inventory</h3>
     <ul id="inventoryList"><li>(Empty)</li></ul>
+    <div style="margin-top: 20px;">
+      <h4>🛡️ Equipped</h4>
+      <p><strong>Weapon:</strong> <span id="equippedWeapon">(None)</span></p>
+      <p><strong>Armor:</strong> <span id="equippedArmor">(None)</span></p>
+    </div>
     <button onclick="toggleInventory()">Close</button>
   </div>
 
@@ -54,11 +62,14 @@
   <script src="codex.js"></script>
   <script src="inventory.js"></script>
   <script>
-    const enemy = {
-      name: "Bandit",
-      str: 2,
-      dex: 1,
-      hp: 15
+    const player = {
+      name: "Warden",
+      str: 3,
+      dex: 2,
+      hp: 20,
+      maxHp: 20,
+      level: 1,
+      xp: 0
     };
 
     function rollDice(sides) {
@@ -66,14 +77,16 @@
     }
 
     function performAttack(attacker, defender) {
-      const attackRoll = rollDice(20) + attacker.str;
-      const defenseRoll = rollDice(20) + defender.dex;
+      const strBonus = getStatBonus("weapon");
+      const defBonus = getStatBonus("armor");
+      const attackRoll = rollDice(20) + attacker.str + strBonus;
+      const defenseRoll = rollDice(20) + defender.dex + defBonus;
 
-      let log = `🗡 ${attacker.name} rolls an attack: ${attackRoll}\n`;
-      log += `🛡 ${defender.name} rolls defense: ${defenseRoll}\n`;
+      let log = `🗡 ${attacker.name} rolls an attack: ${attackRoll} (STR +${strBonus})\n`;
+      log += `🛡 ${defender.name} rolls defense: ${defenseRoll} (DEF +${defBonus})\n`;
 
       if (attackRoll > defenseRoll) {
-        const damage = rollDice(8) + attacker.str;
+        const damage = rollDice(8) + attacker.str + strBonus;
         defender.hp -= damage;
         log += `💥 Hit! ${attacker.name} deals ${damage} damage. ${defender.name} has ${defender.hp} HP left.\n`;
         if (defender.hp <= 0) {
@@ -89,19 +102,18 @@
 
     function simulateCombat() {
       let log = "";
-      const attacker = { ...player };
-      const defender = { ...enemy };
+      const enemy = { name: "Bandit", str: 2, dex: 1, hp: 15 };
       let rounds = 0;
 
-      while (attacker.hp > 0 && defender.hp > 0 && rounds < 10) {
-        log += performAttack(attacker, defender);
-        if (defender.hp <= 0) break;
-        log += performAttack(defender, attacker);
+      while (player.hp > 0 && enemy.hp > 0 && rounds < 10) {
+        log += performAttack(player, enemy);
+        if (enemy.hp <= 0) break;
+        log += performAttack(enemy, player);
         rounds++;
       }
 
-      if (attacker.hp <= 0) {
-        log += `☠️ ${attacker.name} falls in battle.\n`;
+      if (player.hp <= 0) {
+        log += `☠️ ${player.name} falls in battle.\n`;
       }
 
       document.getElementById("combatLog").innerText = log;
@@ -145,6 +157,38 @@
 
     function renderEncounterScene(enemy, terrain) {
       console.log(`🖼 Stub: Render scene of ${enemy} in ${terrain}.`);
+    }
+
+    async function savePlayerState() {
+      const playerData = {
+        inventory,
+        equippedWeapon,
+        equippedArmor,
+        codex: await fetchUnlockedCodex()
+      };
+      localStorage.setItem("eldenpaths_player", JSON.stringify(playerData));
+      alert("Progress saved!");
+    }
+
+    async function loadPlayerState() {
+      const data = localStorage.getItem("eldenpaths_player");
+      if (!data) return;
+      const save = JSON.parse(data);
+      inventory = save.inventory || [];
+      equippedWeapon = save.equippedWeapon;
+      equippedArmor = save.equippedArmor;
+      updateInventoryUI();
+      updateEquipmentUI();
+      for (let entry of (save.codex || [])) {
+        unlockCodexEntry(entry);
+      }
+      alert("Progress loaded.");
+    }
+
+    async function fetchUnlockedCodex() {
+      const res = await fetch("unlocked_codex.json");
+      const data = await res.json();
+      return data.entries || [];
     }
   </script>
 </body>
