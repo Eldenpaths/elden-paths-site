@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™ — Inventory & Leveling</title>
+  <title>Elden Paths™ — Save System</title>
   <style>
     body { font-family: monospace; background: #f4f4f4; padding: 2em; }
     #out { white-space: pre-wrap; padding: 1em; background: #eee; border-radius: 6px; margin-bottom: 1em; }
@@ -24,17 +24,39 @@
   <button onclick="showInventory()">🎒 Inventory</button>
 
   <script>
-    let player = {
-      name: 'Hero',
-      hp: 10,
-      maxHp: 10,
-      str: 5,
-      xp: 0,
-      level: 1,
-      tile: '0,0',
-      inventory: [],
-      gear: { weapon: null }
-    };
+    const api = "https://player-save.pationandcamp.workers.dev";
+    const name = new URLSearchParams(location.search).get("name") || prompt("Enter your name:");
+    let player = null;
+
+    async function loadPlayer() {
+      const res = await fetch(`${api}/loadPlayer?name=${encodeURIComponent(name)}`);
+      if (res.ok) {
+        player = await res.json();
+      } else {
+        // Create new player if not found
+        player = {
+          name,
+          hp: 10,
+          maxHp: 10,
+          str: 5,
+          xp: 0,
+          level: 1,
+          tile: '0,0',
+          inventory: [],
+          gear: { weapon: null }
+        };
+        await savePlayer();
+      }
+      update();
+    }
+
+    async function savePlayer() {
+      await fetch(`${api}/savePlayer`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(player)
+      });
+    }
 
     function update() {
       document.getElementById('out').innerText =
@@ -61,7 +83,7 @@
       }
     }
 
-    function move(dir) {
+    async function move(dir) {
       let [x, y] = player.tile.split(',').map(Number);
       if (dir === 'north') y++;
       if (dir === 'south') y--;
@@ -69,9 +91,10 @@
       if (dir === 'west') x--;
       player.tile = `${x},${y}`;
       update();
+      await savePlayer();
     }
 
-    function fightGoblin() {
+    async function fightGoblin() {
       let goblin = { hp: 6, str: 3 };
       let log = '👹 A goblin appears!\n';
 
@@ -98,19 +121,22 @@
         checkLevelUp();
       }
 
+      update();
       document.getElementById('out').innerText = log + `\n\n📍 Tile: ${player.tile}`;
+      await savePlayer();
     }
 
-    function rest() {
+    async function rest() {
       const healed = Math.min(player.maxHp - player.hp, 4);
       player.hp += healed;
-      const msg = healed > 0
-        ? `🛌 You rest and regain ${healed} HP.\nHP: ${player.hp}/${player.maxHp}`
-        : `🛌 You're already at full health.`;
-      document.getElementById('out').innerText = msg;
+      update();
+      document.getElementById('out').innerText =
+        healed > 0 ? `🛌 You rest and regain ${healed} HP.\nHP: ${player.hp}/${player.maxHp}` :
+        `🛌 You're already at full health.`;
+      await savePlayer();
     }
 
-    function showInventory() {
+    async function showInventory() {
       if (player.inventory.length === 0) {
         alert("🎒 Your inventory is empty.");
         return;
@@ -123,6 +149,7 @@
           player.hp = Math.min(player.hp + 3, player.maxHp);
           player.inventory.splice(player.inventory.indexOf("Herb"), 1);
           msg += `🌿 You used a Herb and healed 3 HP.\nHP: ${player.hp}/${player.maxHp}`;
+          await savePlayer();
         }
       } else {
         msg += "(No usable items)";
@@ -132,7 +159,7 @@
       update();
     }
 
-    update();
+    loadPlayer();
   </script>
 
 </body>
