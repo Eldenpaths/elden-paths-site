@@ -42,11 +42,27 @@
     <button onclick="move('south')">Go South</button>
     <button onclick="move('east')">Go East</button>
     <button onclick="move('west')">Go West</button>
+    <button onclick="resetGame()">Reset</button>
   </div>
 
   <script>
     const log = document.getElementById('log');
     let position = { x: 0, y: 0 };
+
+    function savePosition() {
+      localStorage.setItem('elden_position', JSON.stringify(position));
+    }
+
+    function loadPosition() {
+      const saved = localStorage.getItem('elden_position');
+      if (saved) {
+        position = JSON.parse(saved);
+        log.textContent += `\nWelcome back. Resuming at (${position.x}, ${position.y}).`;
+      } else {
+        log.textContent += `\nNew traveler. You begin at (${position.x}, ${position.y}).`;
+      }
+      log.scrollTop = log.scrollHeight;
+    }
 
     function move(direction) {
       if (direction === 'north') position.y -= 1;
@@ -54,8 +70,17 @@
       if (direction === 'east') position.x += 1;
       if (direction === 'west') position.x -= 1;
       log.textContent += `\nYou travel ${direction}. Now at (${position.x}, ${position.y})`;
+      savePosition();
       log.scrollTop = log.scrollHeight;
     }
+
+    function resetGame() {
+      localStorage.removeItem('elden_position');
+      position = { x: 0, y: 0 };
+      log.textContent += `\nYour journey is reset. Starting over at (0, 0).`;
+    }
+
+    loadPosition();
   </script>
 </body>
 </html>
