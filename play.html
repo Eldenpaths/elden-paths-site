@@ -1,171 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Elden Paths™ — Tile Map</title>
+  <meta charset="UTF-8">
+  <title>Elden Paths™</title>
   <style>
-    body { font-family: monospace; padding: 1em; background: #f3f3f3; display: flex; flex-direction: row; gap: 2em; }
-    #map { line-height: 1.5; }
-    #map span { display: inline-block; width: 2ch; text-align: center; }
-    #out { white-space: pre-wrap; background: #eee; padding: 1em; border-radius: 6px; min-width: 350px; flex-shrink: 0; }
-    button, select { margin: 0.25em 0.5em 0.25em 0; }
+    body {
+      font-family: monospace;
+      background: #f3f3f3;
+      padding: 20px;
+    }
+    #out {
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #ccc;
+      width: fit-content;
+      margin-bottom: 10px;
+      white-space: pre-wrap;
+    }
+    button {
+      margin: 2px;
+    }
   </style>
 </head>
 <body>
-  <div>
-    <h2>🗺️ Map</h2>
-    <div id="map"></div>
-  </div>
 
-  <div>
-    <h1>Elden Paths™</h1>
-    <div id="out">Loading...</div>
+  <h1>📖 Elden Paths™</h1>
 
-    <div id="play" class="hidden">
-      <button onclick="move('north')">Go North</button>
-      <button onclick="move('south')">Go South</button>
-      <button onclick="move('east')">Go East</button>
-      <button onclick="move('west')">Go West</button>
-      <br/>
-      <button onclick="fight()">⚔️ Fight Goblin</button>
-    </div>
-  </div>
+  <div id="out">Loading...</div>
+
+  <button onclick="move('north')">Go North</button>
+  <button onclick="move('south')">Go South</button>
+  <button onclick="move('east')">Go East</button>
+  <button onclick="move('west')">Go West</button>
+  <br>
+  <button onclick="fightGoblin()">⚔️ Fight Goblin</button>
 
   <script>
-    const api = 'https://player-save.pationandcamp.workers.dev';
-    let player = {};
-    const gridRows = ['A', 'B', 'C', 'D'];
-    const gridCols = [1, 2, 3, 4];
+    const player = {
+      name: 'Hero',
+      hp: 12,
+      maxHp: 12,
+      str: 2
+    };
 
-    const roll = (d = 20) => Math.floor(Math.random() * d) + 1;
+    const goblin = {
+      name: 'Goblin',
+      hp: 6,
+      str: 1
+    };
 
-    function output(txt) {
-      document.getElementById('out').textContent = txt;
+    function roll(die = 20) {
+      return Math.floor(Math.random() * die) + 1;
     }
 
-    function renderMap() {
-      let html = '';
-      for (let r of gridRows) {
-        for (let c of gridCols) {
-          const tile = `${r}${c}`;
-          if (tile === player.tile) {
-            html += `<span>🧍</span>`;
-          } else if (player.fog.includes(tile)) {
-            html += `<span>⬜</span>`;
-          } else {
-            html += `<span>⬛</span>`;
-          }
+    function fightGoblin() {
+      const log = [];
+      const playerRoll = roll() + player.str;
+      const goblinRoll = roll() + goblin.str;
+
+      log.push(`🧝 You rolled ${playerRoll} vs Goblin's ${goblinRoll}`);
+
+      if (playerRoll >= goblinRoll) {
+        goblin.hp -= 4;
+        log.push(`✅ You hit the Goblin! Goblin HP: ${goblin.hp}`);
+        if (goblin.hp <= 0) {
+          log.push(`🏆 Goblin defeated!`);
         }
-        html += '<br>';
-      }
-      document.getElementById('map').innerHTML = html;
-    }
-
-    function render() {
-      document.getElementById('play').classList.remove('hidden');
-      renderMap();
-      output(`
-📍 Tile: ${player.tile}
-🧭 Fog of Discovery: ${player.fog.join(', ')}
-
-Name: ${player.name}
-Race: ${player.race}, Class: ${player.class}
-HP: ${player.hp}, XP: ${player.xp}, Level: ${player.level}
-STR: ${player.stats.str}, DEX: ${player.stats.dex}, INT: ${player.stats.int}
-Gold: ${player.gold}
-Conditions: ${player.conditions.join(', ') || 'None'}
-Last Seen: ${player.lastSeen}
-      `.trim());
-    }
-
-    async function load() {
-      const name = new URLSearchParams(location.search).get('name');
-      if (!name) return output("Missing ?name= parameter.");
-      const res = await fetch(`${api}/loadPlayer?name=${name}`);
-      if (res.ok) {
-        player = await res.json();
-        if (!player.tile) player.tile = "B2";
-        if (!player.fog) player.fog = [player.tile];
-        render();
       } else {
-        output("Player not found.");
-      }
-    }
-
-    async function save() {
-      player.lastSeen = new Date().toISOString();
-      await fetch(`${api}/savePlayer`, {
-        method: 'POST',
-        body: JSON.stringify(player)
-      });
-      render();
-    }
-
-    function tileToCoord(tile) {
-      const row = tile[0];
-      const col = parseInt(tile[1]);
-      return [gridRows.indexOf(row), gridCols.indexOf(col)];
-    }
-
-    function coordToTile(r, c) {
-      if (r < 0 || r >= gridRows.length || c < 0 || c >= gridCols.length) return null;
-      return `${gridRows[r]}${gridCols[c]}`;
-    }
-
-    async function move(dir) {
-      let [r, c] = tileToCoord(player.tile);
-      if (dir === 'north') r -= 1;
-      if (dir === 'south') r += 1;
-      if (dir === 'west') c -= 1;
-      if (dir === 'east') c += 1;
-
-      const newTile = coordToTile(r, c);
-      if (!newTile) {
-        output("You can't go that way.\n\n" + document.getElementById('out').textContent);
-        return;
+        player.hp -= 3;
+        log.push(`❌ Goblin hit you! Your HP: ${player.hp}`);
+        if (player.hp <= 0) {
+          log.push(`☠️ You were defeated!`);
+        }
       }
 
-      player.tile = newTile;
-      if (!player.fog.includes(newTile)) {
-        player.fog.push(newTile);
-        output(`🗺️ New tile discovered: ${newTile}!\n\n` + document.getElementById('out').textContent);
-      } else {
-        output(`You travel to ${newTile}.\n\n` + document.getElementById('out').textContent);
-      }
-
-      await save();
+      document.getElementById('out').innerText = log.join('\n');
     }
 
-    async function fight() {
-      const goblin = { hp: 5, ac: 12, atk: 2 };
-      const pRoll = roll(20) + player.stats.str;
-      const gRoll = roll(20) + goblin.atk;
-      let log = `You roll to hit: ${pRoll} vs AC ${goblin.ac}\n`;
-
-      if (pRoll >= goblin.ac) {
-        const dmg = roll(4);
-        goblin.hp -= dmg;
-        player.xp += 10;
-        log += `✅ Hit! You deal ${dmg} to Goblin. +10 XP\n`;
-      } else {
-        log += `❌ You missed.\n`;
-      }
-
-      if (gRoll >= 12) {
-        const dmg = roll(4);
-        player.hp -= dmg;
-        player.conditions.push("Wounded");
-        log += `💥 Goblin hits you for ${dmg}. HP now ${player.hp}\n`;
-      } else {
-        log += `🛡️ Goblin missed.\n`;
-      }
-
-      await save();
-      output(log + '\n---\n' + document.getElementById('out').textContent);
+    function move(dir) {
+      document.getElementById('out').innerText = `You move ${dir}.`;
     }
 
-    load();
+    // Initial output
+    document.getElementById('out').innerText = `Welcome to Elden Paths™!\nHP: ${player.hp}/${player.maxHp}`;
   </script>
+
 </body>
 </html>
-
