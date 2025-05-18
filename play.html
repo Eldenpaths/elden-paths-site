@@ -1,168 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Elden Paths™ – Play</title>
-  <script>
-    const WORKER_URL = 'https://player-save.pationandcamp.workers.dev'; // LIVE API
-
-    let player = {
-      name: '',
-      tile: 'A1',
-      fog: ['A1'],
-      race: '',
-      class: '',
-      stats: {},
-      gear: { equipped: [], inventory: [] },
-      gold: 50,
-      xp: 0,
-      level: 1,
-      conditions: [],
-      appearance_id: '',
-      last_seen: ''
-    };
-
-    const shopItems = [
-      { name: "Sword", cost: 25 },
-      { name: "Shield", cost: 20 },
-      { name: "Torch", cost: 5 },
-      { name: "Healing Herb", cost: 10 },
-      { name: "Rope", cost: 15 }
-    ];
-
-    function generateStats() {
-      return {
-        STR: Math.floor(Math.random() * 6) + 10,
-        DEX: Math.floor(Math.random() * 6) + 10,
-        INT: Math.floor(Math.random() * 6) + 10
-      };
+  <meta charset="UTF-8">
+  <title>Elden Paths™ — Play</title>
+  <style>
+    body {
+      font-family: monospace;
+      padding: 2em;
     }
-
-    async function character_creation() {
-      const name = prompt("Enter your character name:");
-      const race = prompt("Choose your race (Human, Elf, Dwarf):");
-      const charClass = prompt("Choose your class (Warden, Seer, Fighter):");
-      const gearMode = confirm("OK = Auto-start gear, Cancel = Shop");
-
-      player.name = name || '';
-      player.race = race || '';
-      player.class = charClass || '';
-      player.stats = generateStats();
-      player.appearance_id = `${name.toLowerCase()}-v1-final`;
-      player.last_seen = new Date().toISOString();
-      player.gold = 50;
-      player.level = 1;
-      player.xp = 0;
-      player.conditions = [];
-      player.tile = 'A1';
-      player.fog = ['A1'];
-
-      if (gearMode) {
-        player.gear.equipped = ["Starter Weapon"];
-        player.gear.inventory = ["Bread", "Torch"];
-      } else {
-        player.gear.equipped = [];
-        player.gear.inventory = [];
-        shop();
-      }
-
-      await savePlayer();
-      render();
+    #out {
+      white-space: pre-wrap;
+      margin-bottom: 1em;
     }
-
-    function shop() {
-      let shopping = true;
-      while (shopping) {
-        let shopList = `Gold: ${player.gold}\nBuy an item:\n`;
-        shopItems.forEach((item, i) => {
-          shopList += `${i + 1}. ${item.name} (${item.cost}g)\n`;
-        });
-        shopList += `${shopItems.length + 1}. Finish shopping`;
-
-        const choice = parseInt(prompt(shopList));
-        if (choice === shopItems.length + 1 || isNaN(choice)) {
-          shopping = false;
-        } else {
-          const item = shopItems[choice - 1];
-          if (item && player.gold >= item.cost) {
-            player.gear.inventory.push(item.name);
-            player.gold -= item.cost;
-          } else {
-            alert("Not enough gold or invalid choice.");
-          }
-        }
-      }
-    }
-
-    async function savePlayer() {
-      player.last_seen = new Date().toISOString();
-      const data = { name: player.name, ...player };
-      await fetch(`${WORKER_URL}/savePlayer`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    }
-
-    async function loadPlayer(name) {
-      const res = await fetch(`${WORKER_URL}/loadPlayer?name=${encodeURIComponent(name)}`);
-      if (res.status === 404) {
-        await character_creation();
-      } else {
-        const data = await res.json();
-
-        const isIncomplete =
-          !data.name ||
-          !data.race || data.race === 'undefined' ||
-          !data.class || data.class === 'undefined' ||
-          !data.stats || typeof data.stats.STR !== 'number';
-
-        if (isIncomplete) {
-          await character_creation();
-        } else {
-          player = { name, ...data };
-          render();
-        }
-      }
-    }
-
-    function move(direction) {
-      player.tile = `Moved-${direction}`;
-      if (!player.fog.includes(player.tile)) {
-        player.fog.push(player.tile);
-      }
-      savePlayer();
-      render();
-    }
-
-    function render() {
-      document.getElementById('out').innerText = `
-Name: ${player.name}
-Race: ${player.race}
-Class: ${player.class}
-Stats: STR ${player.stats.STR}, DEX ${player.stats.DEX}, INT ${player.stats.INT}
-Tile: ${player.tile}
-Fog: ${player.fog.join(", ")}
-XP: ${player.xp}, Level: ${player.level}
-Gold: ${player.gold}
-Gear: Equipped - ${player.gear.equipped.join(", ") || 'None'}, Inventory - ${player.gear.inventory.join(", ") || 'Empty'}
-Conditions: ${player.conditions.join(", ") || 'None'}
-Last Seen: ${player.last_seen}
-      `;
-    }
-
-    window.onload = async () => {
-      const name = prompt("Enter your character name to load:");
-      await loadPlayer(name);
-    };
-  </script>
+  </style>
 </head>
 <body>
   <h1>Elden Paths™ — Play</h1>
-  <div id="out" style="white-space: pre-wrap; font-family: monospace; padding-bottom: 1em;"></div>
+  <div id="out">Loading...</div>
   <button onclick="move('north')">Go North</button>
   <button onclick="move('south')">Go South</button>
   <button onclick="move('east')">Go East</button>
   <button onclick="move('west')">Go West</button>
+
+  <script>
+    const workerBase = 'https://player-save.pationandcamp.workers.dev';
+    const playerName = prompt("Enter your character's name:") || 'wanderer';
+
+    async function loadPlayer() {
+      try {
+        const res = await fetch(`${workerBase}/loadPlayer?name=${playerName}`);
+        const player = await res.json();
+        if (!player.name) {
+          player.name = playerName;
+          player.xp = 0;
+          player.level = 1;
+          player.tile = 'A1';
+          player.gold = 50;
+          player.gear = { equipped: 'None', inventory: 'Empty' };
+          player.conditions = 'None';
+          player.lastSeen = new Date().toISOString();
+        }
+        window.player = player;
+        savePlayer();
+        renderPlayer();
+      } catch (err) {
+        document.getElementById('out').textContent = `Failed to load player: ${err}`;
+      }
+    }
+
+    async function savePlayer() {
+      try {
+        await fetch(`${workerBase}/savePlayer`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(window.player)
+        });
+      } catch (err) {
+        console.error('Failed to save player:', err);
+      }
+    }
+
+    function renderPlayer() {
+      const p = window.player;
+      document.getElementById('out').textContent = 
+        `Name: ${p.name}\n` +
+        `Race: ${p.race || 'Unknown'}\n` +
+        `Class: ${p.class || 'Unknown'}\n` +
+        `Tile: ${p.tile}\n` +
+        `Fog: ${p.fog || 'None'}\n` +
+        `XP: ${p.xp}, Level: ${p.level}\n` +
+        `Gold: ${p.gold}\n` +
+        `Gear: Equipped - ${p.gear?.equipped}, Inventory - ${p.gear?.inventory}\n` +
+        `Conditions: ${p.conditions}\n` +
+        `Last Seen: ${p.lastSeen}`;
+    }
+
+    function move(dir) {
+      const now = new Date().toISOString();
+      window.player.tile = `Moved-${dir}`;
+      window.player.fog = (window.player.fog || '') + `, Moved-${dir}`;
+      window.player.lastSeen = now;
+      savePlayer();
+      renderPlayer();
+    }
+
+    loadPlayer();
+  </script>
 </body>
 </html>
