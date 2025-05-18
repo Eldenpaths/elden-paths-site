@@ -1,187 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Elden Paths™ — Full Build</title>
+  <meta charset="UTF-8" />
+  <title>Elden Paths™ — Full Quest Engine</title>
   <style>
     body { font-family: monospace; background: #f4f4f4; padding: 2em; }
-    #out { white-space: pre-wrap; padding: 1em; background: #eee; border-radius: 6px; margin-bottom: 1em; }
+    #out { white-space: pre-wrap; padding: 1em; background: #eee; border-radius: 6px; margin-bottom: 1em; max-width: 700px; }
     button { margin: 4px; }
   </style>
 </head>
 <body>
 
-  <h1>📖 Elden Paths™</h1>
-  <div id="out">Loading...</div>
+<h1>📖 Elden Paths™</h1>
+<div id="out">Loading...</div>
 
-  <button onclick="move('north')">⬆️ Go North</button>
-  <button onclick="move('south')">⬇️ Go South</button>
-  <button onclick="move('east')">➡️ Go East</button>
-  <button onclick="move('west')">⬅️ Go West</button>
-  <br>
-  <button onclick="fightGoblin()">⚔️ Fight Goblin</button>
-  <button onclick="rest()">🛌 Rest</button>
-  <button onclick="showInventory()">🎒 Inventory</button>
-  <button onclick="showJournal()">📓 View Journal</button>
+<button onclick="move('north')">⬆️ Go North</button>
+<button onclick="move('south')">⬇️ Go South</button>
+<button onclick="move('east')">➡️ Go East</button>
+<button onclick="move('west')">⬅️ Go West</button><br>
+<button onclick="fightGoblin()">⚔️ Fight Goblin</button>
+<button onclick="rest()">🛌 Rest</button>
+<button onclick="showInventory()">🎒 Inventory</button>
+<button onclick="showJournal()">📓 Journal</button>
+<button onclick="showQuests()">📜 Quests</button>
 
-  <script>
-    const api = "https://player-save.pationandcamp.workers.dev";
-    const name = new URLSearchParams(location.search).get("name") || prompt("Enter your name:");
-    let player = null;
+<script>
+const api = "https://player-save.pationandcamp.workers.dev";
+const name = new URLSearchParams(location.search).get("name") || prompt("Enter your name:");
+let player = null;
 
-    const loreByTile = {
-      "B1": "🗿 You find a cracked statue lying in the weeds.",
-      "C2": "⛩️ An ancient altar glows faintly in the dusk.",
-      "D3": "🔥 Burnt wagons and splintered wood mark a destroyed caravan."
+const loreByTile = {
+  "B1": "🗿 You find a cracked statue lying in the weeds.",
+  "C2": "⛩️ An ancient altar glows faintly in the dusk.",
+  "D3": "🔥 Burnt wagons and splintered wood mark a destroyed caravan."
+};
+
+const questByTile = {
+  "A2": "🌿 Quest: Gather herbs for the village healer.",
+  "C1": "🧱 Quest: Investigate the collapsed mineshaft.",
+  "D4": "📦 Quest: Recover the lost trader's chest."
+};
+
+function xpForNextLevel(level) {
+  return level * 10 + (level - 1) * 10;
+}
+
+async function loadPlayer() {
+  const res = await fetch(`${api}/loadPlayer?name=${encodeURIComponent(name)}`);
+  if (res.ok) {
+    player = await res.json();
+  } else {
+    player = {
+      name,
+      hp: 10,
+      maxHp: 10,
+      str: 5,
+      xp: 0,
+      level: 1,
+      tile: '0,0',
+      inventory: [],
+      gear: { weapon: null },
+      journal: [],
+      quests: []
     };
+    await savePlayer();
+  }
+  update();
+}
 
-    async function loadPlayer() {
-      const res = await fetch(`${api}/loadPlayer?name=${encodeURIComponent(name)}`);
-      if (res.ok) {
-        player = await res.json();
-      } else {
-        player = {
-          name,
-          hp: 10,
-          maxHp: 10,
-          str: 5,
-          xp: 0,
-          level: 1,
-          tile: '0,0',
-          inventory: [],
-          gear: { weapon: null },
-          journal: []
-        };
-        await savePlayer();
-      }
-      update();
+async function savePlayer() {
+  await fetch(`${api}/savePlayer`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(player)
+  });
+}
+
+function update(log = "") {
+  const status =
+    `🧝 ${player.name} | ❤️ ${player.hp}/${player.maxHp} | ⚔️ STR: ${player.str} ${player.gear.weapon ? `(w/ ${player.gear.weapon})` : ''}\n` +
+    `🎖️ XP: ${player.xp} | Level: ${player.level}\n` +
+    `📍 Tile: ${player.tile} | 🎒 ${player.inventory.join(', ') || 'Empty'}`;
+  document.getElementById('out').textContent = `${log}\n\n${status}`;
+}
+
+function checkLevelUp() {
+  while (player.xp >= xpForNextLevel(player.level)) {
+    player.xp -= xpForNextLevel(player.level);
+    player.level++;
+    player.maxHp += 2;
+    if (player.level % 2 === 0) player.str += 1;
+    player.hp = player.maxHp;
+    alert(`🎉 You reached Level ${player.level}!\nMax HP: ${player.maxHp}, STR: ${player.str}`);
+  }
+}
+
+async function move(dir) {
+  let [x, y] = player.tile.split(',').map(Number);
+  if (dir === 'north') y++;
+  if (dir === 'south') y--;
+  if (dir === 'east') x++;
+  if (dir === 'west') x--;
+  player.tile = `${x},${y}`;
+
+  let log = `🚶 You travel ${dir.toUpperCase()} to tile ${player.tile}`;
+
+  const lore = loreByTile[player.tile];
+  if (lore && !player.journal.includes(lore)) {
+    player.journal.push(lore);
+    log += `\n📜 New Lore: ${lore}`;
+  }
+
+  const quest = questByTile[player.tile];
+  if (quest && !player.quests.includes(quest)) {
+    player.quests.push(quest);
+    log += `\n🆕 Quest Found: ${quest}`;
+  }
+
+  await savePlayer();
+  update(log);
+}
+
+async function fightGoblin() {
+  let goblin = { hp: 6, str: 3 };
+  let log = `👹 A goblin attacks!\n`;
+
+  while (player.hp > 0 && goblin.hp > 0) {
+    goblin.hp -= player.str;
+    log += `🗡️ You hit for ${player.str}. Goblin HP: ${goblin.hp}\n`;
+    if (goblin.hp <= 0) break;
+    player.hp -= goblin.str;
+    log += `💢 Goblin hits for ${goblin.str}. Your HP: ${player.hp}\n`;
+  }
+
+  if (player.hp <= 0) {
+    log += `☠️ You died!`;
+  } else {
+    player.xp += 10;
+    const loot = Math.random() < 0.5 ? "Rusty Sword" : "Herb";
+    player.inventory.push(loot);
+    log += `✅ Goblin defeated! +10 XP\n🎁 Loot: ${loot}`;
+    if (loot === "Rusty Sword" && !player.gear.weapon) {
+      player.gear.weapon = "Rusty Sword";
+      player.str += 2;
+      log += `\n🗡️ You equip the Rusty Sword (+2 STR)!`;
     }
+    checkLevelUp();
+  }
 
-    async function savePlayer() {
-      await fetch(`${api}/savePlayer`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(player)
-      });
-    }
+  await savePlayer();
+  update(log);
+}
 
-    function update() {
-      document.getElementById('out').innerText =
-        `🧝 Name: ${player.name}\n` +
-        `💓 HP: ${player.hp}/${player.maxHp}\n` +
-        `⚔️ STR: ${player.str} ${player.gear.weapon ? `(w/ ${player.gear.weapon})` : ''}\n` +
-        `🎖️ XP: ${player.xp}  |  Level: ${player.level}\n` +
-        `🎒 Inventory: ${player.inventory.join(', ') || 'Empty'}\n` +
-        `📍 Tile: ${player.tile}`;
-    }
+async function rest() {
+  const healed = Math.min(player.maxHp - player.hp, 4);
+  player.hp += healed;
+  await savePlayer();
+  update(healed > 0 ? `🛌 You rest and heal ${healed} HP.` : `🛌 You're already at full health.`);
+}
 
-    function xpForNextLevel(level) {
-      return level * 10 + (level - 1) * 10;
-    }
-
-    function checkLevelUp() {
-      while (player.xp >= xpForNextLevel(player.level)) {
-        player.xp -= xpForNextLevel(player.level);
-        player.level++;
-        player.maxHp += 2;
-        if (player.level % 2 === 0) player.str += 1;
-        player.hp = player.maxHp;
-        alert(`🎉 You reached Level ${player.level}!\nMax HP: ${player.maxHp}, STR: ${player.str}`);
-      }
-    }
-
-    async function move(dir) {
-      let [x, y] = player.tile.split(',').map(Number);
-      if (dir === 'north') y++;
-      if (dir === 'south') y--;
-      if (dir === 'east') x++;
-      if (dir === 'west') x--;
-      player.tile = `${x},${y}`;
-      update();
-
-      const lore = loreByTile[player.tile];
-      if (lore && !player.journal.includes(lore)) {
-        player.journal.push(lore);
-        alert(`📜 LORE FOUND:\n${lore}`);
-      }
-
+async function showInventory() {
+  if (!player.inventory.length) return alert("🎒 Your inventory is empty.");
+  let msg = `🎒 You have: ${player.inventory.join(', ')}`;
+  if (player.inventory.includes("Herb")) {
+    const use = confirm("Use a Herb to heal 3 HP?");
+    if (use) {
+      player.hp = Math.min(player.hp + 3, player.maxHp);
+      player.inventory.splice(player.inventory.indexOf("Herb"), 1);
+      msg += `\n🌿 You used a Herb. HP: ${player.hp}/${player.maxHp}`;
       await savePlayer();
     }
+  }
+  alert(msg);
+  update();
+}
 
-    async function fightGoblin() {
-      let goblin = { hp: 6, str: 3 };
-      let log = '👹 A goblin appears!\n';
+function showJournal() {
+  if (!player.journal.length) return alert("📓 Your journal is empty.");
+  alert("📓 Lore Entries:\n\n" + player.journal.join('\n\n'));
+}
 
-      while (player.hp > 0 && goblin.hp > 0) {
-        goblin.hp -= player.str;
-        log += `🗡️ You hit the goblin for ${player.str}!\n`;
-        if (goblin.hp <= 0) break;
-        player.hp -= goblin.str;
-        log += `💢 Goblin hits you for ${goblin.str}!\n`;
-      }
+function showQuests() {
+  if (!player.quests.length) return alert("📜 You have no quests yet.");
+  alert("📜 Active Quests:\n\n" + player.quests.join('\n\n'));
+}
 
-      if (player.hp <= 0) {
-        log += `☠️ You died!`;
-      } else {
-        player.xp += 10;
-        const loot = Math.random() < 0.5 ? "Rusty Sword" : "Herb";
-        player.inventory.push(loot);
-        log += `✅ You defeated the goblin!\n+10 XP\n🎁 Loot: ${loot}`;
-        if (loot === "Rusty Sword" && !player.gear.weapon) {
-          player.gear.weapon = "Rusty Sword";
-          player.str += 2;
-          log += `\n🗡️ You equip the Rusty Sword (+2 STR)!`;
-        }
-        checkLevelUp();
-      }
-
-      document.getElementById('out').innerText = log + `\n\n📍 Tile: ${player.tile}`;
-      await savePlayer();
-    }
-
-    async function rest() {
-      const healed = Math.min(player.maxHp - player.hp, 4);
-      player.hp += healed;
-      document.getElementById('out').innerText =
-        healed > 0 ? `🛌 You rest and regain ${healed} HP.\nHP: ${player.hp}/${player.maxHp}` :
-        `🛌 You're already at full health.`;
-      await savePlayer();
-    }
-
-    async function showInventory() {
-      if (player.inventory.length === 0) {
-        alert("🎒 Your inventory is empty.");
-        return;
-      }
-
-      let msg = `🎒 You have: ${player.inventory.join(', ')}\n`;
-      if (player.inventory.includes("Herb")) {
-        const use = confirm("Use an Herb to heal 3 HP?");
-        if (use) {
-          player.hp = Math.min(player.hp + 3, player.maxHp);
-          player.inventory.splice(player.inventory.indexOf("Herb"), 1);
-          msg += `🌿 You used a Herb and healed 3 HP.\nHP: ${player.hp}/${player.maxHp}`;
-          await savePlayer();
-        }
-      } else {
-        msg += "(No usable items)";
-      }
-
-      alert(msg);
-      update();
-    }
-
-    function showJournal() {
-      if (!player.journal || player.journal.length === 0) {
-        alert("📓 Your journal is empty.");
-        return;
-      }
-
-      alert(`📓 Journal Entries:\n\n` + player.journal.join('\n\n'));
-    }
-
-    loadPlayer();
-  </script>
+loadPlayer();
+</script>
 
 </body>
 </html>
