@@ -2,129 +2,89 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ — Phase 28 (Gear + Effects)</title>
+  <title>Elden Paths - Combat</title>
   <style>
-    body { font-family: monospace; background: #f4f4f4; padding: 2em; }
-    #out { white-space: pre-wrap; padding: 1em; background: #eee; border-radius: 6px; margin-bottom: 1em; max-width: 700px; }
-    button { margin: 4px; }
-    #mapModal {
-      display: none;
-      position: fixed;
-      top: 10%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #fff;
-      padding: 1em;
-      border: 2px solid #333;
-      z-index: 1000;
+    body {
+      background: #f9f4e7;
+      font-family: Garamond, serif;
+      padding: 30px;
     }
-    #mapModal pre { font-size: 16px; line-height: 1.2em; cursor: pointer; }
+    h1 { font-size: 2em; }
+    .log { white-space: pre-wrap; background: #fff; border: 1px solid #aaa; padding: 15px; margin-top: 20px; }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-size: 1em;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
+  <h1>⚔️ Elden Paths Combat Test</h1>
+  <button onclick="simulateCombat()">Begin Combat</button>
+  <div class="log" id="combatLog">Click the button to simulate combat.</div>
 
-<h1>📖 Elden Paths™</h1>
-<div id="out">Loading...</div>
+  <script>
+    // Basic character objects
+    const player = {
+      name: "Warden",
+      str: 3,
+      dex: 2,
+      hp: 20
+    };
 
-<button onclick="move('north')">⬆️ Go North</button>
-<button onclick="move('south')">⬇️ Go South</button>
-<button onclick="move('east')">➡️ Go East</button>
-<button onclick="move('west')">⬅️ Go West</button>
-<button onclick="descend()">⛏ Descend</button>
-<button onclick="ascend()">🛗 Ascend</button><br>
-<button onclick="fight()">⚔️ Fight</button>
-<button onclick="rest()">🌊 Rest</button>
-<button onclick="craft()">🔧 Craft</button>
-<button onclick="shop()">🏪 Shop</button>
-<button onclick="renderMap()">🗺 Show Map</button>
-<button onclick="showInventory()">🎒 Inventory</button>
-<button onclick="showQuests()">📜 Quests</button>
-<button onclick="equipGear()">🪖 Equip</button>
+    const enemy = {
+      name: "Bandit",
+      str: 2,
+      dex: 1,
+      hp: 15
+    };
 
-<div id="mapModal">
-  <pre id="mapGrid"></pre>
-  <button onclick="document.getElementById('mapModal').style.display='none'">Close Map</button>
-</div>
-
-<script>
-const name = prompt("Enter your name:");
-let player = {
-  name,
-  tile: "0,0",
-  z: 0,
-  visited: [],
-  inventory: [],
-  hp: 10,
-  maxHp: 10,
-  str: 5,
-  level: 1,
-  xp: 0,
-  gear: { weapon: null, armor: null, trinket: null },
-  gold: 0,
-  flags: {},
-  quests: [],
-  timeBelow: 0,
-  time: { hour: 8, day: 1 },
-  weather: "clear"
-};
-
-const gearData = {
-  "Iron Sword": { slot: "weapon", str: 3 },
-  "Leather Vest": { slot: "armor", maxHp: 2 },
-  "Wolf Ring": { slot: "trinket", str: 1, maxHp: 1 }
-};
-
-function equipGear() {
-  const choices = player.inventory.filter(i => gearData[i]);
-  if (!choices.length) return alert("🪖 No equippable gear in inventory.");
-  const item = prompt("Choose item to equip:\n" + choices.join("\n"));
-  if (!gearData[item]) return alert("❌ Invalid choice.");
-
-  const data = gearData[item];
-  const slot = data.slot;
-  const old = player.gear[slot];
-  if (old && gearData[old]) {
-    const oldStats = gearData[old];
-    if (oldStats.str) player.str -= oldStats.str;
-    if (oldStats.maxHp) {
-      player.maxHp -= oldStats.maxHp;
-      if (player.hp > player.maxHp) player.hp = player.maxHp;
+    // Combat functions
+    function rollDice(sides) {
+      return Math.floor(Math.random() * sides) + 1;
     }
-  }
 
-  player.gear[slot] = item;
-  if (data.str) player.str += data.str;
-  if (data.maxHp) player.maxHp += data.maxHp;
+    function performAttack(attacker, defender) {
+      const attackRoll = rollDice(20) + attacker.str;
+      const defenseRoll = rollDice(20) + defender.dex;
 
-  alert(`🪖 Equipped ${item} in ${slot}.`);
-  update("Gear updated.");
-}
+      let log = `🗡 ${attacker.name} rolls an attack: ${attackRoll}\n`;
+      log += `🛡 ${defender.name} rolls defense: ${defenseRoll}\n`;
 
-function updateTimeAndWeather() {
-  player.time.hour += 1;
-  if (player.time.hour >= 24) {
-    player.time.hour = 0;
-    player.time.day++;
-  }
-  const weatherOptions = ["clear", "rain", "fog", "storm", "snow"];
-  if (Math.random() < 0.3) {
-    player.weather = weatherOptions[Math.floor(Math.random() * weatherOptions.length)];
-  }
-  return `🕒 Day ${player.time.day}, ${player.time.hour}:00 — Weather: ${player.weather}`;
-}
+      if (attackRoll > defenseRoll) {
+        const damage = rollDice(8) + attacker.str;
+        defender.hp -= damage;
+        log += `💥 Hit! ${attacker.name} deals ${damage} damage. ${defender.name} has ${defender.hp} HP left.\n`;
+        if (defender.hp <= 0) {
+          log += `☠️ ${defender.name} is defeated!\n`;
+        }
+      } else {
+        log += `🌀 Miss! ${defender.name} deflects the blow.\n`;
+      }
 
-function update(log = "") {
-  const timeLog = updateTimeAndWeather();
-  const status =
-    `🧝 ${player.name} | ❤️ ${player.hp}/${player.maxHp} | ⚔️ ${player.str} | 🌟 Lvl ${player.level}\n` +
-    `📍 ${player.tile}, z=${player.z} | 💰 ${player.gold}g\n` +
-    `🎒 ${player.inventory.join(', ') || 'Empty'}\n` +
-    `🪖 Gear: ${Object.entries(player.gear).map(([s,v]) => `${s}:${v||"none"}`).join(' | ')}`;
-  document.getElementById("out").textContent = `${log}\n${timeLog}\n\n${status}`;
-}
+      return log;
+    }
 
-// [rest of system assumed intact — movement, NPCs, quests, combat, etc.]
-</script>
+    function simulateCombat() {
+      let log = "";
+      const attacker = { ...player };
+      const defender = { ...enemy };
+      let rounds = 0;
 
+      while (attacker.hp > 0 && defender.hp > 0 && rounds < 10) {
+        log += performAttack(attacker, defender);
+        if (defender.hp <= 0) break;
+        log += performAttack(defender, attacker);
+        rounds++;
+      }
+
+      if (attacker.hp <= 0) {
+        log += `☠️ ${attacker.name} falls in battle.\n`;
+      }
+
+      document.getElementById("combatLog").innerText = log;
+    }
+  </script>
 </body>
 </html>
