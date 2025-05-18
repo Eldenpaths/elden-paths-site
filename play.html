@@ -2,158 +2,137 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ — Play</title>
+  <title>Elden Paths™ — Phase 3</title>
   <style>
     body { font-family: monospace; padding: 1em; background: #f9f9f9; }
-    #out { white-space: pre-wrap; margin-bottom: 1em; }
+    #out { white-space: pre-wrap; margin-bottom: 1em; background: #eee; padding: 1em; border-radius: 6px; }
     .hidden { display: none; }
-    select, input[type="text"], button { margin: 0.5em 0; display: block; }
+    button, select, input { margin: 0.25em 0.5em 0.25em 0; }
   </style>
 </head>
 <body>
-  <h1>Elden Paths™ — Play</h1>
+  <h1>Elden Paths™ — Combat + Skill Rolls</h1>
 
   <div id="out">Loading...</div>
-
-  <div id="create" class="hidden">
-    <label>Name: <input type="text" id="name" /></label>
-    <label>Race:
-      <select id="race">
-        <option>Human</option>
-        <option>Elf</option>
-        <option>Dwarf</option>
-        <option>Orc</option>
-      </select>
-    </label>
-    <label>Class:
-      <select id="class">
-        <option>Fighter</option>
-        <option>Wizard</option>
-        <option>Rogue</option>
-        <option>Cleric</option>
-      </select>
-    </label>
-
-    <label>Roll Mode:
-      <select id="mode">
-        <option value="auto">Auto Roll</option>
-        <option value="manual">Manual Assign</option>
-      </select>
-    </label>
-
-    <div id="stats" class="hidden">
-      <label>STR: <input type="number" id="str" min="1" max="20" value="10" /></label>
-      <label>DEX: <input type="number" id="dex" min="1" max="20" value="10" /></label>
-      <label>INT: <input type="number" id="int" min="1" max="20" value="10" /></label>
-    </div>
-
-    <button onclick="submitCharacter()">Begin Journey</button>
-  </div>
 
   <div id="play" class="hidden">
     <button onclick="move('north')">Go North</button>
     <button onclick="move('south')">Go South</button>
     <button onclick="move('east')">Go East</button>
     <button onclick="move('west')">Go West</button>
+    <br/>
+    <button onclick="fight()">⚔️ Fight Goblin</button>
+    <select id="skillType">
+      <option value="str">STR Check</option>
+      <option value="dex">DEX Check</option>
+      <option value="int">INT Check</option>
+    </select>
+    <button onclick="rollSkill()">🎲 Roll Skill Check</button>
   </div>
 
   <script>
     const api = 'https://player-save.pationandcamp.workers.dev';
+    let player = {};
 
-    async function loadPlayer() {
-      const params = new URLSearchParams(location.search);
-      const name = params.get('name');
-      if (!name) {
-        document.getElementById('create').classList.remove('hidden');
-        document.getElementById('out').textContent = 'Enter your character name to begin.';
-        return;
-      }
+    const roll = (die = 20) => Math.floor(Math.random() * die) + 1;
+    const output = (txt) => document.getElementById('out').textContent = txt;
 
-      try {
-        const res = await fetch(`${api}/loadPlayer?name=${name}`);
-        if (!res.ok) throw new Error('New character');
-        const data = await res.json();
-        render(data);
-      } catch (e) {
-        document.getElementById('create').classList.remove('hidden');
-        document.getElementById('name').value = name;
-        document.getElementById('out').textContent = 'Welcome, adventurer. Finish your character:';
-      }
-    }
-
-    function render(data) {
-      document.getElementById('out').textContent = `
-Name: ${data.name}
-Race: ${data.race}
-Class: ${data.class}
-Stats: STR ${data.stats.str}, DEX ${data.stats.dex}, INT ${data.stats.int}
-Tile: ${data.tile}
-Fog: ${data.fog.join(', ')}
-XP: ${data.xp}, Level: ${data.level}
-Gold: ${data.gold}
-Gear: Equipped - ${data.gear.equipped || 'None'}, Inventory - ${data.gear.inventory.join(', ') || 'Empty'}
-Conditions: ${data.conditions.join(', ') || 'None'}
-Last Seen: ${data.lastSeen}
-      `;
+    function render() {
       document.getElementById('play').classList.remove('hidden');
+      output(`
+Name: ${player.name}
+Class: ${player.class}, Race: ${player.race}
+HP: ${player.hp} | XP: ${player.xp}, Level: ${player.level}
+Stats: STR ${player.stats.str}, DEX ${player.stats.dex}, INT ${player.stats.int}
+Tile: ${player.tile} | Gold: ${player.gold}
+Fog: ${player.fog.join(', ') || 'None'}
+Conditions: ${player.conditions.join(', ') || 'None'}
+Last Seen: ${player.lastSeen}
+      `.trim());
     }
 
-    function rollStat() {
-      return Math.floor(Math.random() * 8) + 10; // d8+10 for playability
+    async function load() {
+      const name = new URLSearchParams(location.search).get('name');
+      if (!name) return output("Missing name. Start from character creation.");
+      const res = await fetch(`${api}/loadPlayer?name=${name}`);
+      if (res.ok) {
+        player = await res.json();
+        render();
+      } else {
+        output("Character not found.");
+      }
     }
 
-    document.getElementById('mode').addEventListener('change', e => {
-      const show = e.target.value === 'manual';
-      document.getElementById('stats').classList.toggle('hidden', !show);
-    });
-
-    async function submitCharacter() {
-      const name = document.getElementById('name').value.trim();
-      const race = document.getElementById('race').value;
-      const cls = document.getElementById('class').value;
-      const mode = document.getElementById('mode').value;
-
-      const stats = {
-        str: mode === 'auto' ? rollStat() : parseInt(document.getElementById('str').value),
-        dex: mode === 'auto' ? rollStat() : parseInt(document.getElementById('dex').value),
-        int: mode === 'auto' ? rollStat() : parseInt(document.getElementById('int').value),
-      };
-
-      const payload = {
-        name, race, class: cls, stats,
-        tile: 'Start', fog: [], xp: 0, level: 1,
-        gear: { equipped: null, inventory: [] },
-        conditions: [],
-        gold: 50,
-        lastSeen: new Date().toISOString(),
-      };
-
+    async function save() {
+      player.lastSeen = new Date().toISOString();
       await fetch(`${api}/savePlayer`, {
         method: 'POST',
-        body: JSON.stringify(payload),
+        body: JSON.stringify(player)
       });
-
-      location.href = `?name=${encodeURIComponent(name)}`;
+      render();
     }
 
     async function move(dir) {
-      const params = new URLSearchParams(location.search);
-      const name = params.get('name');
-      const res = await fetch(`${api}/loadPlayer?name=${name}`);
-      const player = await res.json();
       player.tile = `Moved-${dir}`;
       player.fog.push(player.tile);
-      player.lastSeen = new Date().toISOString();
-
-      await fetch(`${api}/savePlayer`, {
-        method: 'POST',
-        body: JSON.stringify(player),
-      });
-
-      render(player);
+      await save();
     }
 
-    loadPlayer();
+    async function fight() {
+      const goblin = { hp: 5, ac: 12, atk: 2 };
+      const mode = localStorage.getItem('diceMode') || 'auto';
+      const rollPlayer = () => roll(20) + player.stats.str;
+      const rollGoblin = () => roll(20) + goblin.atk;
+
+      let log = '';
+      const playerRoll = rollPlayer();
+      log += `You roll to hit: ${playerRoll} vs AC ${goblin.ac}\n`;
+
+      if (playerRoll >= goblin.ac) {
+        const dmg = roll(4);
+        goblin.hp -= dmg;
+        player.xp += 10;
+        log += `✅ You hit for ${dmg} damage. Goblin defeated! +10 XP\n`;
+      } else {
+        log += `❌ You missed.\n`;
+      }
+
+      const goblinRoll = rollGoblin();
+      if (goblinRoll >= 12) {
+        const hit = roll(4);
+        player.hp -= hit;
+        player.conditions.push("Wounded");
+        log += `💥 Goblin hits you for ${hit}. HP now ${player.hp}\n`;
+      } else {
+        log += `🛡️ Goblin missed you.\n`;
+      }
+
+      await save();
+      output(log + '\n---\n' + document.getElementById('out').textContent);
+    }
+
+    async function rollSkill() {
+      const type = document.getElementById('skillType').value;
+      const stat = player.stats[type];
+      const mode = localStorage.getItem('diceMode') || 'auto';
+      const r = roll(20);
+      const total = r + stat;
+      let result = `🎲 Skill Check (${type.toUpperCase()}): ${r} + ${stat} = ${total}\n`;
+
+      if (total >= 15) {
+        result += `✅ Success!\n`;
+        player.xp += 5;
+      } else {
+        result += `❌ Failed.\n`;
+        player.conditions.push("Shaken");
+      }
+
+      await save();
+      output(result + '\n---\n' + document.getElementById('out').textContent);
+    }
+
+    load();
   </script>
 </body>
 </html>
+
