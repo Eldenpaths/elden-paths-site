@@ -1,90 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Elden Paths™ — Play</title>
   <style>
-    body {
-      font-family: monospace;
-      padding: 2em;
-    }
-    #out {
-      white-space: pre-wrap;
-      margin-bottom: 1em;
-    }
+    body { font-family: monospace; padding: 2em; background: #fdfcf8; }
+    h1 { font-size: 1.5em; }
+    input, select, button { margin: 0.25em; }
+    #out { white-space: pre-wrap; background: #eee; padding: 1em; border-radius: 8px; margin-top: 1em; }
   </style>
 </head>
 <body>
   <h1>Elden Paths™ — Play</h1>
-  <div id="out">Loading...</div>
+
+  <label>Name: <input id="name" /></label>
+  <label>Race: 
+    <select id="race">
+      <option>Human</option>
+      <option>Elf</option>
+      <option>Dwarf</option>
+      <option>Orc</option>
+    </select>
+  </label>
+  <label>Class: 
+    <select id="class">
+      <option>Fighter</option>
+      <option>Rogue</option>
+      <option>Wizard</option>
+      <option>Cleric</option>
+    </select>
+  </label>
+  <button onclick="rollStats()">Roll Stats</button>
+
+  <label>Dice Mode:
+    <select id="diceMode" onchange="saveDiceMode()">
+      <option value="auto">Auto Rolls</option>
+      <option value="manual">Manual Rolls</option>
+    </select>
+  </label>
+
+  <br/>
+  <button onclick="savePlayer()">Enter World</button>
+  <button onclick="loadPlayer()">Load</button>
+
+  <div id="out">Waiting...</div>
+
   <button onclick="move('north')">Go North</button>
   <button onclick="move('south')">Go South</button>
   <button onclick="move('east')">Go East</button>
   <button onclick="move('west')">Go West</button>
 
   <script>
-    const workerBase = 'https://player-save.pationandcamp.workers.dev';
-    const playerName = prompt("Enter your character's name:") || 'wanderer';
+    let player = {
+      name: '',
+      race: '',
+      class: '',
+      stats: {},
+      tile: 'A1',
+      moves: [],
+      xp: 0,
+      level: 1,
+      gold: 50,
+      gear: { Equipped: 'None', Inventory: [] },
+      conditions: 'None',
+      lastSeen: ''
+    };
 
-    async function loadPlayer() {
-      try {
-        const res = await fetch(`${workerBase}/loadPlayer?name=${playerName}`);
-        const player = await res.json();
-        if (!player.name) {
-          player.name = playerName;
-          player.xp = 0;
-          player.level = 1;
-          player.tile = 'A1';
-          player.gold = 50;
-          player.gear = { equipped: 'None', inventory: 'Empty' };
-          player.conditions = 'None';
-          player.lastSeen = new Date().toISOString();
-        }
-        window.player = player;
-        savePlayer();
-        renderPlayer();
-      } catch (err) {
-        document.getElementById('out').textContent = `Failed to load player: ${err}`;
-      }
+    function roll(die) {
+      return Math.floor(Math.random() * die) + 1;
     }
 
-    async function savePlayer() {
-      try {
-        await fetch(`${workerBase}/savePlayer`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(window.player)
-        });
-      } catch (err) {
-        console.error('Failed to save player:', err);
+    function rollStats() {
+      const mode = document.getElementById('diceMode').value;
+      const doRolls = () => {
+        player.stats = {
+          STR: roll(20),
+          DEX: roll(20),
+          INT: roll(20)
+        };
+        updateOutput();
+      };
+      if (mode === 'manual') {
+        if (confirm("Roll STR, DEX, INT?")) doRolls();
+      } else {
+        doRolls();
       }
-    }
-
-    function renderPlayer() {
-      const p = window.player;
-      document.getElementById('out').textContent = 
-        `Name: ${p.name}\n` +
-        `Race: ${p.race || 'Unknown'}\n` +
-        `Class: ${p.class || 'Unknown'}\n` +
-        `Tile: ${p.tile}\n` +
-        `Fog: ${p.fog || 'None'}\n` +
-        `XP: ${p.xp}, Level: ${p.level}\n` +
-        `Gold: ${p.gold}\n` +
-        `Gear: Equipped - ${p.gear?.equipped}, Inventory - ${p.gear?.inventory}\n` +
-        `Conditions: ${p.conditions}\n` +
-        `Last Seen: ${p.lastSeen}`;
     }
 
     function move(dir) {
-      const now = new Date().toISOString();
-      window.player.tile = `Moved-${dir}`;
-      window.player.fog = (window.player.fog || '') + `, Moved-${dir}`;
-      window.player.lastSeen = now;
-      savePlayer();
-      renderPlayer();
+      player.moves.push('Moved-' + dir);
+      player.lastSeen = new Date().toISOString();
+      updateOutput();
     }
 
-    loadPlayer();
+    function updateOutput() {
+      document.getElementById('out').textContent = `
+Name: ${player.name}
+Race: ${player.race}
+Class: ${player.class}
+Stats: STR ${player.stats.STR || 'undefined'}, DEX ${player.stats.DEX || 'undefined'}, INT ${player.stats.INT || 'undefined'}
+Tile: ${player.tile}
+Fog: ${player.moves.join(', ')}
+XP: ${player.xp}, Level: ${player.level}
+Gold: ${player.gold}
+Gear: Equipped - ${player.gear.Equipped}, Inventory - ${player.gear.Inventory.join(', ') || 'Empty'}
+Conditions: ${player.conditions}
+Last Seen: ${player.lastSeen}
+      `.trim();
+    }
+
+    async function savePlayer() {
+      player.name = document.getElementById('name').value.trim();
+      player.race = document.getElementById('race').value;
+      player.class = document.getElementById('class').value;
+      if (!player.name) return alert("Enter a name.");
+      await fetch('https://player-save.patioandcamp.workers.dev/savePlayer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(player)
+      });
+      updateOutput();
+    }
+
+    async function loadPlayer() {
+      player.name = document.getElementById('name').value.trim();
+      if (!player.name) return alert("Enter your name.");
+      const res = await fetch(`https://player-save.patioandcamp.workers.dev/loadPlayer?name=${player.name}`);
+      if (res.ok) {
+        player = await res.json();
+        updateOutput();
+      } else {
+        alert("Failed to load character.");
+      }
+    }
+
+    function saveDiceMode() {
+      localStorage.setItem('diceMode', document.getElementById('diceMode').value);
+    }
+
+    function loadDiceMode() {
+      const mode = localStorage.getItem('diceMode') || 'auto';
+      document.getElementById('diceMode').value = mode;
+    }
+
+    loadDiceMode();
   </script>
 </body>
 </html>
