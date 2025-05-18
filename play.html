@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ — Phase 23 (Triggers + Underground)</title>
+  <title>Elden Paths™ — Phase 24 (Ascend + Map Awareness)</title>
   <style>
     body { font-family: monospace; background: #f4f4f4; padding: 2em; }
     #out { white-space: pre-wrap; padding: 1em; background: #eee; border-radius: 6px; margin-bottom: 1em; max-width: 700px; }
@@ -30,7 +30,8 @@
 <button onclick="move('south')">⬇️ Go South</button>
 <button onclick="move('east')">➡️ Go East</button>
 <button onclick="move('west')">⬅️ Go West</button>
-<button onclick="descend()">⛏ Descend</button><br>
+<button onclick="descend()">⛏ Descend</button>
+<button onclick="ascend()">🛗 Ascend</button><br>
 <button onclick="fight()">⚔️ Fight</button>
 <button onclick="rest()">🌊 Rest</button>
 <button onclick="craft()">🔧 Craft</button>
@@ -58,7 +59,8 @@ let player = {
   xp: 0,
   gear: {},
   gold: 0,
-  flags: {}
+  flags: {},
+  timeBelow: 0
 };
 
 const tileIcons = {
@@ -79,14 +81,15 @@ function markVisited() {
 function renderMap() {
   const [px, py] = player.tile.split(',').map(Number);
   const z = player.z;
-  let output = `🗺 Layer ${z === 0 ? 'Surface' : 'Underground'} (5x5):\n\n`;
+  const label = z === 0 ? 'Surface' : (z < 0 ? 'Underground' : `Z=${z}`);
+  let output = `🗺 Map View — ${label} (5x5):\n\n`;
   for (let y = py + 2; y >= py - 2; y--) {
     for (let x = px - 2; x <= px + 2; x++) {
       const key = tileKey(x, y, z);
       let char = ".";
-      if (player.tile === `${x},${y}` && z === player.z) char = "@";
+      if (player.tile === `${x},${y}`) char = "@";
       else if (player.visited.includes(key)) char = tileIcons[`${x},${y}`] || "#";
-      output += `<span onclick=\"travelTo('${x},${y}')\">${char}</span> `;
+      output += `<span onclick=\"travelTo('${x},${y}', ${z})\">${char}</span> `;
     }
     output += "\n";
   }
@@ -94,20 +97,30 @@ function renderMap() {
   document.getElementById("mapModal").style.display = "block";
 }
 
-function travelTo(coord) {
-  const key = tileKey(...coord.split(',').map(Number), player.z);
-  if (!player.visited.includes(key)) return alert("❌ Can't travel to fogged tile.");
+function travelTo(coord, zTarget) {
+  if (zTarget !== player.z) return alert("⛔ Can't travel between layers in map view.");
+  const key = tileKey(...coord.split(',').map(Number), zTarget);
+  if (!player.visited.includes(key)) return alert("❌ Fogged tile.");
   player.tile = coord;
   markVisited();
-  update(`🧭 Traveled to ${coord} at z=${player.z}`);
+  update(`🧭 Traveled to ${coord}`);
   document.getElementById("mapModal").style.display = "none";
 }
 
 function update(log = "") {
   const status =
-    `🧝 ${player.name} | ❤️ ${player.hp}/${player.maxHp} | ⚔️ ${player.str} STR | 🌟 Level ${player.level}\n` +
+    `🧝 ${player.name} | ❤️ ${player.hp}/${player.maxHp} | ⚔️ ${player.str} | 🌟 Level ${player.level}\n` +
     `📍 Tile: ${player.tile}, z=${player.z} | 💰 ${player.gold}g\n` +
     `🎒 ${player.inventory.join(', ') || 'Empty'}`;
+  if (player.z < 0) {
+    player.timeBelow++;
+    if (player.timeBelow > 5 && !player.flags.deepWarning) {
+      player.flags.deepWarning = true;
+      log += "\n☁️ You feel the weight of the stone above...";
+    }
+  } else {
+    player.timeBelow = 0;
+  }
   document.getElementById("out").textContent = `${log}\n\n${status}`;
 }
 
@@ -129,7 +142,17 @@ function descend() {
     markVisited();
     update("⛏ You descend into the catacombs...");
   } else {
-    alert("❌ No descent possible here.");
+    alert("❌ No descent here.");
+  }
+}
+
+function ascend() {
+  if (player.z < 0) {
+    player.z = 0;
+    markVisited();
+    update("🛗 You climb back to the surface.");
+  } else {
+    alert("⚠️ You're already on the surface.");
   }
 }
 
@@ -137,11 +160,11 @@ function checkTriggers(log) {
   if (player.tile === "D5" && !player.flags.bossCleared) {
     player.flags.bossCleared = true;
     player.xp += 20;
-    log += "\n💀 You defeat the dungeon beast! +20 XP.";
+    log += "\n💀 Dungeon beast defeated! +20 XP.";
   }
   if (player.tile === "A1" && player.flags.bossCleared && !player.flags.townEvent) {
     player.flags.townEvent = true;
-    log += "\n🎉 The townsfolk celebrate your victory!";
+    log += "\n🎉 Town celebrates your return!";
   }
   update(log);
 }
@@ -204,7 +227,7 @@ function shop() {
 }
 
 markVisited();
-update("🌟 Welcome to Elden Paths (Phase 23)");
+update("🌟 Welcome to Elden Paths (Phase 24)");
 </script>
 
 </body>
