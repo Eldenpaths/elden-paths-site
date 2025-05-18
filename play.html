@@ -6,19 +6,21 @@
   <style>
     body {
       font-family: monospace;
-      background: #f3f3f3;
-      padding: 20px;
+      background: #f4f4f4;
+      padding: 2em;
+    }
+    h1 {
+      margin-bottom: 0.5em;
     }
     #out {
-      background: #fff;
-      padding: 10px;
-      border: 1px solid #ccc;
-      width: fit-content;
-      margin-bottom: 10px;
       white-space: pre-wrap;
+      padding: 1em;
+      background: #eee;
+      border-radius: 6px;
+      margin-bottom: 1em;
     }
     button {
-      margin: 2px;
+      margin: 4px;
     }
   </style>
 </head>
@@ -34,55 +36,69 @@
   <button onclick="move('west')">Go West</button>
   <br>
   <button onclick="fightGoblin()">⚔️ Fight Goblin</button>
+  <button onclick="rest()">🛌 Rest</button>
 
   <script>
-    const player = {
+    let player = {
       name: 'Hero',
-      hp: 12,
-      maxHp: 12,
-      str: 2
+      hp: 10,
+      maxHp: 10,
+      str: 5,
+      xp: 0,
+      tile: '0,0',
     };
 
-    const goblin = {
-      name: 'Goblin',
-      hp: 6,
-      str: 1
-    };
-
-    function roll(die = 20) {
-      return Math.floor(Math.random() * die) + 1;
-    }
-
-    function fightGoblin() {
-      const log = [];
-      const playerRoll = roll() + player.str;
-      const goblinRoll = roll() + goblin.str;
-
-      log.push(`🧝 You rolled ${playerRoll} vs Goblin's ${goblinRoll}`);
-
-      if (playerRoll >= goblinRoll) {
-        goblin.hp -= 4;
-        log.push(`✅ You hit the Goblin! Goblin HP: ${goblin.hp}`);
-        if (goblin.hp <= 0) {
-          log.push(`🏆 Goblin defeated!`);
-        }
-      } else {
-        player.hp -= 3;
-        log.push(`❌ Goblin hit you! Your HP: ${player.hp}`);
-        if (player.hp <= 0) {
-          log.push(`☠️ You were defeated!`);
-        }
-      }
-
-      document.getElementById('out').innerText = log.join('\n');
+    function update() {
+      document.getElementById('out').innerText = 
+        `🧝 Name: ${player.name}\n` +
+        `💓 HP: ${player.hp}/${player.maxHp}\n` +
+        `📍 Tile: ${player.tile}\n` +
+        `🎖️ XP: ${player.xp}`;
     }
 
     function move(dir) {
-      document.getElementById('out').innerText = `You move ${dir}.`;
+      let [x, y] = player.tile.split(',').map(Number);
+      if (dir === 'north') y++;
+      if (dir === 'south') y--;
+      if (dir === 'east') x++;
+      if (dir === 'west') x--;
+      player.tile = `${x},${y}`;
+      update();
     }
 
-    // Initial output
-    document.getElementById('out').innerText = `Welcome to Elden Paths™!\nHP: ${player.hp}/${player.maxHp}`;
+    function fightGoblin() {
+      let goblin = { hp: 6, str: 3 };
+      let log = '👹 A goblin appears!\n';
+
+      while (player.hp > 0 && goblin.hp > 0) {
+        goblin.hp -= player.str;
+        log += `🗡️ You hit the goblin for ${player.str}!\n`;
+        if (goblin.hp <= 0) break;
+        player.hp -= goblin.str;
+        log += `💢 Goblin hits you for ${goblin.str}!\n`;
+      }
+
+      if (player.hp <= 0) {
+        log += `☠️ You died!`;
+      } else {
+        log += `✅ You defeated the goblin! +5 XP`;
+        player.xp += 5;
+      }
+
+      update();
+      document.getElementById('out').innerText = log + `\n\n📍 Tile: ${player.tile}`;
+    }
+
+    function rest() {
+      const healed = Math.min(player.maxHp - player.hp, 4);
+      player.hp += healed;
+      const msg = healed > 0 
+        ? `🛌 You rest and regain ${healed} HP.\nHP: ${player.hp}/${player.maxHp}` 
+        : `🛌 You're already at full health.`;
+      document.getElementById('out').innerText = msg;
+    }
+
+    update();
   </script>
 
 </body>
