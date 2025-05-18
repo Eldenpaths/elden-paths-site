@@ -48,19 +48,28 @@
   <script>
     const log = document.getElementById('log');
     let position = { x: 0, y: 0 };
+    let discoveredTiles = [];
 
-    function savePosition() {
+    function saveGame() {
       localStorage.setItem('elden_position', JSON.stringify(position));
+      localStorage.setItem('elden_discovered', JSON.stringify(discoveredTiles));
     }
 
-    function loadPosition() {
-      const saved = localStorage.getItem('elden_position');
-      if (saved) {
-        position = JSON.parse(saved);
+    function loadGame() {
+      const savedPos = localStorage.getItem('elden_position');
+      const savedTiles = localStorage.getItem('elden_discovered');
+      if (savedPos) {
+        position = JSON.parse(savedPos);
         log.textContent += `\nWelcome back. Resuming at (${position.x}, ${position.y}).`;
       } else {
         log.textContent += `\nNew traveler. You begin at (${position.x}, ${position.y}).`;
       }
+
+      if (savedTiles) {
+        discoveredTiles = JSON.parse(savedTiles);
+      }
+
+      addDiscovered(position.x, position.y);
       log.scrollTop = log.scrollHeight;
     }
 
@@ -69,18 +78,30 @@
       if (direction === 'south') position.y += 1;
       if (direction === 'east') position.x += 1;
       if (direction === 'west') position.x -= 1;
+
       log.textContent += `\nYou travel ${direction}. Now at (${position.x}, ${position.y})`;
-      savePosition();
+      addDiscovered(position.x, position.y);
+      saveGame();
       log.scrollTop = log.scrollHeight;
+    }
+
+    function addDiscovered(x, y) {
+      const key = `${x}_${y}`;
+      if (!discoveredTiles.includes(key)) {
+        discoveredTiles.push(key);
+        log.textContent += `\nNew tile discovered: ${key}`;
+      }
     }
 
     function resetGame() {
       localStorage.removeItem('elden_position');
+      localStorage.removeItem('elden_discovered');
       position = { x: 0, y: 0 };
+      discoveredTiles = [];
       log.textContent += `\nYour journey is reset. Starting over at (0, 0).`;
     }
 
-    loadPosition();
+    loadGame();
   </script>
 </body>
 </html>
