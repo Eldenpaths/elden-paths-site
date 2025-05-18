@@ -2,62 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths Map Viewer</title>
+  <title>Elden Paths - World Map</title>
   <style>
     body {
+      background: #eae3d5;
       margin: 0;
-      font-family: Garamond, serif;
+      overflow: hidden;
     }
     #mapContainer {
       position: relative;
-      width: 100%;
-      height: 90vh;
-      background-image: url('base-map.jpg'); /* your base map */
-      background-size: cover;
-      background-position: center;
+      width: 100vw;
+      height: 100vh;
     }
-    #topoLayer {
+    #mapImage, #weatherOverlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('topo-overlay.png');
-      background-size: cover;
-      background-position: center;
+    }
+    #weatherOverlay {
+      z-index: 20;
       pointer-events: none;
-      opacity: 0.6;
       display: none;
     }
     #controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 30;
+      background: rgba(255,255,255,0.8);
       padding: 10px;
-      background: #f9f4e7;
-      text-align: center;
-    }
-    button {
-      font-size: 1em;
-      padding: 10px 20px;
-      margin: 5px;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
-  <div id="controls">
-    <button onclick="toggleTopo()">🗺 Toggle Terrain Lines</button>
-  </div>
   <div id="mapContainer">
-    <div id="topoLayer"></div>
+    <img id="mapImage" src="assets/images/terrain/western_region.png" alt="Map">
+    <img id="weatherOverlay" src="">
+    <div id="controls">
+      <button onclick="loadWeather(currentTileX, currentTileY)">☁️ Show Weather</button>
+      <button onclick="cycleTile()">Next Tile</button>
+    </div>
   </div>
 
+  <script src="weather.js"></script>
   <script>
-    function toggleTopo() {
-      const layer = document.getElementById('topoLayer');
-      if (layer.style.display === 'none') {
-        layer.style.display = 'block';
-      } else {
-        layer.style.display = 'none';
-      }
+    let currentTileX = 0;
+    let currentTileY = 0;
+
+    function cycleTile() {
+      currentTileX = (currentTileX + 1) % 3;
+      currentTileY = (currentTileY + 1) % 3;
+      loadWeather(currentTileX, currentTileY);
     }
+
+    window.onload = () => {
+      loadWeather(currentTileX, currentTileY);
+    };
   </script>
 </body>
 </html>
