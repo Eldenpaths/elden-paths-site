@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ — Phase 22 Full Build</title>
+  <title>Elden Paths™ — Phase 23 (Triggers + Underground)</title>
   <style>
     body { font-family: monospace; background: #f4f4f4; padding: 2em; }
     #out { white-space: pre-wrap; padding: 1em; background: #eee; border-radius: 6px; margin-bottom: 1em; max-width: 700px; }
@@ -29,12 +29,13 @@
 <button onclick="move('north')">⬆️ Go North</button>
 <button onclick="move('south')">⬇️ Go South</button>
 <button onclick="move('east')">➡️ Go East</button>
-<button onclick="move('west')">⬅️ Go West</button><br>
+<button onclick="move('west')">⬅️ Go West</button>
+<button onclick="descend()">⛏ Descend</button><br>
 <button onclick="fight()">⚔️ Fight</button>
-<button onclick="rest()">🏊 Rest</button>
+<button onclick="rest()">🌊 Rest</button>
 <button onclick="craft()">🔧 Craft</button>
 <button onclick="shop()">🏪 Shop</button>
-<button onclick="renderMap()">🗘 Show Map</button>
+<button onclick="renderMap()">🗺 Show Map</button>
 <button onclick="showInventory()">🎒 Inventory</button>
 
 <div id="mapModal">
@@ -47,6 +48,7 @@ const name = prompt("Enter your name:");
 let player = {
   name,
   tile: "0,0",
+  z: 0,
   visited: [],
   inventory: [],
   hp: 10,
@@ -55,36 +57,36 @@ let player = {
   level: 1,
   xp: 0,
   gear: {},
-  gold: 0
+  gold: 0,
+  flags: {}
 };
 
 const tileIcons = {
-  "A1": "🏨", // Town
-  "C4": "🏰", // Dungeon
-  "E5": "🔐"  // Vault
+  "0,0": "🏡",
+  "C4": "🏰",
+  "E5": "🔒"
 };
 
-const dungeonTiles = ["C4", "D5"];
-const vaultTile = "E5";
-
-function tileKey(x, y) {
-  return `${x},${y}`;
+function tileKey(x, y, z) {
+  return `${x},${y},${z}`;
 }
 
 function markVisited() {
-  if (!player.visited.includes(player.tile)) player.visited.push(player.tile);
+  const key = tileKey(...player.tile.split(',').map(Number), player.z);
+  if (!player.visited.includes(key)) player.visited.push(key);
 }
 
 function renderMap() {
   const [px, py] = player.tile.split(',').map(Number);
-  let output = "\ud83d\udccd Click a tile to move:\n\n";
+  const z = player.z;
+  let output = `🗺 Layer ${z === 0 ? 'Surface' : 'Underground'} (5x5):\n\n`;
   for (let y = py + 2; y >= py - 2; y--) {
     for (let x = px - 2; x <= px + 2; x++) {
-      const key = `${x},${y}`;
+      const key = tileKey(x, y, z);
       let char = ".";
-      if (player.tile === key) char = "@";
-      else if (player.visited.includes(key)) char = tileIcons[key] || "#";
-      output += `<span onclick=\"travelTo('${key}')\">${char}</span> `;
+      if (player.tile === `${x},${y}` && z === player.z) char = "@";
+      else if (player.visited.includes(key)) char = tileIcons[`${x},${y}`] || "#";
+      output += `<span onclick=\"travelTo('${x},${y}')\">${char}</span> `;
     }
     output += "\n";
   }
@@ -92,18 +94,19 @@ function renderMap() {
   document.getElementById("mapModal").style.display = "block";
 }
 
-function travelTo(target) {
-  if (!player.visited.includes(target)) return alert("❌ Can't travel to fogged tile.");
-  player.tile = target;
+function travelTo(coord) {
+  const key = tileKey(...coord.split(',').map(Number), player.z);
+  if (!player.visited.includes(key)) return alert("❌ Can't travel to fogged tile.");
+  player.tile = coord;
   markVisited();
-  update(`🧭 Traveled to ${target}`);
+  update(`🧭 Traveled to ${coord} at z=${player.z}`);
   document.getElementById("mapModal").style.display = "none";
 }
 
 function update(log = "") {
   const status =
     `🧝 ${player.name} | ❤️ ${player.hp}/${player.maxHp} | ⚔️ ${player.str} STR | 🌟 Level ${player.level}\n` +
-    `📍 Tile: ${player.tile} | 💰 ${player.gold}g\n` +
+    `📍 Tile: ${player.tile}, z=${player.z} | 💰 ${player.gold}g\n` +
     `🎒 ${player.inventory.join(', ') || 'Empty'}`;
   document.getElementById("out").textContent = `${log}\n\n${status}`;
 }
@@ -117,12 +120,28 @@ function move(dir) {
   player.tile = `${x},${y}`;
   markVisited();
   let log = `🚶 Moved ${dir.toUpperCase()} to ${player.tile}`;
-  if (dungeonTiles.includes(player.tile)) log += "\n🏰 You feel eerie winds...";
-  if (player.tile === vaultTile && player.inventory.includes("Steel Core")) {
-    player.inventory.push("Obsidian Blade");
-    player.str += 5;
-    player.inventory.splice(player.inventory.indexOf("Steel Core"), 1);
-    log += "\n🔓 You unlock the Vault and claim the Obsidian Blade! (+5 STR)";
+  checkTriggers(log);
+}
+
+function descend() {
+  if (player.z === 0 && player.tile === "C4") {
+    player.z = -1;
+    markVisited();
+    update("⛏ You descend into the catacombs...");
+  } else {
+    alert("❌ No descent possible here.");
+  }
+}
+
+function checkTriggers(log) {
+  if (player.tile === "D5" && !player.flags.bossCleared) {
+    player.flags.bossCleared = true;
+    player.xp += 20;
+    log += "\n💀 You defeat the dungeon beast! +20 XP.";
+  }
+  if (player.tile === "A1" && player.flags.bossCleared && !player.flags.townEvent) {
+    player.flags.townEvent = true;
+    log += "\n🎉 The townsfolk celebrate your victory!";
   }
   update(log);
 }
@@ -146,7 +165,7 @@ function fight() {
     player.xp += 10;
     player.gold += 3;
     player.inventory.push("Herb");
-    log += "✅ You won! +10 XP, +3g, Herb found.";
+    log += "✅ Victory! +10 XP, +3g, Herb found.";
   }
   update(log);
 }
@@ -161,14 +180,7 @@ function craft() {
     i.splice(i.indexOf("Herb"), 1);
     i.splice(i.indexOf("Herb"), 1);
     i.push("Healing Brew");
-    alert("🧪 You crafted Healing Brew.");
-  } else if (i.includes("Wood") && i.includes("Ore")) {
-    i.splice(i.indexOf("Wood"), 1);
-    i.splice(i.indexOf("Ore"), 1);
-    if (player.gear.weapon === "Rusty Sword") player.str -= 2;
-    player.gear.weapon = "Iron Blade";
-    player.str += 3;
-    alert("🛠 Iron Blade crafted and equipped! (+3 STR)");
+    alert("🧪 Crafted Healing Brew.");
   } else {
     alert("❌ Not enough materials.");
   }
@@ -192,8 +204,9 @@ function shop() {
 }
 
 markVisited();
-update("🌟 Welcome to Elden Paths™");
+update("🌟 Welcome to Elden Paths (Phase 23)");
 </script>
 
 </body>
 </html>
+
