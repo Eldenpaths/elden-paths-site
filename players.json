@@ -1,17 +1,5 @@
 {
-  "test_player": {
-    "name": "test_player",
-    "tile": "tile_130_90",
-    "inventory": [
-      "cloak",
-      "flint",
-      "binding_scroll"
-    ],
-    "discovered": [
-      "tile_130_90"
-    ],
-    "hp": 10,
-    "stamina": 8,
-    "last_action": "joined"
+  "warden": {
+    "tile": "0,0"
   }
 }
