@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths - Combat with Encounters</title>
+  <title>Elden Paths - Terrain Encounters</title>
   <style>
     body {
       background: #f9f4e7;
@@ -20,12 +20,11 @@
   </style>
 </head>
 <body>
-  <h1>🗺️ Elden Paths Combat + Encounter System</h1>
-  <button onclick="simulateCombat()">Begin Combat</button>
+  <h1>🌍 Elden Paths: Live Terrain Encounter System</h1>
+  <button onclick="simulatePlayerMove('warden')">🚶 Move Player</button>
+  <button onclick="simulateCombat()">⚔️ Combat Test</button>
   <button onclick="showCharacterSheet()">📜 Character Sheet</button>
-  <button onclick="simulateMove('forest')">Move: Forest</button>
-  <button onclick="simulateMove('ruins')">Move: Ruins</button>
-  <div class="log" id="combatLog">Click to test combat or movement encounters.</div>
+  <div class="log" id="combatLog">Click a button to move or test combat.</div>
 
   <!-- Character Sheet Overlay -->
   <div id="characterSheet" style="display:none; border:2px solid #222; background:#fff; padding:15px; position:absolute; top:60px; right:60px; width:200px; box-shadow:2px 2px 10px rgba(0,0,0,0.3);">
@@ -41,6 +40,7 @@
 
   <script src="character.js"></script>
   <script src="encounters.js"></script>
+  <script src="terrain_utils.js"></script>
   <script>
     const enemy = {
       name: "Bandit",
@@ -106,12 +106,21 @@
       document.getElementById("characterSheet").style.display = "block";
     }
 
-    function simulateMove(terrain) {
+    async function simulatePlayerMove(playerId) {
+      const terrain = await fetchTerrainForPlayer(playerId);
       const result = checkForEncounter(terrain);
+
       if (result) {
-        logToCombat(`👣 You encounter a ${result} in the ${terrain}! Prepare to fight.`);
+        logToCombat(`👣 While traveling through the ${terrain}, you encounter a ${result}!`);
       } else {
         logToCombat(`🚶 You move through the ${terrain} without incident.`);
+      }
+    }
+
+    function logToCombat(text) {
+      const logBox = document.getElementById("combatLog");
+      if (logBox) {
+        logBox.innerText += `\n${text}`;
       }
     }
   </script>
