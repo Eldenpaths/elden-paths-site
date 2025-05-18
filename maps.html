@@ -1,87 +1,63 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Elden Paths™ Map Viewer</title>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <meta charset="UTF-8" />
+  <title>Elden Paths Map Viewer</title>
   <style>
     body {
-      background: #2b2b2b;
-      color: #f2f2f2;
-      font-family: sans-serif;
-      text-align: center;
       margin: 0;
-      padding: 20px;
+      font-family: Garamond, serif;
     }
-    canvas {
-      background: #121212;
-      border: 2px solid #ccc;
-      image-rendering: pixelated;
+    #mapContainer {
+      position: relative;
+      width: 100%;
+      height: 90vh;
+      background-image: url('base-map.jpg'); /* your base map */
+      background-size: cover;
+      background-position: center;
+    }
+    #topoLayer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('topo-overlay.png');
+      background-size: cover;
+      background-position: center;
+      pointer-events: none;
+      opacity: 0.6;
+      display: none;
+    }
+    #controls {
+      padding: 10px;
+      background: #f9f4e7;
+      text-align: center;
+    }
+    button {
+      font-size: 1em;
+      padding: 10px 20px;
+      margin: 5px;
     }
   </style>
 </head>
 <body>
-  <h1>Elden Paths™ Map Viewer</h1>
-  <canvas id="mapCanvas" width="800" height="800"></canvas>
-  <p>🟨 = explored • 🟥 = structure • 🔥 = trail heavy</p>
+  <div id="controls">
+    <button onclick="toggleTopo()">🗺 Toggle Terrain Lines</button>
+  </div>
+  <div id="mapContainer">
+    <div id="topoLayer"></div>
+  </div>
 
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyAiZZyiy8Y38uJU1z1lVGnXU14vqKxbg6s",
-      authDomain: "elden-paths.firebaseapp.com",
-      databaseURL: "https://elden-paths-default-rtdb.firebaseio.com",
-      projectId: "elden-paths",
-      storageBucket: "elden-paths.appspot.com",
-      messagingSenderId: "514433622971",
-      appId: "1:514433622971:web:b9103716c78acf6c7c01a9"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    const canvas = document.getElementById("mapCanvas");
-    const ctx = canvas.getContext("2d");
-    const TILE_SIZE = 10;
-    const OFFSET_X = 120; // to center area like tile_130_90
-    const OFFSET_Y = 80;
-
-    async function drawMap() {
-      const tileSnap = await db.ref("tile_index").get();
-      const playerSnap = await db.ref("players").get();
-      const tileIndex = tileSnap.val() || {};
-      const players = playerSnap.val() || {};
-
-      // Count how often tiles appear in trails
-      const heatmap = {};
-      Object.values(players).forEach(player => {
-        (player.trail || []).forEach(t => {
-          heatmap[t] = (heatmap[t] || 0) + 1;
-        });
-      });
-
-      Object.keys(tileIndex).forEach(tileId => {
-        const [_, x, y] = tileId.split("_");
-        const px = (parseInt(x) - OFFSET_X) * TILE_SIZE;
-        const py = (parseInt(y) - OFFSET_Y) * TILE_SIZE;
-
-        const isDiscovered = Object.values(players).some(p => (p.discovered || []).includes(tileId));
-        const isStructure = tileIndex[tileId].structure;
-        const visits = heatmap[tileId] || 0;
-
-        let color = "#000000";
-        if (isStructure) color = "#ff4444";
-        else if (visits > 5) color = "#ffaa00";
-        else if (visits > 0) color = "#4444ff";
-        else if (isDiscovered) color = "#aaaa00";
-
-        ctx.fillStyle = color;
-        ctx.fillRect(px, py, TILE_SIZE, TILE_SIZE);
-      });
+    function toggleTopo() {
+      const layer = document.getElementById('topoLayer');
+      if (layer.style.display === 'none') {
+        layer.style.display = 'block';
+      } else {
+        layer.style.display = 'none';
+      }
     }
-
-    drawMap();
   </script>
 </body>
 </html>
