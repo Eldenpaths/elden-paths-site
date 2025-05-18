@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™ — Lore & Journal</title>
+  <title>Elden Paths™ — Full Build</title>
   <style>
     body { font-family: monospace; background: #f4f4f4; padding: 2em; }
     #out { white-space: pre-wrap; padding: 1em; background: #eee; border-radius: 6px; margin-bottom: 1em; }
@@ -14,10 +14,10 @@
   <h1>📖 Elden Paths™</h1>
   <div id="out">Loading...</div>
 
-  <button onclick="move('north')">Go North</button>
-  <button onclick="move('south')">Go South</button>
-  <button onclick="move('east')">Go East</button>
-  <button onclick="move('west')">Go West</button>
+  <button onclick="move('north')">⬆️ Go North</button>
+  <button onclick="move('south')">⬇️ Go South</button>
+  <button onclick="move('east')">➡️ Go East</button>
+  <button onclick="move('west')">⬅️ Go West</button>
   <br>
   <button onclick="fightGoblin()">⚔️ Fight Goblin</button>
   <button onclick="rest()">🛌 Rest</button>
@@ -32,7 +32,7 @@
     const loreByTile = {
       "B1": "🗿 You find a cracked statue lying in the weeds.",
       "C2": "⛩️ An ancient altar glows faintly in the dusk.",
-      "D3": "🔥 Burnt wagons and splintered wood mark a destroyed caravan.",
+      "D3": "🔥 Burnt wagons and splintered wood mark a destroyed caravan."
     };
 
     async function loadPlayer() {
