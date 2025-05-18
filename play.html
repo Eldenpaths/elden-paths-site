@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ — Boss & Monsters</title>
+  <title>Elden Paths™ — Towns & Vendors</title>
   <style>
     body { font-family: monospace; background: #f4f4f4; padding: 2em; }
     #out { white-space: pre-wrap; padding: 1em; background: #eee; border-radius: 6px; margin-bottom: 1em; max-width: 700px; }
@@ -20,6 +20,7 @@
 <button onclick="move('west')">⬅️ Go West</button><br>
 <button onclick="fight()">⚔️ Fight</button>
 <button onclick="rest()">🛌 Rest</button>
+<button onclick="shop()">🏪 Town Action</button>
 <button onclick="showInventory()">🎒 Inventory</button>
 <button onclick="showJournal()">📓 Journal</button>
 <button onclick="showQuests()">📜 Quests</button>
@@ -48,6 +49,12 @@ const enemyByTile = {
   "E4": { name: "Grave Knight", hp: 20, str: 6, boss: true }
 };
 
+const towns = {
+  "A1": "Willowmere",
+  "B3": "Stonecross",
+  "D4": "Gravesend"
+};
+
 function xpForNextLevel(level) {
   return level * 10 + (level - 1) * 10;
 }
@@ -68,7 +75,8 @@ async function loadPlayer() {
       inventory: [],
       gear: { weapon: null },
       journal: [],
-      quests: []
+      quests: [],
+      gold: 0
     };
     await savePlayer();
   }
@@ -86,8 +94,8 @@ async function savePlayer() {
 function update(log = "") {
   const status =
     `🧝 ${player.name} | ❤️ ${player.hp}/${player.maxHp} | ⚔️ STR: ${player.str} ${player.gear.weapon ? `(w/ ${player.gear.weapon})` : ''}\n` +
-    `🎖️ XP: ${player.xp} | Level: ${player.level}\n` +
-    `📍 Tile: ${player.tile} | 🎒 ${player.inventory.join(', ') || 'Empty'}`;
+    `🎖️ XP: ${player.xp} | Level: ${player.level} | 💰 Gold: ${player.gold}\n` +
+    `📍 Tile: ${player.tile} ${towns[player.tile] ? `— 🏘 ${towns[player.tile]}` : ''}\n🎒 ${player.inventory.join(', ') || 'Empty'}`;
   document.getElementById('out').textContent = `${log}\n\n${status}`;
 }
 
@@ -130,12 +138,9 @@ async function move(dir) {
 
 async function fight() {
   const enemy = enemyByTile[player.tile];
-  if (!enemy) {
-    update("❌ There is no enemy here.");
-    return;
-  }
+  if (!enemy) return update("❌ There is no enemy here.");
 
-  let monster = { ...enemy }; // clone
+  let monster = { ...enemy };
   let log = `⚔️ You engage the ${monster.name}!\n`;
 
   while (player.hp > 0 && monster.hp > 0) {
@@ -149,19 +154,14 @@ async function fight() {
   if (player.hp <= 0) {
     log += `☠️ You were slain by the ${monster.name}.`;
   } else {
-    let reward = 10;
-    let loot = Math.random() < 0.5 ? "Herb" : "Rusty Sword";
-    if (monster.boss) {
-      loot = "Darkblade";
-      reward = 30;
-      log += `🏆 You defeated the boss ${monster.name}!\n`;
-    } else {
-      log += `✅ You defeated the ${monster.name}.\n`;
-    }
+    const goldEarned = monster.boss ? Math.floor(Math.random() * 11) + 10 : Math.floor(Math.random() * 6) + 1;
+    player.gold += goldEarned;
 
+    let reward = monster.boss ? 30 : 10;
+    let loot = monster.boss ? "Darkblade" : (Math.random() < 0.5 ? "Herb" : "Rusty Sword");
     player.xp += reward;
     player.inventory.push(loot);
-    log += `+${reward} XP\n🎁 Loot: ${loot}`;
+    log += `✅ Victory! +${reward} XP, 💰 +${goldEarned}g\n🎁 Loot: ${loot}`;
 
     if (loot === "Rusty Sword" && !player.gear.weapon) {
       player.gear.weapon = "Rusty Sword";
@@ -170,9 +170,7 @@ async function fight() {
     }
 
     if (loot === "Darkblade") {
-      if (player.gear.weapon === "Rusty Sword") {
-        player.str -= 2;
-      }
+      if (player.gear.weapon === "Rusty Sword") player.str -= 2;
       player.gear.weapon = "Darkblade";
       player.str += 4;
       log += `\n🗡️ You equip the Darkblade (+4 STR)!`;
@@ -190,6 +188,56 @@ async function rest() {
   player.hp += healed;
   await savePlayer();
   update(healed > 0 ? `🛌 You rest and heal ${healed} HP.` : `🛌 You're already at full health.`);
+}
+
+async function shop() {
+  const tile = player.tile;
+
+  if (tile === "A1") {
+    player.hp = player.maxHp;
+    await savePlayer();
+    return update(`🌿 Willowmere spring restores your health to full.`);
+  }
+
+  if (tile === "B3") {
+    let choice = prompt("🛍 Stonecross Shop:\n1. Herb (3g)\n2. Wooden Shield (+1 HP buffer) (5g)\nEnter 1 or 2:");
+    if (choice === "1" && player.gold >= 3) {
+      player.gold -= 3;
+      player.inventory.push("Herb");
+      update("🪙 You bought a Herb.");
+    } else if (choice === "2" && player.gold >= 5) {
+      player.gold -= 5;
+      player.maxHp += 1;
+      update("🛡️ You equip a Wooden Shield. Max HP +1.");
+    } else {
+      update("❌ Not enough gold or invalid choice.");
+    }
+    await savePlayer();
+    return;
+  }
+
+  if (tile === "D4") {
+    let choice = prompt("⚔️ Gravesend Forge:\n1. Steel Sword (+3 STR) (10g)\n2. Darkblade (+4 STR) (25g)\nEnter 1 or 2:");
+    if (choice === "1" && player.gold >= 10) {
+      if (player.gear.weapon) player.str -= player.gear.weapon === "Rusty Sword" ? 2 : player.gear.weapon === "Darkblade" ? 4 : 0;
+      player.gear.weapon = "Steel Sword";
+      player.str += 3;
+      player.gold -= 10;
+      update("🛠️ You bought a Steel Sword. STR +3.");
+    } else if (choice === "2" && player.gold >= 25) {
+      if (player.gear.weapon) player.str -= player.gear.weapon === "Rusty Sword" ? 2 : player.gear.weapon === "Steel Sword" ? 3 : 0;
+      player.gear.weapon = "Darkblade";
+      player.str += 4;
+      player.gold -= 25;
+      update("💀 You wield the Darkblade. STR +4.");
+    } else {
+      update("❌ Not enough gold or invalid choice.");
+    }
+    await savePlayer();
+    return;
+  }
+
+  update("❌ There's no shop at this location.");
 }
 
 async function showInventory() {
