@@ -1,0 +1,6 @@
+// assets/data/tile_sketches.json
+{
+    "tile_0_0": "campfire_scene.png",
+    "tile_1_0": "forest_entry.png",
+    "tile_0_1": "riverbank.png"
+}
