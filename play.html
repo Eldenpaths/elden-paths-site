@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ — Phase 24 (Ascend + Map Awareness)</title>
+  <title>Elden Paths™ — Phase 25 (NPCs + Dialogue)</title>
   <style>
     body { font-family: monospace; background: #f4f4f4; padding: 2em; }
     #out { white-space: pre-wrap; padding: 1em; background: #eee; border-radius: 6px; margin-bottom: 1em; max-width: 700px; }
@@ -69,6 +69,27 @@ const tileIcons = {
   "E5": "🔒"
 };
 
+const npcs = {
+  "A1,0": () => {
+    if (player.flags.bossCleared && !player.flags.mayorReward) {
+      player.flags.mayorReward = true;
+      player.gold += 10;
+      alert("🧓 Mayor: Brave soul! The beast is gone? Here, take this — 10 gold.");
+    } else if (player.flags.bossCleared) {
+      alert("🧓 Mayor: You’ve already proven yourself.");
+    } else {
+      alert("🧓 Mayor: We fear the creature in the ruins...");
+    }
+  },
+  "D5,0": () => {
+    if (!player.flags.bossCleared) {
+      alert("🤕 Wounded Knight: Beware... the beast still lives...");
+    } else {
+      alert("🤕 Wounded Knight: You did it... we are avenged.");
+    }
+  }
+};
+
 function tileKey(x, y, z) {
   return `${x},${y},${z}`;
 }
@@ -98,7 +119,7 @@ function renderMap() {
 }
 
 function travelTo(coord, zTarget) {
-  if (zTarget !== player.z) return alert("⛔ Can't travel between layers in map view.");
+  if (zTarget !== player.z) return alert("⛔ Can't travel between layers.");
   const key = tileKey(...coord.split(',').map(Number), zTarget);
   if (!player.visited.includes(key)) return alert("❌ Fogged tile.");
   player.tile = coord;
@@ -157,6 +178,9 @@ function ascend() {
 }
 
 function checkTriggers(log) {
+  const key = `${player.tile},${player.z}`;
+  if (npcs[key]) npcs[key]();
+
   if (player.tile === "D5" && !player.flags.bossCleared) {
     player.flags.bossCleared = true;
     player.xp += 20;
@@ -211,8 +235,7 @@ function craft() {
 }
 
 function shop() {
-  const buy = prompt("Shop:
-1. Herb (3g)\n2. Shield (+1 max HP, 5g)");
+  const buy = prompt("Shop:\n1. Herb (3g)\n2. Shield (+1 max HP, 5g)");
   if (buy === "1" && player.gold >= 3) {
     player.gold -= 3;
     player.inventory.push("Herb");
@@ -227,9 +250,8 @@ function shop() {
 }
 
 markVisited();
-update("🌟 Welcome to Elden Paths (Phase 24)");
+update("🌟 Welcome to Elden Paths (Phase 25)");
 </script>
 
 </body>
 </html>
-
