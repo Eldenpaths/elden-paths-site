@@ -2,32 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™</title>
+  <title>Elden Paths™ — Inventory & Leveling</title>
   <style>
-    body {
-      font-family: monospace;
-      background: #f4f4f4;
-      padding: 2em;
-    }
-    h1 {
-      margin-bottom: 0.5em;
-    }
-    #out {
-      white-space: pre-wrap;
-      padding: 1em;
-      background: #eee;
-      border-radius: 6px;
-      margin-bottom: 1em;
-    }
-    button {
-      margin: 4px;
-    }
+    body { font-family: monospace; background: #f4f4f4; padding: 2em; }
+    #out { white-space: pre-wrap; padding: 1em; background: #eee; border-radius: 6px; margin-bottom: 1em; }
+    button { margin: 4px; }
   </style>
 </head>
 <body>
 
   <h1>📖 Elden Paths™</h1>
-
   <div id="out">Loading...</div>
 
   <button onclick="move('north')">Go North</button>
@@ -37,6 +21,7 @@
   <br>
   <button onclick="fightGoblin()">⚔️ Fight Goblin</button>
   <button onclick="rest()">🛌 Rest</button>
+  <button onclick="showInventory()">🎒 Inventory</button>
 
   <script>
     let player = {
@@ -45,15 +30,35 @@
       maxHp: 10,
       str: 5,
       xp: 0,
+      level: 1,
       tile: '0,0',
+      inventory: [],
+      gear: { weapon: null }
     };
 
     function update() {
-      document.getElementById('out').innerText = 
+      document.getElementById('out').innerText =
         `🧝 Name: ${player.name}\n` +
         `💓 HP: ${player.hp}/${player.maxHp}\n` +
-        `📍 Tile: ${player.tile}\n` +
-        `🎖️ XP: ${player.xp}`;
+        `⚔️ STR: ${player.str} ${player.gear.weapon ? `(w/ ${player.gear.weapon})` : ''}\n` +
+        `🎖️ XP: ${player.xp}  |  Level: ${player.level}\n` +
+        `🎒 Inventory: ${player.inventory.join(', ') || 'Empty'}\n` +
+        `📍 Tile: ${player.tile}`;
+    }
+
+    function xpForNextLevel(level) {
+      return level * 10 + (level - 1) * 10;
+    }
+
+    function checkLevelUp() {
+      while (player.xp >= xpForNextLevel(player.level)) {
+        player.xp -= xpForNextLevel(player.level);
+        player.level++;
+        player.maxHp += 2;
+        if (player.level % 2 === 0) player.str += 1;
+        player.hp = player.maxHp;
+        alert(`🎉 You reached Level ${player.level}!\nMax HP: ${player.maxHp}, STR: ${player.str}`);
+      }
     }
 
     function move(dir) {
@@ -81,21 +86,50 @@
       if (player.hp <= 0) {
         log += `☠️ You died!`;
       } else {
-        log += `✅ You defeated the goblin! +5 XP`;
-        player.xp += 5;
+        player.xp += 10;
+        const loot = Math.random() < 0.5 ? "Rusty Sword" : "Herb";
+        player.inventory.push(loot);
+        log += `✅ You defeated the goblin!\n+10 XP\n🎁 Loot: ${loot}`;
+        if (loot === "Rusty Sword" && !player.gear.weapon) {
+          player.gear.weapon = "Rusty Sword";
+          player.str += 2;
+          log += `\n🗡️ You equip the Rusty Sword (+2 STR)!`;
+        }
+        checkLevelUp();
       }
 
-      update();
       document.getElementById('out').innerText = log + `\n\n📍 Tile: ${player.tile}`;
     }
 
     function rest() {
       const healed = Math.min(player.maxHp - player.hp, 4);
       player.hp += healed;
-      const msg = healed > 0 
-        ? `🛌 You rest and regain ${healed} HP.\nHP: ${player.hp}/${player.maxHp}` 
+      const msg = healed > 0
+        ? `🛌 You rest and regain ${healed} HP.\nHP: ${player.hp}/${player.maxHp}`
         : `🛌 You're already at full health.`;
       document.getElementById('out').innerText = msg;
+    }
+
+    function showInventory() {
+      if (player.inventory.length === 0) {
+        alert("🎒 Your inventory is empty.");
+        return;
+      }
+
+      let msg = `🎒 You have: ${player.inventory.join(', ')}\n`;
+      if (player.inventory.includes("Herb")) {
+        const use = confirm("Use an Herb to heal 3 HP?");
+        if (use) {
+          player.hp = Math.min(player.hp + 3, player.maxHp);
+          player.inventory.splice(player.inventory.indexOf("Herb"), 1);
+          msg += `🌿 You used a Herb and healed 3 HP.\nHP: ${player.hp}/${player.maxHp}`;
+        }
+      } else {
+        msg += "(No usable items)";
+      }
+
+      alert(msg);
+      update();
     }
 
     update();
