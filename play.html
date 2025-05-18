@@ -2,11 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ — Dungeons & Vaults</title>
+  <title>Elden Paths™ — Phase 22 Full Build</title>
   <style>
     body { font-family: monospace; background: #f4f4f4; padding: 2em; }
     #out { white-space: pre-wrap; padding: 1em; background: #eee; border-radius: 6px; margin-bottom: 1em; max-width: 700px; }
     button { margin: 4px; }
+    #mapModal {
+      display: none;
+      position: fixed;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      padding: 1em;
+      border: 2px solid #333;
+      z-index: 1000;
+    }
+    #mapModal pre { font-size: 16px; line-height: 1.2em; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -19,95 +31,168 @@
 <button onclick="move('east')">➡️ Go East</button>
 <button onclick="move('west')">⬅️ Go West</button><br>
 <button onclick="fight()">⚔️ Fight</button>
-<button onclick="rest()">🛌 Rest</button>
-<button onclick="shop()">🏪 Town Action</button>
-<button onclick="craft()">🛠 Craft</button>
+<button onclick="rest()">🏊 Rest</button>
+<button onclick="craft()">🔧 Craft</button>
+<button onclick="shop()">🏪 Shop</button>
+<button onclick="renderMap()">🗘 Show Map</button>
 <button onclick="showInventory()">🎒 Inventory</button>
-<button onclick="showJournal()">📓 Journal</button>
-<button onclick="showQuests()">📜 Quests</button>
+
+<div id="mapModal">
+  <pre id="mapGrid"></pre>
+  <button onclick="document.getElementById('mapModal').style.display='none'">Close Map</button>
+</div>
 
 <script>
-const api = "https://player-save.pationandcamp.workers.dev";
-const name = new URLSearchParams(location.search).get("name") || prompt("Enter your name:");
-let player = null;
+const name = prompt("Enter your name:");
+let player = {
+  name,
+  tile: "0,0",
+  visited: [],
+  inventory: [],
+  hp: 10,
+  maxHp: 10,
+  str: 5,
+  level: 1,
+  xp: 0,
+  gear: {},
+  gold: 0
+};
+
+const tileIcons = {
+  "A1": "🏨", // Town
+  "C4": "🏰", // Dungeon
+  "E5": "🔐"  // Vault
+};
 
 const dungeonTiles = ["C4", "D5"];
 const vaultTile = "E5";
 
-function hasItem(item) {
-  return player.inventory.includes(item);
+function tileKey(x, y) {
+  return `${x},${y}`;
 }
 
-function randomEvent(tile) {
-  const roll = Math.random();
-  if (roll < 0.25) {
-    player.inventory.push("Gold Nugget");
-    return `📦 You find a hidden stash: Gold Nugget!`;
-  } else if (roll < 0.5) {
-    const dmg = Math.floor(Math.random() * 4) + 1;
-    player.hp -= dmg;
-    return `💥 A trap! You lose ${dmg} HP.`;
-  } else if (roll < 0.75) {
-    player.hp += 2;
-    if (player.hp > player.maxHp) player.hp = player.maxHp;
-    return `✨ You find a glowing spring and heal 2 HP.`;
-  } else {
-    player.inventory.push("Strange Key");
-    return `🗝 You find a Strange Key...`;
+function markVisited() {
+  if (!player.visited.includes(player.tile)) player.visited.push(player.tile);
+}
+
+function renderMap() {
+  const [px, py] = player.tile.split(',').map(Number);
+  let output = "\ud83d\udccd Click a tile to move:\n\n";
+  for (let y = py + 2; y >= py - 2; y--) {
+    for (let x = px - 2; x <= px + 2; x++) {
+      const key = `${x},${y}`;
+      let char = ".";
+      if (player.tile === key) char = "@";
+      else if (player.visited.includes(key)) char = tileIcons[key] || "#";
+      output += `<span onclick=\"travelTo('${key}')\">${char}</span> `;
+    }
+    output += "\n";
   }
+  document.getElementById("mapGrid").innerHTML = output;
+  document.getElementById("mapModal").style.display = "block";
 }
 
-function vaultAccess() {
-  if (!hasItem("Steel Core")) return "🔒 The vault is sealed tight. You need a Steel Core.";
-  player.inventory.push("Obsidian Blade");
-  player.str += 5;
-  player.inventory.splice(player.inventory.indexOf("Steel Core"), 1);
-  player.gear.weapon = "Obsidian Blade";
-  return "🔓 The Steel Core fits! You unlock the vault and claim the Obsidian Blade (+5 STR).";
+function travelTo(target) {
+  if (!player.visited.includes(target)) return alert("❌ Can't travel to fogged tile.");
+  player.tile = target;
+  markVisited();
+  update(`🧭 Traveled to ${target}`);
+  document.getElementById("mapModal").style.display = "none";
 }
 
-function checkDungeonEvents(tile) {
-  if (tile === vaultTile) return vaultAccess();
-  if (dungeonTiles.includes(tile)) return randomEvent(tile);
-  return "";
+function update(log = "") {
+  const status =
+    `🧝 ${player.name} | ❤️ ${player.hp}/${player.maxHp} | ⚔️ ${player.str} STR | 🌟 Level ${player.level}\n` +
+    `📍 Tile: ${player.tile} | 💰 ${player.gold}g\n` +
+    `🎒 ${player.inventory.join(', ') || 'Empty'}`;
+  document.getElementById("out").textContent = `${log}\n\n${status}`;
 }
 
-// INSERT INTO move() logic like this:
-async function move(dir) {
+function move(dir) {
   let [x, y] = player.tile.split(',').map(Number);
   if (dir === 'north') y++;
   if (dir === 'south') y--;
   if (dir === 'east') x++;
   if (dir === 'west') x--;
   player.tile = `${x},${y}`;
-
-  let log = `🚶 You travel ${dir.toUpperCase()} to tile ${player.tile}`;
-
-  const dungeonLog = checkDungeonEvents(player.tile);
-  if (dungeonLog) log += `\n🏰 Dungeon Event: ${dungeonLog}`;
-
-  await savePlayer();
+  markVisited();
+  let log = `🚶 Moved ${dir.toUpperCase()} to ${player.tile}`;
+  if (dungeonTiles.includes(player.tile)) log += "\n🏰 You feel eerie winds...";
+  if (player.tile === vaultTile && player.inventory.includes("Steel Core")) {
+    player.inventory.push("Obsidian Blade");
+    player.str += 5;
+    player.inventory.splice(player.inventory.indexOf("Steel Core"), 1);
+    log += "\n🔓 You unlock the Vault and claim the Obsidian Blade! (+5 STR)";
+  }
   update(log);
 }
 
-// Add this near the top of script block:
-async function savePlayer() {
-  await fetch(`${api}/savePlayer`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(player)
-  });
+function rest() {
+  const healed = Math.min(player.maxHp - player.hp, 4);
+  player.hp += healed;
+  update(`🛌 Rested +${healed} HP.`);
 }
 
-function update(log = "") {
-  const status =
-    `🧝 ${player.name} | ❤️ ${player.hp}/${player.maxHp} | ⚔️ STR: ${player.str} ${player.gear.weapon ? `(w/ ${player.gear.weapon})` : ''}\n` +
-    `🎖️ XP: ${player.xp} | Level: ${player.level} | 💰 Gold: ${player.gold ?? 0}\n` +
-    `📍 Tile: ${player.tile}\n🎒 ${player.inventory.join(', ') || 'Empty'}`;
-  document.getElementById('out').textContent = `${log}\n\n${status}`;
+function fight() {
+  const mob = { hp: 6, str: 3 };
+  let log = "⚔️ Battle begins!\n";
+  while (mob.hp > 0 && player.hp > 0) {
+    mob.hp -= player.str;
+    if (mob.hp <= 0) break;
+    player.hp -= mob.str;
+  }
+  if (player.hp <= 0) log += "☠️ You were defeated!";
+  else {
+    player.xp += 10;
+    player.gold += 3;
+    player.inventory.push("Herb");
+    log += "✅ You won! +10 XP, +3g, Herb found.";
+  }
+  update(log);
 }
 
-// (Rest of your RPG system here: fight, shop, crafting, journal, quests, etc.)
+function showInventory() {
+  alert("🎒 " + (player.inventory.join(', ') || 'Empty'));
+}
+
+function craft() {
+  const i = player.inventory;
+  if (i.filter(x => x === "Herb").length >= 2) {
+    i.splice(i.indexOf("Herb"), 1);
+    i.splice(i.indexOf("Herb"), 1);
+    i.push("Healing Brew");
+    alert("🧪 You crafted Healing Brew.");
+  } else if (i.includes("Wood") && i.includes("Ore")) {
+    i.splice(i.indexOf("Wood"), 1);
+    i.splice(i.indexOf("Ore"), 1);
+    if (player.gear.weapon === "Rusty Sword") player.str -= 2;
+    player.gear.weapon = "Iron Blade";
+    player.str += 3;
+    alert("🛠 Iron Blade crafted and equipped! (+3 STR)");
+  } else {
+    alert("❌ Not enough materials.");
+  }
+  update("🧪 Crafting complete.");
+}
+
+function shop() {
+  const buy = prompt("Shop:
+1. Herb (3g)\n2. Shield (+1 max HP, 5g)");
+  if (buy === "1" && player.gold >= 3) {
+    player.gold -= 3;
+    player.inventory.push("Herb");
+    update("🛍 Bought Herb.");
+  } else if (buy === "2" && player.gold >= 5) {
+    player.gold -= 5;
+    player.maxHp += 1;
+    update("🛡 Bought and equipped Shield. Max HP +1");
+  } else {
+    alert("❌ Can't afford that.");
+  }
+}
+
+markVisited();
+update("🌟 Welcome to Elden Paths™");
 </script>
 
 </body>
