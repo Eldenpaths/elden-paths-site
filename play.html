@@ -2,16 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ — Phase 3</title>
+  <title>Elden Paths™ — Map & Fog</title>
   <style>
-    body { font-family: monospace; padding: 1em; background: #f9f9f9; }
-    #out { white-space: pre-wrap; margin-bottom: 1em; background: #eee; padding: 1em; border-radius: 6px; }
-    .hidden { display: none; }
-    button, select, input { margin: 0.25em 0.5em 0.25em 0; }
+    body { font-family: monospace; padding: 1em; background: #f3f3f3; }
+    #out { white-space: pre-wrap; background: #eee; padding: 1em; border-radius: 8px; margin-bottom: 1em; }
+    button, select { margin: 0.25em; }
   </style>
 </head>
 <body>
-  <h1>Elden Paths™ — Combat + Skill Rolls</h1>
+  <h1>Elden Paths™ — Map & Fog</h1>
 
   <div id="out">Loading...</div>
 
@@ -22,30 +21,31 @@
     <button onclick="move('west')">Go West</button>
     <br/>
     <button onclick="fight()">⚔️ Fight Goblin</button>
-    <select id="skillType">
-      <option value="str">STR Check</option>
-      <option value="dex">DEX Check</option>
-      <option value="int">INT Check</option>
-    </select>
-    <button onclick="rollSkill()">🎲 Roll Skill Check</button>
   </div>
 
   <script>
     const api = 'https://player-save.pationandcamp.workers.dev';
     let player = {};
+    const gridRows = ['A', 'B', 'C', 'D'];
+    const gridCols = [1, 2, 3, 4];
 
-    const roll = (die = 20) => Math.floor(Math.random() * die) + 1;
-    const output = (txt) => document.getElementById('out').textContent = txt;
+    const roll = (d = 20) => Math.floor(Math.random() * d) + 1;
+
+    function output(txt) {
+      document.getElementById('out').textContent = txt;
+    }
 
     function render() {
       document.getElementById('play').classList.remove('hidden');
       output(`
+📍 Tile: ${player.tile}
+🧭 Fog of Discovery: ${player.fog.join(', ')}
+
 Name: ${player.name}
-Class: ${player.class}, Race: ${player.race}
-HP: ${player.hp} | XP: ${player.xp}, Level: ${player.level}
-Stats: STR ${player.stats.str}, DEX ${player.stats.dex}, INT ${player.stats.int}
-Tile: ${player.tile} | Gold: ${player.gold}
-Fog: ${player.fog.join(', ') || 'None'}
+Race: ${player.race}, Class: ${player.class}
+HP: ${player.hp}, XP: ${player.xp}, Level: ${player.level}
+STR: ${player.stats.str}, DEX: ${player.stats.dex}, INT: ${player.stats.int}
+Gold: ${player.gold}
 Conditions: ${player.conditions.join(', ') || 'None'}
 Last Seen: ${player.lastSeen}
       `.trim());
@@ -53,13 +53,15 @@ Last Seen: ${player.lastSeen}
 
     async function load() {
       const name = new URLSearchParams(location.search).get('name');
-      if (!name) return output("Missing name. Start from character creation.");
+      if (!name) return output("Missing ?name= parameter.");
       const res = await fetch(`${api}/loadPlayer?name=${name}`);
       if (res.ok) {
         player = await res.json();
+        if (!player.tile) player.tile = "B2";
+        if (!player.fog) player.fog = [player.tile];
         render();
       } else {
-        output("Character not found.");
+        output("Player not found.");
       }
     }
 
@@ -72,63 +74,67 @@ Last Seen: ${player.lastSeen}
       render();
     }
 
+    function tileToCoord(tile) {
+      const row = tile[0];
+      const col = parseInt(tile[1]);
+      return [gridRows.indexOf(row), gridCols.indexOf(col)];
+    }
+
+    function coordToTile(r, c) {
+      if (r < 0 || r >= gridRows.length || c < 0 || c >= gridCols.length) return null;
+      return `${gridRows[r]}${gridCols[c]}`;
+    }
+
     async function move(dir) {
-      player.tile = `Moved-${dir}`;
-      player.fog.push(player.tile);
+      let [r, c] = tileToCoord(player.tile);
+      if (dir === 'north') r -= 1;
+      if (dir === 'south') r += 1;
+      if (dir === 'west') c -= 1;
+      if (dir === 'east') c += 1;
+
+      const newTile = coordToTile(r, c);
+      if (!newTile) {
+        output("You can't go that way.\n\n" + document.getElementById('out').textContent);
+        return;
+      }
+
+      player.tile = newTile;
+      if (!player.fog.includes(newTile)) {
+        player.fog.push(newTile);
+        output(`🗺️ New tile discovered: ${newTile}!\n\n` + document.getElementById('out').textContent);
+      } else {
+        output(`You travel to ${newTile}.\n\n` + document.getElementById('out').textContent);
+      }
+
       await save();
     }
 
     async function fight() {
       const goblin = { hp: 5, ac: 12, atk: 2 };
-      const mode = localStorage.getItem('diceMode') || 'auto';
-      const rollPlayer = () => roll(20) + player.stats.str;
-      const rollGoblin = () => roll(20) + goblin.atk;
+      const pRoll = roll(20) + player.stats.str;
+      const gRoll = roll(20) + goblin.atk;
+      let log = `You roll to hit: ${pRoll} vs AC ${goblin.ac}\n`;
 
-      let log = '';
-      const playerRoll = rollPlayer();
-      log += `You roll to hit: ${playerRoll} vs AC ${goblin.ac}\n`;
-
-      if (playerRoll >= goblin.ac) {
+      if (pRoll >= goblin.ac) {
         const dmg = roll(4);
         goblin.hp -= dmg;
         player.xp += 10;
-        log += `✅ You hit for ${dmg} damage. Goblin defeated! +10 XP\n`;
+        log += `✅ Hit! You deal ${dmg} to Goblin. +10 XP\n`;
       } else {
         log += `❌ You missed.\n`;
       }
 
-      const goblinRoll = rollGoblin();
-      if (goblinRoll >= 12) {
-        const hit = roll(4);
-        player.hp -= hit;
+      if (gRoll >= 12) {
+        const dmg = roll(4);
+        player.hp -= dmg;
         player.conditions.push("Wounded");
-        log += `💥 Goblin hits you for ${hit}. HP now ${player.hp}\n`;
+        log += `💥 Goblin hits you for ${dmg}. HP now ${player.hp}\n`;
       } else {
-        log += `🛡️ Goblin missed you.\n`;
+        log += `🛡️ Goblin missed.\n`;
       }
 
       await save();
       output(log + '\n---\n' + document.getElementById('out').textContent);
-    }
-
-    async function rollSkill() {
-      const type = document.getElementById('skillType').value;
-      const stat = player.stats[type];
-      const mode = localStorage.getItem('diceMode') || 'auto';
-      const r = roll(20);
-      const total = r + stat;
-      let result = `🎲 Skill Check (${type.toUpperCase()}): ${r} + ${stat} = ${total}\n`;
-
-      if (total >= 15) {
-        result += `✅ Success!\n`;
-        player.xp += 5;
-      } else {
-        result += `❌ Failed.\n`;
-        player.conditions.push("Shaken");
-      }
-
-      await save();
-      output(result + '\n---\n' + document.getElementById('out').textContent);
     }
 
     load();
