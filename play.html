@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths - Terrain Encounters</title>
+  <title>Elden Paths - Encounter Journal & Codex</title>
   <style>
     body {
       background: #f9f4e7;
@@ -20,11 +20,11 @@
   </style>
 </head>
 <body>
-  <h1>🌍 Elden Paths: Live Terrain Encounter System</h1>
+  <h1>📖 Elden Paths: Journal + Codex Logging</h1>
   <button onclick="simulatePlayerMove('warden')">🚶 Move Player</button>
   <button onclick="simulateCombat()">⚔️ Combat Test</button>
   <button onclick="showCharacterSheet()">📜 Character Sheet</button>
-  <div class="log" id="combatLog">Click a button to move or test combat.</div>
+  <div class="log" id="combatLog">Click a button to explore, battle, and log your legend.</div>
 
   <!-- Character Sheet Overlay -->
   <div id="characterSheet" style="display:none; border:2px solid #222; background:#fff; padding:15px; position:absolute; top:60px; right:60px; width:200px; box-shadow:2px 2px 10px rgba(0,0,0,0.3);">
@@ -41,6 +41,9 @@
   <script src="character.js"></script>
   <script src="encounters.js"></script>
   <script src="terrain_utils.js"></script>
+  <script src="loot.js"></script>
+  <script src="journal.js"></script>
+  <script src="codex.js"></script>
   <script>
     const enemy = {
       name: "Bandit",
@@ -112,6 +115,13 @@
 
       if (result) {
         logToCombat(`👣 While traveling through the ${terrain}, you encounter a ${result}!`);
+        simulateCombat();
+        const loot = rollLoot(terrain);
+        logToCombat(`🎁 You find: ${loot}`);
+
+        await logToJournal(playerId, `Encountered a ${result} in the ${terrain}. Found loot: ${loot}.`);
+        await unlockCodexEntry(result);
+        renderEncounterScene(result, terrain);
       } else {
         logToCombat(`🚶 You move through the ${terrain} without incident.`);
       }
@@ -122,6 +132,11 @@
       if (logBox) {
         logBox.innerText += `\n${text}`;
       }
+    }
+
+    function renderEncounterScene(enemy, terrain) {
+      console.log(`🖼 Stub: Render scene of ${enemy} in ${terrain}.`);
+      // Future: connect to sketch/image API or static illustrations
     }
   </script>
 </body>
