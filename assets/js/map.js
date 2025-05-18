@@ -18,12 +18,13 @@ function loadMap() {
     .then(res => res.json())
     .then(data => {
       tileData = data;
+      drawFogTiles();
     });
 }
 
 function toggleFog() {
   fogVisible = !fogVisible;
-  updateMap();
+  drawFogTiles();
 }
 
 function toggleTrails() {
@@ -40,7 +41,8 @@ function updateMap() {
   let layersToShow = [`url('${baseMap}')`];
   if (topoVisible) layersToShow.push(`url('${topoOverlay}')`);
   if (trailsVisible) layersToShow.push(`url('${trailOverlay}')`);
-  if (fogVisible) layersToShow.push(`url('${fogOverlay}')`);
+  if (!fogVisible) mapEl.querySelectorAll(".fog-tile").forEach(el => el.style.display = "none");
+  else mapEl.querySelectorAll(".fog-tile").forEach(el => el.style.display = "block");
   mapEl.style.backgroundImage = layersToShow.reverse().join(', ');
 }
 
@@ -55,6 +57,31 @@ function handleMapClick(event) {
     lorePanel.style.display = "block";
   } else {
     lorePanel.style.display = "none";
+  }
+}
+
+function drawFogTiles() {
+  const discovered = JSON.parse(localStorage.getItem("elden_discovered") || "[]");
+  const size = 10;
+  mapEl.querySelectorAll(".fog-tile").forEach(el => el.remove());
+
+  for (let x = -5; x < 5; x++) {
+    for (let y = -5; y < 5; y++) {
+      const key = `${x}_${y}`;
+      if (!discovered.includes(key)) {
+        const fog = document.createElement("div");
+        fog.className = "fog-tile";
+        fog.style.position = "absolute";
+        fog.style.left = `${(x + 5) * 10}%`;
+        fog.style.top = `${(y + 5) * 10}%`;
+        fog.style.width = "10%";
+        fog.style.height = "10%";
+        fog.style.background = "rgba(0,0,0,0.8)";
+        fog.style.pointerEvents = "none";
+        fog.style.zIndex = 5;
+        mapEl.appendChild(fog);
+      }
+    }
   }
 }
 
