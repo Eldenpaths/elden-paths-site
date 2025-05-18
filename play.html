@@ -1,158 +1,225 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Elden Paths™ — Play</title>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <title>Elden Paths™ — Boss & Monsters</title>
+  <style>
+    body { font-family: monospace; background: #f4f4f4; padding: 2em; }
+    #out { white-space: pre-wrap; padding: 1em; background: #eee; border-radius: 6px; margin-bottom: 1em; max-width: 700px; }
+    button { margin: 4px; }
+  </style>
 </head>
 <body>
-  <h1>Elden Paths™ — Play</h1>
 
-  <div id="characterDisplay"></div>
+<h1>📖 Elden Paths™</h1>
+<div id="out">Loading...</div>
 
-  <button onclick="move('north')">Go North</button>
-  <button onclick="move('south')">Go South</button>
-  <button onclick="move('east')">Go East</button>
-  <button onclick="move('west')">Go West</button>
-  <br><br>
+<button onclick="move('north')">⬆️ Go North</button>
+<button onclick="move('south')">⬇️ Go South</button>
+<button onclick="move('east')">➡️ Go East</button>
+<button onclick="move('west')">⬅️ Go West</button><br>
+<button onclick="fight()">⚔️ Fight</button>
+<button onclick="rest()">🛌 Rest</button>
+<button onclick="showInventory()">🎒 Inventory</button>
+<button onclick="showJournal()">📓 Journal</button>
+<button onclick="showQuests()">📜 Quests</button>
 
-  <button onclick="fight()">Fight Nearby Threat</button>
-  <br><br>
+<script>
+const api = "https://player-save.pationandcamp.workers.dev";
+const name = new URLSearchParams(location.search).get("name") || prompt("Enter your name:");
+let player = null;
 
-  <button onclick="saveCharacter()">Save Character</button>
+const loreByTile = {
+  "B1": "🗿 You find a cracked statue lying in the weeds.",
+  "C2": "⛩️ An ancient altar glows faintly in the dusk.",
+  "D3": "🔥 Burnt wagons and splintered wood mark a destroyed caravan."
+};
 
-  <script>
-    let character = {
-      name: "the dood",
-      race: "human",
-      class: "fighter",
-      stats: { STR: 14, DEX: 12, INT: 11 },
-      tile: "A1",
-      fog: ["A1"],
+const questByTile = {
+  "A2": "🌿 Quest: Gather herbs for the village healer.",
+  "C1": "🧱 Quest: Investigate the collapsed mineshaft.",
+  "D4": "📦 Quest: Recover the lost trader's chest."
+};
+
+const enemyByTile = {
+  "B2": { name: "Goblin", hp: 6, str: 3 },
+  "C3": { name: "Wild Wolf", hp: 8, str: 4 },
+  "D2": { name: "Undead Shade", hp: 10, str: 5 },
+  "E4": { name: "Grave Knight", hp: 20, str: 6, boss: true }
+};
+
+function xpForNextLevel(level) {
+  return level * 10 + (level - 1) * 10;
+}
+
+async function loadPlayer() {
+  const res = await fetch(`${api}/loadPlayer?name=${encodeURIComponent(name)}`);
+  if (res.ok) {
+    player = await res.json();
+  } else {
+    player = {
+      name,
+      hp: 10,
+      maxHp: 10,
+      str: 5,
       xp: 0,
       level: 1,
-      hp: 20,
-      ac: 12,
-      gear: {
-        equipped: ["Starter Sword"],
-        inventory: ["Bread", "Torch"]
-      },
-      conditions: [],
-      lastSeen: new Date().toISOString()
+      tile: '0,0',
+      inventory: [],
+      gear: { weapon: null },
+      journal: [],
+      quests: []
     };
+    await savePlayer();
+  }
+  update();
+}
 
-    function displayCharacter() {
-      const c = character;
-      document.getElementById("characterDisplay").innerHTML = `
-        <p><strong>Name:</strong> ${c.name}<br>
-        <strong>Race:</strong> ${c.race} | <strong>Class:</strong> ${c.class}<br>
-        <strong>Stats:</strong> STR ${c.stats.STR}, DEX ${c.stats.DEX}, INT ${c.stats.INT}<br>
-        <strong>HP:</strong> ${c.hp} | <strong>AC:</strong> ${c.ac} | <strong>XP:</strong> ${c.xp} | <strong>Level:</strong> ${c.level}<br>
-        <strong>Tile:</strong> ${c.tile}<br>
-        <strong>Gear:</strong> Equipped - ${c.gear.equipped.join(", ")}, Inventory - ${c.gear.inventory.join(", ")}<br>
-        <strong>Conditions:</strong> ${c.conditions.length ? c.conditions.join(", ") : "None"}<br>
-        <strong>Last Seen:</strong> ${c.lastSeen}</p>
-      `;
+async function savePlayer() {
+  await fetch(`${api}/savePlayer`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(player)
+  });
+}
+
+function update(log = "") {
+  const status =
+    `🧝 ${player.name} | ❤️ ${player.hp}/${player.maxHp} | ⚔️ STR: ${player.str} ${player.gear.weapon ? `(w/ ${player.gear.weapon})` : ''}\n` +
+    `🎖️ XP: ${player.xp} | Level: ${player.level}\n` +
+    `📍 Tile: ${player.tile} | 🎒 ${player.inventory.join(', ') || 'Empty'}`;
+  document.getElementById('out').textContent = `${log}\n\n${status}`;
+}
+
+function checkLevelUp() {
+  while (player.xp >= xpForNextLevel(player.level)) {
+    player.xp -= xpForNextLevel(player.level);
+    player.level++;
+    player.maxHp += 2;
+    if (player.level % 2 === 0) player.str += 1;
+    player.hp = player.maxHp;
+    alert(`🎉 You reached Level ${player.level}!\nMax HP: ${player.maxHp}, STR: ${player.str}`);
+  }
+}
+
+async function move(dir) {
+  let [x, y] = player.tile.split(',').map(Number);
+  if (dir === 'north') y++;
+  if (dir === 'south') y--;
+  if (dir === 'east') x++;
+  if (dir === 'west') x--;
+  player.tile = `${x},${y}`;
+
+  let log = `🚶 You travel ${dir.toUpperCase()} to tile ${player.tile}`;
+
+  const lore = loreByTile[player.tile];
+  if (lore && !player.journal.includes(lore)) {
+    player.journal.push(lore);
+    log += `\n📜 New Lore: ${lore}`;
+  }
+
+  const quest = questByTile[player.tile];
+  if (quest && !player.quests.includes(quest)) {
+    player.quests.push(quest);
+    log += `\n🆕 Quest Found: ${quest}`;
+  }
+
+  await savePlayer();
+  update(log);
+}
+
+async function fight() {
+  const enemy = enemyByTile[player.tile];
+  if (!enemy) {
+    update("❌ There is no enemy here.");
+    return;
+  }
+
+  let monster = { ...enemy }; // clone
+  let log = `⚔️ You engage the ${monster.name}!\n`;
+
+  while (player.hp > 0 && monster.hp > 0) {
+    monster.hp -= player.str;
+    log += `🗡️ You hit for ${player.str}. ${monster.name} HP: ${monster.hp}\n`;
+    if (monster.hp <= 0) break;
+    player.hp -= monster.str;
+    log += `💢 ${monster.name} hits for ${monster.str}. Your HP: ${player.hp}\n`;
+  }
+
+  if (player.hp <= 0) {
+    log += `☠️ You were slain by the ${monster.name}.`;
+  } else {
+    let reward = 10;
+    let loot = Math.random() < 0.5 ? "Herb" : "Rusty Sword";
+    if (monster.boss) {
+      loot = "Darkblade";
+      reward = 30;
+      log += `🏆 You defeated the boss ${monster.name}!\n`;
+    } else {
+      log += `✅ You defeated the ${monster.name}.\n`;
     }
 
-    function move(direction) {
-      character.tile = "Moved " + direction;
-      character.lastSeen = new Date().toISOString();
-      displayCharacter();
+    player.xp += reward;
+    player.inventory.push(loot);
+    log += `+${reward} XP\n🎁 Loot: ${loot}`;
+
+    if (loot === "Rusty Sword" && !player.gear.weapon) {
+      player.gear.weapon = "Rusty Sword";
+      player.str += 2;
+      log += `\n🗡️ You equip the Rusty Sword (+2 STR)!`;
     }
 
-    function saveCharacter() {
-      fetch('/api/saveCharacter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(character)
-      }).then(res => {
-        if (res.ok) alert("Character saved!");
-        else alert("Save failed.");
-      });
-    }
-
-    async function autoLoadCharacter() {
-      const res = await fetch(`/api/loadCharacter?name=${encodeURIComponent(character.name)}`);
-      if (res.ok) {
-        const saved = await res.json();
-        if (saved) {
-          character = saved;
-          console.log("Character loaded.");
-        }
+    if (loot === "Darkblade") {
+      if (player.gear.weapon === "Rusty Sword") {
+        player.str -= 2;
       }
-      displayCharacter();
+      player.gear.weapon = "Darkblade";
+      player.str += 4;
+      log += `\n🗡️ You equip the Darkblade (+4 STR)!`;
     }
 
-    function rollDie(sides) {
-      return Math.floor(Math.random() * sides) + 1;
+    checkLevelUp();
+  }
+
+  await savePlayer();
+  update(log);
+}
+
+async function rest() {
+  const healed = Math.min(player.maxHp - player.hp, 4);
+  player.hp += healed;
+  await savePlayer();
+  update(healed > 0 ? `🛌 You rest and heal ${healed} HP.` : `🛌 You're already at full health.`);
+}
+
+async function showInventory() {
+  if (!player.inventory.length) return alert("🎒 Your inventory is empty.");
+  let msg = `🎒 You have: ${player.inventory.join(', ')}`;
+  if (player.inventory.includes("Herb")) {
+    const use = confirm("Use a Herb to heal 3 HP?");
+    if (use) {
+      player.hp = Math.min(player.hp + 3, player.maxHp);
+      player.inventory.splice(player.inventory.indexOf("Herb"), 1);
+      msg += `\n🌿 You used a Herb. HP: ${player.hp}/${player.maxHp}`;
+      await savePlayer();
     }
+  }
+  alert(msg);
+  update();
+}
 
-    function getAttackBonus(c) {
-      return Math.floor(c.stats.STR / 2) + c.level;
-    }
+function showJournal() {
+  if (!player.journal.length) return alert("📓 Your journal is empty.");
+  alert("📓 Lore Entries:\n\n" + player.journal.join('\n\n'));
+}
 
-    function getDamageBonus(c) {
-      return Math.floor(c.stats.STR / 3);
-    }
+function showQuests() {
+  if (!player.quests.length) return alert("📜 You have no quests yet.");
+  alert("📜 Active Quests:\n\n" + player.quests.join('\n\n'));
+}
 
-    function buildEnemy(name) {
-      const templates = {
-        "Goblin": { name: "Goblin", hp: 12, ac: 11, attack: () => rollDie(4) + 1, xp: 5 },
-        "Wolf": { name: "Wolf", hp: 10, ac: 13, attack: () => rollDie(6), xp: 6 },
-        "Shade": { name: "Shade", hp: 14, ac: 12, attack: () => rollDie(6) + 2, xp: 8 },
-        "Skeleton": { name: "Skeleton", hp: 15, ac: 10, attack: () => rollDie(6), xp: 7 },
-        "Reef Drake": { name: "Reef Drake", hp: 22, ac: 14, attack: () => rollDie(8), xp: 10 },
-        "Pirate Raider": { name: "Pirate Raider", hp: 16, ac: 12, attack: () => rollDie(6) + 1, xp: 9 }
-      };
-      return templates[name] || templates["Goblin"];
-    }
+loadPlayer();
+</script>
 
-    async function fight() {
-      const tile = character.tile;
-      const res = await fetch('/tile_meta.json');
-      const meta = await res.json();
-      const tileData = meta[tile] || {};
-      const enemyName = (tileData.enemies || ["Goblin"])[Math.floor(Math.random() * (tileData.enemies?.length || 1))];
-      const enemy = buildEnemy(enemyName);
-
-      const roll = rollDie(20);
-      const hit = roll + getAttackBonus(character) >= enemy.ac;
-      let outcome;
-
-      if (hit) {
-        const dmg = rollDie(enemy.hp > 15 ? 8 : 6) + getDamageBonus(character);
-        enemy.hp -= dmg;
-        outcome = `You hit the ${enemy.name} for ${dmg} damage!`;
-
-        if (enemy.hp <= 0) {
-          outcome += ` The ${enemy.name} falls!`;
-          character.xp += enemy.xp || 5;
-          sketchBattle("combat_win", character, enemy);
-        }
-      } else {
-        outcome = `You miss the ${enemy.name}. It counters!`;
-        const injury = enemy.attack();
-        character.hp -= injury;
-        outcome += ` You take ${injury} damage.`;
-
-        if (character.hp <= 0) {
-          character.conditions.push("Wounded");
-          outcome += " You are badly wounded!";
-          sketchBattle("combat_wound", character, enemy);
-        }
-      }
-
-      alert(outcome);
-      displayCharacter();
-      saveCharacter();
-    }
-
-    function sketchBattle(tag, player, enemy) {
-      // Placeholder: hook into sketch engine
-      console.log(`[SKETCH] ${tag} scene triggered: ${player.name} vs ${enemy.name}`);
-    }
-
-    autoLoadCharacter();
-  </script>
 </body>
 </html>
