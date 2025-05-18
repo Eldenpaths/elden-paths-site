@@ -25,6 +25,7 @@
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
+      cursor: crosshair;
     }
     #controls {
       position: absolute;
@@ -48,6 +49,17 @@
     #controls button:hover {
       background-color: #666;
     }
+    #lorePanel {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(10, 10, 10, 0.95);
+      border: 1px solid #666;
+      padding: 12px;
+      max-width: 300px;
+      font-size: 0.9rem;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -57,7 +69,8 @@
       <button onclick="toggleTrails()">Toggle Trails</button>
       <button onclick="toggleTopo()">Toggle Topo</button>
     </div>
-    <div id="map"></div>
+    <div id="map" onclick="handleMapClick(event)"></div>
+    <div id="lorePanel"></div>
   </div>
 
   <script src="assets/js/map.js"></script>
