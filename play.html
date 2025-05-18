@@ -1,269 +1,158 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Elden Paths™ — Phase 26 (Quests)</title>
-  <style>
-    body { font-family: monospace; background: #f4f4f4; padding: 2em; }
-    #out { white-space: pre-wrap; padding: 1em; background: #eee; border-radius: 6px; margin-bottom: 1em; max-width: 700px; }
-    button { margin: 4px; }
-    #mapModal {
-      display: none;
-      position: fixed;
-      top: 10%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #fff;
-      padding: 1em;
-      border: 2px solid #333;
-      z-index: 1000;
-    }
-    #mapModal pre { font-size: 16px; line-height: 1.2em; cursor: pointer; }
-  </style>
+  <title>Elden Paths™ — Play</title>
+  <meta charset="UTF-8">
 </head>
 <body>
+  <h1>Elden Paths™ — Play</h1>
 
-<h1>📖 Elden Paths™</h1>
-<div id="out">Loading...</div>
+  <div id="characterDisplay"></div>
 
-<button onclick="move('north')">⬆️ Go North</button>
-<button onclick="move('south')">⬇️ Go South</button>
-<button onclick="move('east')">➡️ Go East</button>
-<button onclick="move('west')">⬅️ Go West</button>
-<button onclick="descend()">⛏ Descend</button>
-<button onclick="ascend()">🛗 Ascend</button><br>
-<button onclick="fight()">⚔️ Fight</button>
-<button onclick="rest()">🌊 Rest</button>
-<button onclick="craft()">🔧 Craft</button>
-<button onclick="shop()">🏪 Shop</button>
-<button onclick="renderMap()">🗺 Show Map</button>
-<button onclick="showInventory()">🎒 Inventory</button>
-<button onclick="showQuests()">📜 Quests</button>
+  <button onclick="move('north')">Go North</button>
+  <button onclick="move('south')">Go South</button>
+  <button onclick="move('east')">Go East</button>
+  <button onclick="move('west')">Go West</button>
+  <br><br>
 
-<div id="mapModal">
-  <pre id="mapGrid"></pre>
-  <button onclick="document.getElementById('mapModal').style.display='none'">Close Map</button>
-</div>
+  <button onclick="fight()">Fight Nearby Threat</button>
+  <br><br>
 
-<script>
-const name = prompt("Enter your name:");
-let player = {
-  name,
-  tile: "0,0",
-  z: 0,
-  visited: [],
-  inventory: [],
-  hp: 10,
-  maxHp: 10,
-  str: 5,
-  level: 1,
-  xp: 0,
-  gear: {},
-  gold: 0,
-  flags: {},
-  quests: [],
-  timeBelow: 0
-};
+  <button onclick="saveCharacter()">Save Character</button>
 
-const tileIcons = {
-  "0,0": "🏡",
-  "C4": "🏰",
-  "E5": "🔒"
-};
+  <script>
+    let character = {
+      name: "the dood",
+      race: "human",
+      class: "fighter",
+      stats: { STR: 14, DEX: 12, INT: 11 },
+      tile: "A1",
+      fog: ["A1"],
+      xp: 0,
+      level: 1,
+      hp: 20,
+      ac: 12,
+      gear: {
+        equipped: ["Starter Sword"],
+        inventory: ["Bread", "Torch"]
+      },
+      conditions: [],
+      lastSeen: new Date().toISOString()
+    };
 
-const npcs = {
-  "A1,0": () => {
-    const hasQuest = player.quests.some(q => q.id === "clear_ruins");
-    const completed = player.flags.quest_dungeon_done;
-    if (!hasQuest && !completed) {
-      player.quests.push({ id: "clear_ruins", desc: "Clear the ruins at D5", done: false });
-      alert("🧓 Mayor: Our scouts saw movement in the ruins at D5. Please investigate.");
-    } else if (hasQuest && completed) {
-      if (!player.flags.quest_dungeon_reward) {
-        player.flags.quest_dungeon_reward = true;
-        player.quests.find(q => q.id === "clear_ruins").done = true;
-        player.gold += 15;
-        alert("🧓 Mayor: You've done it! The ruins are safe. Accept this reward — 15g.");
-      } else {
-        alert("🧓 Mayor: You’ve helped us already, thank you.");
+    function displayCharacter() {
+      const c = character;
+      document.getElementById("characterDisplay").innerHTML = `
+        <p><strong>Name:</strong> ${c.name}<br>
+        <strong>Race:</strong> ${c.race} | <strong>Class:</strong> ${c.class}<br>
+        <strong>Stats:</strong> STR ${c.stats.STR}, DEX ${c.stats.DEX}, INT ${c.stats.INT}<br>
+        <strong>HP:</strong> ${c.hp} | <strong>AC:</strong> ${c.ac} | <strong>XP:</strong> ${c.xp} | <strong>Level:</strong> ${c.level}<br>
+        <strong>Tile:</strong> ${c.tile}<br>
+        <strong>Gear:</strong> Equipped - ${c.gear.equipped.join(", ")}, Inventory - ${c.gear.inventory.join(", ")}<br>
+        <strong>Conditions:</strong> ${c.conditions.length ? c.conditions.join(", ") : "None"}<br>
+        <strong>Last Seen:</strong> ${c.lastSeen}</p>
+      `;
+    }
+
+    function move(direction) {
+      character.tile = "Moved " + direction;
+      character.lastSeen = new Date().toISOString();
+      displayCharacter();
+    }
+
+    function saveCharacter() {
+      fetch('/api/saveCharacter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(character)
+      }).then(res => {
+        if (res.ok) alert("Character saved!");
+        else alert("Save failed.");
+      });
+    }
+
+    async function autoLoadCharacter() {
+      const res = await fetch(`/api/loadCharacter?name=${encodeURIComponent(character.name)}`);
+      if (res.ok) {
+        const saved = await res.json();
+        if (saved) {
+          character = saved;
+          console.log("Character loaded.");
+        }
       }
-    } else {
-      alert("🧓 Mayor: The ruins remain dangerous...");
+      displayCharacter();
     }
-  },
-  "D5,0": () => {
-    if (!player.flags.bossCleared) {
-      alert("🤕 Wounded Knight: Beware... the beast still lives...");
-    } else {
-      alert("🤕 Wounded Knight: You did it... we are avenged.");
+
+    function rollDie(sides) {
+      return Math.floor(Math.random() * sides) + 1;
     }
-  }
-};
 
-function tileKey(x, y, z) {
-  return `${x},${y},${z}`;
-}
-
-function markVisited() {
-  const key = tileKey(...player.tile.split(',').map(Number), player.z);
-  if (!player.visited.includes(key)) player.visited.push(key);
-}
-
-function renderMap() {
-  const [px, py] = player.tile.split(',').map(Number);
-  const z = player.z;
-  const label = z === 0 ? 'Surface' : (z < 0 ? 'Underground' : `Z=${z}`);
-  let output = `🗺 Map View — ${label} (5x5):\n\n`;
-  for (let y = py + 2; y >= py - 2; y--) {
-    for (let x = px - 2; x <= px + 2; x++) {
-      const key = tileKey(x, y, z);
-      let char = ".";
-      if (player.tile === `${x},${y}`) char = "@";
-      else if (player.visited.includes(key)) char = tileIcons[`${x},${y}`] || "#";
-      output += `<span onclick=\"travelTo('${x},${y}', ${z})\">${char}</span> `;
+    function getAttackBonus(c) {
+      return Math.floor(c.stats.STR / 2) + c.level;
     }
-    output += "\n";
-  }
-  document.getElementById("mapGrid").innerHTML = output;
-  document.getElementById("mapModal").style.display = "block";
-}
 
-function travelTo(coord, zTarget) {
-  if (zTarget !== player.z) return alert("⛔ Can't travel between layers.");
-  const key = tileKey(...coord.split(',').map(Number), zTarget);
-  if (!player.visited.includes(key)) return alert("❌ Fogged tile.");
-  player.tile = coord;
-  markVisited();
-  update(`🧭 Traveled to ${coord}`);
-  document.getElementById("mapModal").style.display = "none";
-}
-
-function update(log = "") {
-  const status =
-    `🧝 ${player.name} | ❤️ ${player.hp}/${player.maxHp} | ⚔️ ${player.str} | 🌟 Level ${player.level}\n` +
-    `📍 Tile: ${player.tile}, z=${player.z} | 💰 ${player.gold}g\n` +
-    `🎒 ${player.inventory.join(', ') || 'Empty'}`;
-  if (player.z < 0) {
-    player.timeBelow++;
-    if (player.timeBelow > 5 && !player.flags.deepWarning) {
-      player.flags.deepWarning = true;
-      log += "\n☁️ You feel the weight of the stone above...";
+    function getDamageBonus(c) {
+      return Math.floor(c.stats.STR / 3);
     }
-  } else {
-    player.timeBelow = 0;
-  }
-  document.getElementById("out").textContent = `${log}\n\n${status}`;
-}
 
-function move(dir) {
-  let [x, y] = player.tile.split(',').map(Number);
-  if (dir === 'north') y++;
-  if (dir === 'south') y--;
-  if (dir === 'east') x++;
-  if (dir === 'west') x--;
-  player.tile = `${x},${y}`;
-  markVisited();
-  let log = `🚶 Moved ${dir.toUpperCase()} to ${player.tile}`;
-  checkTriggers(log);
-}
+    function buildEnemy(name) {
+      const templates = {
+        "Goblin": { name: "Goblin", hp: 12, ac: 11, attack: () => rollDie(4) + 1, xp: 5 },
+        "Wolf": { name: "Wolf", hp: 10, ac: 13, attack: () => rollDie(6), xp: 6 },
+        "Shade": { name: "Shade", hp: 14, ac: 12, attack: () => rollDie(6) + 2, xp: 8 },
+        "Skeleton": { name: "Skeleton", hp: 15, ac: 10, attack: () => rollDie(6), xp: 7 },
+        "Reef Drake": { name: "Reef Drake", hp: 22, ac: 14, attack: () => rollDie(8), xp: 10 },
+        "Pirate Raider": { name: "Pirate Raider", hp: 16, ac: 12, attack: () => rollDie(6) + 1, xp: 9 }
+      };
+      return templates[name] || templates["Goblin"];
+    }
 
-function descend() {
-  if (player.z === 0 && player.tile === "C4") {
-    player.z = -1;
-    markVisited();
-    update("⛏ You descend into the catacombs...");
-  } else {
-    alert("❌ No descent here.");
-  }
-}
+    async function fight() {
+      const tile = character.tile;
+      const res = await fetch('/tile_meta.json');
+      const meta = await res.json();
+      const tileData = meta[tile] || {};
+      const enemyName = (tileData.enemies || ["Goblin"])[Math.floor(Math.random() * (tileData.enemies?.length || 1))];
+      const enemy = buildEnemy(enemyName);
 
-function ascend() {
-  if (player.z < 0) {
-    player.z = 0;
-    markVisited();
-    update("🛗 You climb back to the surface.");
-  } else {
-    alert("⚠️ You're already on the surface.");
-  }
-}
+      const roll = rollDie(20);
+      const hit = roll + getAttackBonus(character) >= enemy.ac;
+      let outcome;
 
-function checkTriggers(log) {
-  const key = `${player.tile},${player.z}`;
-  if (npcs[key]) npcs[key]();
-  if (player.tile === "D5" && !player.flags.bossCleared) {
-    player.flags.bossCleared = true;
-    player.xp += 20;
-    player.flags.quest_dungeon_done = true;
-    log += "\n💀 Dungeon beast defeated! +20 XP.";
-  }
-  update(log);
-}
+      if (hit) {
+        const dmg = rollDie(enemy.hp > 15 ? 8 : 6) + getDamageBonus(character);
+        enemy.hp -= dmg;
+        outcome = `You hit the ${enemy.name} for ${dmg} damage!`;
 
-function showInventory() {
-  alert("🎒 " + (player.inventory.join(', ') || 'Empty'));
-}
+        if (enemy.hp <= 0) {
+          outcome += ` The ${enemy.name} falls!`;
+          character.xp += enemy.xp || 5;
+          sketchBattle("combat_win", character, enemy);
+        }
+      } else {
+        outcome = `You miss the ${enemy.name}. It counters!`;
+        const injury = enemy.attack();
+        character.hp -= injury;
+        outcome += ` You take ${injury} damage.`;
 
-function showQuests() {
-  if (player.quests.length === 0) return alert("📜 No quests yet.");
-  const log = player.quests.map(q => `- ${q.desc} ${q.done ? "✅" : ""}`).join("\n");
-  alert("📜 Quests:\n" + log);
-}
+        if (character.hp <= 0) {
+          character.conditions.push("Wounded");
+          outcome += " You are badly wounded!";
+          sketchBattle("combat_wound", character, enemy);
+        }
+      }
 
-function rest() {
-  const healed = Math.min(player.maxHp - player.hp, 4);
-  player.hp += healed;
-  update(`🛌 Rested +${healed} HP.`);
-}
+      alert(outcome);
+      displayCharacter();
+      saveCharacter();
+    }
 
-function fight() {
-  const mob = { hp: 6, str: 3 };
-  let log = "⚔️ Battle begins!\n";
-  while (mob.hp > 0 && player.hp > 0) {
-    mob.hp -= player.str;
-    if (mob.hp <= 0) break;
-    player.hp -= mob.str;
-  }
-  if (player.hp <= 0) log += "☠️ You were defeated!";
-  else {
-    player.xp += 10;
-    player.gold += 3;
-    player.inventory.push("Herb");
-    log += "✅ Victory! +10 XP, +3g, Herb found.";
-  }
-  update(log);
-}
+    function sketchBattle(tag, player, enemy) {
+      // Placeholder: hook into sketch engine
+      console.log(`[SKETCH] ${tag} scene triggered: ${player.name} vs ${enemy.name}`);
+    }
 
-function craft() {
-  const i = player.inventory;
-  if (i.filter(x => x === "Herb").length >= 2) {
-    i.splice(i.indexOf("Herb"), 1);
-    i.splice(i.indexOf("Herb"), 1);
-    i.push("Healing Brew");
-    alert("🧪 Crafted Healing Brew.");
-  } else {
-    alert("❌ Not enough materials.");
-  }
-  update("🧪 Crafting complete.");
-}
-
-function shop() {
-  const buy = prompt("Shop:\n1. Herb (3g)\n2. Shield (+1 max HP, 5g)");
-  if (buy === "1" && player.gold >= 3) {
-    player.gold -= 3;
-    player.inventory.push("Herb");
-    update("🛍 Bought Herb.");
-  } else if (buy === "2" && player.gold >= 5) {
-    player.gold -= 5;
-    player.maxHp += 1;
-    update("🛡 Bought and equipped Shield. Max HP +1");
-  } else {
-    alert("❌ Can't afford that.");
-  }
-}
-
-markVisited();
-update("🌟 Welcome to Elden Paths (Phase 26)");
-</script>
-
+    autoLoadCharacter();
+  </script>
 </body>
 </html>
