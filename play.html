@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ — Phase 25 (NPCs + Dialogue)</title>
+  <title>Elden Paths™ — Phase 26 (Quests)</title>
   <style>
     body { font-family: monospace; background: #f4f4f4; padding: 2em; }
     #out { white-space: pre-wrap; padding: 1em; background: #eee; border-radius: 6px; margin-bottom: 1em; max-width: 700px; }
@@ -38,6 +38,7 @@
 <button onclick="shop()">🏪 Shop</button>
 <button onclick="renderMap()">🗺 Show Map</button>
 <button onclick="showInventory()">🎒 Inventory</button>
+<button onclick="showQuests()">📜 Quests</button>
 
 <div id="mapModal">
   <pre id="mapGrid"></pre>
@@ -60,6 +61,7 @@ let player = {
   gear: {},
   gold: 0,
   flags: {},
+  quests: [],
   timeBelow: 0
 };
 
@@ -71,14 +73,22 @@ const tileIcons = {
 
 const npcs = {
   "A1,0": () => {
-    if (player.flags.bossCleared && !player.flags.mayorReward) {
-      player.flags.mayorReward = true;
-      player.gold += 10;
-      alert("🧓 Mayor: Brave soul! The beast is gone? Here, take this — 10 gold.");
-    } else if (player.flags.bossCleared) {
-      alert("🧓 Mayor: You’ve already proven yourself.");
+    const hasQuest = player.quests.some(q => q.id === "clear_ruins");
+    const completed = player.flags.quest_dungeon_done;
+    if (!hasQuest && !completed) {
+      player.quests.push({ id: "clear_ruins", desc: "Clear the ruins at D5", done: false });
+      alert("🧓 Mayor: Our scouts saw movement in the ruins at D5. Please investigate.");
+    } else if (hasQuest && completed) {
+      if (!player.flags.quest_dungeon_reward) {
+        player.flags.quest_dungeon_reward = true;
+        player.quests.find(q => q.id === "clear_ruins").done = true;
+        player.gold += 15;
+        alert("🧓 Mayor: You've done it! The ruins are safe. Accept this reward — 15g.");
+      } else {
+        alert("🧓 Mayor: You’ve helped us already, thank you.");
+      }
     } else {
-      alert("🧓 Mayor: We fear the creature in the ruins...");
+      alert("🧓 Mayor: The ruins remain dangerous...");
     }
   },
   "D5,0": () => {
@@ -180,17 +190,23 @@ function ascend() {
 function checkTriggers(log) {
   const key = `${player.tile},${player.z}`;
   if (npcs[key]) npcs[key]();
-
   if (player.tile === "D5" && !player.flags.bossCleared) {
     player.flags.bossCleared = true;
     player.xp += 20;
+    player.flags.quest_dungeon_done = true;
     log += "\n💀 Dungeon beast defeated! +20 XP.";
   }
-  if (player.tile === "A1" && player.flags.bossCleared && !player.flags.townEvent) {
-    player.flags.townEvent = true;
-    log += "\n🎉 Town celebrates your return!";
-  }
   update(log);
+}
+
+function showInventory() {
+  alert("🎒 " + (player.inventory.join(', ') || 'Empty'));
+}
+
+function showQuests() {
+  if (player.quests.length === 0) return alert("📜 No quests yet.");
+  const log = player.quests.map(q => `- ${q.desc} ${q.done ? "✅" : ""}`).join("\n");
+  alert("📜 Quests:\n" + log);
 }
 
 function rest() {
@@ -215,10 +231,6 @@ function fight() {
     log += "✅ Victory! +10 XP, +3g, Herb found.";
   }
   update(log);
-}
-
-function showInventory() {
-  alert("🎒 " + (player.inventory.join(', ') || 'Empty'));
 }
 
 function craft() {
@@ -250,7 +262,7 @@ function shop() {
 }
 
 markVisited();
-update("🌟 Welcome to Elden Paths (Phase 25)");
+update("🌟 Welcome to Elden Paths (Phase 26)");
 </script>
 
 </body>
