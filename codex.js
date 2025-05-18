@@ -1,18 +1,26 @@
 // codex.js
 
-async function unlockCodexEntry(enemyName) {
-    const response = await fetch('unlocked_codex.json');
-    const codex = await response.json();
+async function loadCodex() {
+  const res = await fetch('unlocked_codex.json');
+  const data = await res.json();
+  const container = document.getElementById('codexList');
 
-    if (!codex.entries.includes(enemyName)) {
-        codex.entries.push(enemyName);
+  if (!data.entries || data.entries.length === 0) {
+    container.innerHTML = "<p>No Codex entries unlocked yet.</p>";
+    return;
+  }
 
-        await fetch('unlocked_codex.json', {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(codex, null, 2)
-        });
-
-        logToCombat(`📜 New Codex entry unlocked: ${enemyName}`);
-    }
+  data.entries.forEach(entry => {
+    const div = document.createElement("div");
+    div.className = "codex-entry";
+    div.innerHTML = `
+      <h3>${entry}</h3>
+      <img src="assets/images/relics/${entry.replace(/\s+/g, '_').toLowerCase()}.png" onerror="this.style.display='none'">
+      <p><em>Lore coming soon...</em></p>
+      <hr/>
+    `;
+    container.appendChild(div);
+  });
 }
+
+window.onload = loadCodex;
