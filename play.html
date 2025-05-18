@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ — Crafting & Resources</title>
+  <title>Elden Paths™ — Dungeons & Vaults</title>
   <style>
     body { font-family: monospace; background: #f4f4f4; padding: 2em; }
     #out { white-space: pre-wrap; padding: 1em; background: #eee; border-radius: 6px; margin-bottom: 1em; max-width: 700px; }
@@ -31,76 +31,48 @@ const api = "https://player-save.pationandcamp.workers.dev";
 const name = new URLSearchParams(location.search).get("name") || prompt("Enter your name:");
 let player = null;
 
-const resourceByTile = {
-  "B4": "Herb",
-  "C1": "Wood",
-  "D1": "Ore"
-};
+const dungeonTiles = ["C4", "D5"];
+const vaultTile = "E5";
 
-function gainResource(tile) {
-  const resource = resourceByTile[tile];
-  if (resource && !player.gathered?.includes(tile)) {
-    player.inventory.push(resource);
-    player.gathered = player.gathered || [];
-    player.gathered.push(tile);
-    return `🌾 You gather: ${resource}`;
+function hasItem(item) {
+  return player.inventory.includes(item);
+}
+
+function randomEvent(tile) {
+  const roll = Math.random();
+  if (roll < 0.25) {
+    player.inventory.push("Gold Nugget");
+    return `📦 You find a hidden stash: Gold Nugget!`;
+  } else if (roll < 0.5) {
+    const dmg = Math.floor(Math.random() * 4) + 1;
+    player.hp -= dmg;
+    return `💥 A trap! You lose ${dmg} HP.`;
+  } else if (roll < 0.75) {
+    player.hp += 2;
+    if (player.hp > player.maxHp) player.hp = player.maxHp;
+    return `✨ You find a glowing spring and heal 2 HP.`;
+  } else {
+    player.inventory.push("Strange Key");
+    return `🗝 You find a Strange Key...`;
   }
+}
+
+function vaultAccess() {
+  if (!hasItem("Steel Core")) return "🔒 The vault is sealed tight. You need a Steel Core.";
+  player.inventory.push("Obsidian Blade");
+  player.str += 5;
+  player.inventory.splice(player.inventory.indexOf("Steel Core"), 1);
+  player.gear.weapon = "Obsidian Blade";
+  return "🔓 The Steel Core fits! You unlock the vault and claim the Obsidian Blade (+5 STR).";
+}
+
+function checkDungeonEvents(tile) {
+  if (tile === vaultTile) return vaultAccess();
+  if (dungeonTiles.includes(tile)) return randomEvent(tile);
   return "";
 }
 
-function craft() {
-  const inv = player.inventory;
-  let msg = "🛠 Crafting Options:\n";
-
-  const has = (item) => inv.filter(i => i === item).length;
-  const remove = (item, count = 1) => {
-    for (let i = 0; i < count; i++) {
-      const iIndex = inv.indexOf(item);
-      if (iIndex !== -1) inv.splice(iIndex, 1);
-    }
-  };
-
-  let options = [];
-
-  if (has("Herb") >= 2) options.push("1. Herb + Herb → Healing Brew");
-  if (has("Wood") >= 1 && has("Ore") >= 1) options.push("2. Wood + Ore → Iron Blade (+3 STR)");
-  if (has("Ore") >= 2) options.push("3. Ore + Ore → Steel Core (reserved)");
-
-  if (!options.length) return alert("❌ You don't have enough materials to craft anything.");
-
-  msg += options.join("\n");
-  const choice = prompt(msg + "\n\nEnter number to craft:");
-
-  if (choice === "1" && has("Herb") >= 2) {
-    remove("Herb", 2);
-    player.inventory.push("Healing Brew");
-    alert("✅ Crafted: Healing Brew (heals 6 HP)");
-  } else if (choice === "2" && has("Wood") && has("Ore")) {
-    remove("Wood");
-    remove("Ore");
-    if (player.gear.weapon) {
-      if (player.gear.weapon === "Rusty Sword") player.str -= 2;
-      if (player.gear.weapon === "Steel Sword") player.str -= 3;
-      if (player.gear.weapon === "Darkblade") player.str -= 4;
-    }
-    player.gear.weapon = "Iron Blade";
-    player.str += 3;
-    alert("🛡️ You craft and equip: Iron Blade (+3 STR)");
-  } else if (choice === "3" && has("Ore") >= 2) {
-    remove("Ore", 2);
-    player.inventory.push("Steel Core");
-    alert("🔩 Crafted: Steel Core (for future use)");
-  } else {
-    alert("❌ Invalid choice or missing items.");
-  }
-
-  savePlayer();
-  update("🛠 Crafting complete.");
-}
-
-// All previous functions from last version stay the same (move, fight, shop, etc.)
-// Use the previous "Phase 15" version and insert `gainResource(player.tile)` into move() like this:
-
+// INSERT INTO move() logic like this:
 async function move(dir) {
   let [x, y] = player.tile.split(',').map(Number);
   if (dir === 'north') y++;
@@ -111,30 +83,32 @@ async function move(dir) {
 
   let log = `🚶 You travel ${dir.toUpperCase()} to tile ${player.tile}`;
 
-  const lore = loreByTile?.[player.tile];
-  if (lore && !player.journal?.includes(lore)) {
-    player.journal.push(lore);
-    log += `\n📜 New Lore: ${lore}`;
-  }
-
-  const quest = questByTile?.[player.tile];
-  if (quest && !player.quests?.includes(quest)) {
-    player.quests.push(quest);
-    log += `\n🆕 Quest Found: ${quest}`;
-  }
-
-  const gathered = gainResource(player.tile);
-  if (gathered) log += `\n${gathered}`;
+  const dungeonLog = checkDungeonEvents(player.tile);
+  if (dungeonLog) log += `\n🏰 Dungeon Event: ${dungeonLog}`;
 
   await savePlayer();
   update(log);
 }
 
-// ... rest of your game remains unchanged (combat, inventory, quests, etc.)
-</script>
+// Add this near the top of script block:
+async function savePlayer() {
+  await fetch(`${api}/savePlayer`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(player)
+  });
+}
 
-</body>
-</html>
+function update(log = "") {
+  const status =
+    `🧝 ${player.name} | ❤️ ${player.hp}/${player.maxHp} | ⚔️ STR: ${player.str} ${player.gear.weapon ? `(w/ ${player.gear.weapon})` : ''}\n` +
+    `🎖️ XP: ${player.xp} | Level: ${player.level} | 💰 Gold: ${player.gold ?? 0}\n` +
+    `📍 Tile: ${player.tile}\n🎒 ${player.inventory.join(', ') || 'Empty'}`;
+  document.getElementById('out').textContent = `${log}\n\n${status}`;
+}
+
+// (Rest of your RPG system here: fight, shop, crafting, journal, quests, etc.)
+</script>
 
 </body>
 </html>
