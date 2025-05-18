@@ -2,25 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ — Map & Fog</title>
+  <title>Elden Paths™ — Tile Map</title>
   <style>
-    body { font-family: monospace; padding: 1em; background: #f3f3f3; }
-    #out { white-space: pre-wrap; background: #eee; padding: 1em; border-radius: 8px; margin-bottom: 1em; }
-    button, select { margin: 0.25em; }
+    body { font-family: monospace; padding: 1em; background: #f3f3f3; display: flex; flex-direction: row; gap: 2em; }
+    #map { line-height: 1.5; }
+    #map span { display: inline-block; width: 2ch; text-align: center; }
+    #out { white-space: pre-wrap; background: #eee; padding: 1em; border-radius: 6px; min-width: 350px; flex-shrink: 0; }
+    button, select { margin: 0.25em 0.5em 0.25em 0; }
   </style>
 </head>
 <body>
-  <h1>Elden Paths™ — Map & Fog</h1>
+  <div>
+    <h2>🗺️ Map</h2>
+    <div id="map"></div>
+  </div>
 
-  <div id="out">Loading...</div>
+  <div>
+    <h1>Elden Paths™</h1>
+    <div id="out">Loading...</div>
 
-  <div id="play" class="hidden">
-    <button onclick="move('north')">Go North</button>
-    <button onclick="move('south')">Go South</button>
-    <button onclick="move('east')">Go East</button>
-    <button onclick="move('west')">Go West</button>
-    <br/>
-    <button onclick="fight()">⚔️ Fight Goblin</button>
+    <div id="play" class="hidden">
+      <button onclick="move('north')">Go North</button>
+      <button onclick="move('south')">Go South</button>
+      <button onclick="move('east')">Go East</button>
+      <button onclick="move('west')">Go West</button>
+      <br/>
+      <button onclick="fight()">⚔️ Fight Goblin</button>
+    </div>
   </div>
 
   <script>
@@ -35,8 +43,27 @@
       document.getElementById('out').textContent = txt;
     }
 
+    function renderMap() {
+      let html = '';
+      for (let r of gridRows) {
+        for (let c of gridCols) {
+          const tile = `${r}${c}`;
+          if (tile === player.tile) {
+            html += `<span>🧍</span>`;
+          } else if (player.fog.includes(tile)) {
+            html += `<span>⬜</span>`;
+          } else {
+            html += `<span>⬛</span>`;
+          }
+        }
+        html += '<br>';
+      }
+      document.getElementById('map').innerHTML = html;
+    }
+
     function render() {
       document.getElementById('play').classList.remove('hidden');
+      renderMap();
       output(`
 📍 Tile: ${player.tile}
 🧭 Fog of Discovery: ${player.fog.join(', ')}
