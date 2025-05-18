@@ -1,4 +1,4 @@
-// inventory.js with rarity, types, and stat bonuses
+// inventory.js with rarity, types, stat bonuses, and relic trigger
 
 let inventory = [];
 let equippedWeapon = null;
@@ -16,6 +16,12 @@ function addItemToInventory(itemName) {
     const item = generateItem(itemName);
     inventory.push(item);
     updateInventoryUI();
+
+    if (item.rarity === "relic") {
+        logToCombat(`✨ You have uncovered a Relic: ${item.name}!`);
+        unlockCodexEntry(item.name);
+        renderRelicScene(item.name);
+    }
 }
 
 function generateItem(name) {
@@ -71,4 +77,9 @@ function equipItem(item) {
         equippedWeapon = item;
     }
     updateEquipmentUI();
+}
+
+function renderRelicScene(name) {
+    console.log(`🖼 Stub: Sketch or show relic ${name}`);
+    // Later: fetch from assets, or trigger AI render
 }
