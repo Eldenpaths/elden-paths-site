@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™ — Save System</title>
+  <title>Elden Paths™ — Lore & Journal</title>
   <style>
     body { font-family: monospace; background: #f4f4f4; padding: 2em; }
     #out { white-space: pre-wrap; padding: 1em; background: #eee; border-radius: 6px; margin-bottom: 1em; }
@@ -22,18 +22,24 @@
   <button onclick="fightGoblin()">⚔️ Fight Goblin</button>
   <button onclick="rest()">🛌 Rest</button>
   <button onclick="showInventory()">🎒 Inventory</button>
+  <button onclick="showJournal()">📓 View Journal</button>
 
   <script>
     const api = "https://player-save.pationandcamp.workers.dev";
     const name = new URLSearchParams(location.search).get("name") || prompt("Enter your name:");
     let player = null;
 
+    const loreByTile = {
+      "B1": "🗿 You find a cracked statue lying in the weeds.",
+      "C2": "⛩️ An ancient altar glows faintly in the dusk.",
+      "D3": "🔥 Burnt wagons and splintered wood mark a destroyed caravan.",
+    };
+
     async function loadPlayer() {
       const res = await fetch(`${api}/loadPlayer?name=${encodeURIComponent(name)}`);
       if (res.ok) {
         player = await res.json();
       } else {
-        // Create new player if not found
         player = {
           name,
           hp: 10,
@@ -43,7 +49,8 @@
           level: 1,
           tile: '0,0',
           inventory: [],
-          gear: { weapon: null }
+          gear: { weapon: null },
+          journal: []
         };
         await savePlayer();
       }
@@ -91,6 +98,13 @@
       if (dir === 'west') x--;
       player.tile = `${x},${y}`;
       update();
+
+      const lore = loreByTile[player.tile];
+      if (lore && !player.journal.includes(lore)) {
+        player.journal.push(lore);
+        alert(`📜 LORE FOUND:\n${lore}`);
+      }
+
       await savePlayer();
     }
 
@@ -121,7 +135,6 @@
         checkLevelUp();
       }
 
-      update();
       document.getElementById('out').innerText = log + `\n\n📍 Tile: ${player.tile}`;
       await savePlayer();
     }
@@ -129,7 +142,6 @@
     async function rest() {
       const healed = Math.min(player.maxHp - player.hp, 4);
       player.hp += healed;
-      update();
       document.getElementById('out').innerText =
         healed > 0 ? `🛌 You rest and regain ${healed} HP.\nHP: ${player.hp}/${player.maxHp}` :
         `🛌 You're already at full health.`;
@@ -157,6 +169,15 @@
 
       alert(msg);
       update();
+    }
+
+    function showJournal() {
+      if (!player.journal || player.journal.length === 0) {
+        alert("📓 Your journal is empty.");
+        return;
+      }
+
+      alert(`📓 Journal Entries:\n\n` + player.journal.join('\n\n'));
     }
 
     loadPlayer();
