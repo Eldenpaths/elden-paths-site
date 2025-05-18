@@ -1,70 +1,36 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™ Admin Panel</title>
+  <title>Admin Panel – Elden Paths</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: 'Garamond', serif;
-      background: #fdf7e3;
-      padding: 20px;
+      background-color: #101010;
+      color: #eee;
+      font-family: monospace;
+      padding: 2rem;
     }
-    h1 {
-      text-align: center;
-    }
-    #tileInfo {
-      margin-top: 20px;
-      padding: 15px;
-      border: 1px solid #999;
-      background: #fffdf7;
-    }
-    input, button {
-      padding: 6px 10px;
-      font-size: 1em;
-      margin: 4px 0;
+    textarea {
+      width: 100%;
+      height: 300px;
+      background: #1a1a1a;
+      color: #0f0;
+      border: 1px solid #333;
+      padding: 1rem;
+      font-family: monospace;
     }
   </style>
 </head>
 <body>
-  <h1>Elden Paths™ Admin Panel</h1>
-  <p>Enter a tile ID (e.g., tile_130_90) to inspect and toggle fog:</p>
-  <input type="text" id="tileId" placeholder="tile_130_90" />
-  <button onclick="checkTile()">Check Tile</button>
-  <button onclick="toggleFog()">Toggle Fog</button>
-
-  <div id="tileInfo"></div>
-
-  <script>
-    let tileData = {};
-
-    async function loadTiles() {
-      tileData = await fetch("tile_index.json").then(res => res.json());
-    }
-
-    async function checkTile() {
-      const id = document.getElementById("tileId").value;
-      const info = document.getElementById("tileInfo");
-
-      if (!tileData[id]) {
-        info.innerText = "Tile not found.";
-        return;
-      }
-
-      const tile = tileData[id];
-      info.innerHTML = `<strong>${id}</strong><br>Terrain: ${tile.terrain}<br>Travel Time: ${tile.travel_minutes} min<br>Fogged: ${tile.fog}`;
-    }
-
-    async function toggleFog() {
-      const id = document.getElementById("tileId").value;
-      if (!tileData[id]) return alert("Tile not found.");
-
-      tileData[id].fog = !tileData[id].fog;
-      alert("Fog toggled locally — note: changes not saved to server.");
-      checkTile();
-    }
-
-    loadTiles();
-  </script>
+  <h1>Developer Panel</h1>
+  <p>Live JSON View (mockup):</p>
+  <textarea id="jsonView" readonly>
+{
+  "players": [],
+  "tile_index": {},
+  "fog": {}
+}
+  </textarea>
 </body>
 </html>
