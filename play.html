@@ -22,17 +22,23 @@
 <body>
   <h1>⚔️ Elden Paths Combat Test</h1>
   <button onclick="simulateCombat()">Begin Combat</button>
+  <button onclick="showCharacterSheet()">📜 Character Sheet</button>
   <div class="log" id="combatLog">Click the button to simulate combat.</div>
 
-  <script>
-    // Basic character objects
-    const player = {
-      name: "Warden",
-      str: 3,
-      dex: 2,
-      hp: 20
-    };
+  <!-- Character Sheet Overlay -->
+  <div id="characterSheet" style="display:none; border:2px solid #222; background:#fff; padding:15px; position:absolute; top:60px; right:60px; width:200px; box-shadow:2px 2px 10px rgba(0,0,0,0.3);">
+    <h3>📜 Character Sheet</h3>
+    <p><strong>Name:</strong> <span id="csName">Warden</span></p>
+    <p><strong>Level:</strong> <span id="csLevel">1</span></p>
+    <p><strong>HP:</strong> <span id="csHP">20</span> / <span id="csMaxHP">20</span></p>
+    <p><strong>XP:</strong> <span id="csXP">0</span></p>
+    <p><strong>STR:</strong> <span id="csSTR">3</span></p>
+    <p><strong>DEX:</strong> <span id="csDEX">2</span></p>
+    <button onclick="document.getElementById('characterSheet').style.display='none'">Close</button>
+  </div>
 
+  <script src="character.js"></script>
+  <script>
     const enemy = {
       name: "Bandit",
       str: 2,
@@ -40,7 +46,6 @@
       hp: 15
     };
 
-    // Combat functions
     function rollDice(sides) {
       return Math.floor(Math.random() * sides) + 1;
     }
@@ -58,6 +63,7 @@
         log += `💥 Hit! ${attacker.name} deals ${damage} damage. ${defender.name} has ${defender.hp} HP left.\n`;
         if (defender.hp <= 0) {
           log += `☠️ ${defender.name} is defeated!\n`;
+          if (attacker.name === "Warden") gainXP(5);
         }
       } else {
         log += `🌀 Miss! ${defender.name} deflects the blow.\n`;
@@ -84,6 +90,17 @@
       }
 
       document.getElementById("combatLog").innerText = log;
+    }
+
+    function showCharacterSheet() {
+      document.getElementById("csName").innerText = player.name;
+      document.getElementById("csLevel").innerText = player.level;
+      document.getElementById("csHP").innerText = player.hp;
+      document.getElementById("csMaxHP").innerText = player.maxHp;
+      document.getElementById("csXP").innerText = player.xp;
+      document.getElementById("csSTR").innerText = player.str;
+      document.getElementById("csDEX").innerText = player.dex;
+      document.getElementById("characterSheet").style.display = "block";
     }
   </script>
 </body>
