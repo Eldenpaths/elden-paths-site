@@ -2,162 +2,158 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ — Combat</title>
+  <title>Elden Paths™ — Play</title>
   <style>
-    body { font-family: monospace; padding: 2em; background: #fdfcf8; }
-    #out { white-space: pre-wrap; background: #eee; padding: 1em; border-radius: 8px; margin-top: 1em; }
-    button { margin: 0.25em; }
+    body { font-family: monospace; padding: 1em; background: #f9f9f9; }
+    #out { white-space: pre-wrap; margin-bottom: 1em; }
+    .hidden { display: none; }
+    select, input[type="text"], button { margin: 0.5em 0; display: block; }
   </style>
 </head>
 <body>
-  <h1>Elden Paths™ — Combat Demo</h1>
+  <h1>Elden Paths™ — Play</h1>
 
-  <label>Name: <input id="name" /></label>
-  <label>Race: 
-    <select id="race"><option>Human</option><option>Elf</option><option>Dwarf</option><option>Orc</option></select>
-  </label>
-  <label>Class: 
-    <select id="class"><option>Fighter</option><option>Rogue</option><option>Wizard</option><option>Cleric</option></select>
-  </label>
-  <button onclick="rollStats()">Roll Stats</button>
-  <label>Dice Mode: 
-    <select id="diceMode" onchange="saveDiceMode()">
-      <option value="auto">Auto Rolls</option>
-      <option value="manual">Manual Rolls</option>
-    </select>
-  </label>
-  <br/>
-  <button onclick="savePlayer()">Enter World</button>
-  <button onclick="loadPlayer()">Load</button>
-  <button onclick="fight()">⚔️ Fight Goblin</button>
-  <div id="out">Ready.</div>
-  <button onclick="move('north')">Go North</button>
-  <button onclick="move('south')">Go South</button>
-  <button onclick="move('east')">Go East</button>
-  <button onclick="move('west')">Go West</button>
+  <div id="out">Loading...</div>
+
+  <div id="create" class="hidden">
+    <label>Name: <input type="text" id="name" /></label>
+    <label>Race:
+      <select id="race">
+        <option>Human</option>
+        <option>Elf</option>
+        <option>Dwarf</option>
+        <option>Orc</option>
+      </select>
+    </label>
+    <label>Class:
+      <select id="class">
+        <option>Fighter</option>
+        <option>Wizard</option>
+        <option>Rogue</option>
+        <option>Cleric</option>
+      </select>
+    </label>
+
+    <label>Roll Mode:
+      <select id="mode">
+        <option value="auto">Auto Roll</option>
+        <option value="manual">Manual Assign</option>
+      </select>
+    </label>
+
+    <div id="stats" class="hidden">
+      <label>STR: <input type="number" id="str" min="1" max="20" value="10" /></label>
+      <label>DEX: <input type="number" id="dex" min="1" max="20" value="10" /></label>
+      <label>INT: <input type="number" id="int" min="1" max="20" value="10" /></label>
+    </div>
+
+    <button onclick="submitCharacter()">Begin Journey</button>
+  </div>
+
+  <div id="play" class="hidden">
+    <button onclick="move('north')">Go North</button>
+    <button onclick="move('south')">Go South</button>
+    <button onclick="move('east')">Go East</button>
+    <button onclick="move('west')">Go West</button>
+  </div>
 
   <script>
-    const WORKER_URL = 'https://player-save.pationandcamp.workers.dev';
-    let player = {
-      name: '', race: '', class: '',
-      stats: {}, tile: 'A1', moves: [],
-      xp: 0, level: 1, gold: 50,
-      gear: { Equipped: 'None', Inventory: [] },
-      hp: 10, conditions: '', lastSeen: ''
-    };
-
-    function roll(die) { return Math.floor(Math.random() * die) + 1; }
-
-    function rollStats() {
-      const mode = document.getElementById('diceMode').value;
-      const doRolls = () => {
-        player.stats = {
-          STR: roll(6) + 10,
-          DEX: roll(6) + 10,
-          INT: roll(6) + 10
-        };
-        updateOutput();
-      };
-      if (mode === 'manual') {
-        if (confirm("Roll STR/DEX/INT?")) doRolls();
-      } else {
-        doRolls();
-      }
-    }
-
-    async function fight() {
-      const mode = document.getElementById('diceMode').value;
-      const goblin = { hp: 5, ac: 12, atkBonus: 2 };
-      const pAtkRoll = roll(20);
-      const gobAtkRoll = roll(20);
-
-      const pTotal = pAtkRoll + (player.stats.STR || 0);
-      const gTotal = gobAtkRoll + goblin.atkBonus;
-
-      let log = `You roll ${pAtkRoll} + STR (${player.stats.STR}) = ${pTotal}\n`;
-      if (pTotal >= goblin.ac) {
-        const dmg = roll(4);
-        goblin.hp -= dmg;
-        player.xp += 10;
-        log += `✅ Hit! You deal ${dmg} to Goblin (HP now ${goblin.hp}). +10 XP\n`;
-      } else {
-        log += `❌ You missed the Goblin.\n`;
-      }
-
-      if (gTotal >= 12) {
-        const hit = roll(4);
-        player.hp -= hit;
-        player.conditions = "Wounded";
-        log += `💥 Goblin hits YOU for ${hit}. HP now ${player.hp}\n`;
-      } else {
-        log += `🛡️ Goblin missed you.\n`;
-      }
-
-      await savePlayer();
-      document.getElementById('out').textContent = log + '\n---\n' + summary();
-    }
-
-    function move(dir) {
-      player.moves.push('Moved-' + dir);
-      player.lastSeen = new Date().toISOString();
-      updateOutput();
-    }
-
-    function updateOutput() {
-      document.getElementById('out').textContent = summary();
-    }
-
-    function summary() {
-      return `
-Name: ${player.name}
-Race: ${player.race}
-Class: ${player.class}
-Stats: STR ${player.stats.STR}, DEX ${player.stats.DEX}, INT ${player.stats.INT}
-HP: ${player.hp}
-XP: ${player.xp}, Level: ${player.level}
-Gold: ${player.gold}
-Tile: ${player.tile}
-Moves: ${player.moves.join(', ') || 'None'}
-Gear: Equipped - ${player.gear.Equipped}, Inventory - ${player.gear.Inventory.join(', ') || 'Empty'}
-Conditions: ${player.conditions || 'Healthy'}
-Last Seen: ${player.lastSeen}
-      `.trim();
-    }
-
-    async function savePlayer() {
-      player.name = document.getElementById('name').value.trim();
-      player.race = document.getElementById('race').value;
-      player.class = document.getElementById('class').value;
-      player.lastSeen = new Date().toISOString();
-      await fetch(`${WORKER_URL}/savePlayer`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(player)
-      });
-      updateOutput();
-    }
+    const api = 'https://player-save.pationandcamp.workers.dev';
 
     async function loadPlayer() {
-      player.name = document.getElementById('name').value.trim();
-      if (!player.name) return alert("Enter name.");
-      const res = await fetch(`${WORKER_URL}/loadPlayer?name=${player.name}`);
-      if (res.ok) {
-        player = await res.json();
-        updateOutput();
-      } else {
-        alert("Load failed.");
+      const params = new URLSearchParams(location.search);
+      const name = params.get('name');
+      if (!name) {
+        document.getElementById('create').classList.remove('hidden');
+        document.getElementById('out').textContent = 'Enter your character name to begin.';
+        return;
+      }
+
+      try {
+        const res = await fetch(`${api}/loadPlayer?name=${name}`);
+        if (!res.ok) throw new Error('New character');
+        const data = await res.json();
+        render(data);
+      } catch (e) {
+        document.getElementById('create').classList.remove('hidden');
+        document.getElementById('name').value = name;
+        document.getElementById('out').textContent = 'Welcome, adventurer. Finish your character:';
       }
     }
 
-    function saveDiceMode() {
-      localStorage.setItem('diceMode', document.getElementById('diceMode').value);
-    }
-    function loadDiceMode() {
-      const mode = localStorage.getItem('diceMode') || 'auto';
-      document.getElementById('diceMode').value = mode;
+    function render(data) {
+      document.getElementById('out').textContent = `
+Name: ${data.name}
+Race: ${data.race}
+Class: ${data.class}
+Stats: STR ${data.stats.str}, DEX ${data.stats.dex}, INT ${data.stats.int}
+Tile: ${data.tile}
+Fog: ${data.fog.join(', ')}
+XP: ${data.xp}, Level: ${data.level}
+Gold: ${data.gold}
+Gear: Equipped - ${data.gear.equipped || 'None'}, Inventory - ${data.gear.inventory.join(', ') || 'Empty'}
+Conditions: ${data.conditions.join(', ') || 'None'}
+Last Seen: ${data.lastSeen}
+      `;
+      document.getElementById('play').classList.remove('hidden');
     }
 
-    loadDiceMode();
+    function rollStat() {
+      return Math.floor(Math.random() * 8) + 10; // d8+10 for playability
+    }
+
+    document.getElementById('mode').addEventListener('change', e => {
+      const show = e.target.value === 'manual';
+      document.getElementById('stats').classList.toggle('hidden', !show);
+    });
+
+    async function submitCharacter() {
+      const name = document.getElementById('name').value.trim();
+      const race = document.getElementById('race').value;
+      const cls = document.getElementById('class').value;
+      const mode = document.getElementById('mode').value;
+
+      const stats = {
+        str: mode === 'auto' ? rollStat() : parseInt(document.getElementById('str').value),
+        dex: mode === 'auto' ? rollStat() : parseInt(document.getElementById('dex').value),
+        int: mode === 'auto' ? rollStat() : parseInt(document.getElementById('int').value),
+      };
+
+      const payload = {
+        name, race, class: cls, stats,
+        tile: 'Start', fog: [], xp: 0, level: 1,
+        gear: { equipped: null, inventory: [] },
+        conditions: [],
+        gold: 50,
+        lastSeen: new Date().toISOString(),
+      };
+
+      await fetch(`${api}/savePlayer`, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+
+      location.href = `?name=${encodeURIComponent(name)}`;
+    }
+
+    async function move(dir) {
+      const params = new URLSearchParams(location.search);
+      const name = params.get('name');
+      const res = await fetch(`${api}/loadPlayer?name=${name}`);
+      const player = await res.json();
+      player.tile = `Moved-${dir}`;
+      player.fog.push(player.tile);
+      player.lastSeen = new Date().toISOString();
+
+      await fetch(`${api}/savePlayer`, {
+        method: 'POST',
+        body: JSON.stringify(player),
+      });
+
+      render(player);
+    }
+
+    loadPlayer();
   </script>
 </body>
 </html>
