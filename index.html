@@ -1,75 +1,62 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Elden Paths™</title>
+  <meta charset="UTF-8" />
+  <title>Elden Paths – Enter the World</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body {
-      background-image: url('assets/img/parchment-bg.jpg');
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Georgia', serif;
+      background: url('assets/maps/parchment_map_tillamook.png') no-repeat center center fixed;
       background-size: cover;
-      font-family: 'Garamond', serif;
-      color: #3e2d1c;
-      text-align: center;
-      padding: 60px 20px;
+      height: 100%;
+      overflow: hidden;
+      color: #f0e8dc;
+      text-shadow: 0 0 5px #000;
     }
-    .logo {
-      height: 100px;
-      margin-bottom: 20px;
-      opacity: 0;
-      animation: fadeIn 2s ease-in forwards;
-    }
-    @keyframes fadeIn {
-      to { opacity: 1; }
+    .splash-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      backdrop-filter: blur(4px);
+      background: rgba(10, 10, 10, 0.6);
+      padding: 2rem;
     }
     h1 {
-      font-size: 3em;
-      margin: 10px 0;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
     }
-    p.tagline {
-      font-style: italic;
-      font-size: 1.3em;
-      margin-bottom: 40px;
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      text-align: center;
     }
-    .button {
-      display: inline-block;
-      padding: 14px 30px;
-      margin: 10px;
-      font-size: 1.1em;
-      background-color: #f1e4c1;
-      border: 2px solid #5c4323;
-      border-radius: 12px;
+    a.button {
+      background-color: #3c2e1f;
+      color: #fff;
+      padding: 1rem 2rem;
+      border: none;
       text-decoration: none;
-      color: #3e2d1c;
-      font-weight: bold;
-      transition: all 0.3s ease;
+      font-size: 1.2rem;
+      border-radius: 6px;
+      transition: background 0.3s ease;
     }
-    .button:hover {
-      background-color: #e6d1a4;
-      transform: scale(1.05);
-      box-shadow: 0 0 6px #b89464;
-    }
-    #admin {
-      display: none;
+    a.button:hover {
+      background-color: #6d4f31;
     }
   </style>
-  <script>
-    // Reveal admin if ?admin=true in URL
-    window.onload = function () {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("admin") === "true") {
-        document.getElementById("admin").style.display = "inline-block";
-      }
-    };
-  </script>
 </head>
 <body>
-  <img src="assets/img/logo.png" alt="Elden Paths Logo" class="logo" />
-  <h1>Elden Paths™</h1>
-  <p class="tagline">Step into the forgotten world of echoes and ruins…</p>
-
-  <a href="play.html" class="button">Begin Journey</a>
-  <a href="codex/index.html" class="button">View Codex</a>
-  <a href="admin.html" class="button" id="admin">Admin Panel</a>
+  <div class="splash-container">
+    <h1>Elden Paths™</h1>
+    <p>Begin your journey into a handcrafted world of fog, lore, and echo. Choose your path. Leave your mark.</p>
+    <a href="play.html" class="button">Enter World</a>
+  </div>
 </body>
 </html>
