@@ -1,6 +1,6 @@
 {
-  "0,0": "forest",
-  "0,1": "mountain",
-  "1,0": "lake",
-  "1,1": "plains"
+  "forest": "forest_tile.png",
+  "mountain": "mountain_tile.png",
+  "lake": "lake_tile.png",
+  "plains": "plains_tile.png"
 }
