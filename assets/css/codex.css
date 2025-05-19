@@ -1,44 +1,32 @@
 
 body {
-  background: #eae3d2 url('../maps/parchment_map_tillamook.png') center center no-repeat;
-  background-size: cover;
-  font-family: 'Georgia', serif;
-  color: #2d1b0d;
+  background-color: #f8f0df;
+  font-family: Georgia, serif;
   padding: 2rem;
+  color: #2a1e12;
 }
-#codex-container {
-  background: rgba(255, 255, 245, 0.88);
-  border: 2px solid #5a4a3b;
-  padding: 2rem;
-  border-radius: 10px;
-  max-width: 960px;
-  margin: auto;
-  box-shadow: 0 0 30px rgba(0,0,0,0.3);
+h1 {
+  text-align: center;
 }
-nav button {
-  background: #5a4a3b;
-  color: #fff;
-  margin: 0.5rem;
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
+nav {
+  text-align: center;
+  margin: 1em 0;
 }
-nav button:hover {
-  background: #7a614c;
+button {
+  margin: 0 5px;
+  padding: 0.5em 1em;
 }
 .codex-entry {
-  border-top: 1px dashed #bbb;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-}
-.codex-entry h2 {
-  margin-bottom: 0.2rem;
+  background: #fff9ec;
+  border: 1px solid #d1c4a6;
+  margin: 1em auto;
+  padding: 1em;
+  width: 80%;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
 }
 .codex-entry img {
-  float: right;
-  width: 120px;
-  margin-left: 1rem;
-  border: 1px solid #999;
-  background: #fff;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0.5em 0;
 }
