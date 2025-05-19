@@ -1,9 +1,604 @@
 {
   "tiles": {
+    "-5,-5": {
+      "terrain": "mountain",
+      "region": "Saltreach",
+      "elevation": "mid",
+      "sketch": "mountain_tile.png"
+    },
+    "-5,-4": {
+      "terrain": "lake",
+      "region": "Saltreach",
+      "elevation": "mid",
+      "sketch": "lake_tile.png"
+    },
+    "-5,-3": {
+      "terrain": "ridge",
+      "region": "Crown Hills",
+      "elevation": "mid",
+      "sketch": "ridge_tile.png"
+    },
+    "-5,-2": {
+      "terrain": "plains",
+      "region": "Fogreach",
+      "elevation": "low",
+      "sketch": "plains_tile.png"
+    },
+    "-5,-1": {
+      "terrain": "wetlands",
+      "region": "Crown Hills",
+      "elevation": "low",
+      "sketch": "wetlands_tile.png"
+    },
+    "-5,0": {
+      "terrain": "wetlands",
+      "region": "Graveshade",
+      "elevation": "low",
+      "sketch": "wetlands_tile.png"
+    },
+    "-5,1": {
+      "terrain": "coast",
+      "region": "Crown Hills",
+      "elevation": "mid",
+      "sketch": "coast_tile.png"
+    },
+    "-5,2": {
+      "terrain": "forest",
+      "region": "Fogreach",
+      "elevation": "mid",
+      "sketch": "forest_tile.png"
+    },
+    "-5,3": {
+      "terrain": "lake",
+      "region": "Saltreach",
+      "elevation": "high",
+      "sketch": "lake_tile.png"
+    },
+    "-5,4": {
+      "terrain": "canyon",
+      "region": "Saltreach",
+      "elevation": "low",
+      "sketch": "canyon_tile.png"
+    },
+    "-4,-5": {
+      "terrain": "plains",
+      "region": "Fogreach",
+      "elevation": "mid",
+      "sketch": "plains_tile.png"
+    },
+    "-4,-4": {
+      "terrain": "coast",
+      "region": "Saltreach",
+      "elevation": "low",
+      "sketch": "coast_tile.png"
+    },
+    "-4,-3": {
+      "terrain": "mountain",
+      "region": "Fogreach",
+      "elevation": "low",
+      "sketch": "mountain_tile.png"
+    },
+    "-4,-2": {
+      "terrain": "ridge",
+      "region": "Saltreach",
+      "elevation": "mid",
+      "sketch": "ridge_tile.png"
+    },
+    "-4,-1": {
+      "terrain": "lake",
+      "region": "Crown Hills",
+      "elevation": "high",
+      "sketch": "lake_tile.png"
+    },
+    "-4,0": {
+      "terrain": "wetlands",
+      "region": "Saltreach",
+      "elevation": "high",
+      "sketch": "wetlands_tile.png"
+    },
+    "-4,1": {
+      "terrain": "mountain",
+      "region": "Graveshade",
+      "elevation": "mid",
+      "sketch": "mountain_tile.png"
+    },
+    "-4,2": {
+      "terrain": "mountain",
+      "region": "Watcher\u2019s Edge",
+      "elevation": "high",
+      "sketch": "mountain_tile.png"
+    },
+    "-4,3": {
+      "terrain": "lake",
+      "region": "Crown Hills",
+      "elevation": "high",
+      "sketch": "lake_tile.png"
+    },
+    "-4,4": {
+      "terrain": "plains",
+      "region": "Fogreach",
+      "elevation": "low",
+      "sketch": "plains_tile.png"
+    },
+    "-3,-5": {
+      "terrain": "canyon",
+      "region": "Saltreach",
+      "elevation": "high",
+      "sketch": "canyon_tile.png"
+    },
+    "-3,-4": {
+      "terrain": "ridge",
+      "region": "Graveshade",
+      "elevation": "mid",
+      "sketch": "ridge_tile.png"
+    },
+    "-3,-3": {
+      "terrain": "lake",
+      "region": "Graveshade",
+      "elevation": "high",
+      "sketch": "lake_tile.png"
+    },
+    "-3,-2": {
+      "terrain": "lake",
+      "region": "Graveshade",
+      "elevation": "mid",
+      "sketch": "lake_tile.png"
+    },
+    "-3,-1": {
+      "terrain": "forest",
+      "region": "Saltreach",
+      "elevation": "low",
+      "sketch": "forest_tile.png"
+    },
+    "-3,0": {
+      "terrain": "ridge",
+      "region": "Saltreach",
+      "elevation": "mid",
+      "sketch": "ridge_tile.png"
+    },
+    "-3,1": {
+      "terrain": "lake",
+      "region": "Fogreach",
+      "elevation": "low",
+      "sketch": "lake_tile.png"
+    },
+    "-3,2": {
+      "terrain": "wetlands",
+      "region": "Graveshade",
+      "elevation": "high",
+      "sketch": "wetlands_tile.png"
+    },
+    "-3,3": {
+      "terrain": "forest",
+      "region": "Fogreach",
+      "elevation": "mid",
+      "sketch": "forest_tile.png"
+    },
+    "-3,4": {
+      "terrain": "ridge",
+      "region": "Watcher\u2019s Edge",
+      "elevation": "high",
+      "sketch": "ridge_tile.png"
+    },
+    "-2,-5": {
+      "terrain": "mountain",
+      "region": "Saltreach",
+      "elevation": "high",
+      "sketch": "mountain_tile.png"
+    },
+    "-2,-4": {
+      "terrain": "coast",
+      "region": "Saltreach",
+      "elevation": "low",
+      "sketch": "coast_tile.png"
+    },
+    "-2,-3": {
+      "terrain": "lake",
+      "region": "Crown Hills",
+      "elevation": "mid",
+      "sketch": "lake_tile.png"
+    },
+    "-2,-2": {
+      "terrain": "plains",
+      "region": "Fogreach",
+      "elevation": "high",
+      "sketch": "plains_tile.png"
+    },
+    "-2,-1": {
+      "terrain": "lake",
+      "region": "Watcher\u2019s Edge",
+      "elevation": "high",
+      "sketch": "lake_tile.png"
+    },
+    "-2,0": {
+      "terrain": "wetlands",
+      "region": "Watcher\u2019s Edge",
+      "elevation": "mid",
+      "sketch": "wetlands_tile.png"
+    },
+    "-2,1": {
+      "terrain": "plains",
+      "region": "Graveshade",
+      "elevation": "high",
+      "sketch": "plains_tile.png"
+    },
+    "-2,2": {
+      "terrain": "wetlands",
+      "region": "Fogreach",
+      "elevation": "mid",
+      "sketch": "wetlands_tile.png"
+    },
+    "-2,3": {
+      "terrain": "lake",
+      "region": "Saltreach",
+      "elevation": "mid",
+      "sketch": "lake_tile.png"
+    },
+    "-2,4": {
+      "terrain": "forest",
+      "region": "Fogreach",
+      "elevation": "high",
+      "sketch": "forest_tile.png"
+    },
+    "-1,-5": {
+      "terrain": "canyon",
+      "region": "Fogreach",
+      "elevation": "mid",
+      "sketch": "canyon_tile.png"
+    },
+    "-1,-4": {
+      "terrain": "ridge",
+      "region": "Fogreach",
+      "elevation": "mid",
+      "sketch": "ridge_tile.png"
+    },
+    "-1,-3": {
+      "terrain": "mountain",
+      "region": "Saltreach",
+      "elevation": "high",
+      "sketch": "mountain_tile.png"
+    },
+    "-1,-2": {
+      "terrain": "coast",
+      "region": "Fogreach",
+      "elevation": "low",
+      "sketch": "coast_tile.png"
+    },
+    "-1,-1": {
+      "terrain": "coast",
+      "region": "Watcher\u2019s Edge",
+      "elevation": "high",
+      "sketch": "coast_tile.png"
+    },
+    "-1,0": {
+      "terrain": "ridge",
+      "region": "Crown Hills",
+      "elevation": "high",
+      "sketch": "ridge_tile.png"
+    },
+    "-1,1": {
+      "terrain": "mountain",
+      "region": "Crown Hills",
+      "elevation": "low",
+      "sketch": "mountain_tile.png"
+    },
+    "-1,2": {
+      "terrain": "lake",
+      "region": "Graveshade",
+      "elevation": "low",
+      "sketch": "lake_tile.png"
+    },
+    "-1,3": {
+      "terrain": "canyon",
+      "region": "Watcher\u2019s Edge",
+      "elevation": "high",
+      "sketch": "canyon_tile.png"
+    },
+    "-1,4": {
+      "terrain": "lake",
+      "region": "Crown Hills",
+      "elevation": "low",
+      "sketch": "lake_tile.png"
+    },
+    "0,-5": {
+      "terrain": "canyon",
+      "region": "Saltreach",
+      "elevation": "low",
+      "sketch": "canyon_tile.png"
+    },
+    "0,-4": {
+      "terrain": "canyon",
+      "region": "Saltreach",
+      "elevation": "high",
+      "sketch": "canyon_tile.png"
+    },
+    "0,-3": {
+      "terrain": "canyon",
+      "region": "Crown Hills",
+      "elevation": "low",
+      "sketch": "canyon_tile.png"
+    },
+    "0,-2": {
+      "terrain": "ridge",
+      "region": "Crown Hills",
+      "elevation": "low",
+      "sketch": "ridge_tile.png"
+    },
+    "0,-1": {
+      "terrain": "canyon",
+      "region": "Crown Hills",
+      "elevation": "high",
+      "sketch": "canyon_tile.png"
+    },
     "0,0": {
       "terrain": "forest",
+      "region": "Saltreach",
+      "elevation": "high",
+      "sketch": "forest_tile.png"
+    },
+    "0,1": {
+      "terrain": "ridge",
+      "region": "Fogreach",
+      "elevation": "mid",
+      "sketch": "ridge_tile.png"
+    },
+    "0,2": {
+      "terrain": "lake",
+      "region": "Fogreach",
+      "elevation": "high",
+      "sketch": "lake_tile.png"
+    },
+    "0,3": {
+      "terrain": "forest",
+      "region": "Crown Hills",
+      "elevation": "mid",
+      "sketch": "forest_tile.png"
+    },
+    "0,4": {
+      "terrain": "coast",
+      "region": "Crown Hills",
+      "elevation": "high",
+      "sketch": "coast_tile.png"
+    },
+    "1,-5": {
+      "terrain": "mountain",
+      "region": "Watcher\u2019s Edge",
+      "elevation": "mid",
+      "sketch": "mountain_tile.png"
+    },
+    "1,-4": {
+      "terrain": "mountain",
+      "region": "Saltreach",
+      "elevation": "high",
+      "sketch": "mountain_tile.png"
+    },
+    "1,-3": {
+      "terrain": "lake",
+      "region": "Crown Hills",
+      "elevation": "mid",
+      "sketch": "lake_tile.png"
+    },
+    "1,-2": {
+      "terrain": "canyon",
+      "region": "Watcher\u2019s Edge",
+      "elevation": "mid",
+      "sketch": "canyon_tile.png"
+    },
+    "1,-1": {
+      "terrain": "lake",
+      "region": "Fogreach",
       "elevation": "low",
-      "region": "starter_zone"
+      "sketch": "lake_tile.png"
+    },
+    "1,0": {
+      "terrain": "forest",
+      "region": "Watcher\u2019s Edge",
+      "elevation": "low",
+      "sketch": "forest_tile.png"
+    },
+    "1,1": {
+      "terrain": "wetlands",
+      "region": "Fogreach",
+      "elevation": "low",
+      "sketch": "wetlands_tile.png"
+    },
+    "1,2": {
+      "terrain": "coast",
+      "region": "Watcher\u2019s Edge",
+      "elevation": "low",
+      "sketch": "coast_tile.png"
+    },
+    "1,3": {
+      "terrain": "forest",
+      "region": "Saltreach",
+      "elevation": "mid",
+      "sketch": "forest_tile.png"
+    },
+    "1,4": {
+      "terrain": "coast",
+      "region": "Crown Hills",
+      "elevation": "mid",
+      "sketch": "coast_tile.png"
+    },
+    "2,-5": {
+      "terrain": "ridge",
+      "region": "Saltreach",
+      "elevation": "high",
+      "sketch": "ridge_tile.png"
+    },
+    "2,-4": {
+      "terrain": "mountain",
+      "region": "Saltreach",
+      "elevation": "low",
+      "sketch": "mountain_tile.png"
+    },
+    "2,-3": {
+      "terrain": "wetlands",
+      "region": "Fogreach",
+      "elevation": "high",
+      "sketch": "wetlands_tile.png"
+    },
+    "2,-2": {
+      "terrain": "lake",
+      "region": "Crown Hills",
+      "elevation": "low",
+      "sketch": "lake_tile.png"
+    },
+    "2,-1": {
+      "terrain": "mountain",
+      "region": "Watcher\u2019s Edge",
+      "elevation": "high",
+      "sketch": "mountain_tile.png"
+    },
+    "2,0": {
+      "terrain": "lake",
+      "region": "Crown Hills",
+      "elevation": "high",
+      "sketch": "lake_tile.png"
+    },
+    "2,1": {
+      "terrain": "lake",
+      "region": "Graveshade",
+      "elevation": "mid",
+      "sketch": "lake_tile.png"
+    },
+    "2,2": {
+      "terrain": "forest",
+      "region": "Fogreach",
+      "elevation": "low",
+      "sketch": "forest_tile.png"
+    },
+    "2,3": {
+      "terrain": "lake",
+      "region": "Saltreach",
+      "elevation": "high",
+      "sketch": "lake_tile.png"
+    },
+    "2,4": {
+      "terrain": "plains",
+      "region": "Graveshade",
+      "elevation": "high",
+      "sketch": "plains_tile.png"
+    },
+    "3,-5": {
+      "terrain": "plains",
+      "region": "Fogreach",
+      "elevation": "low",
+      "sketch": "plains_tile.png"
+    },
+    "3,-4": {
+      "terrain": "ridge",
+      "region": "Graveshade",
+      "elevation": "mid",
+      "sketch": "ridge_tile.png"
+    },
+    "3,-3": {
+      "terrain": "ridge",
+      "region": "Fogreach",
+      "elevation": "low",
+      "sketch": "ridge_tile.png"
+    },
+    "3,-2": {
+      "terrain": "lake",
+      "region": "Watcher\u2019s Edge",
+      "elevation": "high",
+      "sketch": "lake_tile.png"
+    },
+    "3,-1": {
+      "terrain": "lake",
+      "region": "Saltreach",
+      "elevation": "low",
+      "sketch": "lake_tile.png"
+    },
+    "3,0": {
+      "terrain": "mountain",
+      "region": "Graveshade",
+      "elevation": "mid",
+      "sketch": "mountain_tile.png"
+    },
+    "3,1": {
+      "terrain": "canyon",
+      "region": "Graveshade",
+      "elevation": "low",
+      "sketch": "canyon_tile.png"
+    },
+    "3,2": {
+      "terrain": "wetlands",
+      "region": "Watcher\u2019s Edge",
+      "elevation": "mid",
+      "sketch": "wetlands_tile.png"
+    },
+    "3,3": {
+      "terrain": "coast",
+      "region": "Watcher\u2019s Edge",
+      "elevation": "mid",
+      "sketch": "coast_tile.png"
+    },
+    "3,4": {
+      "terrain": "forest",
+      "region": "Saltreach",
+      "elevation": "mid",
+      "sketch": "forest_tile.png"
+    },
+    "4,-5": {
+      "terrain": "coast",
+      "region": "Graveshade",
+      "elevation": "low",
+      "sketch": "coast_tile.png"
+    },
+    "4,-4": {
+      "terrain": "forest",
+      "region": "Fogreach",
+      "elevation": "mid",
+      "sketch": "forest_tile.png"
+    },
+    "4,-3": {
+      "terrain": "coast",
+      "region": "Crown Hills",
+      "elevation": "low",
+      "sketch": "coast_tile.png"
+    },
+    "4,-2": {
+      "terrain": "canyon",
+      "region": "Watcher\u2019s Edge",
+      "elevation": "high",
+      "sketch": "canyon_tile.png"
+    },
+    "4,-1": {
+      "terrain": "plains",
+      "region": "Crown Hills",
+      "elevation": "mid",
+      "sketch": "plains_tile.png"
+    },
+    "4,0": {
+      "terrain": "wetlands",
+      "region": "Graveshade",
+      "elevation": "high",
+      "sketch": "wetlands_tile.png"
+    },
+    "4,1": {
+      "terrain": "lake",
+      "region": "Crown Hills",
+      "elevation": "mid",
+      "sketch": "lake_tile.png"
+    },
+    "4,2": {
+      "terrain": "forest",
+      "region": "Saltreach",
+      "elevation": "high",
+      "sketch": "forest_tile.png"
+    },
+    "4,3": {
+      "terrain": "lake",
+      "region": "Fogreach",
+      "elevation": "high",
+      "sketch": "lake_tile.png"
+    },
+    "4,4": {
+      "terrain": "forest",
+      "region": "Fogreach",
+      "elevation": "low",
+      "sketch": "forest_tile.png"
     }
   }
 }
