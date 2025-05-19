@@ -2,106 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths – Play</title>
+  <title>Elden Paths – World Map</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body {
-      margin: 0;
-      background-color: #0d0d0d;
-      color: #f0f0f0;
-      font-family: Georgia, serif;
-      padding: 1rem;
-    }
-    #log {
-      white-space: pre-wrap;
-      background: #111;
-      padding: 1rem;
-      border: 1px solid #444;
-      height: 300px;
-      overflow-y: auto;
-      margin-bottom: 1rem;
-    }
-    button {
-      margin: 0.25rem;
-      padding: 0.5rem 1rem;
-      background: #333;
-      color: white;
-      border: none;
-      border-radius: 4px;
-    }
-    button:hover {
-      background: #555;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Enter the Elden Paths</h1>
-  <div id="log">Loading world...</div>
-  <div>
-    <button onclick="move('north')">Go North</button>
-    <button onclick="move('south')">Go South</button>
-    <button onclick="move('east')">Go East</button>
-    <button onclick="move('west')">Go West</button>
-    <button onclick="resetGame()">Reset</button>
+  <div class="hud">
+    <h1 id="charName">Loading...</h1>
+    <p id="charStats"></p>
+  </div>
+
+  <div id="map">
+    <p>🗺️ You are now exploring...</p>
+    <p id="tileCoords"></p>
   </div>
 
   <script>
-    const log = document.getElementById('log');
-    let position = { x: 0, y: 0 };
-    let discoveredTiles = [];
-
-    function saveGame() {
-      localStorage.setItem('elden_position', JSON.stringify(position));
-      localStorage.setItem('elden_discovered', JSON.stringify(discoveredTiles));
+    // Load character data
+    const data = localStorage.getItem("character");
+    if (!data) {
+      window.location.href = "character.html";
+    } else {
+      const char = JSON.parse(data);
+      document.getElementById("charName").innerText = `${char.name} the ${char.class}`;
+      document.getElementById("charStats").innerText = `Region: ${char.region}`;
+      document.getElementById("tileCoords").innerText = `Current Tile: ${char.tile}`;
     }
-
-    function loadGame() {
-      const savedPos = localStorage.getItem('elden_position');
-      const savedTiles = localStorage.getItem('elden_discovered');
-      if (savedPos) {
-        position = JSON.parse(savedPos);
-        log.textContent += `\nWelcome back. Resuming at (${position.x}, ${position.y}).`;
-      } else {
-        log.textContent += `\nNew traveler. You begin at (${position.x}, ${position.y}).`;
-      }
-
-      if (savedTiles) {
-        discoveredTiles = JSON.parse(savedTiles);
-      }
-
-      addDiscovered(position.x, position.y);
-      log.scrollTop = log.scrollHeight;
-    }
-
-    function move(direction) {
-      if (direction === 'north') position.y -= 1;
-      if (direction === 'south') position.y += 1;
-      if (direction === 'east') position.x += 1;
-      if (direction === 'west') position.x -= 1;
-
-      log.textContent += `\nYou travel ${direction}. Now at (${position.x}, ${position.y})`;
-      addDiscovered(position.x, position.y);
-      saveGame();
-      log.scrollTop = log.scrollHeight;
-    }
-
-    function addDiscovered(x, y) {
-      const key = `${x}_${y}`;
-      if (!discoveredTiles.includes(key)) {
-        discoveredTiles.push(key);
-        log.textContent += `\nNew tile discovered: ${key}`;
-      }
-    }
-
-    function resetGame() {
-      localStorage.removeItem('elden_position');
-      localStorage.removeItem('elden_discovered');
-      position = { x: 0, y: 0 };
-      discoveredTiles = [];
-      log.textContent += `\nYour journey is reset. Starting over at (0, 0).`;
-    }
-
-    loadGame();
   </script>
 </body>
 </html>
