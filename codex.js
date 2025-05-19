@@ -1,26 +1,9 @@
-// codex.js
-
-async function loadCodex() {
-  const res = await fetch('unlocked_codex.json');
-  const data = await res.json();
-  const container = document.getElementById('codexList');
-
-  if (!data.entries || data.entries.length === 0) {
-    container.innerHTML = "<p>No Codex entries unlocked yet.</p>";
-    return;
-  }
-
-  data.entries.forEach(entry => {
-    const div = document.createElement("div");
-    div.className = "codex-entry";
-    div.innerHTML = `
-      <h3>${entry}</h3>
-      <img src="assets/images/relics/${entry.replace(/\s+/g, '_').toLowerCase()}.png" onerror="this.style.display='none'">
-      <p><em>Lore coming soon...</em></p>
-      <hr/>
-    `;
-    container.appendChild(div);
-  });
+function loadCategory(category) {
+  const content = document.getElementById("codex-content");
+  content.innerHTML = `<div class="codex-entry"><h2>${category}</h2><p>Loading entries for ${category}...</p></div>`;
+  // Simulate load delay
+  setTimeout(() => {
+    content.innerHTML += `<div class="codex-entry"><p>📖 Entry 1 for ${category}</p></div>`;
+    content.innerHTML += `<div class="codex-entry"><p>📖 Entry 2 for ${category}</p></div>`;
+  }, 500);
 }
-
-window.onload = loadCodex;
