@@ -1,0 +1,9 @@
+{
+  "tiles": {
+    "0,0": {
+      "terrain": "forest",
+      "elevation": "low",
+      "region": "starter_zone"
+    }
+  }
+}
