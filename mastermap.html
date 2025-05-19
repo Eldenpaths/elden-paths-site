@@ -71,6 +71,7 @@
     let fogData = {};
     let loreData = {};
     let structuresData = {};
+    let relicsData = {};
     let fogEnabled = true;
     let loreEnabled = true;
     let structureEnabled = true;
@@ -87,6 +88,7 @@
         structuresData = await fetch('structures.json').then(r => r.json());
       } catch { structuresData = {}; }
 
+      try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
       buildMasterMap();
     }
 
@@ -124,6 +126,16 @@
             tile.title = loreData[coord].title + ": " + loreData[coord].text;
           }
 
+          
+          if (relicsData[coord] && (!fogEnabled || discovered)) {
+            const mark = document.createElement('div');
+            mark.className = 'marker';
+            mark.textContent = '✨';
+            tile.appendChild(mark);
+            tile.title = relicsData[coord].name + ' — ' + (relicsData[coord].lore || '');
+            tile.style.border = '2px solid gold';
+          }
+
           container.appendChild(tile);
         }
       }
@@ -131,14 +143,17 @@
 
     function toggleFog() {
       fogEnabled = !fogEnabled;
+      try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
       buildMasterMap();
     }
     function toggleLore() {
       loreEnabled = !loreEnabled;
+      try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
       buildMasterMap();
     }
     function toggleStructures() {
       structureEnabled = !structureEnabled;
+      try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
       buildMasterMap();
     }
 
