@@ -61,6 +61,11 @@
     <button class="btn" onclick="location.href='play.html'">Return to Game</button>
   </div>
 
+  
+  <div id="calendar-bar" style="margin-top: 1rem; font-weight: bold;">
+    🌗 <span id="calendarText">Loading in-world date...</span>
+  </div>
+
   <div id="master-map"></div>
   <div class="legend">
     <p>⬛ Fogged | 🏰 Fort | 🏚 Ruin | ✨ Relic</p>
@@ -73,6 +78,9 @@
     let structuresData = {};
     let relicsData = {};
     let weatherData = {};
+    let calendarData = {};
+    let eventLog = {};
+    let tileMeta = {};
     let fogEnabled = true;
     let loreEnabled = true;
     let structureEnabled = true;
@@ -91,10 +99,24 @@
 
       try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
       try { weatherData = await fetch("weather.json").then(r => r.json()); } catch { weatherData = {}; }
-      buildMasterMap();
+      try { calendarData = await fetch("calendar.json").then(r => r.json()); } catch { calendarData = {}; }
+try { eventLog = await fetch("event_log.json").then(r => r.json()); } catch { eventLog = {}; }
+buildMasterMap()
+
+      const calText = document.getElementById("calendarText");
+      if (calendarData && calText) {
+        calText.innerText = `Day ${calendarData.day} · Season: ${calendarData.season} · Moon: ${calendarData.moon} · Tide: ${calendarData.tide} · Event: ${calendarData.event}`;
+      }
+;
     }
 
-    function buildMasterMap() {
+    function buildMasterMap()
+
+      const calText = document.getElementById("calendarText");
+      if (calendarData && calText) {
+        calText.innerText = `Day ${calendarData.day} · Season: ${calendarData.season} · Moon: ${calendarData.moon} · Tide: ${calendarData.tide} · Event: ${calendarData.event}`;
+      }
+ {
       const container = document.getElementById('master-map');
       container.innerHTML = '';
       container.style.gridTemplateColumns = `repeat(40, 1fr)`;
@@ -157,6 +179,37 @@
             div.appendChild(wIcon);
           }
 
+          
+          if (eventLog.events) {
+            const eventsHere = eventLog.events.filter(e => e.tile === coord);
+            if (eventsHere.length > 0) {
+              const mark = document.createElement('div');
+              mark.className = 'marker';
+              mark.style.color = 'crimson';
+              mark.innerText = '🌀';
+              tile.appendChild(mark);
+              const titles = eventsHere.map(e => e.title).join(", ");
+              tile.title = (tile.title ? tile.title + "\n" : "") + "Events: " + titles;
+            }
+          }
+
+          
+          // Tide-aware tile filter
+          if (tileMeta[coord]?.shoreline && calendarData?.tide) {
+            const tideFilter = document.createElement('div');
+            tideFilter.style.position = 'absolute';
+            tideFilter.style.top = '0';
+            tideFilter.style.left = '0';
+            tideFilter.style.width = '100%';
+            tideFilter.style.height = '100%';
+            tideFilter.style.zIndex = '2';
+            tideFilter.style.backgroundColor =
+              calendarData.tide === 'high' ? 'rgba(0, 80, 180, 0.25)' :
+              calendarData.tide === 'low' ? 'rgba(240, 230, 190, 0.2)' : 'transparent';
+            tile.appendChild(tideFilter);
+            tile.title = (tile.title ? tile.title + "\n" : "") + "Tide: " + calendarData.tide;
+          }
+
           container.appendChild(tile);
         }
       }
@@ -166,19 +219,43 @@
       fogEnabled = !fogEnabled;
       try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
       try { weatherData = await fetch("weather.json").then(r => r.json()); } catch { weatherData = {}; }
-      buildMasterMap();
+      try { calendarData = await fetch("calendar.json").then(r => r.json()); } catch { calendarData = {}; }
+try { eventLog = await fetch("event_log.json").then(r => r.json()); } catch { eventLog = {}; }
+buildMasterMap()
+
+      const calText = document.getElementById("calendarText");
+      if (calendarData && calText) {
+        calText.innerText = `Day ${calendarData.day} · Season: ${calendarData.season} · Moon: ${calendarData.moon} · Tide: ${calendarData.tide} · Event: ${calendarData.event}`;
+      }
+;
     }
     function toggleLore() {
       loreEnabled = !loreEnabled;
       try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
       try { weatherData = await fetch("weather.json").then(r => r.json()); } catch { weatherData = {}; }
-      buildMasterMap();
+      try { calendarData = await fetch("calendar.json").then(r => r.json()); } catch { calendarData = {}; }
+try { eventLog = await fetch("event_log.json").then(r => r.json()); } catch { eventLog = {}; }
+buildMasterMap()
+
+      const calText = document.getElementById("calendarText");
+      if (calendarData && calText) {
+        calText.innerText = `Day ${calendarData.day} · Season: ${calendarData.season} · Moon: ${calendarData.moon} · Tide: ${calendarData.tide} · Event: ${calendarData.event}`;
+      }
+;
     }
     function toggleStructures() {
       structureEnabled = !structureEnabled;
       try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
       try { weatherData = await fetch("weather.json").then(r => r.json()); } catch { weatherData = {}; }
-      buildMasterMap();
+      try { calendarData = await fetch("calendar.json").then(r => r.json()); } catch { calendarData = {}; }
+try { eventLog = await fetch("event_log.json").then(r => r.json()); } catch { eventLog = {}; }
+buildMasterMap()
+
+      const calText = document.getElementById("calendarText");
+      if (calendarData && calText) {
+        calText.innerText = `Day ${calendarData.day} · Season: ${calendarData.season} · Moon: ${calendarData.moon} · Tide: ${calendarData.tide} · Event: ${calendarData.event}`;
+      }
+;
     }
 
     loadMap();
