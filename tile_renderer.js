@@ -1,37 +1,57 @@
-window.addEventListener('load', () => {
-  fetch('tile_index.json')
-    .then(res => res.json())
-    .then(tileIndex => {
-      fetch('tile_meta.json')
-        .then(res => res.json())
-        .then(tileMeta => {
-          const canvas = document.getElementById('mapCanvas');
-          const ctx = canvas.getContext('2d');
-          const tileSize = 256;
+const tileMeta = {};
+const tileImages = {};
+const tileSize = 64;
 
-          for (let y = 0; y < 2; y++) {
-            for (let x = 0; x < 2; x++) {
-              const key = `${x},${y}`;
-              const tileType = tileIndex[key];
-              const tilePath = tileMeta[tileType];
-
-              if (tilePath) {
-                const img = new Image();
-                img.onload = () => {
-                  ctx.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize);
-                };
-                img.src = tilePath;
-              } else {
-                console.warn(`No tile path for key ${key} with type "${tileType}"`);
-              }
-            }
-          }
-        })
-        .catch(err => {
-          console.error('Error loading tile_meta.json:', err);
-        });
-    })
-    .catch(err => {
-      console.error('Error loading tile_index.json:', err);
+function loadTileMeta(callback) {
+  fetch("tile_meta.json")
+    .then(response => response.json())
+    .then(data => {
+      Object.assign(tileMeta, data);
+      callback();
     });
+}
+
+function loadTileImages(callback) {
+  const types = new Set(Object.values(tileMeta));
+  let loaded = 0;
+  const total = types.size;
+
+  types.forEach(type => {
+    const img = new Image();
+    img.src = `assets/img/tiles/${type}_tile.png`;
+    img.onload = () => {
+      tileImages[type] = img;
+      loaded++;
+      if (loaded === total) callback();
+    };
+    img.onerror = () => {
+      console.warn("Missing tile image for:", `${type}_tile.png`);
+      loaded++;
+      if (loaded === total) callback();
+    };
+  });
+}
+
+function drawTiles(context) {
+  const keys = Object.keys(tileMeta);
+  keys.forEach(key => {
+    const [x, y] = key.split(",").map(Number);
+    const type = tileMeta[key];
+    const img = tileImages[type];
+    if (img) {
+      context.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize);
+    }
+  });
+}
+
+window.addEventListener("load", () => {
+  const canvas = document.getElementById("mapCanvas");
+  const context = canvas.getContext("2d");
+
+  loadTileMeta(() => {
+    loadTileImages(() => {
+      drawTiles(context);
+    });
+  });
 });
+
