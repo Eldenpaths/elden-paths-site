@@ -3,34 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <title>Codex of Echoes</title>
-  <style>
-    body {
-      font-family: Garamond, serif;
-      background: #f9f4e7;
-      padding: 40px;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .codex-entry {
-      margin-bottom: 30px;
-    }
-    .codex-entry img {
-      max-width: 200px;
-      display: block;
-      margin: 10px 0;
-    }
-    hr {
-      border: 0;
-      height: 1px;
-      background: #ccc;
-    }
-  </style>
+  <link rel="stylesheet" href="assets/css/codex.css">
 </head>
 <body>
   <h1>📖 Codex of Echoes</h1>
-  <div id="codexList"></div>
-  <script src="codex.js"></script>
+
+  <nav>
+    <button onclick="loadCodex('creatures')">Creatures</button>
+    <button onclick="loadCodex('factions')">Factions</button>
+    <button onclick="loadCodex('relics')">Relics</button>
+    <button onclick="loadCodex('locations')">Locations</button>
+  </nav>
+
+  <div id="codex-container">
+    <p>Select a category above to begin exploring the Elden Codex.</p>
+  </div>
+
+  <script>
+    function loadCodex(category) {
+      const fileMap = {
+        creatures: "codex_creatures.json",
+        factions: "codex_factions.json",
+        relics: "codex_relics.json",
+        locations: "codex_locations.json"
+      };
+      const file = `assets/data/${fileMap[category]}`;
+      fetch(file)
+        .then(res => res.json())
+        .then(data => {
+          const container = document.getElementById("codex-container");
+          container.innerHTML = "";
+          data.entries.forEach(entry => {
+            const div = document.createElement("div");
+            div.className = "codex-entry";
+            div.innerHTML = `
+              <h2>${entry.name}</h2>
+              ${entry.image ? `<img src="assets/sketches/codex/${entry.image}" alt="${entry.name}">` : ""}
+              <p><strong>${entry.region || entry.source || entry.affiliation}</strong></p>
+              <p>${entry.description}</p>
+            `;
+            container.appendChild(div);
+          });
+        });
+    }
+  </script>
 </body>
 </html>
