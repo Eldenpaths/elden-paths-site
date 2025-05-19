@@ -1,8 +1,20 @@
-{
-  "relic_001": {
-    "name": "Echo Mirror",
-    "power": "Reveals past player actions in a location.",
-    "rarity": "Legendary",
-    "origin": "Hall of Echoes"
+[
+  {
+    "name": "Shard of Echoes",
+    "origin": "Hall of Echoes",
+    "power": "Reveals ancient voices trapped in stone",
+    "description": "A crystal fragment that sings with the whispers of long-dead heroes when held to the ear."
+  },
+  {
+    "name": "Foglord’s Ring",
+    "origin": "Gravesport",
+    "power": "Obscures identity from magical detection",
+    "description": "Forged in secret, this relic allows its bearer to move unseen among even the most watchful."
+  },
+  {
+    "name": "Warden’s Brand",
+    "origin": "Twilight Grove",
+    "power": "Binds oaths into visible sigils",
+    "description": "Burns with quiet authority — those who betray its bond wear the mark until death."
   }
-}
+]
