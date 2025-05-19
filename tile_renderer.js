@@ -1,68 +1,37 @@
-const TILE_SIZE = 64;
-const TILE_FOLDER = "assets/img/tiles/";
+window.addEventListener('load', () => {
+  fetch('tile_index.json')
+    .then(res => res.json())
+    .then(tileIndex => {
+      fetch('tile_meta.json')
+        .then(res => res.json())
+        .then(tileMeta => {
+          const canvas = document.getElementById('mapCanvas');
+          const ctx = canvas.getContext('2d');
+          const tileSize = 256;
 
-let tileIndex = [];
-let tileMeta = {};
-let tileImages = {};
-let canvas, ctx;
+          for (let y = 0; y < 2; y++) {
+            for (let x = 0; x < 2; x++) {
+              const key = `${x},${y}`;
+              const tileType = tileIndex[key];
+              const tilePath = tileMeta[tileType];
 
-window.addEventListener("load", async () => {
-  canvas = document.getElementById("mapCanvas");
-  ctx = canvas.getContext("2d");
-
-  try {
-    const [indexData, metaData] = await Promise.all([
-      fetch("tile_index.json").then((res) => res.json()),
-      fetch("tile_meta.json").then((res) => res.json()),
-    ]);
-
-    tileIndex = indexData;
-    tileMeta = metaData;
-
-    await preloadTileImages();
-    drawMap();
-  } catch (err) {
-    console.error("Failed to load map:", err);
-    ctx.fillText("⚠️ Map Load Failed", 50, 50);
-  }
+              if (tilePath) {
+                const img = new Image();
+                img.onload = () => {
+                  ctx.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize);
+                };
+                img.src = tilePath;
+              } else {
+                console.warn(`No tile path for key ${key} with type "${tileType}"`);
+              }
+            }
+          }
+        })
+        .catch(err => {
+          console.error('Error loading tile_meta.json:', err);
+        });
+    })
+    .catch(err => {
+      console.error('Error loading tile_index.json:', err);
+    });
 });
-
-async function preloadTileImages() {
-  const terrainTypes = new Set(Object.values(tileMeta));
-  const loadPromises = [];
-
-  terrainTypes.forEach((terrain) => {
-    const img = new Image();
-    img.src = `${TILE_FOLDER}${terrain}_tile.png`;
-    tileImages[terrain] = img;
-
-    loadPromises.push(new Promise((resolve) => {
-      img.onload = resolve;
-      img.onerror = () => {
-        console.warn("Missing tile image for:", terrain);
-        resolve();
-      };
-    }));
-  });
-
-  return Promise.all(loadPromises);
-}
-
-function drawMap() {
-  for (let y = 0; y < tileIndex.length; y++) {
-    for (let x = 0; x < tileIndex[y].length; x++) {
-      const tileId = tileIndex[y][x];
-      const terrain = tileMeta[tileId];
-      const img = tileImages[terrain];
-
-      if (img) {
-        ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-      } else {
-        ctx.fillStyle = "#e3dccc";
-        ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        ctx.strokeStyle = "#999";
-        ctx.strokeRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-      }
-    }
-  }
-}
