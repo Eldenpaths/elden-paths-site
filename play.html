@@ -1,81 +1,32 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Elden Paths - Play</title>
-  <style>
-    body {
-      font-family: 'Georgia', serif;
-      background-color: #f5f2e7;
-      color: #2d1b00;
-      text-align: center;
-      padding: 2rem;
-    }
-    #game-board {
-      margin-top: 2rem;
-    }
-    .btn {
-      padding: 10px 20px;
-      margin: 4px;
-      background: #ddd4bb;
-      border: 1px solid #888;
-      cursor: pointer;
-    }
-    .log-box {
-      margin-top: 2rem;
-      padding: 1rem;
-      background: #f7f2e0;
-      border: 1px dashed #b09a72;
-      width: 60%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    #terrain-img {
-      margin-top: 1rem;
-      max-width: 600px;
-      width: 90%;
-      border-radius: 8px;
-      border: 2px solid #ccb;
-    }
-  </style>
 </head>
 <body>
   <h1><span id="playerName">...</span> the Warden</h1>
   <p>Region: <span id="regionName">...</span></p>
   <p>Current Tile: <span id="tileCoords">...</span></p>
-  
   <div id="game-board">
-    <button class="btn" onclick="move('north')">⬆ North</button><br/>
-    <button class="btn" onclick="move('west')">⬅ West</button>
-    <button class="btn" onclick="move('east')">➡ East</button><br/>
-    <button class="btn" onclick="move('south')">⬇ South</button>
+    <button onclick="move('north')">⬆ North</button><br/>
+    <button onclick="move('west')">⬅ West</button>
+    <button onclick="move('east')">➡ East</button><br/>
+    <button onclick="move('south')">⬇ South</button>
   </div>
-
-  <img id="terrain-img" src="" alt="Terrain sketch" hidden />
-
-  <div class="log-box" id="logBox">
-    <p><em>Just quiet wilderness...</em></p>
-  </div>
-
   <script>
-    let playerName = prompt("Enter your name:") || "Traveler";
+    let playerName = localStorage.getItem("playerName") || prompt("Enter your name:") || "Traveler";
+    localStorage.setItem("playerName", playerName);
     document.getElementById("playerName").innerText = playerName;
-    
-    let playerData = {
+
+    let savedData = localStorage.getItem("playerData");
+    let playerData = savedData ? JSON.parse(savedData) : {
       name: playerName,
       tile: "0,0",
       stats: { HP: 10, Strength: 2, Dexterity: 2 },
       discovered: []
     };
-
-    let terrainMeta = {};
-
-    fetch("meta.json")
-      .then(res => res.json())
-      .then(data => {
-        terrainMeta = data.tiles || {};
-        updateView();
-      });
 
     function move(direction) {
       let [x, y] = playerData.tile.split(',').map(Number);
@@ -86,14 +37,16 @@
         case 'east':  x += 1; break;
       }
       playerData.tile = `${x},${y}`;
+      localStorage.setItem('playerData', JSON.stringify(playerData));
       updateView();
-      logRoll();
     }
 
     function updateView() {
-      let tileData = terrainMeta[playerData.tile] || {};
       document.getElementById("tileCoords").innerText = playerData.tile;
-      document.getElementById("regionName").innerText = tileData.region || "Unknown";
+      document.getElementById("regionName").innerText = "Unknown";
+    }
 
-      const sketch = tileData.sketch;
-      const terrainImg = documen
+    updateView();
+  </script>
+</body>
+</html>
