@@ -1,0 +1,17 @@
+{
+  "tile_001": {
+    "terrain": "forest",
+    "elevation": "low",
+    "biome": "temperate"
+  },
+  "tile_002": {
+    "terrain": "mountain",
+    "elevation": "high",
+    "biome": "alpine"
+  },
+  "tile_003": {
+    "terrain": "swamp",
+    "elevation": "low",
+    "biome": "wetland"
+  }
+}

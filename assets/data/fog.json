@@ -1,0 +1,11 @@
+{
+  "tile_001": {
+    "visible": true
+  },
+  "tile_002": {
+    "visible": false
+  },
+  "tile_003": {
+    "visible": false
+  }
+}
