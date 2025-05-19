@@ -81,6 +81,10 @@
 <body>
   <h2>🗺️ Elden Paths — Player Map</h2>
   <div id="map-controls">
+    
+<button class="btn" onclick="toggleFog()">Toggle Fog (DM)</button>
+<a href="play.html"><button class="btn">Return to Game</button></a>
+
     <button class="btn" onclick="setZoom(1)">Mini (1x)</button>
     <button class="btn" onclick="setZoom(5)">Local (5x)</button>
     <button class="btn" onclick="setZoom(10)">Region (10x)</button>
@@ -88,6 +92,11 @@
   </div>
 
   <p id="infoText">Loading...</p>
+  
+  <div id="calendar-bar" style="margin-top: 1rem; font-weight: bold;">
+    🌗 <span id="calendarText">Loading in-world date...</span>
+  </div>
+
   <div id="map"></div>
 
   <div id="terrain-box">
@@ -109,6 +118,15 @@
     let fogData = {};
     let loreData = {};
 
+    
+    let trailsData = {};
+    let relicsData = {};
+    let weatherData = {};
+    let calendarData = {};
+    let eventLog = {};
+    let tileMeta = {};
+    let structuresData = {};
+
     async function loadData() {
       terrainMeta = (await fetch('meta.json').then(r => r.json())).tiles || {};
       playerData = (await fetch('players.json').then(r => r.json()))[playerName];
@@ -118,15 +136,89 @@
       } catch (e) {
         loreData = {};
       }
-      buildMap();
+      try {
+        trailsData = await fetch('trails.json').then(r => r.json());
+      } catch (e) {
+        trailsData = {};
+      }
+      try {
+        structuresData = await fetch('structures.json').then(r => r.json());
+      } catch (e) {
+        structuresData = {};
+      }
+      try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
+      try { weatherData = await fetch("weather.json").then(r => r.json()); } catch { weatherData = {}; }
+      try { calendarData = await fetch("calendar.json").then(r => r.json()); } catch { calendarData = {}; }
+try { eventLog = await fetch("event_log.json").then(r => r.json()); } catch { eventLog = {}; }
+buildMap()
+
+      const calText = document.getElementById("calendarText");
+      if (calendarData && calText) {
+        calText.innerText = `Day ${calendarData.day} · Season: ${calendarData.season} · Moon: ${calendarData.moon} · Tide: ${calendarData.tide} · Event: ${calendarData.event}`;
+      }
+;
+    }
+ {
+      terrainMeta = (await fetch('meta.json').then(r => r.json())).tiles || {};
+      playerData = (await fetch('players.json').then(r => r.json()))[playerName];
+      fogData = (await fetch('fog.json').then(r => r.json()))[playerName]?.discovered || [];
+      try {
+        loreData = await fetch('tile_lore.json').then(r => r.json());
+      } catch (e) {
+        loreData = {};
+      }
+      try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
+      try { weatherData = await fetch("weather.json").then(r => r.json()); } catch { weatherData = {}; }
+      try { calendarData = await fetch("calendar.json").then(r => r.json()); } catch { calendarData = {}; }
+try { eventLog = await fetch("event_log.json").then(r => r.json()); } catch { eventLog = {}; }
+buildMap()
+
+      const calText = document.getElementById("calendarText");
+      if (calendarData && calText) {
+        calText.innerText = `Day ${calendarData.day} · Season: ${calendarData.season} · Moon: ${calendarData.moon} · Tide: ${calendarData.tide} · Event: ${calendarData.event}`;
+      }
+;
     }
 
     function setZoom(level) {
       zoomLevel = level;
-      buildMap();
+      try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
+      try { weatherData = await fetch("weather.json").then(r => r.json()); } catch { weatherData = {}; }
+      try { calendarData = await fetch("calendar.json").then(r => r.json()); } catch { calendarData = {}; }
+try { eventLog = await fetch("event_log.json").then(r => r.json()); } catch { eventLog = {}; }
+buildMap()
+
+      const calText = document.getElementById("calendarText");
+      if (calendarData && calText) {
+        calText.innerText = `Day ${calendarData.day} · Season: ${calendarData.season} · Moon: ${calendarData.moon} · Tide: ${calendarData.tide} · Event: ${calendarData.event}`;
+      }
+;
     }
 
-    function buildMap() {
+    
+    let fogEnabled = true;
+    function toggleFog() {
+      fogEnabled = !fogEnabled;
+      try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
+      try { weatherData = await fetch("weather.json").then(r => r.json()); } catch { weatherData = {}; }
+      try { calendarData = await fetch("calendar.json").then(r => r.json()); } catch { calendarData = {}; }
+try { eventLog = await fetch("event_log.json").then(r => r.json()); } catch { eventLog = {}; }
+buildMap()
+
+      const calText = document.getElementById("calendarText");
+      if (calendarData && calText) {
+        calText.innerText = `Day ${calendarData.day} · Season: ${calendarData.season} · Moon: ${calendarData.moon} · Tide: ${calendarData.tide} · Event: ${calendarData.event}`;
+      }
+;
+    }
+
+function buildMap()
+
+      const calText = document.getElementById("calendarText");
+      if (calendarData && calText) {
+        calText.innerText = `Day ${calendarData.day} · Season: ${calendarData.season} · Moon: ${calendarData.moon} · Tide: ${calendarData.tide} · Event: ${calendarData.event}`;
+      }
+ {
       const [px, py] = playerData.tile.split(',').map(Number);
       const size = zoomLevel;
       const half = Math.floor(size / 2);
@@ -140,7 +232,7 @@
           const isDiscovered = fogData.includes(coord);
           const div = document.createElement('div');
           div.className = 'tile';
-          if (!isDiscovered) div.classList.add('fogged');
+          if (!isDiscovered && fogEnabled) div.classList.add('fogged');
           if (coord === playerData.tile) div.classList.add('player');
 
           if (tileData.sketch && isDiscovered) {
@@ -163,6 +255,91 @@
             div.addEventListener('mouseout', () => {
               loreBox.style.display = 'none';
             });
+          }
+
+          
+          // Trails: background border glow (optional style layer)
+          if (trailsData[coord] && isDiscovered && fogEnabled) {
+            const v = trailsData[coord].visibility;
+            div.style.boxShadow = `0 0 ${v * 10}px ${v * 4}px rgba(100, 100, 50, ${v})`;
+          }
+
+          // Structures: emoji icon overlay
+          if (structuresData[coord] && isDiscovered) {
+            const mark = document.createElement('span');
+            mark.style.position = 'absolute';
+            mark.style.bottom = '2px';
+            mark.style.right = '2px';
+            mark.style.fontSize = '14px';
+            mark.innerText = structuresData[coord].type === 'fort' ? '🏰' :
+                             structuresData[coord].type === 'ruin' ? '🏚' : '🏠';
+            div.appendChild(mark);
+            div.title = structuresData[coord].name + ' — ' + (structuresData[coord].lore || '');
+          }
+
+          
+          // Relics: glow + icon
+          if (relicsData[coord] && isDiscovered) {
+            const relic = relicsData[coord];
+            const relicMark = document.createElement('span');
+            relicMark.style.position = 'absolute';
+            relicMark.style.top = '2px';
+            relicMark.style.left = '2px';
+            relicMark.style.fontSize = '14px';
+            relicMark.innerText = '✨';
+            div.appendChild(relicMark);
+            div.title = relic.name + ' — ' + (relic.lore || '');
+            div.style.outline = '2px solid gold';
+          }
+
+          
+          // Weather overlay icon
+          if (weatherData[coord]) {
+            const w = weatherData[coord];
+            const wIcon = document.createElement('div');
+            wIcon.style.position = 'absolute';
+            wIcon.style.top = '0';
+            wIcon.style.right = '0';
+            wIcon.style.fontSize = '12px';
+            wIcon.innerText =
+              w.condition === 'sun' ? '☀️' :
+              w.condition === 'rain' ? '🌧️' :
+              w.condition === 'fog' ? '🌫️' :
+              w.condition === 'storm' ? '⛈️' :
+              w.condition === 'snow' ? '❄️' : '';
+            wIcon.title = `${w.condition.charAt(0).toUpperCase() + w.condition.slice(1)} — ${w.intensity} — ${w.temp}°F`;
+            div.appendChild(wIcon);
+          }
+
+          
+          if (eventLog.events) {
+            const eventsHere = eventLog.events.filter(e => e.tile === coord);
+            if (eventsHere.length > 0) {
+              const mark = document.createElement('div');
+              mark.className = 'marker';
+              mark.style.color = 'crimson';
+              mark.innerText = '🌀';
+              tile.appendChild(mark);
+              const titles = eventsHere.map(e => e.title).join(", ");
+              tile.title = (tile.title ? tile.title + "\n" : "") + "Events: " + titles;
+            }
+          }
+
+          
+          // Tide-aware tile filter
+          if (tileMeta[coord]?.shoreline && calendarData?.tide) {
+            const tideFilter = document.createElement('div');
+            tideFilter.style.position = 'absolute';
+            tideFilter.style.top = '0';
+            tideFilter.style.left = '0';
+            tideFilter.style.width = '100%';
+            tideFilter.style.height = '100%';
+            tideFilter.style.zIndex = '2';
+            tideFilter.style.backgroundColor =
+              calendarData.tide === 'high' ? 'rgba(0, 80, 180, 0.25)' :
+              calendarData.tide === 'low' ? 'rgba(240, 230, 190, 0.2)' : 'transparent';
+            tile.appendChild(tideFilter);
+            tile.title = (tile.title ? tile.title + "\n" : "") + "Tide: " + calendarData.tide;
           }
 
           mapElement.appendChild(div);
