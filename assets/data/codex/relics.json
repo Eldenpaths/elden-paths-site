@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Heartglass Blade",
+    "description": "A translucent dagger that hums with sorrow and memory. Forged from mourningstone.",
+    "image": "heartglass_blade.png"
+  },
+  {
+    "name": "Writ of Echo Binding",
+    "description": "A scroll of law that binds an Echo to a relic or ruin. Only usable by Warden ranks.",
+    "image": "writ_echo.png"
+  }
+]

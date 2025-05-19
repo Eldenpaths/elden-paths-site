@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Ash Elk",
+    "description": "A towering elk with antlers that smolder like burned driftwood. Found near ancient volcanic fields.",
+    "image": "ash_elk.png"
+  },
+  {
+    "name": "Spine Beetle",
+    "description": "Armored insect that feeds on marrow. Its shell is prized by craftsfolk.",
+    "image": "spine_beetle.png"
+  }
+]
