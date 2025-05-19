@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Elden Paths – Player Map</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: #f5f2e7;
+      color: #2d1b00;
+      text-align: center;
+      padding: 1rem;
+    }
+    #map-controls {
+      margin-bottom: 1rem;
+    }
+    .btn {
+      padding: 6px 12px;
+      margin: 4px;
+      background: #e0d8c3;
+      border: 1px solid #888;
+      cursor: pointer;
+    }
+    #map {
+      display: grid;
+      gap: 2px;
+      margin: 1rem auto;
+      width: fit-content;
+    }
+    .tile {
+      width: 48px;
+      height: 48px;
+      position: relative;
+      background: #ddd4bb;
+      border: 1px solid #bbb;
+      font-size: 10px;
+      overflow: hidden;
+    }
+    .tile img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.3;
+      object-fit: cover;
+      z-index: 0;
+    }
+    .tile span {
+      position: relative;
+      z-index: 1;
+      color: #222;
+      font-weight: bold;
+    }
+    .fogged {
+      background: #888 !important;
+    }
+    .player {
+      background: #334 !important;
+      color: #fff;
+    }
+    #terrain-box {
+      margin-top: 2rem;
+    }
+    #terrain-img {
+      width: 200px;
+      border: 2px solid #ccc;
+      border-radius: 6px;
+    }
+    .lore-popup {
+      position: absolute;
+      background: #fff8dc;
+      border: 1px solid #aa9;
+      padding: 4px 8px;
+      font-size: 10px;
+      z-index: 10;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>🗺️ Elden Paths — Player Map</h2>
+  <div id="map-controls">
+    <button class="btn" onclick="setZoom(1)">Mini (1x)</button>
+    <button class="btn" onclick="setZoom(5)">Local (5x)</button>
+    <button class="btn" onclick="setZoom(10)">Region (10x)</button>
+    <button class="btn" onclick="setZoom(20)">World (20x)</button>
+  </div>
+
+  <p id="infoText">Loading...</p>
+  <div id="map"></div>
+
+  <div id="terrain-box">
+    <h3 id="terrain-name">Terrain Preview</h3>
+    <img id="terrain-img" src="" alt="Tile sketch" />
+  </div>
+
+  <div id="lore-box" class="lore-popup"></div>
+
+  <script>
+    let playerName = "test_player";
+    let zoomLevel = 5;
+    const mapElement = document.getElementById("map");
+    const infoText = document.getElementById("infoText");
+    const loreBox = document.getElementById("lore-box");
+
+    let terrainMeta = {};
+    let playerData = {};
+    let fogData = {};
+    let loreData = {};
+
+    async function loadData() {
+      terrainMeta = (await fetch('meta.json').then(r => r.json())).tiles || {};
+      playerData = (await fetch('players.json').then(r => r.json()))[playerName];
+      fogData = (await fetch('fog.json').then(r => r.json()))[playerName]?.discovered || [];
+      try {
+        loreData = await fetch('tile_lore.json').then(r => r.json());
+      } catch (e) {
+        loreData = {};
+      }
+      buildMap();
+    }
+
+    function setZoom(level) {
+      zoomLevel = level;
+      buildMap();
+    }
+
+    function buildMap() {
+      const [px, py] = playerData.tile.split(',').map(Number);
+      const size = zoomLevel;
+      const half = Math.floor(size / 2);
+      mapElement.innerHTML = '';
+      mapElement.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+
+      for (let y = py - half; y <= py + half; y++) {
+        for (let x = px - half; x <= px + half; x++) {
+          const coord = `${x},${y}`;
+          const tileData = terrainMeta[coord] || {};
+          const isDiscovered = fogData.includes(coord);
+          const div = document.createElement('div');
+          div.className = 'tile';
+          if (!isDiscovered) div.classList.add('fogged');
+          if (coord === playerData.tile) div.classList.add('player');
+
+          if (tileData.sketch && isDiscovered) {
+            const img = document.createElement('img');
+            img.src = `/assets/img/tiles/${tileData.sketch}`;
+            div.appendChild(img);
+          }
+
+          const label = document.createElement('span');
+          label.innerText = tileData.terrain ? tileData.terrain[0].toUpperCase() : '?';
+          div.appendChild(label);
+
+          if (loreData[coord] && isDiscovered) {
+            div.addEventListener('mouseover', (e) => {
+              loreBox.style.left = e.pageX + 'px';
+              loreBox.style.top = e.pageY + 'px';
+              loreBox.style.display = 'block';
+              loreBox.innerHTML = `<strong>${loreData[coord].title}</strong><br/>${loreData[coord].text}`;
+            });
+            div.addEventListener('mouseout', () => {
+              loreBox.style.display = 'none';
+            });
+          }
+
+          mapElement.appendChild(div);
+        }
+      }
+
+      const current = terrainMeta[playerData.tile] || {};
+      infoText.innerText = `Tile: ${playerData.tile} | Region: ${current.region || 'Unknown'} | Terrain: ${current.terrain || '??'} | Elevation: ${current.elevation || '-'}`;
+
+      const sketch = current.sketch;
+      if (sketch) {
+        document.getElementById("terrain-img").src = `/assets/img/tiles/${sketch}`;
+        document.getElementById("terrain-name").innerText = `${current.terrain || 'Unknown'} Terrain`;
+      }
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
