@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Your Character</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="char-create">
+    <h1>Create Your Character</h1>
+    <label>Name:</label>
+    <input type="text" id="charName" placeholder="Enter your name" /><br/>
+    <label>Choose a Class:</label>
+    <select id="charClass">
+      <option value="Warden">Warden</option>
+      <option value="Outrider">Outrider</option>
+      <option value="Lorekeeper">Lorekeeper</option>
+    </select><br/>
+    <label>Starting Region:</label>
+    <select id="charRegion">
+      <option value="Fogreach">Fogreach</option>
+      <option value="Watcher’s Crown">Watcher’s Crown</option>
+      <option value="Salt Hollow">Salt Hollow</option>
+    </select><br/>
+    <button onclick="begin()">Begin Adventure</button>
+  </div>
+
+  <script>
+    function begin() {
+      const name = document.getElementById("charName").value.trim();
+      const charClass = document.getElementById("charClass").value;
+      const region = document.getElementById("charRegion").value;
+      if (!name) {
+        alert("Please enter a character name.");
+        return;
+      }
+      // Simple tile assignment for regions
+      const regionTiles = {
+        "Fogreach": "0_0",
+        "Watcher’s Crown": "-1_1",
+        "Salt Hollow": "1_-1"
+      };
+      localStorage.setItem("character", JSON.stringify({
+        name,
+        class: charClass,
+        region,
+        tile: regionTiles[region]
+      }));
+      window.location.href = "play.html";
+    }
+  </script>
+</body>
+</html>
