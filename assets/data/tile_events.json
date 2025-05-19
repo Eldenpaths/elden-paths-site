@@ -1,0 +1,14 @@
+{
+  "0_0": {
+    "description": "You arrive at a misty clearing. The stones here hum faintly with old magic.",
+    "sketch": "clearing_stones.png"
+  },
+  "1_0": {
+    "description": "The trail crests a low ridge. You spot carrion birds circling far ahead.",
+    "sketch": "ridge_vista.png"
+  },
+  "-1_0": {
+    "description": "You descend into a hollow where moss clings to ancient carvings.",
+    "sketch": "carved_hollow.png"
+  }
+}
