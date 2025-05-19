@@ -1,0 +1,22 @@
+{
+  "entries": [
+    {
+      "name": "Grave Elk",
+      "region": "Fogreach",
+      "description": "A spectral stag that walks silent mist trails at dusk. Harmless unless provoked.",
+      "image": "grave_elk.png"
+    },
+    {
+      "name": "Mistfen Stag",
+      "region": "Salt Hollow",
+      "description": "Antlers grown from twisted root. It vanishes into vapors when threatened.",
+      "image": "mistfen_stag.png"
+    },
+    {
+      "name": "Hollow Boar",
+      "region": "Watcher\u2019s Crown",
+      "description": "Bone-plated boar that charges with echoing howls. Empty sockets glow at night.",
+      "image": "hollow_boar.png"
+    }
+  ]
+}
