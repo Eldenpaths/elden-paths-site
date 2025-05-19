@@ -113,7 +113,32 @@
     let fogData = {};
     let loreData = {};
 
+    
+    let trailsData = {};
+    let structuresData = {};
+
     async function loadData() {
+      terrainMeta = (await fetch('meta.json').then(r => r.json())).tiles || {};
+      playerData = (await fetch('players.json').then(r => r.json()))[playerName];
+      fogData = (await fetch('fog.json').then(r => r.json()))[playerName]?.discovered || [];
+      try {
+        loreData = await fetch('tile_lore.json').then(r => r.json());
+      } catch (e) {
+        loreData = {};
+      }
+      try {
+        trailsData = await fetch('trails.json').then(r => r.json());
+      } catch (e) {
+        trailsData = {};
+      }
+      try {
+        structuresData = await fetch('structures.json').then(r => r.json());
+      } catch (e) {
+        structuresData = {};
+      }
+      buildMap();
+    }
+ {
       terrainMeta = (await fetch('meta.json').then(r => r.json())).tiles || {};
       playerData = (await fetch('players.json').then(r => r.json()))[playerName];
       fogData = (await fetch('fog.json').then(r => r.json()))[playerName]?.discovered || [];
@@ -174,6 +199,26 @@ function buildMap() {
             div.addEventListener('mouseout', () => {
               loreBox.style.display = 'none';
             });
+          }
+
+          
+          // Trails: background border glow (optional style layer)
+          if (trailsData[coord] && isDiscovered && fogEnabled) {
+            const v = trailsData[coord].visibility;
+            div.style.boxShadow = `0 0 ${v * 10}px ${v * 4}px rgba(100, 100, 50, ${v})`;
+          }
+
+          // Structures: emoji icon overlay
+          if (structuresData[coord] && isDiscovered) {
+            const mark = document.createElement('span');
+            mark.style.position = 'absolute';
+            mark.style.bottom = '2px';
+            mark.style.right = '2px';
+            mark.style.fontSize = '14px';
+            mark.innerText = structuresData[coord].type === 'fort' ? '🏰' :
+                             structuresData[coord].type === 'ruin' ? '🏚' : '🏠';
+            div.appendChild(mark);
+            div.title = structuresData[coord].name + ' — ' + (structuresData[coord].lore || '');
           }
 
           mapElement.appendChild(div);
