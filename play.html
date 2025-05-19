@@ -31,6 +31,13 @@
       max-width: 600px;
       font-style: italic;
     }
+    #encounter {
+      background: #fff5e6;
+      margin-top: 1rem;
+      padding: 1rem;
+      border: 1px dashed #888;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -49,11 +56,31 @@
 
   <div id="eventBox">
     <p id="eventText">Loading terrain info...</p>
+    <div id="encounter"></div>
   </div>
 
   <script>
     let char = JSON.parse(localStorage.getItem("character") || "{}");
     let events = {};
+
+    function d20() {
+      return Math.floor(Math.random() * 20) + 1;
+    }
+
+    function rollEncounter() {
+      const roll = d20();
+      let result = "";
+      if (roll >= 19) {
+        result = "👹 You are ambushed by a Bog Hag!";
+      } else if (roll >= 16) {
+        result = "🎁 You discover a buried relic fragment.";
+      } else if (roll === 13) {
+        result = "📜 A whispering spirit shares a forgotten name.";
+      } else {
+        result = "🌿 No encounter. The land is quiet... for now.";
+      }
+      document.getElementById("encounter").innerText = `🎲 d20 Roll: ${roll} → ${result}`;
+    }
 
     function updateDisplay() {
       document.getElementById("charName").innerText = char.name + " the " + char.class;
@@ -61,6 +88,7 @@
       document.getElementById("tileCoords").innerText = "Current Tile: " + char.tile;
       const event = events[char.tile];
       document.getElementById("eventText").innerText = event ? event.description : "Just quiet wilderness...";
+      rollEncounter();
     }
 
     function move(dx, dy) {
