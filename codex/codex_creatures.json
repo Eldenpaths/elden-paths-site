@@ -1,8 +1,26 @@
-{
-  "creature_001": {
+[
+  {
     "name": "Mirefang",
     "type": "Beast",
     "habitat": "Swamps",
     "description": "A slithering predator that lures travelers into the marsh with glowing eyes."
+  },
+  {
+    "name": "Ashhorn",
+    "type": "Elemental",
+    "habitat": "Volcanic Peaks",
+    "description": "A molten stag wreathed in smoke, it guards the ancient forge-altars in silence."
+  },
+  {
+    "name": "Thornkin",
+    "type": "Plantfolk",
+    "habitat": "Twilight Groves",
+    "description": "Humanoid vines animated by forest curses — they whisper secrets to the soil."
+  },
+  {
+    "name": "Hollow Maw",
+    "type": "Aberration",
+    "habitat": "Forgotten Dungeons",
+    "description": "Faceless and silent, it absorbs sound and light. Those who meet its gaze vanish."
   }
-}
+]
