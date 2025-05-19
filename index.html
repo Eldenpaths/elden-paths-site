@@ -2,61 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths – Enter the World</title>
+  <title>Elden Paths – Begin Your Journey</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Georgia', serif;
-      background: url('assets/maps/parchment_map_tillamook.png') no-repeat center center fixed;
-      background-size: cover;
-      height: 100%;
-      overflow: hidden;
-      color: #f0e8dc;
-      text-shadow: 0 0 5px #000;
-    }
-    .splash-container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      backdrop-filter: blur(4px);
-      background: rgba(10, 10, 10, 0.6);
-      padding: 2rem;
-    }
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      letter-spacing: 2px;
-    }
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-      max-width: 600px;
-      text-align: center;
-    }
-    a.button {
-      background-color: #3c2e1f;
-      color: #fff;
-      padding: 1rem 2rem;
-      border: none;
-      text-decoration: none;
-      font-size: 1.2rem;
-      border-radius: 6px;
-      transition: background 0.3s ease;
-    }
-    a.button:hover {
-      background-color: #6d4f31;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="splash-container">
+  <div class="splash">
     <h1>Elden Paths™</h1>
-    <p>Begin your journey into a handcrafted world of fog, lore, and echo. Choose your path. Leave your mark.</p>
-    <a href="play.html" class="button">Enter World</a>
+    <p>Enter a living world of fog, lore, and memory. Choose your path. Leave your mark.</p>
+    <div class="nav-buttons">
+      <a href="character.html">🎮 Start New Game</a>
+      <a href="play.html">🧭 Continue</a>
+      <a href="codex.html">📖 View Codex</a>
+      <a href="trailboard.html">📜 Trailboard (News)</a>
+      <a href="shop.html" class="disabled">🛍️ Merch (Coming Soon)</a>
+    </div>
   </div>
 </body>
 </html>
