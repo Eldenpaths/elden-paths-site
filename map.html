@@ -125,6 +125,7 @@
     let calendarData = {};
     let eventLog = {};
     let tileMeta = {};
+    let tileEchoes = {};
     let structuresData = {};
 
     async function loadData() {
@@ -340,6 +341,17 @@ function buildMap()
               calendarData.tide === 'low' ? 'rgba(240, 230, 190, 0.2)' : 'transparent';
             tile.appendChild(tideFilter);
             tile.title = (tile.title ? tile.title + "\n" : "") + "Tide: " + calendarData.tide;
+          }
+
+          
+          if (tileEchoes[coord]) {
+            const echo = document.createElement('div');
+            echo.className = 'marker';
+            echo.style.color = 'purple';
+            echo.innerText = '🕯️';
+            tile.appendChild(echo);
+            const details = tileEchoes[coord].map(e => `${e.player} ${e.action} (Day ${e.day})`).join("\n");
+            tile.title = (tile.title ? tile.title + "\n" : "") + "Echoes:\n" + details;
           }
 
           mapElement.appendChild(div);
