@@ -1,12 +1,1 @@
-{
-  "2,-1": {
-    "name": "Warden\u2019s Outpost",
-    "type": "fort",
-    "owner": "test_player"
-  },
-  "-1,3": {
-    "name": "Ruined Tower",
-    "type": "ruin",
-    "lore": "Said to hold the bones of a starcaller."
-  }
-}
+{"note": "placeholder for JSON content"}

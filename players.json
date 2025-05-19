@@ -1,16 +1,1 @@
-{
-  "test_player": {
-    "name": "Test Player",
-    "tile": "0,0",
-    "class": "Wanderer",
-    "stats": {
-      "HP": 10,
-      "Strength": 2,
-      "Dexterity": 2
-    },
-    "gear": [],
-    "discovered": [
-      "0,0"
-    ]
-  }
-}
+{"note": "placeholder for JSON content"}
