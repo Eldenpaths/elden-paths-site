@@ -2,114 +2,98 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths – Explore</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
+  <title>Elden Paths - Play</title>
   <style>
-    .hud {
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #f5f2e7;
+      color: #2d1b00;
       text-align: center;
-      padding: 1rem;
+      padding: 2rem;
     }
-    #controls {
-      text-align: center;
-      margin: 2rem 0;
+    #game-board {
+      margin-top: 2rem;
     }
-    #controls button {
-      margin: 0.25rem;
-      padding: 0.75rem 1.25rem;
-      font-size: 1.2rem;
-      background: #ddd4c0;
-      border: 1px solid #999;
-      border-radius: 6px;
+    .btn {
+      padding: 10px 20px;
+      margin: 4px;
+      background: #ddd4bb;
+      border: 1px solid #888;
       cursor: pointer;
     }
-    #eventBox {
-      background: #f6f1e7;
-      border: 1px solid #aaa;
-      margin: 1rem auto;
+    .log-box {
+      margin-top: 2rem;
       padding: 1rem;
-      max-width: 600px;
-      font-style: italic;
+      background: #f7f2e0;
+      border: 1px dashed #b09a72;
+      width: 60%;
+      margin-left: auto;
+      margin-right: auto;
     }
-    #encounter {
-      background: #fff5e6;
+    #terrain-img {
       margin-top: 1rem;
-      padding: 1rem;
-      border: 1px dashed #888;
-      font-weight: bold;
+      max-width: 600px;
+      width: 90%;
+      border-radius: 8px;
+      border: 2px solid #ccb;
     }
   </style>
 </head>
 <body>
-  <div class="hud">
-    <h1 id="charName">Loading...</h1>
-    <p id="charStats"></p>
-    <p id="tileCoords"></p>
+  <h1><span id="playerName">...</span> the Warden</h1>
+  <p>Region: <span id="regionName">...</span></p>
+  <p>Current Tile: <span id="tileCoords">...</span></p>
+  
+  <div id="game-board">
+    <button class="btn" onclick="move('north')">⬆ North</button><br/>
+    <button class="btn" onclick="move('west')">⬅ West</button>
+    <button class="btn" onclick="move('east')">➡ East</button><br/>
+    <button class="btn" onclick="move('south')">⬇ South</button>
   </div>
 
-  <div id="controls">
-    <button onclick="move(0, 1)">⬆️ North</button><br/>
-    <button onclick="move(-1, 0)">⬅️ West</button>
-    <button onclick="move(1, 0)">➡️ East</button><br/>
-    <button onclick="move(0, -1)">⬇️ South</button>
-  </div>
+  <img id="terrain-img" src="" alt="Terrain sketch" hidden />
 
-  <div id="eventBox">
-    <p id="eventText">Loading terrain info...</p>
-    <div id="encounter"></div>
+  <div class="log-box" id="logBox">
+    <p><em>Just quiet wilderness...</em></p>
   </div>
 
   <script>
-    let char = JSON.parse(localStorage.getItem("character") || "{}");
-    let events = {};
+    let playerName = prompt("Enter your name:") || "Traveler";
+    document.getElementById("playerName").innerText = playerName;
+    
+    let playerData = {
+      name: playerName,
+      tile: "0,0",
+      stats: { HP: 10, Strength: 2, Dexterity: 2 },
+      discovered: []
+    };
 
-    function d20() {
-      return Math.floor(Math.random() * 20) + 1;
-    }
+    let terrainMeta = {};
 
-    function rollEncounter() {
-      const roll = d20();
-      let result = "";
-      if (roll >= 19) {
-        result = "👹 You are ambushed by a Bog Hag!";
-      } else if (roll >= 16) {
-        result = "🎁 You discover a buried relic fragment.";
-      } else if (roll === 13) {
-        result = "📜 A whispering spirit shares a forgotten name.";
-      } else {
-        result = "🌿 No encounter. The land is quiet... for now.";
-      }
-      document.getElementById("encounter").innerText = `🎲 d20 Roll: ${roll} → ${result}`;
-    }
-
-    function updateDisplay() {
-      document.getElementById("charName").innerText = char.name + " the " + char.class;
-      document.getElementById("charStats").innerText = "Region: " + char.region;
-      document.getElementById("tileCoords").innerText = "Current Tile: " + char.tile;
-      const event = events[char.tile];
-      document.getElementById("eventText").innerText = event ? event.description : "Just quiet wilderness...";
-      rollEncounter();
-    }
-
-    function move(dx, dy) {
-      let [x, y] = char.tile.split("_").map(Number);
-      x += dx;
-      y += dy;
-      char.tile = `${x}_${y}`;
-      localStorage.setItem("character", JSON.stringify(char));
-      updateDisplay();
-    }
-
-    fetch("assets/data/tile_events.json")
+    fetch("meta.json")
       .then(res => res.json())
       .then(data => {
-        events = data;
-        if (!char.name || !char.tile) {
-          window.location.href = "character.html";
-        } else {
-          updateDisplay();
-        }
+        terrainMeta = data.tiles || {};
+        updateView();
       });
-  </script>
-</body>
-</html>
+
+    function move(direction) {
+      let [x, y] = playerData.tile.split(',').map(Number);
+      switch(direction) {
+        case 'north': y -= 1; break;
+        case 'south': y += 1; break;
+        case 'west':  x -= 1; break;
+        case 'east':  x += 1; break;
+      }
+      playerData.tile = `${x},${y}`;
+      updateView();
+      logRoll();
+    }
+
+    function updateView() {
+      let tileData = terrainMeta[playerData.tile] || {};
+      document.getElementById("tileCoords").innerText = playerData.tile;
+      document.getElementById("regionName").innerText = tileData.region || "Unknown";
+
+      const sketch = tileData.sketch;
+      const terrainImg = documen
