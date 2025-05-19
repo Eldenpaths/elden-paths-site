@@ -72,6 +72,7 @@
     let loreData = {};
     let structuresData = {};
     let relicsData = {};
+    let weatherData = {};
     let fogEnabled = true;
     let loreEnabled = true;
     let structureEnabled = true;
@@ -89,6 +90,7 @@
       } catch { structuresData = {}; }
 
       try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
+      try { weatherData = await fetch("weather.json").then(r => r.json()); } catch { weatherData = {}; }
       buildMasterMap();
     }
 
@@ -136,6 +138,25 @@
             tile.style.border = '2px solid gold';
           }
 
+          
+          // Weather overlay icon
+          if (weatherData[coord]) {
+            const w = weatherData[coord];
+            const wIcon = document.createElement('div');
+            wIcon.style.position = 'absolute';
+            wIcon.style.top = '0';
+            wIcon.style.right = '0';
+            wIcon.style.fontSize = '12px';
+            wIcon.innerText =
+              w.condition === 'sun' ? '☀️' :
+              w.condition === 'rain' ? '🌧️' :
+              w.condition === 'fog' ? '🌫️' :
+              w.condition === 'storm' ? '⛈️' :
+              w.condition === 'snow' ? '❄️' : '';
+            wIcon.title = `${w.condition.charAt(0).toUpperCase() + w.condition.slice(1)} — ${w.intensity} — ${w.temp}°F`;
+            div.appendChild(wIcon);
+          }
+
           container.appendChild(tile);
         }
       }
@@ -144,16 +165,19 @@
     function toggleFog() {
       fogEnabled = !fogEnabled;
       try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
+      try { weatherData = await fetch("weather.json").then(r => r.json()); } catch { weatherData = {}; }
       buildMasterMap();
     }
     function toggleLore() {
       loreEnabled = !loreEnabled;
       try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
+      try { weatherData = await fetch("weather.json").then(r => r.json()); } catch { weatherData = {}; }
       buildMasterMap();
     }
     function toggleStructures() {
       structureEnabled = !structureEnabled;
       try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
+      try { weatherData = await fetch("weather.json").then(r => r.json()); } catch { weatherData = {}; }
       buildMasterMap();
     }
 
