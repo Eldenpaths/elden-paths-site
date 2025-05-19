@@ -1,19 +1,32 @@
 {
-  "tiles": {
-    "0,0": {
-      "terrain": "forest"
-    },
-    "0,1": {
-      "terrain": "ruins"
-    },
-    "1,0": {
-      "terrain": "plains"
-    },
-    "1,1": {
-      "terrain": "swamp"
-    },
-    "2,2": {
-      "terrain": "mountains"
-    }
+  "0,0": {
+    "shoreline": false
+  },
+  "1,0": {
+    "shoreline": true
+  },
+  "1,1": {
+    "shoreline": true
+  },
+  "2,1": {
+    "shoreline": true
+  },
+  "-1,0": {
+    "shoreline": false
+  },
+  "0,1": {
+    "shoreline": true
+  },
+  "2,2": {
+    "shoreline": true
+  },
+  "3,1": {
+    "shoreline": true
+  },
+  "-2,-1": {
+    "shoreline": false
+  },
+  "3,0": {
+    "shoreline": true
   }
 }
