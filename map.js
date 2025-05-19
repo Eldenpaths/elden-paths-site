@@ -1,6 +1,5 @@
 // Elden Paths™: Working Tile Map Renderer
 
-const TILE_SIZE = 64;
 const TILE_FOLDER = "assets/img/tiles/";
 
 let tileIndex = [];
