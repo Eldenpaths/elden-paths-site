@@ -1,0 +1,8 @@
+{
+  "creature_001": {
+    "name": "Mirefang",
+    "type": "Beast",
+    "habitat": "Swamps",
+    "description": "A slithering predator that lures travelers into the marsh with glowing eyes."
+  }
+}
