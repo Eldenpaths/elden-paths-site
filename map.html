@@ -115,6 +115,7 @@
 
     
     let trailsData = {};
+    let relicsData = {};
     let structuresData = {};
 
     async function loadData() {
@@ -136,6 +137,7 @@
       } catch (e) {
         structuresData = {};
       }
+      try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
       buildMap();
     }
  {
@@ -147,11 +149,13 @@
       } catch (e) {
         loreData = {};
       }
+      try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
       buildMap();
     }
 
     function setZoom(level) {
       zoomLevel = level;
+      try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
       buildMap();
     }
 
@@ -159,6 +163,7 @@
     let fogEnabled = true;
     function toggleFog() {
       fogEnabled = !fogEnabled;
+      try { relicsData = await fetch("relics.json").then(r => r.json()); } catch { relicsData = {}; }
       buildMap();
     }
 
@@ -219,6 +224,21 @@ function buildMap() {
                              structuresData[coord].type === 'ruin' ? '🏚' : '🏠';
             div.appendChild(mark);
             div.title = structuresData[coord].name + ' — ' + (structuresData[coord].lore || '');
+          }
+
+          
+          // Relics: glow + icon
+          if (relicsData[coord] && isDiscovered) {
+            const relic = relicsData[coord];
+            const relicMark = document.createElement('span');
+            relicMark.style.position = 'absolute';
+            relicMark.style.top = '2px';
+            relicMark.style.left = '2px';
+            relicMark.style.fontSize = '14px';
+            relicMark.innerText = '✨';
+            div.appendChild(relicMark);
+            div.title = relic.name + ' — ' + (relic.lore || '');
+            div.style.outline = '2px solid gold';
           }
 
           mapElement.appendChild(div);
