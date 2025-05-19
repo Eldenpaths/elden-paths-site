@@ -81,6 +81,10 @@
 <body>
   <h2>🗺️ Elden Paths — Player Map</h2>
   <div id="map-controls">
+    
+<button class="btn" onclick="toggleFog()">Toggle Fog (DM)</button>
+<a href="play.html"><button class="btn">Return to Game</button></a>
+
     <button class="btn" onclick="setZoom(1)">Mini (1x)</button>
     <button class="btn" onclick="setZoom(5)">Local (5x)</button>
     <button class="btn" onclick="setZoom(10)">Region (10x)</button>
@@ -126,7 +130,14 @@
       buildMap();
     }
 
-    function buildMap() {
+    
+    let fogEnabled = true;
+    function toggleFog() {
+      fogEnabled = !fogEnabled;
+      buildMap();
+    }
+
+function buildMap() {
       const [px, py] = playerData.tile.split(',').map(Number);
       const size = zoomLevel;
       const half = Math.floor(size / 2);
@@ -140,7 +151,7 @@
           const isDiscovered = fogData.includes(coord);
           const div = document.createElement('div');
           div.className = 'tile';
-          if (!isDiscovered) div.classList.add('fogged');
+          if (!isDiscovered && fogEnabled) div.classList.add('fogged');
           if (coord === playerData.tile) div.classList.add('player');
 
           if (tileData.sketch && isDiscovered) {
