@@ -1,7 +1,20 @@
-{
-  "location_001": {
-    "name": "Watcher\u2019s Crown",
-    "region": "Northern Peaks",
-    "description": "A treacherous peak said to hold the last dragon\u2019s nest."
+[
+  {
+    "name": "Salt Hollow",
+    "type": "Fortified Ruins",
+    "region": "Southern Wastes",
+    "description": "A collapsed salt mine turned hidden refuge — its walls etched with lost warding runes."
+  },
+  {
+    "name": "Watcher’s Crown",
+    "type": "High Peaks",
+    "region": "The Three Sisters",
+    "description": "Three jagged summits where dragons once nested. Still watched by stormbirds and something older."
+  },
+  {
+    "name": "Gravesport",
+    "type": "Harbor City",
+    "region": "Shatter Coast",
+    "description": "Half city, half graveyard — smuggler-run streets echo with songs the sea refuses to drown."
   }
-}
+]
