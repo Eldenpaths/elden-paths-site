@@ -1,26 +1,20 @@
 [
   {
-    "name": "Mirefang",
-    "type": "Beast",
-    "habitat": "Swamps",
-    "description": "A slithering predator that lures travelers into the marsh with glowing eyes."
+    "name": "Fogbound",
+    "motto": "From fog, we strike.",
+    "region": "Gravesport",
+    "description": "Smugglers and enforcers cloaked in mist, they rule Gravesport’s black markets through fear and shadow."
   },
   {
-    "name": "Ashhorn",
-    "type": "Elemental",
-    "habitat": "Volcanic Peaks",
-    "description": "A molten stag wreathed in smoke, it guards the ancient forge-altars in silence."
+    "name": "Ember Assembly",
+    "motto": "Knowledge through fire.",
+    "region": "Volcanic Reaches",
+    "description": "Scholars of flame and ruin who believe power must be harnessed from destruction itself."
   },
   {
-    "name": "Thornkin",
-    "type": "Plantfolk",
-    "habitat": "Twilight Groves",
-    "description": "Humanoid vines animated by forest curses — they whisper secrets to the soil."
-  },
-  {
-    "name": "Hollow Maw",
-    "type": "Aberration",
-    "habitat": "Forgotten Dungeons",
-    "description": "Faceless and silent, it absorbs sound and light. Those who meet its gaze vanish."
+    "name": "Hollow Order",
+    "motto": "The silence speaks.",
+    "region": "Forgotten Catacombs",
+    "description": "An ancient cult that worships stillness, silence, and death — rumored to reanimate truth as bone."
   }
 ]
