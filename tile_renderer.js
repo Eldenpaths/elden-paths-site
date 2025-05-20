@@ -1,4 +1,3 @@
-const tileMeta = {};
 const tileImages = {};
 const tileSize = 64;
 
