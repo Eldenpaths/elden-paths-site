@@ -1,4 +1,3 @@
-const tileMeta = {};
 const tileImages = {};
 const tileSize = 64;
 
@@ -6,43 +5,27 @@ function loadTileMeta(callback) {
   fetch("tile_meta.json")
     .then((response) => response.json())
     .then((data) => {
-      Object.assign(tileMeta, data);
+      window.tileMeta = data; // avoid declaring tileMeta twice
       callback();
     });
 }
 
-function preloadTileImages(callback) {
+function loadTileImages(callback) {
   const types = new Set(Object.values(tileMeta));
   let loaded = 0;
   const total = types.size;
 
-  types.forEach((type) => {
+  types.forEach((filename) => {
     const img = new Image();
-    img.src = `assets/img/tiles/${type}`;
+    img.src = `assets/img/tiles/${filename}`; // fixed: no extra `_tile.png`
     img.onload = () => {
-      tileImages[type] = img;
+      tileImages[filename] = img;
       loaded++;
       if (loaded === total) callback();
     };
     img.onerror = () => {
-      console.warn("Missing tile image for:", type);
-      loaded++;
-      if (loaded === total) callback();
+      console.warn("Missing tile image for:", filename);
     };
   });
-}
-
-function drawTileMap() {
-  for (let y = 0; y < tileIndex.length; y++) {
-    for (let x = 0; x < tileIndex[y].length; x++) {
-      const tileType = tileIndex[y][x];
-      const imageFile = tileMeta[tileType];
-      const image = tileImages[imageFile];
-
-      if (image) {
-        ctx.drawImage(image, x * tileSize, y * tileSize, tileSize, tileSize);
-      }
-    }
-  }
 }
 
