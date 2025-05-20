@@ -1,4 +1,4 @@
-// Elden Paths™: Tile Map Loader
+// Elden Paths™: Map Loader
 
 const TILE_FOLDER = "assets/img/tiles/";
 
@@ -10,10 +10,8 @@ window.addEventListener("load", async () => {
   ctx = canvas.getContext("2d");
 
   try {
-    const [indexData] = await Promise.all([
-      fetch("tile_index.json").then((res) => res.json())
-    ]);
-
+    const res = await fetch("tile_index.json");
+    const indexData = await res.json();
     tileIndex = indexData;
 
     loadTileMeta(() => {
