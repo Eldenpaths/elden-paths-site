@@ -1,5 +1,4 @@
-// Elden Paths™: Map Loader
-
+// Elden Paths™: Tile Map Loader
 const TILE_FOLDER = "assets/img/tiles/";
 
 let tileIndex = [];
@@ -10,12 +9,14 @@ window.addEventListener("load", async () => {
   ctx = canvas.getContext("2d");
 
   try {
-    const res = await fetch("tile_index.json");
-    const indexData = await res.json();
+    const [indexData] = await Promise.all([
+      fetch("tile_index.json").then((res) => res.json()),
+    ]);
+
     tileIndex = indexData;
 
     loadTileMeta(() => {
-      preloadTileImages(() => {
+      loadTileImages(() => {
         drawTileMap();
       });
     });
@@ -25,3 +26,16 @@ window.addEventListener("load", async () => {
     ctx.fillText("⚠️ Failed to load map data", 50, 50);
   }
 });
+
+function drawTileMap() {
+  for (let y = 0; y < tileIndex.length; y++) {
+    for (let x = 0; x < tileIndex[y].length; x++) {
+      const type = tileIndex[y][x];
+      const filename = tileMeta[type];
+      const img = tileImages[filename];
+      if (img) {
+        ctx.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize);
+      }
+    }
+  }
+}
