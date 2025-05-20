@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to Elden Paths™</title>
-  <link rel="stylesheet" href="theme-frazetta.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elden Paths™</title>
+  <link rel="stylesheet" href="theme-frazetta.css"/>
 </head>
 <body>
   <div id="game-root">
@@ -30,17 +30,19 @@
   <script src="snow-overlay.js"></script>
   <script src="magic-overlay.js"></script>
 
+  <!-- Main logic -->
   <script src="tile_renderer.js"></script>
   <script src="map.js"></script>
   <script src="play.js"></script>
 
+  <!-- Init -->
   <script>
     window.addEventListener('load', () => {
       if (typeof initGame === 'function') {
-        initGame(); // Launch main gameplay function from play.js
+        initGame(); // launches from play.js
       } else {
         document.getElementById('game-root').innerHTML +=
-          '<p><strong>Error:</strong> initGame() not found. Check script order.</p>';
+          '<p><strong>Error:</strong> initGame() not found.</p>';
       }
     });
   </script>
