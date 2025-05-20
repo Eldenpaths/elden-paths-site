@@ -80,4 +80,59 @@ function drawMap() {
   drawTrails();
 }
 
-function terrainColor(type
+function terrainColor(type) {
+  switch(type) {
+    case 'forest': return '#228B22';
+    case 'mountain': return '#888';
+    case 'water': return '#1E90FF';
+    case 'plains': return '#DAA520';
+    default: return '#444';
+  }
+}
+
+function drawTrails() {
+  for (let trail of trails) {
+    ctx.beginPath();
+    for (let i = 0; i < trail.path.length - 1; i++) {
+      const [x1, y1] = trail.path[i];
+      const [x2, y2] = trail.path[i + 1];
+      ctx.moveTo(x1 * tileSize + tileSize/2, y1 * tileSize + tileSize/2);
+      ctx.lineTo(x2 * tileSize + tileSize/2, y2 * tileSize + tileSize/2);
+    }
+
+    switch(trail.type) {
+      case 'historic': ctx.strokeStyle = 'brown'; break;
+      case 'player': ctx.strokeStyle = 'green'; break;
+      case 'animal': ctx.strokeStyle = 'gray'; break;
+      default: ctx.strokeStyle = '#ccc';
+    }
+
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+}
+
+canvas.addEventListener('click', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const x = Math.floor((e.clientX - rect.left) / tileSize);
+  const y = Math.floor((e.clientY - rect.top) / tileSize);
+  const key = `${x},${y}`;
+  const tile = tile_index[key];
+  if (tile && tile.fog === false && tile.lore) {
+    showLorePopup(tile.lore);
+  }
+});
+
+function showLorePopup(text) {
+  const popup = document.createElement('div');
+  popup.className = 'lore-popup';
+  popup.innerHTML = `<p>${text}</p>`;
+  document.body.appendChild(popup);
+  setTimeout(() => popup.remove(), 6000);
+}
+
+loadData();
+</script>
+
+</body>
+</html>
