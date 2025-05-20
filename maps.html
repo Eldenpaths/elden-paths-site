@@ -33,7 +33,6 @@
 <body>
 
 <h1 style="text-align:center; color:#fce5c0; font-family:Georgia, serif;">Welcome to Elden Paths™</h1>
-<p style="text-align:center; color:#fce5c0;">Loading the world map and your adventure...</p>
 <canvas id="mapCanvas" width="800" height="800">Map Canvas Active</canvas>
 
 <div id="trail-legend" style="position:absolute;bottom:10px;left:10px;background:#eee;padding:10px;border:1px solid #333;">
@@ -85,6 +84,12 @@ function drawMap() {
       const key = `${x},${y}`;
       const known = tile_index[key]?.fog === false;
       const terrain = tile_meta[key]?.terrain || 'unknown';
+
+      // Reveal tile when player steps on it
+      if (player.x === x && player.y === y && tile_index[key]) {
+        tile_index[key].fog = false;
+      }
+
       ctx.fillStyle = known ? terrainColor(terrain) : '#000';
       ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
 
@@ -157,7 +162,6 @@ function drawStructures() {
   }
 }
 
-// Lore and event popup
 canvas.addEventListener('click', (e) => {
   const rect = canvas.getBoundingClientRect();
   const x = Math.floor((e.clientX - rect.left) / tileSize);
@@ -189,7 +193,6 @@ function showLorePopup(text) {
   setTimeout(() => popup.remove(), 6000);
 }
 
-// Hover preview
 let hoverPopup = null;
 
 canvas.addEventListener('mousemove', (e) => {
@@ -218,8 +221,25 @@ canvas.addEventListener('mouseleave', () => {
   if (hoverPopup) hoverPopup.remove();
 });
 
+document.addEventListener('keydown', (e) => {
+  let dx = 0, dy = 0;
+  if (e.key === 'ArrowUp') dy = -1;
+  if (e.key === 'ArrowDown') dy = 1;
+  if (e.key === 'ArrowLeft') dx = -1;
+  if (e.key === 'ArrowRight') dx = 1;
+  if (e.key === 'm') drawMap();
+
+  const newX = player.x + dx;
+  const newY = player.y + dy;
+  const key = `${newX},${newY}`;
+  if (tile_index[key] && tile_index[key].fog === false) {
+    player.x = newX;
+    player.y = newY;
+    drawMap();
+  }
+});
+
 loadData();
 </script>
-
 </body>
 </html>
