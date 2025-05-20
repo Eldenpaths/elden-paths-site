@@ -1,15 +1,44 @@
+const tileImages = {};
+const TILE_SIZE = 64;
+let tileMeta = {};
+
+// Load tile metadata from JSON
+function loadTileMeta(callback) {
+  fetch("tile_meta.json")
+    .then((response) => response.json())
+    .then((data) => {
+      Object.assign(tileMeta, data);
+      callback();
+    });
+}
+
+// Load tile images based on metadata types
+function preloadTileImages(callback) {
+  const types = new Set(Object.values(tileMeta));
+  let loaded = 0;
+  const total = types.size;
+
+  types.forEach((type) => {
+    const img = new Image();
+    img.src = `assets/img/tiles/${type}`;
+    img.onload = () => {
+      tileImages[type] = img;
+      loaded++;
+      if (loaded === total) callback();
+    };
+    img.onerror = () => {
+      console.warn(`⚠️ Missing tile image for: ${type}`);
+      loaded++;
+      if (loaded === total) callback();
+    };
+  });
+}
+
+// Render map using loaded tiles
 function drawTileMap() {
-  const canvas = document.getElementById("mapCanvas");
-  const ctx = canvas.getContext("2d");
-
-  if (!window.tileIndex || !window.tileImages) {
-    console.warn("Missing tileIndex or tileImages");
-    return;
-  }
-
   for (let y = 0; y < tileIndex.length; y++) {
     for (let x = 0; x < tileIndex[y].length; x++) {
-      const type = tileIndex[y][x]; // e.g., "forest"
+      const type = tileIndex[y][x];
       const img = tileImages[type];
       if (img) {
         ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -17,3 +46,7 @@ function drawTileMap() {
     }
   }
 }
+
+// Make these functions globally accessible
+window.preloadTileImages = preloadTileImages;
+window.loadTileMeta = loadTileMeta;
