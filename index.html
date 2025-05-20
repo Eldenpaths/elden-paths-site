@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elden Paths™</title>
+  <link rel="stylesheet" href="theme-frazetta.css" />
+</head>
+<body>
+  <div id="game-root">
+    <h1>Welcome to Elden Paths™</h1>
+    <p>Loading the world map and your adventure...</p>
+    <canvas id="mapCanvas" width="800" height="800"></canvas>
+  </div>
+
+  <!-- JSON Config -->
+  <script src="tile_index.json" type="application/json"></script>
+  <script src="tile_meta.json" type="application/json"></script>
+
+  <!-- Tile Loader -->
+  <script src="tile_renderer.js"></script>
+  <script src="map.js"></script>
+
+  <!-- Init -->
+  <script>
+    window.addEventListener('load', () => {
+      if (typeof initGame === 'function') {
+        initGame();
+      } else {
+        document.getElementById('game-root').innerHTML +=
+          '<p><strong>Error:</strong> initGame() not found.</p>';
+      }
+    });
+  </script>
+</body>
+</html>
