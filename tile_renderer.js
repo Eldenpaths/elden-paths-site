@@ -20,7 +20,7 @@ function preloadTileImages(callback) {
 
   types.forEach((type) => {
     const img = new Image();
-    img.src = `assets/img/tiles/${type}_tile.png`;
+    img.src = `assets/img/tiles/${type}`;
 
     img.onload = () => {
       tileImages[type] = img;
