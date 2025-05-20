@@ -1,6 +1,5 @@
 // Elden Paths™: Map Loader
 const TILE_FOLDER = "assets/img/tiles/";
-
 let tileIndex = [];
 let canvas, ctx;
 
@@ -14,7 +13,7 @@ window.addEventListener("load", async () => {
 
     loadTileMeta(() => {
       preloadTileImages(() => {
-        drawTileMap();
+        drawTileMap(); // <== important
       });
     });
   } catch (err) {
