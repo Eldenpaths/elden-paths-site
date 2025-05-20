@@ -1,247 +1,103 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths™ Admin Map</title>
+  <title>Elden Paths™ – Dev Map</title>
   <style>
+    body {
+      background: #ffffff;
+      font-family: Georgia, serif;
+      color: #fce5c0;
+      text-align: center;
+    }
     canvas {
-      border: 1px solid black;
       display: block;
-      margin: 20px auto;
-    }
-    .lore-popup, .hover-popup, #adminPanel {
-      position: absolute;
-      background: #fff;
-      font-family: serif;
-      z-index: 10;
-    }
-    .lore-popup {
-      padding: 10px;
-      border: 1px solid #333;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      max-width: 300px;
-      box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-    }
-    .hover-popup {
-      pointer-events: none;
-      font-size: 12px;
-      padding: 5px;
-      border: 1px solid #999;
+      margin: 0 auto;
+      background: #000;
     }
     #adminPanel {
-      display: none;
-      top: 10px;
-      right: 10px;
-      background: #f4f4f4;
-      border: 2px solid #444;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #eee;
+      color: #000;
       padding: 10px;
-      width: 200px;
+      border: 1px solid #444;
+      font-family: sans-serif;
+      font-size: 14px;
+      z-index: 1000;
     }
     #adminPanel button {
       display: block;
-      margin: 6px 0;
-      width: 100%;
+      width: 140px;
+      margin: 5px 0;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-
-<h1 style="text-align:center; color:#fce5c0; font-family:Georgia, serif;">Elden Paths™ – Dev Map</h1>
+<h1>Elden Paths™ – Dev Map</h1>
+<p>Loading the world map and your adventure...</p>
 <canvas id="mapCanvas" width="800" height="800"></canvas>
 
-<div id="adminPanel">
-  <strong>Admin Tools</strong><br><br>
-  <button onclick="adminMode='fog'">🧭 Toggle Fog</button>
-  <button onclick="adminMode='marker'">📍 Add Marker</button>
-  <button onclick="adminMode='structure'">🏕 Add Structure</button>
-  <button onclick="adminMode='move'">🚶 Move Player</button>
-  <button onclick="adminMode='lore'">🧾 Edit Lore</button>
+<div id="adminPanel" style="display:none">
+  <b>Admin Tools</b><br>
+  <button onclick="toggleFog()">🧭 Toggle Fog</button>
+  <button onclick="addMarker()">📍 Add Marker</button>
+  <button onclick="addStructure()">🏕 Add Structure</button>
+  <button onclick="movePlayer()">🚶 Move Player</button>
+  <button onclick="editLore()">🧾 Edit Lore</button>
   <button onclick="drawMap()">🔁 Redraw</button>
-  <button onclick="toggleAdmin()">❌ Close</button>
+  <hr>
+  <button onclick="exportJSON('tile_index.json', tile_index)">📦 Export Tiles</button>
+  <button onclick="exportJSON('tile_meta.json', tile_meta)">🗺️ Export Terrain</button>
+  <button onclick="exportJSON('tile_markers.json', markers)">📍 Export Markers</button>
+  <button onclick="exportJSON('structures.json', structures)">🧱 Export Structures</button>
+  <button onclick="exportJSON('players.json', players)">🚶 Export Players</button>
+  <button onclick="exportJSON('tile_events.json', tile_events)">📜 Export Events</button>
+  <button onclick="closeAdmin()">❌ Close</button>
 </div>
 
 <script>
-const canvas = document.getElementById('mapCanvas');
-const ctx = canvas.getContext('2d');
-const tileSize = 40;
+  // Dummy in-memory data for demonstration
+  let tile_index = {"5,5": {"fog": false, "lore": "Center"}};
+  let tile_meta = {"5,5": {"terrain": "plains"}};
+  let markers = {"5,5": {"type": "city"}};
+  let structures = {"5,5": {"type": "farm"}};
+  let players = {"player1": {"x": 5, "y": 5}};
+  let tile_events = {"5,5": {"event": "ambush"}};
 
-let tile_index = {}, tile_meta = {}, trails = [], markers = {}, player = { x: 0, y: 0 };
-let structures = {}, tile_events = {};
-let adminMode = null;
+  function toggleFog() {}
+  function addMarker() {}
+  function addStructure() {}
+  function movePlayer() {}
+  function editLore() {}
+  function drawMap() {}
 
-async function loadJSON(path) {
-  const res = await fetch(path);
-  return res.json();
-}
+  function closeAdmin() {
+    document.getElementById("adminPanel").style.display = "none";
+  }
 
-async function loadData() {
-  [tile_index, tile_meta, trails, markers, playerData, structures, tile_events] = await Promise.all([
-    loadJSON('data/tile_index.json'),
-    loadJSON('data/tile_meta.json'),
-    loadJSON('data/trails.json'),
-    loadJSON('data/tile_markers.json'),
-    loadJSON('data/players.json'),
-    loadJSON('data/structures.json'),
-    loadJSON('data/tile_events.json')
-  ]);
-  player = Object.values(playerData)[0] || { x: 0, y: 0 };
+  // Export utility
+  function exportJSON(filename, data) {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // Hotkey to open admin panel
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "`" || e.key === "~") {
+      document.getElementById("adminPanel").style.display = "block";
+    }
+  });
+
   drawMap();
-}
-
-function drawMap() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const cols = canvas.width / tileSize;
-  const rows = canvas.height / tileSize;
-
-  for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < cols; x++) {
-      const key = `${x},${y}`;
-      const known = tile_index[key]?.fog === false;
-      const terrain = tile_meta[key]?.terrain || 'unknown';
-
-      if (player.x === x && player.y === y && tile_index[key]) {
-        tile_index[key].fog = false;
-      }
-
-      ctx.fillStyle = known ? terrainColor(terrain) : '#000';
-      ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
-
-      if (known && markers[key]) drawMarkerIcon(x, y, markers[key].type);
-      if (player.x === x && player.y === y) {
-        ctx.strokeStyle = '#ff0';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(x * tileSize, y * tileSize, tileSize, tileSize);
-      }
-    }
-  }
-
-  drawTrails();
-  drawStructures();
-}
-
-function terrainColor(type) {
-  return {
-    forest: '#228B22',
-    mountain: '#888',
-    water: '#1E90FF',
-    plains: '#DAA520'
-  }[type] || '#444';
-}
-
-function drawMarkerIcon(x, y, type) {
-  ctx.fillStyle = {
-    city: '#2E8B57',
-    relic: '#8B0000',
-    quest: '#4169E1'
-  }[type] || '#ccc';
-  ctx.beginPath();
-  ctx.arc(x * tileSize + tileSize/2, y * tileSize + tileSize/2, 6, 0, 2 * Math.PI);
-  ctx.fill();
-}
-
-function drawStructures() {
-  for (const key in structures) {
-    const [x, y] = key.split(',').map(Number);
-    const type = structures[key].type;
-    ctx.fillStyle = { watchtower: '#8888cc', farm: '#cc8844' }[type] || '#ccc';
-    ctx.fillRect(x * tileSize + tileSize/4, y * tileSize + tileSize/4, tileSize/2, tileSize/2);
-  }
-}
-
-canvas.addEventListener('click', (e) => {
-  const rect = canvas.getBoundingClientRect();
-  const x = Math.floor((e.clientX - rect.left) / tileSize);
-  const y = Math.floor((e.clientY - rect.top) / tileSize);
-  const key = `${x},${y}`;
-  const tile = tile_index[key];
-
-  if (adminMode) {
-    if (adminMode === 'fog') {
-      if (!tile_index[key]) tile_index[key] = {};
-      tile_index[key].fog = !tile_index[key].fog;
-    }
-    if (adminMode === 'marker') {
-      markers[key] = { type: prompt("Marker type? (city, quest, relic)") || "city" };
-    }
-    if (adminMode === 'structure') {
-      structures[key] = { type: prompt("Structure type? (farm, watchtower)") || "farm" };
-    }
-    if (adminMode === 'move') {
-      player.x = x; player.y = y;
-    }
-    if (adminMode === 'lore') {
-      if (!tile_index[key]) tile_index[key] = {};
-      tile_index[key].lore = prompt("Lore text:", tile_index[key].lore || "") || tile_index[key].lore;
-    }
-    drawMap();
-    return;
-  }
-
-  if (tile && tile.fog === false && tile.lore) {
-    showLorePopup(tile.lore);
-  }
-
-  const evt = tile_events[key];
-  if (evt) {
-    alert(evt.type === "sketch" ? `🖼️ Scene: ${evt.scene}` :
-          evt.type === "battle" ? `⚔️ Battle with: ${evt.enemy}` :
-          `📜 ${evt.text}`);
-  }
-});
-
-function showLorePopup(text) {
-  const popup = document.createElement('div');
-  popup.className = 'lore-popup';
-  popup.innerHTML = `<p>${text}</p>`;
-  document.body.appendChild(popup);
-  setTimeout(() => popup.remove(), 6000);
-}
-
-let hoverPopup = null;
-canvas.addEventListener('mousemove', (e) => {
-  const rect = canvas.getBoundingClientRect();
-  const x = Math.floor((e.clientX - rect.left) / tileSize);
-  const y = Math.floor((e.clientY - rect.top) / tileSize);
-  const key = `${x},${y}`;
-  const tile = tile_index[key];
-  const terrain = tile_meta[key]?.terrain;
-  const lore = tile?.lore;
-
-  if (hoverPopup) hoverPopup.remove();
-  hoverPopup = document.createElement('div');
-  hoverPopup.className = 'hover-popup';
-  hoverPopup.style.left = `${e.clientX + 10}px`;
-  hoverPopup.style.top = `${e.clientY + 10}px`;
-  hoverPopup.innerHTML = `<b>(${x},${y})</b><br>${terrain ? `Terrain: ${terrain}<br>` : ''}${tile?.fog === false && lore ? `🧾 ${lore}` : ''}`;
-  document.body.appendChild(hoverPopup);
-});
-canvas.addEventListener('mouseleave', () => { if (hoverPopup) hoverPopup.remove(); });
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === '`' || e.key === '~') toggleAdmin();
-  let dx = 0, dy = 0;
-  if (e.key === 'ArrowUp') dy = -1;
-  if (e.key === 'ArrowDown') dy = 1;
-  if (e.key === 'ArrowLeft') dx = -1;
-  if (e.key === 'ArrowRight') dx = 1;
-  if (e.key === 'm') drawMap();
-
-  const newX = player.x + dx, newY = player.y + dy, key = `${newX},${newY}`;
-  if (tile_index[key] && tile_index[key].fog === false) {
-    player.x = newX; player.y = newY;
-    drawMap();
-  }
-});
-
-function toggleAdmin() {
-  const panel = document.getElementById("adminPanel");
-  panel.style.display = panel.style.display === "block" ? "none" : "block";
-  adminMode = null;
-}
-
-loadData();
 </script>
 </body>
 </html>
