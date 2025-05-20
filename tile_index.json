@@ -1,4 +1,6 @@
 [
-  ["forest", "mountain"],
-  ["lake", "plains"]
+  ["forest", "mountain", "plains", "lake"],
+  ["lake", "plains", "forest", "mountain"],
+  ["plains", "lake", "mountain", "forest"],
+  ["mountain", "forest", "lake", "plains"]
 ]
