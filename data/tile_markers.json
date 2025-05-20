@@ -2,5 +2,13 @@
   "5,5": {
     "type": "city",
     "name": "Gravesport"
+  },
+  "6,6": {
+    "type": "relic",
+    "name": "Stone Arch"
+  },
+  "4,4": {
+    "type": "quest",
+    "name": "Whispering Glade"
   }
 }
