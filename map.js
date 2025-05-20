@@ -1,5 +1,6 @@
 // Elden Paths™: Working Tile Map Renderer
 
+const TILE_SIZE = 64;
 const TILE_FOLDER = "assets/img/tiles/";
 
 let tileIndex = [];
@@ -14,7 +15,7 @@ window.addEventListener("load", async () => {
   try {
     const [indexData, metaData] = await Promise.all([
       fetch("tile_index.json").then((res) => res.json()),
-      fetch("tile_meta.json").then((res) => res.json()),
+      fetch("tile_meta.json").then((res) => res.json())
     ]);
 
     tileIndex = indexData;
@@ -29,42 +30,28 @@ window.addEventListener("load", async () => {
 });
 
 async function preloadTileImages() {
-  const terrainTypes = new Set(Object.values(tileMeta).map(t => t.terrain));
-  const loadPromises = [];
-
-  terrainTypes.forEach((type) => {
+  for (const key in tileMeta) {
     const img = new Image();
-    img.src = `${TILE_FOLDER}${type}_tile.png`;
-    tileImages[type] = img;
-
-    loadPromises.push(new Promise((resolve) => {
-      img.onload = resolve;
+    img.src = TILE_FOLDER + tileMeta[key];
+    tileImages[key] = img;
+    await new Promise((res) => {
+      img.onload = res;
       img.onerror = () => {
-        console.warn("Missing tile image for:", type);
-        resolve();
+        console.warn(`⚠️ Missing tile image for: ${tileMeta[key]}`);
+        res();
       };
-    }));
-  });
-
-  return Promise.all(loadPromises);
+    });
+  }
 }
 
 function drawTileMap() {
-  tileIndex.forEach((row, y) => {
-    row.forEach((tileId, x) => {
-      const meta = tileMeta[tileId];
-      const terrain = meta ? meta.terrain : "plains";
-      const img = tileImages[terrain];
-
+  for (let y = 0; y < tileIndex.length; y++) {
+    for (let x = 0; x < tileIndex[y].length; x++) {
+      const tileType = tileIndex[y][x];
+      const img = tileImages[tileType];
       if (img) {
         ctx.drawImage(img, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-      } else {
-        // fallback tile
-        ctx.fillStyle = "#ccc";
-        ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        ctx.strokeStyle = "#999";
-        ctx.strokeRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
       }
-    });
-  });
+    }
+  }
 }
