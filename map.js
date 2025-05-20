@@ -16,8 +16,10 @@ window.addEventListener("load", async () => {
 
     tileIndex = indexData;
 
-    await preloadTileImages(() => {
-      drawTileMap();
+    loadTileMeta(() => {
+      preloadTileImages(() => {
+        drawTileMap();
+      });
     });
   } catch (err) {
     console.error("Map loading error:", err);
