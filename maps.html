@@ -53,6 +53,8 @@ let tile_meta = {};
 let trails = [];
 let markers = {};
 let player = { x: 0, y: 0 };
+let structures = {};
+let tile_events = {};
 
 async function loadJSON(path) {
   const res = await fetch(path);
@@ -60,12 +62,14 @@ async function loadJSON(path) {
 }
 
 async function loadData() {
-  [tile_index, tile_meta, trails, markers, playerData] = await Promise.all([
+  [tile_index, tile_meta, trails, markers, playerData, structures, tile_events] = await Promise.all([
     loadJSON('data/tile_index.json'),
     loadJSON('data/tile_meta.json'),
     loadJSON('data/trails.json'),
     loadJSON('data/tile_markers.json'),
-    loadJSON('data/players.json')
+    loadJSON('data/players.json'),
+    loadJSON('data/structures.json'),
+    loadJSON('data/tile_events.json')
   ]);
   player = Object.values(playerData)[0] || { x: 0, y: 0 };
   drawMap();
@@ -97,6 +101,7 @@ function drawMap() {
   }
 
   drawTrails();
+  drawStructures();
 }
 
 function drawMarkerIcon(x, y, type) {
@@ -140,14 +145,39 @@ function drawTrails() {
   }
 }
 
+function drawStructures() {
+  for (const key in structures) {
+    const [x, y] = key.split(',').map(Number);
+    const type = structures[key].type;
+    ctx.fillStyle = {
+      'watchtower': '#8888cc',
+      'farm': '#cc8844'
+    }[type] || '#ccc';
+    ctx.fillRect(x * tileSize + tileSize/4, y * tileSize + tileSize/4, tileSize/2, tileSize/2);
+  }
+}
+
+// Lore and event popup
 canvas.addEventListener('click', (e) => {
   const rect = canvas.getBoundingClientRect();
   const x = Math.floor((e.clientX - rect.left) / tileSize);
   const y = Math.floor((e.clientY - rect.top) / tileSize);
   const key = `${x},${y}`;
   const tile = tile_index[key];
+
   if (tile && tile.fog === false && tile.lore) {
     showLorePopup(tile.lore);
+  }
+
+  const evt = tile_events[key];
+  if (evt) {
+    if (evt.type === "sketch") {
+      alert(`🖼️ Scene: ${evt.scene}`);
+    } else if (evt.type === "battle") {
+      alert(`⚔️ A battle begins against: ${evt.enemy}`);
+    } else if (evt.type === "event") {
+      alert(`📜 ${evt.text}`);
+    }
   }
 });
 
@@ -159,6 +189,7 @@ function showLorePopup(text) {
   setTimeout(() => popup.remove(), 6000);
 }
 
+// Hover preview
 let hoverPopup = null;
 
 canvas.addEventListener('mousemove', (e) => {
