@@ -1,6 +1,4 @@
-{
-  "0,0": "forest",
-  "0,1": "mountain",
-  "1,0": "lake",
-  "1,1": "plains"
-}
+[
+  ["forest", "mountain"],
+  ["lake", "plains"]
+]
