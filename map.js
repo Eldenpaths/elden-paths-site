@@ -4,7 +4,11 @@
   <meta charset="UTF-8">
   <title>Elden Paths™ World Map</title>
   <style>
-    canvas { border: 1px solid black; display: block; margin: 20px auto; }
+    canvas {
+      border: 1px solid black;
+      display: block;
+      margin: 20px auto;
+    }
     .lore-popup, .hover-popup {
       position: absolute;
       background: #fff;
@@ -28,7 +32,9 @@
 </head>
 <body>
 
-<canvas id="mapCanvas" width="800" height="800"></canvas>
+<h1 style="text-align:center; color:#fce5c0; font-family:Georgia, serif;">Welcome to Elden Paths™</h1>
+<p style="text-align:center; color:#fce5c0;">Loading the world map and your adventure...</p>
+<canvas id="mapCanvas" width="800" height="800">Map Canvas Active</canvas>
 
 <div id="trail-legend" style="position:absolute;bottom:10px;left:10px;background:#eee;padding:10px;border:1px solid #333;">
   <b>Trail Legend:</b><br>
@@ -46,7 +52,7 @@ let tile_index = {};
 let tile_meta = {};
 let trails = [];
 let markers = {};
-let player = { x: 0, y: 0 }; // default until loaded
+let player = { x: 0, y: 0 };
 
 async function loadJSON(path) {
   const res = await fetch(path);
@@ -61,7 +67,6 @@ async function loadData() {
     loadJSON('data/tile_markers.json'),
     loadJSON('data/players.json')
   ]);
-  // Use first player (or override with known name)
   player = Object.values(playerData)[0] || { x: 0, y: 0 };
   drawMap();
 }
