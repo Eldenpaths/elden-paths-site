@@ -21,6 +21,7 @@ window.addEventListener("load", async () => {
         drawTileMap();
       });
     });
+
   } catch (err) {
     console.error("Map loading error:", err);
     ctx.fillText("⚠️ Failed to load map data", 50, 50);
