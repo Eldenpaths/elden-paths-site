@@ -1,7 +1,7 @@
 {
-  "forest": "forest_tile.png",
-  "mountain": "mountain_tile.png",
-  "lake": "lake_tile.png",
-  "plains": "plains_tile.png"
+  "forest": "forest_tile",
+  "mountain": "mountain_tile",
+  "lake": "lake_tile",
+  "plains": "plains_tile"
 }
 
