@@ -5,8 +5,8 @@ let tileMeta = {};
 // Load tile metadata from JSON
 function loadTileMeta(callback) {
   fetch("tile_meta.json")
-    .then(response => response.json())
-    .then(data => {
+    .then((response) => response.json())
+    .then((data) => {
       Object.assign(tileMeta, data);
       callback();
     });
@@ -21,13 +21,11 @@ function preloadTileImages(callback) {
   types.forEach((type) => {
     const img = new Image();
     img.src = `assets/img/tiles/${type}_tile.png`;
-
     img.onload = () => {
       tileImages[type] = img;
       loaded++;
       if (loaded === total) callback();
     };
-
     img.onerror = () => {
       console.warn(`⚠️ Missing tile image for: ${type}_tile.png`);
       loaded++;
@@ -49,6 +47,6 @@ function drawTileMap() {
   }
 }
 
-// ✅ Make preloadTileImages and loadTileMeta available globally
+// Make these functions globally accessible
 window.preloadTileImages = preloadTileImages;
 window.loadTileMeta = loadTileMeta;
