@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Silent Walker's Journal</title>
+  <style>
+    body {
+      background-color: #1e1e1e;
+      color: #e6e6e6;
+      font-family: Georgia, serif;
+      padding: 2rem;
+    }
+    h1 {
+      color: #d4af37;
+    }
+    .entry-form {
+      background: #2c2c2c;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+    input, textarea {
+      width: 100%;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      background: #1b1b1b;
+      color: #f1f1f1;
+      border: 1px solid #444;
+    }
+    button {
+      background-color: #d4af37;
+      color: #1e1e1e;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .log {
+      margin-top: 2rem;
+    }
+    .entry {
+      background: #292929;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+    .entry time {
+      color: #888;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Silent Walker's Journal</h1>
+  <div class="entry-form">
+    <label for="title">Entry Title</label>
+    <input type="text" id="title" placeholder="Reflections in the mist...">
+
+    <label for="content">Journal Text</label>
+    <textarea id="content" rows="8" placeholder="What did you see on the trail today?"></textarea>
+
+    <button onclick="saveEntry()">Save Entry</button>
+  </div>
+
+  <div class="log" id="log"></div>
+
+  <script>
+    const logEl = document.getElementById('log');
+
+    function saveEntry() {
+      const title = document.getElementById('title').value.trim();
+      const content = document.getElementById('content').value.trim();
+      const time = new Date().toISOString();
+
+      if (!title || !content) return alert("Both title and entry must be filled out.");
+
+      const entry = {
+        title,
+        content,
+        time
+      };
+
+      // Display locally for now
+      const div = document.createElement('div');
+      div.className = 'entry';
+      div.innerHTML = `<strong>${entry.title}</strong><br><time>${entry.time}</time><p>${entry.content}</p>`;
+      logEl.prepend(div);
+
+      // Console log for now
+      console.log("New journal entry:", entry);
+
+      // TODO: Save to GitHub or local file in phase 2
+    }
+  </script>
+</body>
+</html>
