@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Elden Paths™ – Player Mode</title>
+  <style>
+    body { background: #1c1c1c; color: #fce5c0; font-family: Georgia, serif; padding: 20px; }
+    #chatInterface, #buttonOptions { margin-top: 20px; }
+    button {
+      background: #444;
+      color: #fce5c0;
+      border: 1px solid #777;
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Elden Paths™ – Choose Your Journey</h1>
+  <p>This screen adapts based on whether you're a GPT-powered player or a web-only traveler.</p>
+
+  <div id="chatInterface" style="display: none;">
+    <h2>GPT+ Story Interface</h2>
+    <textarea rows="5" cols="60" placeholder="Enter your command..."></textarea>
+    <br />
+    <button>Submit</button>
+  </div>
+
+  <div id="buttonOptions" style="display: none;">
+    <h2>Web Player Interface</h2>
+    <button onclick="handleChoice('explore')">Explore</button>
+    <button onclick="handleChoice('rest')">Rest</button>
+    <button onclick="handleChoice('travel')">Travel</button>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const isGPT = urlParams.get('mode') === 'gpt';
+
+    if (isGPT) {
+      document.getElementById('chatInterface').style.display = 'block';
+    } else {
+      document.getElementById('buttonOptions').style.display = 'block';
+    }
+
+    function handleChoice(action) {
+      alert("You chose: " + action + " (Web mode placeholder)");
+    }
+  </script>
+</body>
+</html>
