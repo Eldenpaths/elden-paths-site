@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Faction Roster – Elden Paths</title>
+  <style>
+    body { font-family: Georgia, serif; background: #101010; color: #eee; padding: 2rem; }
+    h1 { color: #6ec1e4; }
+    .faction {
+      background: #1a1a1a;
+      border: 1px solid #444;
+      border-left: 5px solid #6ec1e4;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+    }
+    input {
+      background: #222;
+      color: #fff;
+      border: 1px solid #555;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      width: 100%;
+    }
+    button {
+      background: #6ec1e4;
+      border: none;
+      color: #101010;
+      padding: 0.5rem 1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Faction Roster Tool</h1>
+
+  <div>
+    <label for="faction">Faction Name</label>
+    <input type="text" id="faction" placeholder="Fogbound, Iron Pact, etc." />
+    <label for="member">Add Member</label>
+    <input type="text" id="member" placeholder="Player or NPC name" />
+    <button onclick="addMember()">Add to Roster</button>
+  </div>
+
+  <div id="factions"></div>
+
+  <script>
+    const rosters = {};
+    const container = document.getElementById('factions');
+
+    function addMember() {
+      const faction = document.getElementById('faction').value.trim();
+      const member = document.getElementById('member').value.trim();
+      if (!faction || !member) return;
+
+      if (!rosters[faction]) rosters[faction] = [];
+      rosters[faction].push(member);
+      renderRosters();
+    }
+
+    function renderRosters() {
+      container.innerHTML = '';
+      for (const faction in rosters) {
+        const div = document.createElement('div');
+        div.className = 'faction';
+        div.innerHTML = `<strong>${faction}</strong><ul>${rosters[faction].map(m => `<li>${m}</li>`).join('')}</ul>`;
+        container.appendChild(div);
+      }
+    }
+  </script>
+</body>
+</html>
