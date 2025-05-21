@@ -1,0 +1,22 @@
+{
+  "head": {
+    "name": "Iron Helm",
+    "durability": 85,
+    "weight": 5
+  },
+  "body": {
+    "name": "Leather Armor",
+    "durability": 60,
+    "weight": 15
+  },
+  "hands": {
+    "name": "Worn Gloves",
+    "durability": 20,
+    "weight": 1
+  },
+  "weapon": {
+    "name": "Rusty Sword",
+    "durability": 40,
+    "weight": 10
+  }
+}
