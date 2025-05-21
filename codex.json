@@ -1,0 +1,28 @@
+{
+  "41x_73y": {
+    "region": "Frostedge Glade",
+    "discovered_by": "SilentWalker",
+    "sketch_id": "sketch_00042",
+    "time": "2025-05-21T18:22Z",
+    "summary": "Paleleaf herbs documented at dusk. Sketch linked.",
+    "tags": [
+      "flora",
+      "discovery",
+      "twilight"
+    ],
+    "tone": "harsh"
+  },
+  "38x_69y": {
+    "region": "The Hollow Verge",
+    "discovered_by": "EchoWren",
+    "sketch_id": "sketch_00051",
+    "time": "2025-05-21T03:11Z",
+    "summary": "Remnants of a ruined camp and rune-burned stones. EchoWren investigated.",
+    "tags": [
+      "ruin",
+      "camp",
+      "runes"
+    ],
+    "tone": "harsh"
+  }
+}
