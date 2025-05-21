@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>World Relic Log – Elden Paths</title>
+  <style>
+    body { font-family: Georgia, serif; background: #121212; color: #f5f5f5; padding: 2rem; }
+    h1 { color: #d4af37; }
+    .relic {
+      background: #1e1e1e;
+      border: 1px solid #555;
+      border-left: 4px solid #d4af37;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .relic time {
+      color: #aaa;
+      font-size: 0.85em;
+    }
+    input, textarea {
+      width: 100%;
+      background: #1b1b1b;
+      color: #f5f5f5;
+      padding: 0.5rem;
+      border: 1px solid #333;
+      margin-bottom: 1rem;
+    }
+    button {
+      background-color: #d4af37;
+      color: #121212;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>World Relic Log</h1>
+
+  <div>
+    <label>Relic Name</label>
+    <input type="text" id="name" />
+
+    <label>Description</label>
+    <textarea id="desc" rows="4"></textarea>
+
+    <label>Discovered By</label>
+    <input type="text" id="founder" />
+
+    <button onclick="saveRelic()">Log Relic</button>
+  </div>
+
+  <div id="log"></div>
+
+  <script>
+    const log = document.getElementById('log');
+    function saveRelic() {
+      const name = document.getElementById('name').value;
+      const desc = document.getElementById('desc').value;
+      const founder = document.getElementById('founder').value;
+      const time = new Date().toISOString();
+
+      const div = document.createElement('div');
+      div.className = 'relic';
+      div.innerHTML = `<strong>${name}</strong><br><em>Discovered by ${founder}</em><br><p>${desc}</p><time>${time}</time>`;
+      log.prepend(div);
+
+      console.log('Relic logged:', { name, desc, founder, time });
+    }
+  </script>
+</body>
+</html>
