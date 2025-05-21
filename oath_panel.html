@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Oath Binding Panel – Elden Paths</title>
+  <style>
+    body { font-family: Georgia, serif; background: #111; color: #eee; padding: 2rem; }
+    h1 { color: #87ceeb; }
+    .oath {
+      background: #1e1e1e;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-left: 4px solid #87ceeb;
+      border-radius: 6px;
+    }
+    label { font-weight: bold; display: block; margin-top: 1rem; }
+    input, textarea {
+      background: #222;
+      color: #fff;
+      border: 1px solid #444;
+      width: 100%;
+      padding: 0.5rem;
+    }
+    button {
+      background: #87ceeb;
+      color: #000;
+      font-weight: bold;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Oath Binding Panel</h1>
+
+  <label for="player">Player Name</label>
+  <input id="player" placeholder="EchoWren" />
+
+  <label for="location">Bound Location</label>
+  <input id="location" placeholder="Watcher’s Crown - Ridge Tower" />
+
+  <label for="oath">Oath Description</label>
+  <textarea id="oath" rows="4" placeholder="To guard this post against all trespassers until the frost ends."></textarea>
+
+  <button onclick="bindOath()">Bind Oath</button>
+
+  <div class="oath" id="bound"></div>
+
+  <script>
+    function bindOath() {
+      const player = document.getElementById('player').value;
+      const location = document.getElementById('location').value;
+      const oath = document.getElementById('oath').value;
+      const time = new Date().toISOString();
+
+      const card = `
+        <strong>${player}</strong> swore an oath at <strong>${location}</strong>.<br>
+        <em>“${oath}”</em><br>
+        <small>Bound on ${time}</small>
+      `;
+
+      document.getElementById('bound').innerHTML = card;
+      console.log('Oath Bound:', { player, location, oath, time });
+    }
+  </script>
+</body>
+</html>
