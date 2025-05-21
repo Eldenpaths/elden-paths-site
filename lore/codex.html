@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Elden Paths Codex</title>
+  <style>
+    body {
+      font-family: Georgia, serif;
+      background: #121212;
+      color: #f5f5f5;
+      padding: 2rem;
+    }
+    h1 {
+      color: #d4af37;
+    }
+    .codex-entry {
+      background: #1e1e1e;
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .region {
+      font-size: 1.5rem;
+      color: #ffd700;
+    }
+    .discoverer {
+      font-style: italic;
+      color: #9acd32;
+    }
+    .tags {
+      color: #aaa;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <h1>World Codex</h1>
+  <div id="codexContainer"></div>
+
+  <script>
+    fetch('codex.json')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('codexContainer');
+        Object.entries(data).forEach(([tile, entry]) => {
+          const div = document.createElement('div');
+          div.className = 'codex-entry';
+          div.innerHTML = `
+            <div class="region">${entry.region}</div>
+            <div class="discoverer">Discovered by: ${entry.discovered_by}</div>
+            <p>${entry.summary}</p>
+            <div class="tags">Tags: ${entry.tags.join(', ')}</div>
+            <div class="tags">Tile: ${tile}</div>
+          `;
+          container.appendChild(div);
+        });
+      });
+  </script>
+</body>
+</html>
