@@ -1,20 +1,65 @@
-[
-  {
-    "player_id": "player001",
-    "username": "RufioHunter",
-    "current_tile": "D2-LL-G0",
-    "last_active": "2025-05-23T18:15:00Z",
-    "session_status": "online",
-    "orientation": "N",
-    "pose": "standing"
-  },
-  {
-    "player_id": "player002",
-    "username": "ElaraWarden",
-    "current_tile": "C3-UR-G1",
-    "last_active": "2025-05-23T10:00:00Z",
-    "session_status": "offline",
-    "orientation": "E",
-    "pose": "resting"
-  }
-]
+import json
+from datetime import datetime, timedelta
+import argparse
+
+def load_players(filename):
+    with open(filename, 'r') as f:
+        return json.load(f)
+
+def filter_players(players, args):
+    now = datetime.utcnow()
+    filtered = []
+
+    for p in players:
+        last_active = datetime.strptime(p['last_active'], "%Y-%m-%dT%H:%M:%SZ")
+
+        # Filter by last active range
+        if args.last_hours is not None:
+            threshold = now - timedelta(hours=args.last_hours)
+            if last_active < threshold:
+                continue
+
+        # Filter by session status
+        if args.session_status and p['session_status'].lower() != args.session_status.lower():
+            continue
+
+        # Filter by tile substring
+        if args.tile and args.tile.lower() not in p['current_tile'].lower():
+            continue
+
+        # Filter by pose substring
+        if args.pose and args.pose.lower() not in p['pose'].lower():
+            continue
+
+        # Filter by username substring
+        if args.username and args.username.lower() not in p['username'].lower():
+            continue
+
+        filtered.append(p)
+
+    return filtered
+
+def print_players(players):
+    if not players:
+        print("No players match the given filters.")
+        return
+
+    print(f"{'Username':<15} {'Location':<10} {'Last Active':<20} {'Status':<8} {'Pose':<10}")
+    print('-'*65)
+    for p in players:
+        print(f"{p['username']:<15} {p['current_tile']:<10} {p['last_active']:<20} {p['session_status']:<8} {p['pose']:<10}")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Filter and display player activity from players.json.')
+    parser.add_argument('--file', type=str, default='players.json', help='Path to players.json file')
+    parser.add_argument('--last_hours', type=int, help='Show players active in the last N hours')
+    parser.add_argument('--session_status', type=str, choices=['online', 'offline'], help='Filter by session status')
+    parser.add_argument('--tile', type=str, help='Filter players by tile substring (e.g. D2)')
+    parser.add_argument('--pose', type=str, help='Filter players by pose substring (e.g. standing)')
+    parser.add_argument('--username', type=str, help='Filter players by username substring')
+
+    args = parser.parse_args()
+
+    players = load_players(args.file)
+    filtered_players = filter_players(players, args)
+    print_players(filtered_players)
