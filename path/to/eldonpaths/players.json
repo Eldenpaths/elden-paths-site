@@ -1,0 +1,20 @@
+[
+  {
+    "player_id": "player001",
+    "username": "RufioHunter",
+    "current_tile": "D2-LL-G0",
+    "last_active": "2025-05-23T18:15:00Z",
+    "session_status": "online",
+    "orientation": "N",
+    "pose": "standing"
+  },
+  {
+    "player_id": "player002",
+    "username": "ElaraWarden",
+    "current_tile": "C3-UR-G1",
+    "last_active": "2025-05-23T10:00:00Z",
+    "session_status": "offline",
+    "orientation": "E",
+    "pose": "resting"
+  }
+]
