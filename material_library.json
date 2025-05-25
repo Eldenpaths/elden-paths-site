@@ -1,0 +1,74 @@
+{
+  "materials": {
+    "oak_wood": {
+      "density": 750,
+      "hardness": 5.5,
+      "fracture_strength": 45,
+      "burn_rate": 0.08,
+      "fluid_absorption": 0.35,
+      "insulation_rating": 0.6,
+      "thermal_conductivity": 0.17,
+      "melting_point": null
+    },
+    "pine_wood": {
+      "density": 500,
+      "hardness": 3.5,
+      "fracture_strength": 32,
+      "burn_rate": 0.12,
+      "fluid_absorption": 0.5,
+      "insulation_rating": 0.55,
+      "thermal_conductivity": 0.14,
+      "melting_point": null
+    },
+    "iron": {
+      "density": 7874,
+      "hardness": 4.0,
+      "fracture_strength": 350,
+      "burn_rate": 0.0,
+      "fluid_absorption": 0.0,
+      "insulation_rating": 0.01,
+      "thermal_conductivity": 80.0,
+      "melting_point": 1538
+    },
+    "steel": {
+      "density": 8050,
+      "hardness": 6.5,
+      "fracture_strength": 500,
+      "burn_rate": 0.0,
+      "fluid_absorption": 0.0,
+      "insulation_rating": 0.01,
+      "thermal_conductivity": 50.2,
+      "melting_point": 1370
+    },
+    "wool": {
+      "density": 1300,
+      "hardness": 1.5,
+      "fracture_strength": 10,
+      "burn_rate": 0.02,
+      "fluid_absorption": 0.6,
+      "insulation_rating": 0.85,
+      "thermal_conductivity": 0.04,
+      "melting_point": null
+    },
+    "linen": {
+      "density": 1500,
+      "hardness": 2.0,
+      "fracture_strength": 15,
+      "burn_rate": 0.05,
+      "fluid_absorption": 0.4,
+      "insulation_rating": 0.65,
+      "thermal_conductivity": 0.05,
+      "melting_point": null
+    },
+    "granite": {
+      "density": 2750,
+      "hardness": 6.5,
+      "fracture_strength": 200,
+      "burn_rate": 0.0,
+      "fluid_absorption": 0.01,
+      "insulation_rating": 0.05,
+      "thermal_conductivity": 1.7,
+      "melting_point": 1215
+    }
+  }
+}
