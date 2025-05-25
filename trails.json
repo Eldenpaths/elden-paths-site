@@ -1,0 +1,49 @@
+{
+  "trails": [
+    {
+      "id": "trail_001",
+      "name": "Gravesport Coastal Run",
+      "type": "historic",
+      "visibility": 0.9,
+      "tiles": [
+        "tile_101",
+        "tile_102",
+        "tile_103"
+      ]
+    },
+    {
+      "id": "trail_002",
+      "name": "Warden\u2019s Ascent",
+      "type": "player-made",
+      "creator": "Player_Talrin",
+      "visibility": 0.4,
+      "tiles": [
+        "tile_104",
+        "tile_105",
+        "tile_106"
+      ]
+    },
+    {
+      "id": "trail_003",
+      "name": "Salt Hollow Pass",
+      "type": "historic",
+      "visibility": 0.6,
+      "tiles": [
+        "tile_107",
+        "tile_108",
+        "tile_109"
+      ]
+    },
+    {
+      "id": "trail_004",
+      "name": "Cliffwalk Echo Line",
+      "type": "player-made",
+      "creator": "Player_Arden",
+      "visibility": 0.2,
+      "tiles": [
+        "tile_108",
+        "tile_110"
+      ]
+    }
+  ]
+}
