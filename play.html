@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Elden Paths - Explore</title>
+  <meta charset="UTF-8" />
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: #e8e4db;
+      color: #2e2e2e;
+      padding: 20px;
+    }
+    #hud {
+      border: 2px solid #999;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      background: #fff;
+    }
+    #actions button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 1em;
+      border-radius: 8px;
+    }
+    #output {
+      margin-top: 20px;
+      background: #fcfcfa;
+      border: 1px solid #ccc;
+      padding: 15px;
+      min-height: 150px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌐 Elden Paths: Player Interface</h1>
+
+  <div id="hud">
+    <p><strong>Current Tile:</strong> <span id="tileId">tile_100</span></p>
+    <p><strong>Discovered By:</strong> <span id="discoverers"></span></p>
+    <p><strong>Biome:</strong> <span id="biome"></span></p>
+    <p><strong>Known Creatures:</strong> <span id="creatures"></span></p>
+    <p><strong>Known Flora:</strong> <span id="flora"></span></p>
+    <p><strong>Fog Cleared:</strong> <span id="fog"></span></p>
+    <p><strong>Items Dropped:</strong> <span id="items"></span></p>
+  </div>
+
+  <div id="actions">
+    <button onclick="exploreTile()">Explore</button>
+    <button onclick="triggerSketch()">Sketch</button>
+    <button onclick="moveTile()">Move</button>
+    <button onclick="fightCreature()">Fight</button>
+    <button onclick="pickupItem()">Pick Up Item</button>
+  </div>
+
+  <div id="output"></div>
+
+  <script>
+    let currentTile = "tile_100";
+    let tileData = {};
+
+    function loadTileData() {
+      Promise.all([
+        fetch('tile_state.json').then(res => res.json()),
+        fetch('models.json').then(res => res.json())
+      ]).then(([tileState, models]) => {
+        tileData = tileState[currentTile] || {};
+        const modelsList = models.models;
+
+        document.getElementById('tileId').textContent = currentTile;
+        document.getElementById('discoverers').textContent = (tileData.memory?.discovered_by || []).join(', ') || 'None';
+        document.getElementById('biome').textContent = tileData.biome || 'Unknown';
+        document.getElementById('fog').textContent = tileData.fog_cleared ? 'Yes' : 'No';
+        document.getElementById('items').textContent = (tileData.memory?.items_dropped || []).join(', ') || 'None';
+
+        const flora = [], creatures = [];
+        (tileData.models_present || []).forEach(m => {
+          if (modelsList[m]) {
+            if (modelsList[m].type === 'flora') flora.push(m);
+            if (modelsList[m].type === 'creature') creatures.push(m);
+          }
+        });
+
+        document.getElementById('creatures').textContent = creatures.join(', ') || 'None';
+        document.getElementById('flora').textContent = flora.join(', ') || 'None';
+      });
+    }
+
+    function exploreTile() {
+      document.getElementById('output').textContent = `You step carefully into ${currentTile}... the light dims. Something stirs.`;
+    }
+
+    function triggerSketch() {
+      document.getElementById('output').textContent = `You sketch this place in your journal. A memory is locked. You feel something new stir in the Codex.`;
+    }
+
+    function moveTile() {
+      const next = prompt("Enter next tile ID (e.g., tile_101):");
+      if (next) {
+        currentTile = next;
+        loadTileData();
+        document.getElementById('output').textContent = `You travel to ${currentTile}. The world shifts around you.`;
+      }
+    }
+
+    function fightCreature() {
+      document.getElementById('output').textContent = `You engage a hostile presence! Dice roll incoming... [combat not yet implemented]`;
+    }
+
+    function pickupItem() {
+      const item = (tileData.memory?.items_dropped || [])[0];
+      if (item) {
+        document.getElementById('output').textContent = `You pick up the ${item} and stow it.`;
+      } else {
+        document.getElementById('output').textContent = `There’s nothing here to pick up.`;
+      }
+    }
+
+    loadTileData();
+  </script>
+</body>
+</html>
