@@ -154,6 +154,314 @@
         "storm_cycles": 2
       },
       "sketch_id": "structure_timber_roof"
+    },
+    "black_bear": {
+      "type": "creature",
+      "habitat": "temperate_forest",
+      "sketch_id": "black_bear_stand",
+      "size": "large",
+      "hp": 60,
+      "aggression": "defensive",
+      "reaction_to_player": {
+        "near_cub": "attack",
+        "alone": "ignore"
+      },
+      "terrain_bonus": {
+        "forest": 1
+      },
+      "volume": [
+        2,
+        1,
+        2
+      ],
+      "blocks_view": false
+    },
+    "moss_elk": {
+      "type": "creature",
+      "habitat": "mystic_glade",
+      "sketch_id": "moss_elk",
+      "size": "massive",
+      "hp": 80,
+      "aggression": "passive",
+      "reaction_to_player": {
+        "quiet": "observe",
+        "hostile": "vanish"
+      },
+      "features": [
+        "regeneration_aura",
+        "fey_link"
+      ],
+      "spawn_condition": "moonlit night",
+      "lore_quotes": [
+        "The moss dripped from its crown like tears of the old world."
+      ]
+    },
+    "stinging_thornbloom": {
+      "type": "flora",
+      "biome": "meadow",
+      "sketch_id": "thornbloom_patch",
+      "can_be_harvested": true,
+      "poisonous": true,
+      "reaction_to_contact": "inflict_irritation",
+      "medicinal": false
+    },
+    "giant_marrowroot": {
+      "type": "flora",
+      "biome": "deep_forest",
+      "sketch_id": "marrowroot_mound",
+      "can_be_harvested": true,
+      "harvest_yield": {
+        "root_flesh": 3
+      },
+      "value": 6,
+      "spawns_at_depth": 2
+    },
+    "bloodcap_mushroom": {
+      "type": "flora",
+      "biome": "dark_forest",
+      "sketch_id": "bloodcap_cluster",
+      "medicinal": true,
+      "poisonous": true,
+      "can_be_harvested": true,
+      "harvest_yield": {
+        "bloodcap_extract": 1
+      },
+      "requires_moonlight": true
+    },
+    "red_pine": {
+      "type": "flora",
+      "biome": "conifer_forest",
+      "sketch_id": "red_pine_stand",
+      "volume": [
+        1,
+        1,
+        12
+      ],
+      "can_be_harvested": true,
+      "material_yield": {
+        "timber": 6,
+        "pine_resin": 2
+      },
+      "blocks_view": true,
+      "reaction_to_weather": "sheds_needles",
+      "fire_resistance": 0.4
+    },
+    "thornbuck": {
+      "type": "creature",
+      "habitat": "meadow",
+      "sketch_id": "thornbuck_graze",
+      "size": "medium",
+      "hp": 35,
+      "aggression": "territorial",
+      "reaction_to_player": {
+        "near_nest": "charge",
+        "quiet": "watch"
+      },
+      "lore_quotes": [
+        "Beware the buck that guards the blooming field."
+      ],
+      "spawn_condition": "spring mating season",
+      "terrain_bonus": {
+        "meadow": 2
+      }
+    },
+    "shade_toad": {
+      "type": "creature",
+      "habitat": "swamp",
+      "sketch_id": "shade_toad_wait",
+      "size": "small",
+      "hp": 15,
+      "aggression": "ambush",
+      "reaction_to_player": {
+        "moving": "wait",
+        "idle": "strike"
+      },
+      "abilities": [
+        "tongue_grapple",
+        "poison_slime"
+      ],
+      "camouflage": true
+    },
+    "firevine": {
+      "type": "flora",
+      "biome": "volcanic_crags",
+      "sketch_id": "firevine_cling",
+      "volume": [
+        1,
+        1,
+        1
+      ],
+      "can_be_harvested": true,
+      "dangerous_to_touch": true,
+      "material_yield": {
+        "ember_resin": 1
+      },
+      "glow_at_night": true,
+      "temperature_resistance": 0.95
+    },
+    "snow_widow": {
+      "type": "creature",
+      "habitat": "alpine_ridge",
+      "sketch_id": "snow_widow_creep",
+      "size": "large",
+      "hp": 45,
+      "aggression": "predatory",
+      "reaction_to_player": {
+        "warmth": "curious",
+        "torch": "withdraw"
+      },
+      "abilities": [
+        "web_freeze",
+        "stealth_climb"
+      ],
+      "threat_level": "high",
+      "spawn_condition": "deep winter"
+    },
+    "mire_serpent": {
+      "type": "creature",
+      "habitat": "swamp",
+      "sketch_id": "mire_serpent",
+      "size": "huge",
+      "hp": 90,
+      "aggression": "aggressive",
+      "abilities": [
+        "constrict",
+        "poison_spit"
+      ],
+      "reaction_to_player": {
+        "boat": "attack",
+        "swimming": "ambush"
+      },
+      "spawn_condition": "flood season"
+    },
+    "bog_lantern": {
+      "type": "flora",
+      "biome": "swamp",
+      "sketch_id": "bog_lantern_glow",
+      "glow_at_night": true,
+      "can_be_harvested": true,
+      "harvest_yield": {
+        "glow_sap": 1
+      },
+      "lore_quotes": [
+        "They say lost souls carry these like candles."
+      ]
+    },
+    "gloom_hare": {
+      "type": "creature",
+      "habitat": "dark_woods",
+      "sketch_id": "gloom_hare",
+      "size": "small",
+      "hp": 10,
+      "aggression": "flighty",
+      "abilities": [
+        "shadow_dodge"
+      ],
+      "reaction_to_player": {
+        "fast": "flee",
+        "quiet": "observe"
+      }
+    },
+    "cinder_crab": {
+      "type": "creature",
+      "habitat": "coastal_volcanic",
+      "sketch_id": "cinder_crab",
+      "size": "medium",
+      "hp": 25,
+      "aggression": "defensive",
+      "abilities": [
+        "ember_burst"
+      ],
+      "reaction_to_player": {
+        "wounded": "retreat",
+        "cornered": "explode"
+      }
+    },
+    "ice_brush": {
+      "type": "flora",
+      "biome": "alpine_tundra",
+      "sketch_id": "ice_brush_cluster",
+      "can_be_harvested": true,
+      "material_yield": {
+        "brittle_berries": 3
+      },
+      "frost_resistance": 0.9,
+      "camouflage": true
+    },
+    "crag_beetle": {
+      "type": "creature",
+      "habitat": "rocky_valley",
+      "sketch_id": "crag_beetle",
+      "size": "small",
+      "hp": 20,
+      "aggression": "passive",
+      "abilities": [
+        "burrow",
+        "armor_shell"
+      ],
+      "reaction_to_player": {
+        "tool_noise": "hide",
+        "campfire": "gather"
+      }
+    },
+    "glowfern": {
+      "type": "flora",
+      "biome": "deep_cave",
+      "sketch_id": "glowfern_patch",
+      "glow_at_night": true,
+      "can_be_harvested": true,
+      "harvest_yield": {
+        "biolume_fiber": 2
+      }
+    },
+    "ash_antler": {
+      "type": "creature",
+      "habitat": "burnt_wilds",
+      "sketch_id": "ash_antler_silhouette",
+      "size": "large",
+      "hp": 65,
+      "aggression": "reactive",
+      "reaction_to_player": {
+        "torch": "rage",
+        "silent": "wander"
+      },
+      "abilities": [
+        "ember_dash",
+        "scorch_trail"
+      ],
+      "spawn_condition": "post-fire"
+    },
+    "sky_reed": {
+      "type": "flora",
+      "biome": "high_mesa",
+      "sketch_id": "sky_reed_grove",
+      "can_be_harvested": true,
+      "harvest_yield": {
+        "wind_fiber": 3
+      },
+      "material_use": [
+        "arrowshafts",
+        "binding_twine"
+      ]
+    },
+    "thunderhorn": {
+      "type": "creature",
+      "habitat": "storm_peak",
+      "sketch_id": "thunderhorn_strike",
+      "size": "massive",
+      "hp": 140,
+      "aggression": "dominant",
+      "abilities": [
+        "shockwave_stampede"
+      ],
+      "reaction_to_player": {
+        "grouped": "challenge",
+        "solo": "ignore"
+      },
+      "spawn_condition": "lightning storm",
+      "lore_quotes": [
+        "The peak trembles before it appears."
+      ]
     }
   }
 }
