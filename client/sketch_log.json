@@ -1,0 +1,20 @@
+{
+  "sketches": [
+    {
+      "tile": "35_22",
+      "player": "Wanderer",
+      "event": "structure_collapse",
+      "detail": "Log wall collapsed due to rain.",
+      "timestamp": "2025-05-25T00:00:00Z",
+      "image_url": null
+    },
+    {
+      "tile": "36_22",
+      "player": "Wanderer",
+      "event": "fog_cleared",
+      "detail": "Discovered ruins overgrown with vines.",
+      "timestamp": "2025-05-25T00:10:00Z",
+      "image_url": null
+    }
+  ]
+}
