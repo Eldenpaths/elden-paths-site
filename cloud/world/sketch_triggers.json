@@ -1,47 +1,92 @@
 {
-  "36_18": {
-    "trigger": "orchard_calm",
-    "sketch": "A long-abandoned orchard row still clings to life. Faint paths between trees remain.",
+  "38_18": {
+    "trigger": "orchard_empty",
+    "sketch": "The rows here are silent. No fruit remains, only moss and rusted tools.",
     "tags": [
-      "peaceful",
-      "memory",
-      "fruit"
+      "stillness",
+      "decay",
+      "memory"
     ]
   },
-  "37_18": {
-    "trigger": "mud_trail",
-    "sketch": "Animal tracks lead through a muddy bend beneath willows.",
-    "tags": [
-      "animal",
-      "fresh",
-      "trail"
-    ]
-  },
-  "43_18": {
-    "trigger": "fog_watch",
-    "sketch": "Through the swirling fog, a high ridge looms. Something ancient waits unseen.",
+  "39_18": {
+    "trigger": "lowland_mist",
+    "sketch": "A damp haze clings to the grasses. Your boots leave no sound behind.",
     "tags": [
       "fog",
-      "myth",
-      "threat"
+      "quiet",
+      "lowland"
     ]
   },
-  "44_18": {
-    "trigger": "pine_wind",
-    "sketch": "The wind moans through bent pine limbs. A crow\u2019s call echoes sharply.",
+  "40_18": {
+    "trigger": "herd_trample",
+    "sketch": "The ground is torn from dozens of hooves. A scattering of fur and crushed fern remain.",
     "tags": [
-      "wind",
-      "forest",
-      "ominous"
+      "wildlife",
+      "motion",
+      "chaos"
     ]
   },
-  "45_18": {
-    "trigger": "ridge_line_panorama",
-    "sketch": "From the ridge, the whole valley sprawls below \u2014 half mist, half memory.",
+  "41_18": {
+    "trigger": "blood_feather",
+    "sketch": "A single black feather rests beside a patch of drying blood. The air is still.",
     "tags": [
-      "vista",
-      "valley",
-      "sketchworthy"
+      "predator",
+      "symbol",
+      "kill_site"
+    ]
+  },
+  "42_18": {
+    "trigger": "scout_passage",
+    "sketch": "A bootprint at the edge of the ridge. Someone passed here, fast and quiet.",
+    "tags": [
+      "human",
+      "trail",
+      "observation"
+    ]
+  },
+  "46_18": {
+    "trigger": "ridge_echo",
+    "sketch": "Far across the valley, something howls once \u2014 then silence.",
+    "tags": [
+      "sound",
+      "ridge",
+      "myth"
+    ]
+  },
+  "47_18": {
+    "trigger": "pine_grave",
+    "sketch": "Three stones, carefully placed. No markings. Just silence beneath the pines.",
+    "tags": [
+      "death",
+      "ritual",
+      "forest"
+    ]
+  },
+  "48_18": {
+    "trigger": "charred_path",
+    "sketch": "The earth is blackened here. Ash clings to broken branches.",
+    "tags": [
+      "fire",
+      "burn",
+      "aftermath"
+    ]
+  },
+  "49_18": {
+    "trigger": "mistwatch",
+    "sketch": "A figure once stood here. The grass bows outward in a perfect circle.",
+    "tags": [
+      "strange",
+      "presence",
+      "fog"
+    ]
+  },
+  "50_18": {
+    "trigger": "burial_crack",
+    "sketch": "The ground here is fractured \u2014 something was dug and reburied long ago.",
+    "tags": [
+      "burial",
+      "ancient",
+      "memory"
     ]
   }
 }
