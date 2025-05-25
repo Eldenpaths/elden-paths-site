@@ -1,0 +1,151 @@
+{
+  "species": {
+    "forest_wolf": {
+      "genome": "AGCT-GTAC-CGTA",
+      "mutation_rate": 0.02,
+      "behavior_profile": "pack_hunter",
+      "active_hours": [
+        "night",
+        "dawn"
+      ],
+      "preferred_biomes": [
+        "forest",
+        "highland"
+      ],
+      "avoid_tags": [
+        "fire",
+        "player",
+        "noise"
+      ],
+      "seek_tags": [
+        "deer",
+        "fresh_blood"
+      ],
+      "social": true,
+      "curious": 0.3,
+      "aggression": 0.6,
+      "reproduction": "seasonal",
+      "sketch_trigger": [
+        "howl",
+        "packhunt",
+        "fatal_fight"
+      ]
+    },
+    "highland_deer": {
+      "genome": "TTAG-CGAT-AGCT",
+      "mutation_rate": 0.01,
+      "behavior_profile": "grazer",
+      "active_hours": [
+        "day"
+      ],
+      "preferred_biomes": [
+        "highland",
+        "meadow"
+      ],
+      "avoid_tags": [
+        "predator",
+        "player"
+      ],
+      "seek_tags": [
+        "water",
+        "soft_grass"
+      ],
+      "social": true,
+      "curious": 0.1,
+      "aggression": 0.1,
+      "reproduction": "spring",
+      "sketch_trigger": [
+        "birth",
+        "herd_crossing"
+      ]
+    },
+    "ash_crow": {
+      "genome": "GACT-TTGC-GGAA",
+      "mutation_rate": 0.03,
+      "behavior_profile": "scavenger",
+      "active_hours": [
+        "dawn",
+        "dusk"
+      ],
+      "preferred_biomes": [
+        "burnt_wilds",
+        "cemetery"
+      ],
+      "avoid_tags": [
+        "movement",
+        "player"
+      ],
+      "seek_tags": [
+        "corpses",
+        "fire_remnants"
+      ],
+      "social": true,
+      "curious": 0.6,
+      "aggression": 0.2,
+      "reproduction": "anytime",
+      "sketch_trigger": [
+        "caw",
+        "feast"
+      ]
+    },
+    "hearth_bear": {
+      "genome": "CGTA-GGCT-TAAG",
+      "mutation_rate": 0.015,
+      "behavior_profile": "solitary_guardian",
+      "active_hours": [
+        "evening",
+        "night"
+      ],
+      "preferred_biomes": [
+        "pinewood",
+        "riverside"
+      ],
+      "avoid_tags": [
+        "fire"
+      ],
+      "seek_tags": [
+        "fish",
+        "berries",
+        "cool_shade"
+      ],
+      "social": false,
+      "curious": 0.2,
+      "aggression": 0.8,
+      "reproduction": "early_spring",
+      "sketch_trigger": [
+        "roar",
+        "tree_rub",
+        "sleep"
+      ]
+    },
+    "ember_hare": {
+      "genome": "ATGC-CGCG-TTAA",
+      "mutation_rate": 0.04,
+      "behavior_profile": "burrower",
+      "active_hours": [
+        "dawn",
+        "dusk"
+      ],
+      "preferred_biomes": [
+        "volcanic_clay",
+        "meadow"
+      ],
+      "avoid_tags": [
+        "loud_sound",
+        "movement"
+      ],
+      "seek_tags": [
+        "ash_grass",
+        "burrow"
+      ],
+      "social": true,
+      "curious": 0.7,
+      "aggression": 0.05,
+      "reproduction": "rapid_cycle",
+      "sketch_trigger": [
+        "dash",
+        "burrow_dust"
+      ]
+    }
+  }
+}
