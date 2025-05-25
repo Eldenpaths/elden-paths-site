@@ -61,6 +61,10 @@
     let currentTile = "tile_100";
     let tileData = {};
 
+    function rollDice(sides) {
+      return Math.floor(Math.random() * sides) + 1;
+    }
+
     function loadTileData() {
       Promise.all([
         fetch('tile_state.json').then(res => res.json()),
@@ -106,7 +110,19 @@
     }
 
     function fightCreature() {
-      document.getElementById('output').textContent = `You engage a hostile presence! Dice roll incoming... [combat not yet implemented]`;
+      const rollToHit = rollDice(20);
+      const hitThreshold = 12;
+      let output = `You roll a d20 to hit... 🎲 ${rollToHit}
+`;
+
+      if (rollToHit >= hitThreshold) {
+        const damage = rollDice(8);
+        output += `Hit! You deal ${damage} damage with your weapon.`;
+      } else {
+        output += `Miss! Your attack glances off the target.`;
+      }
+
+      document.getElementById('output').textContent = output;
     }
 
     function pickupItem() {
