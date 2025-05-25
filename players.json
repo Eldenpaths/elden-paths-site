@@ -1,0 +1,42 @@
+{
+  "players": [
+    {
+      "name": "SilentWalker",
+      "tile": "tile_106",
+      "hp": 28,
+      "max_hp": 30,
+      "xp": 120,
+      "level": 2,
+      "wounds": [],
+      "weapon": {
+        "name": "Iron Sword",
+        "damage": 8
+      },
+      "combat_state": {
+        "in_combat": true,
+        "last_enemy": "Foghound",
+        "round": 3
+      }
+    },
+    {
+      "name": "Arden",
+      "tile": "tile_108",
+      "hp": 32,
+      "max_hp": 32,
+      "xp": 90,
+      "level": 1,
+      "wounds": [
+        "light_burn"
+      ],
+      "weapon": {
+        "name": "Firestaff",
+        "damage": 10
+      },
+      "combat_state": {
+        "in_combat": false,
+        "last_enemy": "Ash Drake",
+        "round": 5
+      }
+    }
+  ]
+}
