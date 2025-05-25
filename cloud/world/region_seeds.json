@@ -1,0 +1,62 @@
+{
+  "regions": [
+    {
+      "id": "watchers_crown",
+      "tile_center": "44_18",
+      "biome": "highland",
+      "role": "mythic wilderness",
+      "dominant_species": [
+        "forest_wolf",
+        "gray_ridge_elk",
+        "howlshade"
+      ],
+      "ambient_species": [
+        "ash_crow",
+        "ember_hare"
+      ],
+      "notes": "Whispers of dragons, lost trail markers, and unseen watchers."
+    },
+    {
+      "id": "gravesport",
+      "tile_center": "36_08",
+      "biome": "coastal",
+      "role": "foggy trade town + sea creatures",
+      "dominant_species": [
+        "ash_crow",
+        "moss_lizard"
+      ],
+      "ambient_species": [
+        "forest_wolf"
+      ],
+      "notes": "Built near fog cliffs. Rumors of something ancient watching the tide."
+    },
+    {
+      "id": "salt_hollow",
+      "tile_center": "29_13",
+      "biome": "dry_basin",
+      "role": "underground den + echo fauna",
+      "dominant_species": [
+        "ember_hare",
+        "frost_viper"
+      ],
+      "ambient_species": [
+        "sunroot_plant"
+      ],
+      "notes": "Tunnels echo with distant yips. Bones found below collapsed tiles."
+    },
+    {
+      "id": "hall_of_echoes",
+      "tile_center": "41_23",
+      "biome": "crater_lake",
+      "role": "ritual zone, unstable ley field",
+      "dominant_species": [
+        "fog_crawler",
+        "sunroot_plant"
+      ],
+      "ambient_species": [
+        "ash_crow"
+      ],
+      "notes": "The lake reflects things not present. Codex entries shift depending on time of day."
+    }
+  ]
+}
