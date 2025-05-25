@@ -1,1 +1,54 @@
-{}
+{
+  "tiles": {
+    "tile_001": {
+      "terrain": "forest",
+      "elevation": "low",
+      "sketch_id": "forest_path_day"
+    },
+    "tile_002": {
+      "terrain": "mountain",
+      "elevation": "high",
+      "sketch_id": "rocky_peak"
+    },
+    "tile_003": {
+      "terrain": "swamp",
+      "elevation": "low",
+      "sketch_id": "swamp_bog_foggy"
+    },
+    "tile_004": {
+      "terrain": "grassland",
+      "elevation": "flat",
+      "sketch_id": "open_field_dawn"
+    },
+    "tile_005": {
+      "terrain": "river",
+      "elevation": "valley",
+      "sketch_id": "river_crossing"
+    },
+    "tile_006": {
+      "terrain": "coastal",
+      "elevation": "sea_level",
+      "sketch_id": "shatter_coast"
+    },
+    "tile_007": {
+      "terrain": "lake",
+      "elevation": "basin",
+      "sketch_id": "crater_lake_sunset"
+    },
+    "tile_008": {
+      "terrain": "desert",
+      "elevation": "flat",
+      "sketch_id": "dry_lake_crack"
+    },
+    "tile_009": {
+      "terrain": "cliff",
+      "elevation": "high",
+      "sketch_id": "basalt_drop"
+    },
+    "tile_010": {
+      "terrain": "volcanic",
+      "elevation": "peak",
+      "sketch_id": "smoke_crowned"
+    }
+  }
+}
