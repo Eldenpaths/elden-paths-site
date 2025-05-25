@@ -53,6 +53,7 @@
     <button onclick="moveTile()">Move</button>
     <button onclick="fightCreature()">Fight</button>
     <button onclick="pickupItem()">Pick Up Item</button>
+    <button onclick="submitSuggestion()">💡 Suggest</button>
   </div>
 
   <div id="output"></div>
@@ -112,8 +113,7 @@
     function fightCreature() {
       const rollToHit = rollDice(20);
       const hitThreshold = 12;
-      let output = `You roll a d20 to hit... 🎲 ${rollToHit}
-`;
+      let output = `You roll a d20 to hit... 🎲 ${rollToHit}\n`;
 
       if (rollToHit >= hitThreshold) {
         const damage = rollDice(8);
@@ -131,6 +131,23 @@
         document.getElementById('output').textContent = `You pick up the ${item} and stow it.`;
       } else {
         document.getElementById('output').textContent = `There’s nothing here to pick up.`;
+      }
+    }
+
+    function submitSuggestion() {
+      const suggestion = prompt("What item, tool, or idea would you like to see in this world?");
+      if (suggestion) {
+        const entry = {
+          tile: currentTile,
+          time: new Date().toISOString(),
+          request: suggestion,
+          status: "pending",
+          tags: [],
+          dev_reviewed: false,
+          canonized: false
+        };
+        console.log("ORDER:", JSON.stringify(entry));
+        alert("Your request has been recorded. Town scribes will review it soon.");
       }
     }
 
