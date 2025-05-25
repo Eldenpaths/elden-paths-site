@@ -1,0 +1,229 @@
+{
+  "structures": {
+    "log_cabin_01": {
+      "name": "Log Cabin Prototype",
+      "tier": "structure",
+      "scale_m": 0.1,
+      "dimensions": {
+        "x": 3,
+        "y": 2,
+        "z": 3
+      },
+      "origin": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "blocks": [
+        {
+          "type": "wooden_floor",
+          "position": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            0,
+            0,
+            2
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            1,
+            0,
+            2
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            2,
+            0,
+            0
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            2,
+            0,
+            1
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            2,
+            0,
+            2
+          ]
+        },
+        {
+          "type": "log_wall",
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "type": "log_wall",
+          "position": [
+            0,
+            1,
+            1
+          ]
+        },
+        {
+          "type": "log_wall",
+          "position": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "type": "log_wall",
+          "position": [
+            1,
+            1,
+            0
+          ]
+        },
+        {
+          "type": "log_wall",
+          "position": [
+            1,
+            1,
+            2
+          ]
+        },
+        {
+          "type": "log_wall",
+          "position": [
+            2,
+            1,
+            0
+          ]
+        },
+        {
+          "type": "log_wall",
+          "position": [
+            2,
+            1,
+            1
+          ]
+        },
+        {
+          "type": "log_wall",
+          "position": [
+            2,
+            1,
+            2
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            0,
+            2,
+            1
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            1,
+            2,
+            0
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            1,
+            2,
+            1
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            1,
+            2,
+            2
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            2,
+            2,
+            0
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            2,
+            2,
+            1
+          ]
+        },
+        {
+          "type": "wooden_floor",
+          "position": [
+            2,
+            2,
+            2
+          ]
+        }
+      ]
+    }
+  }
+}
