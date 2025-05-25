@@ -1,0 +1,53 @@
+{
+  "cabin_44_18": {
+    "type": "cabin",
+    "tile": "44_18",
+    "owner": "unknown",
+    "condition": "ruined",
+    "discovery_notes": "Collapsed timber frame, door ripped free. Cold ash in the hearth.",
+    "visible_from": 2,
+    "history": [
+      "built_early",
+      "abandoned",
+      "bear_sighting"
+    ]
+  },
+  "watchtower_45_18": {
+    "type": "watchtower",
+    "tile": "45_18",
+    "owner": "faction_northreach",
+    "condition": "standing",
+    "discovery_notes": "A wooden watchtower crests the ridge. A faded banner flaps once.",
+    "visible_from": 4,
+    "history": [
+      "constructed",
+      "fog_event",
+      "crow_attack"
+    ]
+  },
+  "campfire_37_18": {
+    "type": "campfire",
+    "tile": "37_18",
+    "owner": "player_Ryvek",
+    "condition": "cold",
+    "discovery_notes": "Old embers and cracked stones. Someone rested here recently.",
+    "visible_from": 1,
+    "history": [
+      "used_by_wolf",
+      "abandoned"
+    ]
+  },
+  "grave_47_18": {
+    "type": "grave",
+    "tile": "47_18",
+    "owner": "none",
+    "condition": "intact",
+    "discovery_notes": "Three stones placed carefully in pine shade. No names, no markers.",
+    "visible_from": 2,
+    "history": [
+      "burial",
+      "ritual",
+      "crow_lore"
+    ]
+  }
+}
