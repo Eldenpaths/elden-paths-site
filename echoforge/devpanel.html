@@ -7,58 +7,101 @@
   <style>
     body { font-family: sans-serif; background: #1e1e1e; color: #e0e0e0; padding: 2rem; }
     h1 { color: #90e090; }
-    .module { border: 1px solid #333; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; background: #2c2c2c; }
+    .section { margin-bottom: 2rem; }
+    .module { border: 1px solid #333; padding: 1rem; margin-bottom: 0.5rem; border-radius: 8px; background: #2c2c2c; display: flex; justify-content: space-between; align-items: center; }
     .key { font-weight: bold; color: #ddd; }
     .value { color: #90c0ff; }
+    .toggle { transform: scale(1.2); }
+    .status { margin-left: 1rem; font-weight: bold; }
+    .ok { color: #00cc66; }
+    .fail { color: #ff4444; }
   </style>
 </head>
 <body>
-  <h1>EchoForge™ Engine Dev Panel</h1>
+  <h1>EchoForge™ Dev Panel</h1>
   <div id="engineData">Loading...</div>
 
   <script>
+    const localState = JSON.parse(localStorage.getItem('echoForgeState') || '{}');
+
+    function toggleModule(module) {
+      localState[module] = !localState[module];
+      localStorage.setItem('echoForgeState', JSON.stringify(localState));
+      renderEngineData(window.engineJson); // re-render with new state
+    }
+
+    function checkFileExists(filePath) {
+      // Simulated health check logic — replace with real API ping or file access check later
+      const simulatedAvailableFiles = [
+        "tile_index.json", "tile_meta.json", "voxel_origin.json", "material_library.json",
+        "genetics/genome.json", "fog/fog_state.json", "weather/weather_log.json",
+        "gear.json", "structure.json", "player_structures.json"
+      ];
+      return simulatedAvailableFiles.includes(filePath);
+    }
+
+    function renderEngineData(data) {
+      const container = document.getElementById('engineData');
+      container.innerHTML = '';
+
+      const title = document.createElement('div');
+      title.classList.add('section');
+      title.innerHTML = `
+        <p><span class='key'>Engine:</span> <span class='value'>${data.engine_name}</span></p>
+        <p><span class='key'>Version:</span> <span class='value'>${data.version}</span></p>
+        <p><span class='key'>Description:</span> <span class='value'>${data.description}</span></p>`;
+      container.appendChild(title);
+
+      const modules = document.createElement('div');
+      modules.classList.add('section');
+      modules.innerHTML = '<h2>Core Modules</h2>';
+      data.core_modules.forEach(mod => {
+        const isActive = localState[mod] !== false;
+        modules.innerHTML += `
+          <div class='module'>
+            <span class='value'>${mod}</span>
+            <label>
+              <input type='checkbox' class='toggle' ${isActive ? "checked" : ""} onchange="toggleModule('${mod}')">
+              <span class='status ${isActive ? "ok" : "fail"}'>${isActive ? "ON" : "OFF"}</span>
+            </label>
+          </div>`;
+      });
+      container.appendChild(modules);
+
+      const links = document.createElement('div');
+      links.classList.add('section');
+      links.innerHTML = '<h2>Linked Systems</h2>';
+      for (const group in data.linked_systems) {
+        links.innerHTML += `<h3>${group.toUpperCase()}</h3>`;
+        data.linked_systems[group].forEach(file => {
+          const ok = checkFileExists(file);
+          links.innerHTML += `<div class='module'><span class='value'>${file}</span><span class='status ${ok ? "ok" : "fail"}'>${ok ? "✓ Found" : "✗ Missing"}</span></div>`;
+        });
+      }
+      container.appendChild(links);
+
+      const games = document.createElement('div');
+      games.classList.add('section');
+      games.innerHTML = '<h2>Used By</h2>';
+      data.used_by.forEach(game => {
+        games.innerHTML += `<div class='module'><span class='value'>${game}</span></div>`;
+      });
+      container.appendChild(games);
+
+      const outputs = document.createElement('div');
+      outputs.classList.add('section');
+      outputs.innerHTML = '<h2>Engine Outputs</h2>';
+      data.outputs.forEach(output => {
+        outputs.innerHTML += `<div class='module'><span class='value'>${output}</span></div>`;
+      });
+      container.appendChild(outputs);
+    }
+
     fetch('../echoforge/engine.json')
       .then(response => response.json())
       .then(data => {
-        const container = document.getElementById('engineData');
-        container.innerHTML = '';
-
-        const title = document.createElement('div');
-        title.innerHTML = `<p><span class='key'>Engine:</span> <span class='value'>${data.engine_name}</span></p>
-                           <p><span class='key'>Version:</span> <span class='value'>${data.version}</span></p>
-                           <p><span class='key'>Description:</span> <span class='value'>${data.description}</span></p>`;
-        container.appendChild(title);
-
-        const modules = document.createElement('div');
-        modules.innerHTML = '<h2>Core Modules</h2>';
-        data.core_modules.forEach(mod => {
-          modules.innerHTML += `<div class='module'><span class='key'>Module:</span> <span class='value'>${mod}</span></div>`;
-        });
-        container.appendChild(modules);
-
-        const links = document.createElement('div');
-        links.innerHTML = '<h2>Linked Systems</h2>';
-        for (const group in data.linked_systems) {
-          links.innerHTML += `<h3>${group.toUpperCase()}</h3>`;
-          data.linked_systems[group].forEach(file => {
-            links.innerHTML += `<div class='module'><span class='value'>${file}</span></div>`;
-          });
-        }
-        container.appendChild(links);
-
-        const games = document.createElement('div');
-        games.innerHTML = '<h2>Used By</h2>';
-        data.used_by.forEach(game => {
-          games.innerHTML += `<div class='module'><span class='value'>${game}</span></div>`;
-        });
-        container.appendChild(games);
-
-        const outputs = document.createElement('div');
-        outputs.innerHTML = '<h2>Engine Outputs</h2>';
-        data.outputs.forEach(output => {
-          outputs.innerHTML += `<div class='module'><span class='value'>${output}</span></div>`;
-        });
-        container.appendChild(outputs);
+        window.engineJson = data;
+        renderEngineData(data);
       });
   </script>
 </body>
