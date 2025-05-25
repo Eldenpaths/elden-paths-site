@@ -1,0 +1,32 @@
+{
+  "fog.js": {
+    "version": "1.0.0",
+    "status": "active",
+    "last_updated": "2025-05-25",
+    "description": "Reveals tiles based on player movement and memory sync"
+  },
+  "dna.js": {
+    "version": "1.0.0",
+    "status": "active",
+    "last_updated": "2025-05-25",
+    "description": "Handles genome mutation and entity propagation"
+  },
+  "decay.js": {
+    "version": "1.0.0",
+    "status": "active",
+    "last_updated": "2025-05-25",
+    "description": "Simulates decay and structural deterioration over time"
+  },
+  "sketch.js": {
+    "version": "1.0.0",
+    "status": "active",
+    "last_updated": "2025-05-25",
+    "description": "Logs sketch-worthy events and calls sketch renderer"
+  },
+  "tile_memory.js": {
+    "version": "1.0.0",
+    "status": "active",
+    "last_updated": "2025-05-25",
+    "description": "Logs and updates tile environmental memory"
+  }
+}
