@@ -3,67 +3,61 @@
     "iron_hatchet": {
       "type": "tool",
       "slot": "hand",
-      "material": "iron",
-      "durability": 40,
-      "weight": 3,
+      "material_type": "iron",
       "tags": [
         "woodwork",
         "cutting"
       ],
-      "craft_difficulty": "medium"
+      "weight": 3,
+      "base_durability": 60
     },
     "broad_axe": {
       "type": "tool",
       "slot": "hand",
-      "material": "steel",
-      "durability": 50,
-      "weight": 5,
+      "material_type": "steel",
       "tags": [
         "timber",
         "heavy_cutting"
       ],
-      "craft_difficulty": "hard"
+      "weight": 5,
+      "base_durability": 75
     },
     "leather_jerkin": {
       "type": "clothing",
       "slot": "torso",
-      "material": "leather",
-      "insulation": 2,
-      "weight": 2,
-      "craft_difficulty": "medium"
+      "material_type": "wool",
+      "insulation": 0.75,
+      "weight": 2
     },
     "fur_cloak": {
       "type": "clothing",
       "slot": "back",
-      "material": "fur",
-      "insulation": 4,
-      "weight": 3,
-      "craft_difficulty": "easy"
+      "material_type": "wool",
+      "insulation": 0.85,
+      "weight": 3
     },
     "forging_hammer": {
       "type": "tool",
       "slot": "hand",
-      "material": "iron",
-      "durability": 60,
-      "weight": 4,
+      "material_type": "iron",
       "tags": [
         "blacksmith",
         "metalwork"
       ],
-      "craft_difficulty": "medium"
+      "weight": 4,
+      "base_durability": 70
     },
     "longknife": {
       "type": "weapon",
       "slot": "hand",
-      "material": "steel",
-      "durability": 35,
+      "material_type": "steel",
       "damage_die": "d6",
-      "weight": 2,
       "tags": [
         "combat",
         "light_melee"
       ],
-      "craft_difficulty": "medium"
+      "weight": 2,
+      "base_durability": 50
     }
   }
 }
