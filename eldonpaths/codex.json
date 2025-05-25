@@ -1,1 +1,22 @@
-// Placeholder for codex.json
+{
+  "entries": [
+    {
+      "id": "ruin_36_22",
+      "title": "Vined Ruin",
+      "description": "Remnants of a lost structure buried in moss and root. Discovered by Wanderer.",
+      "tile": "36_22",
+      "player": "Wanderer",
+      "timestamp": "2025-05-25T00:12:00Z",
+      "sketch_url": null
+    },
+    {
+      "id": "wolf_birth_35_21",
+      "title": "Wolf Pup Born",
+      "description": "A pale wolf pup emerged beneath the red moon.",
+      "tile": "35_21",
+      "player": "Wanderer",
+      "timestamp": "2025-05-25T00:20:00Z",
+      "sketch_url": null
+    }
+  ]
+}
