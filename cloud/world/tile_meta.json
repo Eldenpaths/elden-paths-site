@@ -1,0 +1,44 @@
+{
+  "36_18": {
+    "biome": "valley_grassland",
+    "elevation": 90,
+    "region": "willamette_valley",
+    "sunlight": "east",
+    "fog_zone": false
+  },
+  "37_18": {
+    "biome": "riparian_forest",
+    "elevation": 85,
+    "region": "willamette_valley",
+    "sunlight": "east",
+    "fog_zone": false
+  },
+  "38_18": {
+    "biome": "orchard_fields",
+    "elevation": 82,
+    "region": "willamette_valley",
+    "sunlight": "east",
+    "fog_zone": false
+  },
+  "43_18": {
+    "biome": "highland_forest",
+    "elevation": 310,
+    "region": "watchers_crown",
+    "sunlight": "east",
+    "fog_zone": true
+  },
+  "44_18": {
+    "biome": "pine_highland",
+    "elevation": 420,
+    "region": "watchers_crown",
+    "sunlight": "east",
+    "fog_zone": true
+  },
+  "45_18": {
+    "biome": "ridge_peak",
+    "elevation": 550,
+    "region": "watchers_crown",
+    "sunlight": "east",
+    "fog_zone": true
+  }
+}
