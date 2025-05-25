@@ -1,0 +1,159 @@
+{
+  "models": {
+    "hatchet": {
+      "type": "tool",
+      "tags": [
+        "woodcutting",
+        "gathering"
+      ],
+      "material": "iron",
+      "durability": 50,
+      "mass": 3,
+      "sketch_id": "tool_hatchet",
+      "unlock_level": 1
+    },
+    "broad_axe": {
+      "type": "tool",
+      "tags": [
+        "woodcutting",
+        "construction"
+      ],
+      "material": "steel",
+      "durability": 80,
+      "mass": 7,
+      "load_capacity": 50,
+      "sketch_id": "tool_broad_axe",
+      "unlock_level": 2
+    },
+    "hand_saw": {
+      "type": "tool",
+      "tags": [
+        "woodwork",
+        "construction"
+      ],
+      "material": "steel",
+      "durability": 60,
+      "mass": 4,
+      "sketch_id": "tool_hand_saw",
+      "unlock_level": 1
+    },
+    "spruce_tree": {
+      "type": "flora",
+      "biome": "mountain_forest",
+      "sketch_id": "spruce_cluster",
+      "can_be_harvested": true,
+      "obstructs_view": true,
+      "height": 10,
+      "volume": [
+        1,
+        1,
+        10
+      ],
+      "reaction_to_weather": "sways",
+      "frost_heave_resistance": 0.6
+    },
+    "bitterroot": {
+      "type": "flora",
+      "biome": "dry_plateau",
+      "sketch_id": "bitterroot_patch",
+      "medicinal": true,
+      "harvestable_season": "spring",
+      "can_be_harvested": true
+    },
+    "elk": {
+      "type": "creature",
+      "habitat": "forest",
+      "sketch_id": "elk_forest_meadow",
+      "size": "large",
+      "aggression": "neutral",
+      "hp": 40,
+      "speed": 3,
+      "reaction_to_player": {
+        "armed": "flee",
+        "quiet": "ignore",
+        "injured": "avoid"
+      }
+    },
+    "foghound": {
+      "type": "creature",
+      "habitat": "fogbound forest",
+      "sketch_id": "foghound_stalk",
+      "size": "medium",
+      "aggression": "hostile",
+      "hp": 28,
+      "damage_type": "bleed",
+      "reaction_to_player": {
+        "bleeding": "track",
+        "unarmed": "circle",
+        "torch": "avoid"
+      },
+      "terrain_bonus": {
+        "fog": 2,
+        "night": 3
+      },
+      "lore_quotes": [
+        "Their howls slip through the fog long after they\u2019re gone."
+      ],
+      "first_recorded_by": "Warden of Salt Hollow"
+    },
+    "ash_drake": {
+      "type": "creature",
+      "habitat": "volcanic peaks",
+      "sketch_id": "ash_drake_peak",
+      "size": "huge",
+      "hp": 150,
+      "damage_type": "fire",
+      "flight": true,
+      "breath_attack": true,
+      "reaction_to_player": {
+        "low_level": "ignore",
+        "injured": "attack"
+      },
+      "volume": [
+        3,
+        3,
+        6
+      ],
+      "blocks_view": true,
+      "threat_level": "epic",
+      "spawn_condition": "Cycle 99 eclipse"
+    },
+    "stone_wall": {
+      "type": "structure",
+      "material": "stone",
+      "mass": 800,
+      "load_capacity": 1200,
+      "requires_foundation": true,
+      "volume": [
+        2,
+        1,
+        2
+      ],
+      "blocks_pathing": true,
+      "blocks_view": true,
+      "failure_condition": {
+        "unsupported_above": 2,
+        "soaked_duration": 10
+      },
+      "sketch_id": "structure_stone_wall"
+    },
+    "timber_roof": {
+      "type": "structure",
+      "material": "wood",
+      "mass": 300,
+      "load_capacity": 450,
+      "requires_foundation": false,
+      "volume": [
+        3,
+        3,
+        1
+      ],
+      "blocks_pathing": false,
+      "failure_condition": {
+        "unsupported_span": 3,
+        "storm_cycles": 2
+      },
+      "sketch_id": "structure_timber_roof"
+    }
+  }
+}
