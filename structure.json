@@ -1,0 +1,40 @@
+{
+  "structures": {
+    "log_wall": {
+      "tier": "structure",
+      "scale_m": 0.1,
+      "material_type": "oak_wood",
+      "durability": 45,
+      "flammability": 0.08,
+      "thermal_conductivity": 0.17,
+      "fluid_absorption": 0.35
+    },
+    "stone_wall": {
+      "tier": "structure",
+      "scale_m": 0.1,
+      "material_type": "granite",
+      "durability": 200,
+      "flammability": 0.0,
+      "thermal_conductivity": 1.7,
+      "fluid_absorption": 0.01
+    },
+    "wooden_floor": {
+      "tier": "structure",
+      "scale_m": 0.1,
+      "material_type": "pine_wood",
+      "durability": 32,
+      "flammability": 0.12,
+      "thermal_conductivity": 0.14,
+      "fluid_absorption": 0.5
+    },
+    "woolen_drape": {
+      "tier": "structure",
+      "scale_m": 0.1,
+      "material_type": "wool",
+      "durability": 10,
+      "flammability": 0.05,
+      "thermal_conductivity": 0.04,
+      "fluid_absorption": 0.6
+    }
+  }
+}
