@@ -1,1 +1,48 @@
-// Placeholder for engine.json
+{
+  "engine_name": "EchoForge",
+  "version": "0.1-alpha",
+  "description": "A modular, memory-driven voxel simulation engine powering Elden Paths\u2122, Workshop, and other titles.",
+  "core_modules": [
+    "terrain",
+    "voxel_memory",
+    "genetics",
+    "structure_physics",
+    "fluid_dynamics",
+    "weather",
+    "sketch_renderer"
+  ],
+  "linked_systems": {
+    "cloud": [
+      "tile_index.json",
+      "tile_meta.json",
+      "genetics/genome.json",
+      "material_library.json",
+      "fog/fog_state.json",
+      "weather/weather_log.json"
+    ],
+    "client": [
+      "play.html",
+      "admin.html",
+      "sketch.html",
+      "gear.json",
+      "structure.json",
+      "player_structures.json"
+    ]
+  },
+  "used_by": [
+    "Elden Paths\u2122",
+    "Elden Trail\u2122: Oregon Trail Edition",
+    "Workshop: Historic Builder\u2122",
+    "Homeless\u2122",
+    "Tribes Edition\u2122"
+  ],
+  "outputs": [
+    "codex entries",
+    "sketches",
+    "tile memory",
+    "dna_registry",
+    "blueprints",
+    "crafting simulation",
+    "event logs"
+  ]
+}
