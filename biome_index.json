@@ -1,0 +1,139 @@
+{
+  "fogbound_forest": {
+    "creatures": [
+      "foghound",
+      "moss_elk",
+      "bloodcap_mushroom"
+    ],
+    "flora": [
+      "bloodcap_mushroom",
+      "spruce_tree"
+    ],
+    "spawn_rules": {
+      "time": "night",
+      "weather": "fog",
+      "sketch_trigger": true
+    }
+  },
+  "swamp": {
+    "creatures": [
+      "shade_toad",
+      "mire_serpent"
+    ],
+    "flora": [
+      "bog_lantern",
+      "stinging_thornbloom"
+    ],
+    "spawn_rules": {
+      "season": "spring",
+      "moisture_level": "high",
+      "sketch_trigger": true
+    }
+  },
+  "alpine_ridge": {
+    "creatures": [
+      "snow_widow",
+      "ice_brush"
+    ],
+    "flora": [
+      "ice_brush",
+      "red_pine"
+    ],
+    "spawn_rules": {
+      "season": "winter",
+      "temperature": "cold",
+      "sketch_trigger": true
+    }
+  },
+  "volcanic_crags": {
+    "creatures": [
+      "ash_drake",
+      "cinder_crab"
+    ],
+    "flora": [
+      "firevine",
+      "red_pine"
+    ],
+    "spawn_rules": {
+      "condition": "after_eruption",
+      "temperature": "hot",
+      "sketch_trigger": true
+    }
+  },
+  "meadow": {
+    "creatures": [
+      "thornbuck",
+      "gloom_hare"
+    ],
+    "flora": [
+      "stinging_thornbloom",
+      "sky_reed"
+    ],
+    "spawn_rules": {
+      "season": "spring",
+      "time": "day",
+      "sketch_trigger": false
+    }
+  },
+  "deep_forest": {
+    "creatures": [
+      "elk",
+      "crag_beetle"
+    ],
+    "flora": [
+      "giant_marrowroot",
+      "red_pine"
+    ],
+    "spawn_rules": {
+      "shade_level": "high",
+      "humidity": "medium",
+      "sketch_trigger": true
+    }
+  },
+  "burnt_wilds": {
+    "creatures": [
+      "ash_antler"
+    ],
+    "flora": [],
+    "spawn_rules": {
+      "condition": "post-fire",
+      "sketch_trigger": true
+    }
+  },
+  "storm_peak": {
+    "creatures": [
+      "thunderhorn"
+    ],
+    "flora": [],
+    "spawn_rules": {
+      "weather": "lightning",
+      "time": "storm",
+      "sketch_trigger": true
+    }
+  },
+  "coastal_volcanic": {
+    "creatures": [
+      "cinder_crab"
+    ],
+    "flora": [
+      "firevine"
+    ],
+    "spawn_rules": {
+      "season": "summer",
+      "tide": "low",
+      "sketch_trigger": false
+    }
+  },
+  "dark_woods": {
+    "creatures": [
+      "gloom_hare"
+    ],
+    "flora": [
+      "bloodcap_mushroom"
+    ],
+    "spawn_rules": {
+      "shade_level": "dense",
+      "sketch_trigger": true
+    }
+  }
+}
