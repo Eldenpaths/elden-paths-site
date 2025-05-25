@@ -1,0 +1,47 @@
+{
+  "36_18": {
+    "trigger": "orchard_calm",
+    "sketch": "A long-abandoned orchard row still clings to life. Faint paths between trees remain.",
+    "tags": [
+      "peaceful",
+      "memory",
+      "fruit"
+    ]
+  },
+  "37_18": {
+    "trigger": "mud_trail",
+    "sketch": "Animal tracks lead through a muddy bend beneath willows.",
+    "tags": [
+      "animal",
+      "fresh",
+      "trail"
+    ]
+  },
+  "43_18": {
+    "trigger": "fog_watch",
+    "sketch": "Through the swirling fog, a high ridge looms. Something ancient waits unseen.",
+    "tags": [
+      "fog",
+      "myth",
+      "threat"
+    ]
+  },
+  "44_18": {
+    "trigger": "pine_wind",
+    "sketch": "The wind moans through bent pine limbs. A crow\u2019s call echoes sharply.",
+    "tags": [
+      "wind",
+      "forest",
+      "ominous"
+    ]
+  },
+  "45_18": {
+    "trigger": "ridge_line_panorama",
+    "sketch": "From the ridge, the whole valley sprawls below \u2014 half mist, half memory.",
+    "tags": [
+      "vista",
+      "valley",
+      "sketchworthy"
+    ]
+  }
+}
