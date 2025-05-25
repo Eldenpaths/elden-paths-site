@@ -1,0 +1,99 @@
+{
+  "tile_100": {
+    "biome": "fogbound_forest + ruins",
+    "models_present": [
+      "foghound",
+      "spruce_tree",
+      "bloodcap_mushroom"
+    ],
+    "memory": {
+      "blood_spilled": true,
+      "planting": [],
+      "burned": false,
+      "sketch_triggered": true,
+      "discovered_by": [
+        "player_001"
+      ],
+      "items_dropped": [
+        "broken_spear"
+      ]
+    }
+  },
+  "tile_101": {
+    "biome": "swamp + spring",
+    "models_present": [
+      "shade_toad",
+      "bog_lantern"
+    ],
+    "memory": {
+      "blood_spilled": false,
+      "planting": [
+        "bog_lantern"
+      ],
+      "burned": true,
+      "sketch_triggered": false,
+      "discovered_by": [
+        "player_002"
+      ],
+      "items_dropped": []
+    }
+  },
+  "tile_102": {
+    "biome": "meadow + ruin",
+    "models_present": [
+      "thornbuck",
+      "sky_reed"
+    ],
+    "memory": {
+      "blood_spilled": true,
+      "planting": [],
+      "burned": false,
+      "sketch_triggered": true,
+      "discovered_by": [
+        "player_001",
+        "player_003"
+      ],
+      "items_dropped": [
+        "satchel"
+      ]
+    }
+  },
+  "tile_103": {
+    "biome": "volcanic_crags + old fort",
+    "models_present": [
+      "ash_drake",
+      "firevine"
+    ],
+    "memory": {
+      "blood_spilled": false,
+      "planting": [],
+      "burned": true,
+      "sketch_triggered": false,
+      "discovered_by": [
+        "player_004"
+      ],
+      "items_dropped": [
+        "burnt_scroll"
+      ]
+    }
+  },
+  "tile_104": {
+    "biome": "deep_forest + spring-fed grove",
+    "models_present": [
+      "moss_elk",
+      "giant_marrowroot"
+    ],
+    "memory": {
+      "blood_spilled": false,
+      "planting": [
+        "marrowroot"
+      ],
+      "burned": false,
+      "sketch_triggered": true,
+      "discovered_by": [
+        "player_001"
+      ],
+      "items_dropped": []
+    }
+  }
+}
