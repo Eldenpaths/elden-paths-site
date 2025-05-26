@@ -1,6 +1,13 @@
 {
-  "pac": {
-    "x": 5,
-    "y": 5
+  "example_player": {
+    "name": "example_player",
+    "tile": "15_22",
+    "hp": 10,
+    "xp": 0,
+    "gear": [],
+    "fog": [
+      "15_22"
+    ],
+    "combat_state": "idle"
   }
 }

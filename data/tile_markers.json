@@ -1,14 +1,10 @@
 {
-  "5,5": {
-    "type": "city",
-    "name": "Gravesport"
-  },
-  "6,6": {
-    "type": "relic",
-    "name": "Stone Arch"
-  },
-  "4,4": {
-    "type": "quest",
-    "name": "Whispering Glade"
-  }
+  "15_22": [
+    {
+      "type": "ruin",
+      "name": "Old Watchtower",
+      "sketch_trigger": true,
+      "lore": "This tower once guarded the southern valley..."
+    }
+  ]
 }
