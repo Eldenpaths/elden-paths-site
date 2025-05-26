@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Elden Paths: Lore-Linked Map</title>
+  <style>
+    body { background: #f9f3e6; font-family: 'Garamond', serif; color: #3a2d1f; }
+    canvas { border: 2px solid #444; display: block; margin: 20px auto; background: #fefbf3; }
+    #loreBox {
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fdf8ec;
+      border: 2px solid #3a2d1f;
+      padding: 15px;
+      max-width: 400px;
+      font-size: 16px;
+      display: none;
+      box-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center;">🗺️ Elden Paths: Lore-Linked Map</h1>
+  <div id="loreBox"></div>
+  <canvas id="mapCanvas" width="800" height="800"></canvas>
+  <script>
+    const canvas = document.getElementById("mapCanvas");
+    const ctx = canvas.getContext("2d");
+    const loreBox = document.getElementById("loreBox");
+
+    let tileMap = [];
+    let codexMap = {};
+
+    async function loadJSON(url) {
+      const res = await fetch(url);
+      return res.json();
+    }
+
+    function drawTile(tile, size = 10, offsetX = 100, offsetY = 100) {
+      const x = (tile.voxel_x - offsetX) * size;
+      const y = (tile.voxel_y - offsetY) * size;
+      ctx.fillStyle = "#ddd";
+      ctx.fillRect(x, y, size, size);
+    }
+
+    function redraw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      tileMap.forEach(tile => drawTile(tile));
+    }
+
+    function showLore(tileId, event) {
+      const lore = codexMap[tileId];
+      if (!lore) return;
+
+      loreBox.style.display = "block";
+      loreBox.innerHTML = `
+        <h3>${lore.title}</h3>
+        <em>Epoch: ${lore.epoch}</em><br><br>
+        <p>${lore.description}</p>
+        <hr>
+        <strong>Sketch Prompt:</strong><br>
+        <em>${lore.sketch_prompt}</em>
+      `;
+      loreBox.style.top = `${event.clientY}px`;
+    }
+
+    async function setup() {
+      const tileData = await loadJSON("tile_index.json");
+      tileMap = tileData.tiles;
+
+      codexMap = await loadJSON("map/codex_entries.json");
+
+      redraw();
+
+      canvas.addEventListener("click", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const clickX = Math.floor((e.clientX - rect.left) / 10) + 100;
+        const clickY = Math.floor((e.clientY - rect.top) / 10) + 100;
+        const tileId = `tile_${clickX}_${clickY}`;
+        showLore(tileId, e);
+      });
+    }
+
+    setup();
+  </script>
+</body>
+</html>
