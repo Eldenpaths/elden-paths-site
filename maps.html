@@ -33,7 +33,27 @@
     errorTileUrl: ''
   }).addTo(map);
 
-  // Sample shrine marker
+  // Load fog from tile_index.json
+  fetch("./data/tile_index.json")
+    .then(res => res.json())
+    .then(tileIndex => {
+      for (const key in tileIndex) {
+        const [x, y] = key.split("_").map(Number);
+        const tile = tileIndex[key];
+        if (!tile.fog_cleared) {
+          const x1 = x * 1024, y1 = y * 1024;
+          const x2 = x1 + 1024, y2 = y1 + 1024;
+          L.rectangle([[y1, x1], [y2, x2]], {
+            color: "#000",
+            fillColor: "#000",
+            fillOpacity: 0.65,
+            weight: 0
+          }).addTo(map);
+        }
+      }
+    });
+
+  // Load markers from tile_markers.json
   fetch("./data/tile_markers.json")
     .then(res => res.json())
     .then(data => {
