@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Elden Paths – World Map</title>
+  <style>
+    body { background: #0b0b0b; color: #ddd; font-family: sans-serif; text-align: center; margin: 0; }
+    canvas { margin-top: 20px; background: #1a1a1a; border: 1px solid #444; }
+  </style>
+</head>
+<body>
+  <h1>Elden Paths – Master Map</h1>
+  <canvas id="mapCanvas" width="800" height="600"></canvas>
+  <script>
+    const canvas = document.getElementById("mapCanvas");
+    const ctx = canvas.getContext("2d");
+    const tileSize = 40;
+    const cols = canvas.width / tileSize;
+    const rows = canvas.height / tileSize;
+
+    async function loadData() {
+      const tileIndex = await fetch("data/tile_index.json").then(res => res.json());
+      const tileMarkers = await fetch("data/tile_markers.json").then(res => res.json());
+
+      for (let x = 0; x < cols; x++) {
+        for (let y = 0; y < rows; y++) {
+          const key = x + "_" + y;
+          const tile = tileIndex[key];
+          const markers = tileMarkers[key] || [];
+
+          // Default fill
+          ctx.fillStyle = tile && tile.fog_cleared ? "#3a3" : "#111";
+          ctx.fillRect(x * tileSize, y * tileSize, tileSize - 1, tileSize - 1);
+
+          // Draw marker icons
+          for (let marker of markers) {
+            if (marker.type === "shrine") {
+              ctx.fillStyle = "#dd0";
+              ctx.beginPath();
+              ctx.arc(x * tileSize + 20, y * tileSize + 20, 6, 0, 2 * Math.PI);
+              ctx.fill();
+            } else if (marker.type === "ruin") {
+              ctx.fillStyle = "#888";
+              ctx.fillRect(x * tileSize + 12, y * tileSize + 12, 16, 16);
+            }
+          }
+        }
+      }
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
