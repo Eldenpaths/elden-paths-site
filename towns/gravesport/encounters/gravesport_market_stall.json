@@ -1,0 +1,33 @@
+{
+  "location": "Gravesport",
+  "stall_id": "salt_stall_1",
+  "vendor_name": "Mira Saltbite",
+  "description": "A crooked awning stitched from sailcloth shades Mira’s crates of dried kelp, shell-carved combs, and sun-bleached bone charms.",
+  "wares": [
+    {
+      "item": "Dried Sea Kelp",
+      "price": 2,
+      "currency": "cp"
+    },
+    {
+      "item": "Saltbone Comb",
+      "price": 5,
+      "currency": "sp"
+    },
+    {
+      "item": "Charm: Tidebound Eye",
+      "price": 1,
+      "currency": "gp"
+    }
+  ],
+  "dialogue": [
+    "Best kelp this side of the fog wall!",
+    "Charms are blessed, or cursed. Depends who you wronged.",
+    "Silver first. Stories after."
+  ],
+  "interaction": {
+    "accepts_trade": true,
+    "barter_allowed": false,
+    "sketch_on_purchase": true
+  }
+}
