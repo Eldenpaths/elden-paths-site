@@ -1,12 +1,11 @@
 {
-  "15_22": [
+  "14_18": [
     {
-      "type": "ruin",
-      "name": "Old Watchtower",
+      "type": "shrine",
+      "name": "Stone of Returning",
+      "revival_allowed": true,
       "sketch_trigger": true,
-      "lore": "This tower once guarded the southern valley...",
-      "encounter_chance": 0.3,
-      "encounter_type": "shadow_ambush"
+      "lore": "A stone that sings when Echoes pass by."
     }
   ]
 }
