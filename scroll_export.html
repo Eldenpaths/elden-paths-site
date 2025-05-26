@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Export Journal as Scroll</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: #fdfaf2;
+      padding: 20px;
+      text-align: center;
+    }
+    textarea {
+      width: 90%;
+      max-width: 700px;
+      height: 200px;
+      margin: 20px auto;
+      display: block;
+      padding: 15px;
+      font-family: 'Courier New', monospace;
+      background: #fffef9;
+      border: 2px solid #aa9b78;
+      border-radius: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #5a4329;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📜 Export Journal Scroll</h1>
+  <textarea id="journalText" placeholder="Paste your journal entry here or auto-fill from saved journal..."></textarea>
+  <button onclick="generateScroll()">Download Scroll</button>
+  <button onclick="loadFromLocal()">Load My Journal</button>
+
+  <script>
+    async function generateScroll() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: "portrait", unit: "pt", format: "letter" });
+
+      const text = document.getElementById("journalText").value || "Nothing recorded.";
+      const lines = doc.splitTextToSize(text, 500);
+      doc.setFont("times", "normal");
+      doc.setFontSize(12);
+      doc.text("🪶 Elden Paths Journal Scroll", 40, 40);
+      doc.text(lines, 40, 80);
+      doc.save("EldenPaths_JournalScroll.pdf");
+    }
+
+    function loadFromLocal() {
+      const local = localStorage.getItem("eldenpaths_journal");
+      if (local) {
+        document.getElementById("journalText").value = local;
+      } else {
+        alert("No saved journal entry found.");
+      }
+    }
+  </script>
+</body>
+</html>
