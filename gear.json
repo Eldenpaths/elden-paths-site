@@ -1,63 +1,53 @@
 {
-  "gear": {
-    "iron_hatchet": {
-      "type": "tool",
-      "slot": "hand",
-      "material_type": "iron",
-      "tags": [
-        "woodwork",
-        "cutting"
-      ],
-      "weight": 3,
-      "base_durability": 60
-    },
-    "broad_axe": {
-      "type": "tool",
-      "slot": "hand",
-      "material_type": "steel",
-      "tags": [
-        "timber",
-        "heavy_cutting"
-      ],
-      "weight": 5,
-      "base_durability": 75
-    },
-    "leather_jerkin": {
-      "type": "clothing",
-      "slot": "torso",
-      "material_type": "wool",
-      "insulation": 0.75,
-      "weight": 2
-    },
-    "fur_cloak": {
-      "type": "clothing",
-      "slot": "back",
-      "material_type": "wool",
-      "insulation": 0.85,
-      "weight": 3
-    },
-    "forging_hammer": {
-      "type": "tool",
-      "slot": "hand",
-      "material_type": "iron",
-      "tags": [
-        "blacksmith",
-        "metalwork"
-      ],
-      "weight": 4,
-      "base_durability": 70
-    },
-    "longknife": {
+  "gear": [
+    {
+      "id": "iron_sword",
+      "name": "Iron Sword",
       "type": "weapon",
-      "slot": "hand",
-      "material_type": "steel",
-      "damage_die": "d6",
-      "tags": [
-        "combat",
-        "light_melee"
-      ],
-      "weight": 2,
-      "base_durability": 50
+      "damage": 8,
+      "durability": 100,
+      "weight": 6.0
+    },
+    {
+      "id": "leather_vest",
+      "name": "Leather Vest",
+      "type": "armor",
+      "defense": 2,
+      "durability": 85,
+      "weight": 4.5
+    },
+    {
+      "id": "hatchet",
+      "name": "Hatchet",
+      "type": "tool",
+      "uses": 20,
+      "durability": 74,
+      "weight": 3.0
+    },
+    {
+      "id": "staff_of_moss",
+      "name": "Staff of Moss",
+      "type": "weapon",
+      "damage": 4,
+      "durability": 60,
+      "effect": "Heals 1 HP per use",
+      "weight": 5.0
+    },
+    {
+      "id": "cotton_robes",
+      "name": "Cotton Robes",
+      "type": "armor",
+      "defense": 1,
+      "durability": 50,
+      "weight": 2.0
+    },
+    {
+      "id": "foraging_knife",
+      "name": "Foraging Knife",
+      "type": "tool",
+      "uses": 15,
+      "durability": 48,
+      "weight": 1.2
     }
-  }
+  ]
 }
