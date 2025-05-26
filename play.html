@@ -131,7 +131,13 @@
       if (tileMarkers[tile]) {
         const triggered = tileMarkers[tile].some(marker => marker.sketch_trigger);
         if (triggered) {
-          sketchImg.src = "sketches/" + tile + ".png";
+          
+    if (playerData.is_echo) {
+      sketchImg.src = "sketches/echo/" + tile + "_echo.png";
+    } else {
+      sketchImg.src = "sketches/" + tile + ".png";
+    }
+    
           sketchImg.alt = "Sketch for tile " + tile;
           sketchImg.style.display = "block";
         }
