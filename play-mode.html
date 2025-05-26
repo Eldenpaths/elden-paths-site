@@ -2,53 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Elden Paths™ – Player Mode</title>
+  <title>Play Mode - Elden Paths</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
-    body { background: #1c1c1c; color: #fce5c0; font-family: Georgia, serif; padding: 20px; }
-    #chatInterface, #buttonOptions { margin-top: 20px; }
-    button {
-      background: #444;
-      color: #fce5c0;
-      border: 1px solid #777;
-      padding: 10px 20px;
-      margin: 5px;
-      cursor: pointer;
+    body {
+      background-color: #0e0e0e;
+      color: #f0f0f0;
+      font-family: 'Georgia', serif;
+      padding: 2rem;
     }
-    button:hover {
-      background: #555;
+    h1 {
+      color: #ffc107;
+    }
+    .sketch-container {
+      border: 1px solid #444;
+      background: #1a1a1a;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .fallback {
+      color: #888;
+      font-style: italic;
+      margin-top: 1rem;
+    }
+    .retry {
+      margin-top: 0.5rem;
+      background: #ffc107;
+      color: #000;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .retry:hover {
+      background: #ffdb58;
     }
   </style>
 </head>
 <body>
-  <h1>Elden Paths™ – Choose Your Journey</h1>
-  <p>This screen adapts based on whether you're a GPT-powered player or a web-only traveler.</p>
+  <h1>🧭 Elden Paths - Play Mode</h1>
 
-  <div id="chatInterface" style="display: none;">
-    <h2>GPT+ Story Interface</h2>
-    <textarea rows="5" cols="60" placeholder="Enter your command..."></textarea>
-    <br />
-    <button>Submit</button>
-  </div>
-
-  <div id="buttonOptions" style="display: none;">
-    <h2>Web Player Interface</h2>
-    <button onclick="handleChoice('explore')">Explore</button>
-    <button onclick="handleChoice('rest')">Rest</button>
-    <button onclick="handleChoice('travel')">Travel</button>
+  <div class="sketch-container">
+    <h2>📷 Scene Sketch</h2>
+    <img src="scene_placeholder.jpg" alt="Scene sketch" width="500"/>
+    <div class="fallback">If your image is missing, the sketch engine may be under heavy load.</div>
+    <button class="retry" onclick="retrySketch()">Retry Sketch</button>
   </div>
 
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const isGPT = urlParams.get('mode') === 'gpt';
-
-    if (isGPT) {
-      document.getElementById('chatInterface').style.display = 'block';
-    } else {
-      document.getElementById('buttonOptions').style.display = 'block';
-    }
-
-    function handleChoice(action) {
-      alert("You chose: " + action + " (Web mode placeholder)");
+    function retrySketch() {
+      alert("Retrying sketch render... (simulated). Please wait a moment.");
     }
   </script>
 </body>
