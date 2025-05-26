@@ -1,0 +1,3204 @@
+{
+  "tiles": [
+    {
+      "tile_id": "tile_100_100",
+      "voxel_x": 100,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_101",
+      "voxel_x": 100,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_102",
+      "voxel_x": 100,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_103",
+      "voxel_x": 100,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_104",
+      "voxel_x": 100,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_105",
+      "voxel_x": 100,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_106",
+      "voxel_x": 100,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_107",
+      "voxel_x": 100,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_108",
+      "voxel_x": 100,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_109",
+      "voxel_x": 100,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_110",
+      "voxel_x": 100,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_111",
+      "voxel_x": 100,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_112",
+      "voxel_x": 100,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_113",
+      "voxel_x": 100,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_114",
+      "voxel_x": 100,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_115",
+      "voxel_x": 100,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_116",
+      "voxel_x": 100,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_117",
+      "voxel_x": 100,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_118",
+      "voxel_x": 100,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_100_119",
+      "voxel_x": 100,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_100",
+      "voxel_x": 101,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_101",
+      "voxel_x": 101,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_102",
+      "voxel_x": 101,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_103",
+      "voxel_x": 101,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_104",
+      "voxel_x": 101,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_105",
+      "voxel_x": 101,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_106",
+      "voxel_x": 101,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_107",
+      "voxel_x": 101,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_108",
+      "voxel_x": 101,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_109",
+      "voxel_x": 101,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_110",
+      "voxel_x": 101,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_111",
+      "voxel_x": 101,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_112",
+      "voxel_x": 101,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_113",
+      "voxel_x": 101,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_114",
+      "voxel_x": 101,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_115",
+      "voxel_x": 101,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_116",
+      "voxel_x": 101,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_117",
+      "voxel_x": 101,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_118",
+      "voxel_x": 101,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_101_119",
+      "voxel_x": 101,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_100",
+      "voxel_x": 102,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_101",
+      "voxel_x": 102,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_102",
+      "voxel_x": 102,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_103",
+      "voxel_x": 102,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_104",
+      "voxel_x": 102,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_105",
+      "voxel_x": 102,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_106",
+      "voxel_x": 102,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_107",
+      "voxel_x": 102,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_108",
+      "voxel_x": 102,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_109",
+      "voxel_x": 102,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_110",
+      "voxel_x": 102,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_111",
+      "voxel_x": 102,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_112",
+      "voxel_x": 102,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_113",
+      "voxel_x": 102,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_114",
+      "voxel_x": 102,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_115",
+      "voxel_x": 102,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_116",
+      "voxel_x": 102,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_117",
+      "voxel_x": 102,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_118",
+      "voxel_x": 102,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_102_119",
+      "voxel_x": 102,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_100",
+      "voxel_x": 103,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_101",
+      "voxel_x": 103,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_102",
+      "voxel_x": 103,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_103",
+      "voxel_x": 103,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_104",
+      "voxel_x": 103,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_105",
+      "voxel_x": 103,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_106",
+      "voxel_x": 103,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_107",
+      "voxel_x": 103,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_108",
+      "voxel_x": 103,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_109",
+      "voxel_x": 103,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_110",
+      "voxel_x": 103,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_111",
+      "voxel_x": 103,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_112",
+      "voxel_x": 103,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_113",
+      "voxel_x": 103,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_114",
+      "voxel_x": 103,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_115",
+      "voxel_x": 103,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_116",
+      "voxel_x": 103,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_117",
+      "voxel_x": 103,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_118",
+      "voxel_x": 103,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_103_119",
+      "voxel_x": 103,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_100",
+      "voxel_x": 104,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_101",
+      "voxel_x": 104,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_102",
+      "voxel_x": 104,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_103",
+      "voxel_x": 104,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_104",
+      "voxel_x": 104,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_105",
+      "voxel_x": 104,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_106",
+      "voxel_x": 104,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_107",
+      "voxel_x": 104,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_108",
+      "voxel_x": 104,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_109",
+      "voxel_x": 104,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_110",
+      "voxel_x": 104,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_111",
+      "voxel_x": 104,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_112",
+      "voxel_x": 104,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_113",
+      "voxel_x": 104,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_114",
+      "voxel_x": 104,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_115",
+      "voxel_x": 104,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_116",
+      "voxel_x": 104,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_117",
+      "voxel_x": 104,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_118",
+      "voxel_x": 104,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_104_119",
+      "voxel_x": 104,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_100",
+      "voxel_x": 105,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_101",
+      "voxel_x": 105,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_102",
+      "voxel_x": 105,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_103",
+      "voxel_x": 105,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_104",
+      "voxel_x": 105,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_105",
+      "voxel_x": 105,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_106",
+      "voxel_x": 105,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_107",
+      "voxel_x": 105,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_108",
+      "voxel_x": 105,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_109",
+      "voxel_x": 105,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_110",
+      "voxel_x": 105,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_111",
+      "voxel_x": 105,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_112",
+      "voxel_x": 105,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_113",
+      "voxel_x": 105,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_114",
+      "voxel_x": 105,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_115",
+      "voxel_x": 105,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_116",
+      "voxel_x": 105,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_117",
+      "voxel_x": 105,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_118",
+      "voxel_x": 105,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_105_119",
+      "voxel_x": 105,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_100",
+      "voxel_x": 106,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_101",
+      "voxel_x": 106,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_102",
+      "voxel_x": 106,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_103",
+      "voxel_x": 106,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_104",
+      "voxel_x": 106,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_105",
+      "voxel_x": 106,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_106",
+      "voxel_x": 106,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_107",
+      "voxel_x": 106,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_108",
+      "voxel_x": 106,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_109",
+      "voxel_x": 106,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_110",
+      "voxel_x": 106,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_111",
+      "voxel_x": 106,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_112",
+      "voxel_x": 106,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_113",
+      "voxel_x": 106,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_114",
+      "voxel_x": 106,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_115",
+      "voxel_x": 106,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_116",
+      "voxel_x": 106,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_117",
+      "voxel_x": 106,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_118",
+      "voxel_x": 106,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_106_119",
+      "voxel_x": 106,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_100",
+      "voxel_x": 107,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_101",
+      "voxel_x": 107,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_102",
+      "voxel_x": 107,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_103",
+      "voxel_x": 107,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_104",
+      "voxel_x": 107,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_105",
+      "voxel_x": 107,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_106",
+      "voxel_x": 107,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_107",
+      "voxel_x": 107,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_108",
+      "voxel_x": 107,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_109",
+      "voxel_x": 107,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_110",
+      "voxel_x": 107,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_111",
+      "voxel_x": 107,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_112",
+      "voxel_x": 107,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_113",
+      "voxel_x": 107,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_114",
+      "voxel_x": 107,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_115",
+      "voxel_x": 107,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_116",
+      "voxel_x": 107,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_117",
+      "voxel_x": 107,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_118",
+      "voxel_x": 107,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_107_119",
+      "voxel_x": 107,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_100",
+      "voxel_x": 108,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_101",
+      "voxel_x": 108,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_102",
+      "voxel_x": 108,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_103",
+      "voxel_x": 108,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_104",
+      "voxel_x": 108,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_105",
+      "voxel_x": 108,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_106",
+      "voxel_x": 108,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_107",
+      "voxel_x": 108,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_108",
+      "voxel_x": 108,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_109",
+      "voxel_x": 108,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_110",
+      "voxel_x": 108,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_111",
+      "voxel_x": 108,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_112",
+      "voxel_x": 108,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_113",
+      "voxel_x": 108,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_114",
+      "voxel_x": 108,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_115",
+      "voxel_x": 108,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_116",
+      "voxel_x": 108,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_117",
+      "voxel_x": 108,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_118",
+      "voxel_x": 108,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_108_119",
+      "voxel_x": 108,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_100",
+      "voxel_x": 109,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_101",
+      "voxel_x": 109,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_102",
+      "voxel_x": 109,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_103",
+      "voxel_x": 109,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_104",
+      "voxel_x": 109,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_105",
+      "voxel_x": 109,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_106",
+      "voxel_x": 109,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_107",
+      "voxel_x": 109,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_108",
+      "voxel_x": 109,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_109",
+      "voxel_x": 109,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_110",
+      "voxel_x": 109,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_111",
+      "voxel_x": 109,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_112",
+      "voxel_x": 109,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_113",
+      "voxel_x": 109,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_114",
+      "voxel_x": 109,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_115",
+      "voxel_x": 109,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_116",
+      "voxel_x": 109,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_117",
+      "voxel_x": 109,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_118",
+      "voxel_x": 109,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_109_119",
+      "voxel_x": 109,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_100",
+      "voxel_x": 110,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_101",
+      "voxel_x": 110,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_102",
+      "voxel_x": 110,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_103",
+      "voxel_x": 110,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_104",
+      "voxel_x": 110,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_105",
+      "voxel_x": 110,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_106",
+      "voxel_x": 110,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_107",
+      "voxel_x": 110,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_108",
+      "voxel_x": 110,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_109",
+      "voxel_x": 110,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_110",
+      "voxel_x": 110,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_111",
+      "voxel_x": 110,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_112",
+      "voxel_x": 110,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_113",
+      "voxel_x": 110,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_114",
+      "voxel_x": 110,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_115",
+      "voxel_x": 110,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_116",
+      "voxel_x": 110,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_117",
+      "voxel_x": 110,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_118",
+      "voxel_x": 110,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_110_119",
+      "voxel_x": 110,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_100",
+      "voxel_x": 111,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_101",
+      "voxel_x": 111,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_102",
+      "voxel_x": 111,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_103",
+      "voxel_x": 111,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_104",
+      "voxel_x": 111,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_105",
+      "voxel_x": 111,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_106",
+      "voxel_x": 111,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_107",
+      "voxel_x": 111,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_108",
+      "voxel_x": 111,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_109",
+      "voxel_x": 111,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_110",
+      "voxel_x": 111,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_111",
+      "voxel_x": 111,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_112",
+      "voxel_x": 111,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_113",
+      "voxel_x": 111,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_114",
+      "voxel_x": 111,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_115",
+      "voxel_x": 111,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_116",
+      "voxel_x": 111,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_117",
+      "voxel_x": 111,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_118",
+      "voxel_x": 111,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_111_119",
+      "voxel_x": 111,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_100",
+      "voxel_x": 112,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_101",
+      "voxel_x": 112,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_102",
+      "voxel_x": 112,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_103",
+      "voxel_x": 112,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_104",
+      "voxel_x": 112,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_105",
+      "voxel_x": 112,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_106",
+      "voxel_x": 112,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_107",
+      "voxel_x": 112,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_108",
+      "voxel_x": 112,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_109",
+      "voxel_x": 112,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_110",
+      "voxel_x": 112,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_111",
+      "voxel_x": 112,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_112",
+      "voxel_x": 112,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_113",
+      "voxel_x": 112,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_114",
+      "voxel_x": 112,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_115",
+      "voxel_x": 112,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_116",
+      "voxel_x": 112,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_117",
+      "voxel_x": 112,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_118",
+      "voxel_x": 112,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_112_119",
+      "voxel_x": 112,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_100",
+      "voxel_x": 113,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_101",
+      "voxel_x": 113,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_102",
+      "voxel_x": 113,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_103",
+      "voxel_x": 113,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_104",
+      "voxel_x": 113,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_105",
+      "voxel_x": 113,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_106",
+      "voxel_x": 113,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_107",
+      "voxel_x": 113,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_108",
+      "voxel_x": 113,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_109",
+      "voxel_x": 113,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_110",
+      "voxel_x": 113,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_111",
+      "voxel_x": 113,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_112",
+      "voxel_x": 113,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_113",
+      "voxel_x": 113,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_114",
+      "voxel_x": 113,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_115",
+      "voxel_x": 113,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_116",
+      "voxel_x": 113,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_117",
+      "voxel_x": 113,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_118",
+      "voxel_x": 113,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_113_119",
+      "voxel_x": 113,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_100",
+      "voxel_x": 114,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_101",
+      "voxel_x": 114,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_102",
+      "voxel_x": 114,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_103",
+      "voxel_x": 114,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_104",
+      "voxel_x": 114,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_105",
+      "voxel_x": 114,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_106",
+      "voxel_x": 114,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_107",
+      "voxel_x": 114,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_108",
+      "voxel_x": 114,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_109",
+      "voxel_x": 114,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_110",
+      "voxel_x": 114,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_111",
+      "voxel_x": 114,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_112",
+      "voxel_x": 114,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_113",
+      "voxel_x": 114,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_114",
+      "voxel_x": 114,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_115",
+      "voxel_x": 114,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_116",
+      "voxel_x": 114,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_117",
+      "voxel_x": 114,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_118",
+      "voxel_x": 114,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_114_119",
+      "voxel_x": 114,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_100",
+      "voxel_x": 115,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_101",
+      "voxel_x": 115,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_102",
+      "voxel_x": 115,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_103",
+      "voxel_x": 115,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_104",
+      "voxel_x": 115,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_105",
+      "voxel_x": 115,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_106",
+      "voxel_x": 115,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_107",
+      "voxel_x": 115,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_108",
+      "voxel_x": 115,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_109",
+      "voxel_x": 115,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_110",
+      "voxel_x": 115,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_111",
+      "voxel_x": 115,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_112",
+      "voxel_x": 115,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_113",
+      "voxel_x": 115,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_114",
+      "voxel_x": 115,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_115",
+      "voxel_x": 115,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_116",
+      "voxel_x": 115,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_117",
+      "voxel_x": 115,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_118",
+      "voxel_x": 115,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_115_119",
+      "voxel_x": 115,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_100",
+      "voxel_x": 116,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_101",
+      "voxel_x": 116,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_102",
+      "voxel_x": 116,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_103",
+      "voxel_x": 116,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_104",
+      "voxel_x": 116,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_105",
+      "voxel_x": 116,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_106",
+      "voxel_x": 116,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_107",
+      "voxel_x": 116,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_108",
+      "voxel_x": 116,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_109",
+      "voxel_x": 116,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_110",
+      "voxel_x": 116,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_111",
+      "voxel_x": 116,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_112",
+      "voxel_x": 116,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_113",
+      "voxel_x": 116,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_114",
+      "voxel_x": 116,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_115",
+      "voxel_x": 116,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_116",
+      "voxel_x": 116,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_117",
+      "voxel_x": 116,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_118",
+      "voxel_x": 116,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_116_119",
+      "voxel_x": 116,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_100",
+      "voxel_x": 117,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_101",
+      "voxel_x": 117,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_102",
+      "voxel_x": 117,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_103",
+      "voxel_x": 117,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_104",
+      "voxel_x": 117,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_105",
+      "voxel_x": 117,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_106",
+      "voxel_x": 117,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_107",
+      "voxel_x": 117,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_108",
+      "voxel_x": 117,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_109",
+      "voxel_x": 117,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_110",
+      "voxel_x": 117,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_111",
+      "voxel_x": 117,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_112",
+      "voxel_x": 117,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_113",
+      "voxel_x": 117,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_114",
+      "voxel_x": 117,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_115",
+      "voxel_x": 117,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_116",
+      "voxel_x": 117,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_117",
+      "voxel_x": 117,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_118",
+      "voxel_x": 117,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_117_119",
+      "voxel_x": 117,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_100",
+      "voxel_x": 118,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_101",
+      "voxel_x": 118,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_102",
+      "voxel_x": 118,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_103",
+      "voxel_x": 118,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_104",
+      "voxel_x": 118,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_105",
+      "voxel_x": 118,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_106",
+      "voxel_x": 118,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_107",
+      "voxel_x": 118,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_108",
+      "voxel_x": 118,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_109",
+      "voxel_x": 118,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_110",
+      "voxel_x": 118,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_111",
+      "voxel_x": 118,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "lake",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_112",
+      "voxel_x": 118,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_113",
+      "voxel_x": 118,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_114",
+      "voxel_x": 118,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_115",
+      "voxel_x": 118,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_116",
+      "voxel_x": 118,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_117",
+      "voxel_x": 118,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_118",
+      "voxel_x": 118,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_118_119",
+      "voxel_x": 118,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_100",
+      "voxel_x": 119,
+      "voxel_y": 100,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_101",
+      "voxel_x": 119,
+      "voxel_y": 101,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_102",
+      "voxel_x": 119,
+      "voxel_y": 102,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_103",
+      "voxel_x": 119,
+      "voxel_y": 103,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_104",
+      "voxel_x": 119,
+      "voxel_y": 104,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_105",
+      "voxel_x": 119,
+      "voxel_y": 105,
+      "voxel_z": 0,
+      "terrain_type": "volcanic",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_106",
+      "voxel_x": 119,
+      "voxel_y": 106,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_107",
+      "voxel_x": 119,
+      "voxel_y": 107,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_108",
+      "voxel_x": 119,
+      "voxel_y": 108,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_109",
+      "voxel_x": 119,
+      "voxel_y": 109,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_110",
+      "voxel_x": 119,
+      "voxel_y": 110,
+      "voxel_z": 0,
+      "terrain_type": "wetland",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_111",
+      "voxel_x": 119,
+      "voxel_y": 111,
+      "voxel_z": 0,
+      "terrain_type": "forest",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_112",
+      "voxel_x": 119,
+      "voxel_y": 112,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_113",
+      "voxel_x": 119,
+      "voxel_y": 113,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_114",
+      "voxel_x": 119,
+      "voxel_y": 114,
+      "voxel_z": 0,
+      "terrain_type": "meadow",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_115",
+      "voxel_x": 119,
+      "voxel_y": 115,
+      "voxel_z": 0,
+      "terrain_type": "valley",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_116",
+      "voxel_x": 119,
+      "voxel_y": 116,
+      "voxel_z": 0,
+      "terrain_type": "coast",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_117",
+      "voxel_x": 119,
+      "voxel_y": 117,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_118",
+      "voxel_x": 119,
+      "voxel_y": 118,
+      "voxel_z": 0,
+      "terrain_type": "plateau",
+      "region_hint": "Oregon Core"
+    },
+    {
+      "tile_id": "tile_119_119",
+      "voxel_x": 119,
+      "voxel_y": 119,
+      "voxel_z": 0,
+      "terrain_type": "mountain",
+      "region_hint": "Oregon Core"
+    }
+  ]
+}
