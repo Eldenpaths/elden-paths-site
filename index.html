@@ -2,35 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>Elden Paths - World Launcher</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Elden Paths™</title>
-  <link rel="stylesheet" href="theme-frazetta.css"/>
+  <style>
+    body {
+      background-color: #111;
+      font-family: 'Georgia', serif;
+      color: #f1f1f1;
+      text-align: center;
+      padding: 3rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #ffe600;
+    }
+    .nav-button {
+      display: block;
+      margin: 1.2rem auto;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      background-color: #222;
+      color: #ffe600;
+      border: 2px solid #ffe600;
+      border-radius: 6px;
+      text-decoration: none;
+      width: 60%;
+      max-width: 400px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .nav-button:hover {
+      background-color: #ffe600;
+      color: #111;
+    }
+  </style>
 </head>
 <body>
-  <div id="game-root">
-    <h1>Welcome to Elden Paths™</h1>
-    <p>Loading the world map and your adventure...</p>
-    <canvas id="mapCanvas" width="800" height="800"></canvas>
-  </div>
+  <h1>Elden Paths™</h1>
+  <p>Select a realm to explore or manage.</p>
 
-  <!-- Load supporting JSON config -->
-  <script src="tile_index.json" type="application/json"></script>
-  <script src="tile_meta.json" type="application/json"></script>
+  <a class="nav-button" href="/maps.html">🌍 World Map</a>
+  <a class="nav-button" href="/codex.html">📜 Codex of Echoes</a>
+  <a class="nav-button" href="/journal.html">🧭 Player Journal</a>
+  <a class="nav-button" href="/admin.html">🛠️ Admin Panel</a>
+  <a class="nav-button" href="/site/echo_wall.html">🧱 EchoWall</a>
 
-  <!-- Main logic (correct order) -->
-  <script src="tile_renderer.js"></script>
-    <script src="play.js"></script>
-
-  <!-- Init -->
-  <script>
-    window.addEventListener("load", () => {
-      if (typeof initGame === 'function') {
-        initGame(); // Launches from play.js
-      } else {
-        document.getElementById("game-root").innerHTML +=
-          '<p><strong>Error:</strong> initGame() not found.</p>';
-      }
-    });
-  </script>
 </body>
 </html>
