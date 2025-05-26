@@ -31,6 +31,40 @@
     errorTileUrl: ''
   }).addTo(map);
 
+  let isEcho = false;
+
+  function addSketchMarkers(tileMarkers) {
+    for (const tile in tileMarkers) {
+      const [x, y] = tile.split("_").map(Number);
+      const px = x * 1024 + 512;
+      const py = y * 1024 + 512;
+
+      for (const marker of tileMarkers[tile]) {
+        if (marker.type === "shrine") {
+          const icon = L.divIcon({ className: 'marker-shrine' });
+          L.marker([py, px], { icon }).addTo(map).bindPopup(marker.name || "Shrine");
+        }
+
+        if (marker.type === "encounter" && marker.active) {
+          const icon = L.divIcon({ className: 'marker-encounter' });
+          const label = `Encounter: ${marker.encounter_type || "Unknown Event"}`;
+          L.marker([py, px], { icon }).addTo(map).bindPopup(label);
+        }
+
+        if (marker.sketch_trigger) {
+          const imgSrc = isEcho ? `./sketches/echo/${tile}_echo.png` : `./sketches/${tile}.png`;
+          const preview = `<img src="${imgSrc}" class="popup-sketch" alt="Sketch for ${tile}" />`;
+          const thumb = L.rectangle([[py-100, px-100], [py+100, px+100]], {
+            color: "#fff",
+            weight: 1,
+            fillOpacity: 0.05
+          }).addTo(map);
+          thumb.bindPopup(preview);
+        }
+      }
+    }
+  }
+
   // Load fog overlay
   fetch("./data/tile_index.json")
     .then(res => res.json())
@@ -51,42 +85,7 @@
       }
     });
 
-  // Load marker types and sketch previews
-  fetch("./data/tile_markers.json")
-    .then(res => res.json())
-    .then(data => {
-      for (const tile in data) {
-        const [x, y] = tile.split("_").map(Number);
-        const px = x * 1024 + 512;
-        const py = y * 1024 + 512;
-
-        for (const marker of data[tile]) {
-          if (marker.type === "shrine") {
-            const icon = L.divIcon({ className: 'marker-shrine' });
-            L.marker([py, px], { icon }).addTo(map).bindPopup(marker.name || "Shrine");
-          }
-
-          if (marker.type === "encounter" && marker.active) {
-            const icon = L.divIcon({ className: 'marker-encounter' });
-            const label = `Encounter: ${marker.encounter_type || "Unknown Event"}`;
-            L.marker([py, px], { icon }).addTo(map).bindPopup(label);
-          }
-
-          if (marker.sketch_trigger) {
-            const imgSrc = `./sketches/${tile}.png`;
-            const preview = `<img src="${imgSrc}" class="popup-sketch" alt="Sketch for ${tile}" />`;
-            const thumb = L.rectangle([[py-100, px-100], [py+100, px+100]], {
-              color: "#fff",
-              weight: 1,
-              fillOpacity: 0.05
-            }).addTo(map);
-            thumb.bindPopup(preview);
-          }
-        }
-      }
-    });
-
-  // Load players
+  // Load player data first to detect Echo
   fetch("./data/players.json")
     .then(res => res.json())
     .then(players => {
@@ -99,7 +98,16 @@
         const icon = L.divIcon({ className: iconClass });
         const label = `${name} (HP: ${player.hp}, XP: ${player.xp})`;
         L.marker([py, px], { icon }).addTo(map).bindPopup(label);
+
+        if (player.is_echo) isEcho = true;
       }
+
+      // After detecting Echo, load tile markers
+      fetch("./data/tile_markers.json")
+        .then(res => res.json())
+        .then(tileMarkers => {
+          addSketchMarkers(tileMarkers);
+        });
     });
 </script>
 </body>
