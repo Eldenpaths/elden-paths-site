@@ -1,0 +1,13 @@
+{
+  "npc_actions": {
+    "explore_new_tile": "sketch_and_voxel_capture",
+    "build_structure": "save_gltf_structure",
+    "leave_object": "model_from_prompt",
+    "trigger_ritual": "memory_and_sketch"
+  },
+  "npc_whitelist": [
+    "Inkhern",
+    "Builder NPCs",
+    "Lore Archivers"
+  ]
+}
