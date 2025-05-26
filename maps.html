@@ -3,52 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <title>Elden Paths – World Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <style>
-    body { background: #0b0b0b; color: #ddd; font-family: sans-serif; text-align: center; margin: 0; }
-    canvas { margin-top: 20px; background: #1a1a1a; border: 1px solid #444; }
+    html, body, #map { margin: 0; height: 100%; width: 100%; background: #000; }
+    .marker-shrine {
+      background-color: gold;
+      border-radius: 50%;
+      width: 12px;
+      height: 12px;
+      border: 1px solid #444;
+    }
   </style>
 </head>
 <body>
-  <h1>Elden Paths – Master Map</h1>
-  <canvas id="mapCanvas" width="800" height="600"></canvas>
-  <script>
-    const canvas = document.getElementById("mapCanvas");
-    const ctx = canvas.getContext("2d");
-    const tileSize = 40;
-    const cols = canvas.width / tileSize;
-    const rows = canvas.height / tileSize;
+<div id="map"></div>
+<script>
+  const map = L.map('map', {
+    minZoom: 1,
+    maxZoom: 3,
+    crs: L.CRS.Simple
+  }).setView([0, 0], 1);
 
-    async function loadData() {
-      const tileIndex = await fetch("data/tile_index.json").then(res => res.json());
-      const tileMarkers = await fetch("data/tile_markers.json").then(res => res.json());
+  const bounds = [[0,0], [1024*3, 1024*3]];
+  const tileLayer = L.tileLayer('./map_tiles/z1/{x}_{y}.png', {
+    tileSize: 1024,
+    noWrap: true,
+    bounds: bounds,
+    errorTileUrl: ''
+  }).addTo(map);
 
-      for (let x = 0; x < cols; x++) {
-        for (let y = 0; y < rows; y++) {
-          const key = x + "_" + y;
-          const tile = tileIndex[key];
-          const markers = tileMarkers[key] || [];
-
-          // Default fill
-          ctx.fillStyle = tile && tile.fog_cleared ? "#3a3" : "#111";
-          ctx.fillRect(x * tileSize, y * tileSize, tileSize - 1, tileSize - 1);
-
-          // Draw marker icons
-          for (let marker of markers) {
-            if (marker.type === "shrine") {
-              ctx.fillStyle = "#dd0";
-              ctx.beginPath();
-              ctx.arc(x * tileSize + 20, y * tileSize + 20, 6, 0, 2 * Math.PI);
-              ctx.fill();
-            } else if (marker.type === "ruin") {
-              ctx.fillStyle = "#888";
-              ctx.fillRect(x * tileSize + 12, y * tileSize + 12, 16, 16);
-            }
+  // Sample shrine marker
+  fetch("./data/tile_markers.json")
+    .then(res => res.json())
+    .then(data => {
+      for (const tile in data) {
+        for (const marker of data[tile]) {
+          if (marker.type === "shrine") {
+            const [x, y] = tile.split("_").map(Number);
+            const px = x * 1024 + 512;
+            const py = y * 1024 + 512;
+            const icon = L.divIcon({ className: 'marker-shrine' });
+            L.marker([py, px], { icon }).addTo(map).bindPopup(marker.name || "Shrine");
           }
         }
       }
-    }
-
-    loadData();
-  </script>
+    });
+</script>
 </body>
 </html>
