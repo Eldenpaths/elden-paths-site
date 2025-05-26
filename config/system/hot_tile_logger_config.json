@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "thresholds": {
+    "player_visits": 3,
+    "combat_encounters": 1,
+    "structure_built": 1,
+    "weather_events": 2
+  },
+  "upgrade_actions": [
+    "increase_voxel_resolution",
+    "cache_tile_traces",
+    "flag_for_admin_preview"
+  ],
+  "log_path": "/logs/hot_tiles.json",
+  "auto_promotion": true,
+  "notify_admin": true
+}
