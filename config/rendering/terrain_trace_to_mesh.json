@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "on_fog_clear": true,
+  "minimum_elevation_change": 5,
+  "output_format": "OBJ",
+  "output_path": "/builder_cache/terrain_mesh/",
+  "simplify_mesh": true,
+  "trigger_only_if_player_or_npc_present": true
+}
