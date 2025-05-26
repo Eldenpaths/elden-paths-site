@@ -1,54 +1,51 @@
 {
-  "tiles": {
-    "tile_101": {
-      "terrain": "coastal",
-      "elevation": "sea_level",
-      "sketch_id": "shatter_coast"
+  "tiles": [
+    {
+      "id": "tile_42C",
+      "terrain": "fog_forest",
+      "fog": true,
+      "weather": "mist, light wind",
+      "markers": [
+        "glyph_warning"
+      ],
+      "history": [
+        "marked_by_SilentWalker",
+        "sketch_triggered"
+      ]
     },
-    "tile_102": {
-      "terrain": "river",
-      "elevation": "valley",
-      "sketch_id": "river_crossing"
+    {
+      "id": "tile_41B",
+      "terrain": "rocky_pass",
+      "fog": false,
+      "weather": "overcast",
+      "markers": [],
+      "history": [
+        "battle_site"
+      ]
     },
-    "tile_103": {
-      "terrain": "grassland",
-      "elevation": "flat",
-      "sketch_id": "open_field_dawn"
+    {
+      "id": "tile_37D",
+      "terrain": "herbal_glen",
+      "fog": false,
+      "weather": "morning dew, birdsong",
+      "markers": [
+        "flora_node"
+      ],
+      "history": [
+        "visited_by_EmberTide"
+      ]
     },
-    "tile_104": {
-      "terrain": "forest",
-      "elevation": "low",
-      "sketch_id": "forest_path_day"
-    },
-    "tile_105": {
-      "terrain": "grassland",
-      "elevation": "flat",
-      "sketch_id": "open_field_dawn"
-    },
-    "tile_106": {
-      "terrain": "mountain",
-      "elevation": "high",
-      "sketch_id": "rocky_peak"
-    },
-    "tile_107": {
-      "terrain": "desert",
-      "elevation": "flat",
-      "sketch_id": "dry_lake_crack"
-    },
-    "tile_108": {
-      "terrain": "lake",
-      "elevation": "basin",
-      "sketch_id": "crater_lake_sunset"
-    },
-    "tile_109": {
-      "terrain": "volcanic",
-      "elevation": "peak",
-      "sketch_id": "smoke_crowned"
-    },
-    "tile_110": {
-      "terrain": "cliff",
-      "elevation": "high",
-      "sketch_id": "basalt_drop"
+    {
+      "id": "tile_15A",
+      "terrain": "settlement_site",
+      "fog": false,
+      "weather": "clear, warm breeze",
+      "markers": [
+        "founder_oath"
+      ],
+      "history": [
+        "oath_founded_SilentWalker"
+      ]
     }
-  }
+  ]
 }
