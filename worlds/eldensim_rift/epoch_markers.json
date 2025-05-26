@@ -1,0 +1,10 @@
+{
+  "pleistocene": {
+    "label": "Early Tool Age",
+    "sketch_prompt": "an open Rift Valley plain with mammoths and early stone tools scattered, drawn on worn hide"
+  },
+  "holocene": {
+    "label": "Hunter-Gatherer Shift",
+    "sketch_prompt": "small human figures along a grassy escarpment, foraging among ancient baobabs"
+  }
+}
