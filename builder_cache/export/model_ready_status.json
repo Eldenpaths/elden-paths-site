@@ -1,0 +1,33 @@
+{
+  "assets": [
+    {
+      "name": "burnt_camp_trail_01_struct.gltf",
+      "type": "structure",
+      "status": "static_final",
+      "notes": "Fully usable in engine, optional UV refinement."
+    },
+    {
+      "name": "ridge_lurker.gltf",
+      "type": "creature",
+      "status": "requires_rig",
+      "notes": "Needs skeleton and weight paint for animation."
+    },
+    {
+      "name": "obsidian_bone_hammer.gltf",
+      "type": "item",
+      "status": "game_ready",
+      "notes": "Ready to drop into engine as a game prop."
+    },
+    {
+      "name": "ridge_valley_obj_013.obj",
+      "type": "terrain",
+      "status": "static_final",
+      "notes": "Useable as terrain tile or map segment."
+    }
+  ],
+  "meta": {
+    "generated": "auto",
+    "build_version": "v1.0",
+    "linked_game": "Elden Parallel Build"
+  }
+}
