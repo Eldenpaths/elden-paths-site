@@ -1,0 +1,23 @@
+{
+  "crater_lake": {
+    "tile": "tile_112_117",
+    "epoch": "permian",
+    "marker_type": "volcanic_basin",
+    "sketch_prompt": "a caldera ring under the red Permian sun, bone fragments lining the crater rim",
+    "animation": "ash_whorl"
+  },
+  "salt_hollow": {
+    "tile": "tile_109_115",
+    "epoch": "pleistocene",
+    "marker_type": "dried lake",
+    "sketch_prompt": "a cracked basin with stone tools and mammoth tracks in the salt crust",
+    "animation": "dust_sweep"
+  },
+  "cretaceous_wilds": {
+    "tile": "tile_120_105",
+    "epoch": "cretaceous",
+    "marker_type": "dense marsh",
+    "sketch_prompt": "mist rises over a lush marshland with ferns and shadows of towering creatures",
+    "animation": "fog_breath"
+  }
+}
