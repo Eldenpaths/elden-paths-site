@@ -1,50 +1,27 @@
 {
-  "0_0": {
-    "biome": "faultblock_steppe",
-    "elevation_avg": 1612,
+  "-11_117": {
+    "biome": "coastal_estuary",
+    "elevation_avg": 8,
     "features": [
-      "ridge",
-      "dry_basin",
-      "stone pillar"
+      "river_mouth",
+      "tidal_marsh",
+      "bluff"
     ],
     "real_coords": [
-      42.6935,
-      -120.5371
-    ],
-    "weather_flags": [
-      "wind_swept"
-    ],
-    "structure_points": [
-      {
-        "x": 782,
-        "y": 420,
-        "slope": 1.9,
-        "facing": "E"
-      },
-      {
-        "x": 120,
-        "y": 890,
-        "slope": 0.2,
-        "sacred": true
-      }
+      46.1879,
+      -123.8313
     ],
     "tile_memory": {
-      "blood_spilled": false,
-      "plantings": [
-        "juniper"
-      ],
-      "sketch_triggered": true,
-      "visited_by": [
-        "Kova"
-      ],
-      "structure": "stone cairn"
+      "structure": "port_village",
+      "visited_by": [],
+      "sketch_triggered": false
     },
     "lore_hook": {
-      "type": "mystery",
-      "text": "A lone stone pillar stands in the open basin, untouched by moss or time. Locals avoid it."
+      "type": "harbor",
+      "text": "The harbor at Gravesport is sheltered by sea-worn cliffs and carved from centuries of tidal flow. Sailors speak of carved faces on the river stones at low tide."
     },
     "trails": [
-      "ancient_passage"
+      "coastline_passage"
     ]
   }
 }
