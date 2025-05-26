@@ -1,97 +1,114 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Silent Walker's Journal</title>
+  <title>Journal Editor - Elden Paths</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      background-color: #1e1e1e;
-      color: #e6e6e6;
-      font-family: Georgia, serif;
+      font-family: 'Georgia', serif;
+      background-color: #101010;
+      color: #f0f0f0;
       padding: 2rem;
     }
     h1 {
-      color: #d4af37;
+      color: #ffe082;
+      font-size: 2rem;
     }
-    .entry-form {
-      background: #2c2c2c;
-      padding: 1rem;
-      border-radius: 8px;
+    section {
       margin-bottom: 2rem;
+      background: #1c1c1c;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 1rem;
     }
-    input, textarea {
+    label {
+      display: block;
+      margin: 0.5rem 0 0.2rem;
+    }
+    input, textarea, button {
       width: 100%;
-      margin-top: 0.5rem;
-      margin-bottom: 1rem;
       padding: 0.5rem;
-      background: #1b1b1b;
-      color: #f1f1f1;
-      border: 1px solid #444;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: none;
+    }
+    textarea {
+      height: 120px;
+      resize: vertical;
     }
     button {
-      background-color: #d4af37;
-      color: #1e1e1e;
-      border: none;
-      padding: 0.5rem 1rem;
+      background: #ffe082;
+      color: #000;
       font-weight: bold;
       cursor: pointer;
     }
-    .log {
-      margin-top: 2rem;
+    button:hover {
+      background: #ffeb99;
     }
     .entry {
-      background: #292929;
-      padding: 1rem;
-      border-radius: 6px;
-      margin-bottom: 1rem;
+      border-bottom: 1px solid #333;
+      padding: 0.5rem 0;
     }
-    .entry time {
-      color: #888;
+    .entry:last-child {
+      border-bottom: none;
+    }
+    .entry-title {
+      color: #ffcc66;
+      font-weight: bold;
+    }
+    .entry-meta {
       font-size: 0.85rem;
+      color: #888;
     }
   </style>
 </head>
 <body>
-  <h1>Silent Walker's Journal</h1>
-  <div class="entry-form">
-    <label for="title">Entry Title</label>
-    <input type="text" id="title" placeholder="Reflections in the mist...">
+  <h1>📖 Field Journal</h1>
 
-    <label for="content">Journal Text</label>
-    <textarea id="content" rows="8" placeholder="What did you see on the trail today?"></textarea>
+  <section>
+    <h2>✍️ Add New Entry</h2>
+    <label for="entryTitle">Title</label>
+    <input type="text" id="entryTitle" placeholder="e.g., Ruins of the East Pass" />
+
+    <label for="tileId">Tile ID</label>
+    <input type="text" id="tileId" placeholder="e.g., tile_42C" />
+
+    <label for="entryBody">Notes</label>
+    <textarea id="entryBody" placeholder="Describe what happened..."></textarea>
 
     <button onclick="saveEntry()">Save Entry</button>
-  </div>
+  </section>
 
-  <div class="log" id="log"></div>
+  <section>
+    <h2>📜 Previous Entries</h2>
+    <div id="journalLog">
+      <div class="entry">
+        <div class="entry-title">Watcher’s Ridge</div>
+        <div class="entry-meta">tile_31A | 2025-05-21</div>
+        <div>Observed signs of movement in the upper trees. Marked area with trail glyphs.</div>
+      </div>
+    </div>
+  </section>
 
   <script>
-    const logEl = document.getElementById('log');
-
     function saveEntry() {
-      const title = document.getElementById('title').value.trim();
-      const content = document.getElementById('content').value.trim();
-      const time = new Date().toISOString();
+      const title = document.getElementById('entryTitle').value;
+      const tile = document.getElementById('tileId').value;
+      const body = document.getElementById('entryBody').value;
+      const now = new Date().toISOString().split('T')[0];
 
-      if (!title || !content) return alert("Both title and entry must be filled out.");
+      const entryDiv = document.createElement('div');
+      entryDiv.className = 'entry';
+      entryDiv.innerHTML = `
+        <div class="entry-title">${title}</div>
+        <div class="entry-meta">${tile} | ${now}</div>
+        <div>${body}</div>
+      `;
 
-      const entry = {
-        title,
-        content,
-        time
-      };
-
-      // Display locally for now
-      const div = document.createElement('div');
-      div.className = 'entry';
-      div.innerHTML = `<strong>${entry.title}</strong><br><time>${entry.time}</time><p>${entry.content}</p>`;
-      logEl.prepend(div);
-
-      // Console log for now
-      console.log("New journal entry:", entry);
-
-      // TODO: Save to GitHub or local file in phase 2
+      document.getElementById('journalLog').prepend(entryDiv);
+      alert('Entry saved (simulated)');
     }
   </script>
 </body>
