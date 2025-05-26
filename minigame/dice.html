@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dice of Bones</title>
+  <style>
+    body {
+      font-family: 'Garamond', serif;
+      background: #fdf9f3;
+      color: #3b2a1d;
+      padding: 40px;
+      text-align: center;
+    }
+    #diceBox {
+      margin-top: 20px;
+      font-size: 48px;
+      letter-spacing: 10px;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-style: italic;
+    }
+    button {
+      font-size: 18px;
+      padding: 10px 30px;
+      margin-top: 30px;
+      background: #5c4330;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    img {
+      max-height: 220px;
+      border: 2px solid #3b2a1d;
+      border-radius: 10px;
+      margin-top: 20px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <h1>🎲 Dice of Bones</h1>
+  <img src="gravesport_dice_sketch.jpg" alt="Sketch of Bone Cask tavern with dice on table">
+  <div id="diceBox">⚀ ⚁</div>
+  <div id="result">Roll the bones to test your fate…</div>
+  <button onclick="rollDice()">Roll Dice</button>
+
+  <script>
+    function rollDice() {
+      const die1 = Math.ceil(Math.random() * 6);
+      const die2 = Math.ceil(Math.random() * 6);
+      const total = die1 + die2;
+
+      const diceUnicode = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+      const die1Symbol = diceUnicode[die1 - 1];
+      const die2Symbol = diceUnicode[die2 - 1];
+
+      document.getElementById("diceBox").textContent = `${die1Symbol} ${die2Symbol}`;
+
+      let outcome = "";
+      if (total === 2 || total === 12) {
+        outcome = "⚠️ The Skull — You lose double!";
+      } else if (total === 7) {
+        outcome = "🎉 The Rattle — You win triple!";
+      } else if (total >= 9) {
+        outcome = "😊 Solid bones — you win!";
+      } else if (total <= 3) {
+        outcome = "☠️ Cracked bones — you lose!";
+      } else {
+        outcome = "🌀 Tide pulls — draw again.";
+      }
+
+      document.getElementById("result").textContent = `Total: ${total} → ${outcome}`;
+    }
+  </script>
+</body>
+</html>
