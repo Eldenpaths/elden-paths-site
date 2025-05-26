@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths – Play</title>
+  <title>Elden Paths – Play (Echo System)</title>
   <style>
     body { background: #111; color: #eee; font-family: sans-serif; padding: 2em; text-align: center; }
     #sketch, #encounter { margin-top: 1em; max-width: 90%; border: 2px solid #444; display: none; }
@@ -21,8 +21,7 @@
 
   <script>
     const playerName = "example_player";
-    const forestRespawnTiles = ["12_10", "14_18", "10_15", "16_11", "13_14"];
-    let playerData, tileMarkers, encounters;
+    let playerData, tileMarkers, encounters, tileIndex;
     let currentEnemy = null;
 
     async function fetchJSON(path) {
@@ -53,6 +52,7 @@
     }
 
     function respawn() {
+      const forestRespawnTiles = ["12_10", "14_18", "10_15", "16_11", "13_14"];
       const randomTile = forestRespawnTiles[Math.floor(Math.random() * forestRespawnTiles.length)];
       playerData.hp = 6;
       playerData.tile = randomTile;
@@ -63,7 +63,7 @@
 
     async function loadGame() {
       const basePlayers = await fetchJSON("data/players.json");
-      const tileIndex = await fetchJSON("data/tile_index.json");
+      tileIndex = await fetchJSON("data/tile_index.json");
       tileMarkers = await fetchJSON("data/tile_markers.json");
       encounters = await fetchJSON("data/encounters.json");
 
@@ -78,11 +78,31 @@
       const messageDiv = document.getElementById("message");
       const combatDiv = document.getElementById("combat");
 
+      if (playerData.is_echo) {
+        combatDiv.innerHTML = "<p>You are now an Echo... a memory in the land. You may watch, but not act.</p>";
+        return;
+      }
+
       if (playerData.hp <= 0) {
-        combatDiv.innerHTML = `
-          <p>You have fallen in battle...</p>
-          <button onclick='respawn()'>Respawn</button>
-        `;
+        playerData.death_count += 1;
+
+        // Drop gear
+        if (!tileIndex[tile].dropped_gear) tileIndex[tile].dropped_gear = [];
+        tileIndex[tile].dropped_gear.push(...playerData.gear);
+        playerData.gear = [];
+
+        if (playerData.death_count >= 4) {
+          playerData.is_echo = true;
+          combatDiv.innerHTML = "<p>Your final death has come. You are now an Echo, bound to the world’s memory.</p>";
+        } else {
+          combatDiv.innerHTML = `
+            <p>You have fallen in battle. (${playerData.death_count}/4 deaths used)</p>
+            <p>Your gear has been dropped at this location.</p>
+            <button onclick='respawn()'>Respawn</button>
+          `;
+        }
+
+        localStorage.setItem("eldenpaths_" + playerName, JSON.stringify(playerData));
         return;
       }
 
@@ -133,8 +153,7 @@
       outcome += `<p><strong>Your HP:</strong> ${playerData.hp} | <strong>Enemy HP:</strong> ${currentEnemy.hp}</p>`;
 
       if (playerData.hp <= 0) {
-        outcome += `<p>You collapse from your wounds... (Respawn required)</p>`;
-        outcome += `<button onclick='respawn()'>Respawn</button>`;
+        outcome += `<p>You collapse from your wounds... (Respawn or Echo state triggered)</p>`;
       } else if (currentEnemy.hp <= 0) {
         outcome += `<p>You have defeated the ${currentEnemy.name}!</p>`;
         playerData.xp += 1;
