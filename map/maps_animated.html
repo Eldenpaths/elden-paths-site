@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Elden Paths: Animated Map</title>
+  <style>
+    body { background: #f9f3e6; font-family: 'Garamond', serif; color: #3a2d1f; }
+    canvas { border: 2px solid #444; display: block; margin: 20px auto; background: #fefbf3; }
+    #controls { text-align: center; }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center;">📜 Elden Paths: Living Scroll Map</h1>
+  <div id="controls">
+    <button onclick="redraw()">Redraw with Ink</button>
+  </div>
+  <canvas id="mapCanvas" width="800" height="800"></canvas>
+  <script src="glyph_motion.js"></script>
+  <script>
+    const canvas = document.getElementById("mapCanvas");
+    const ctx = canvas.getContext("2d");
+
+    async function loadTiles() {
+      const response = await fetch("tile_index.json");
+      return (await response.json()).tiles;
+    }
+
+    async function loadInkLayers() {
+      const response = await fetch("map_ink_layers.json");
+      return await response.json();
+    }
+
+    function drawTile(tile, size = 10) {
+      const x = (tile.voxel_x - 100) * size;
+      const y = (tile.voxel_y - 100) * size;
+      ctx.fillStyle = "#ddd";
+      ctx.fillRect(x, y, size, size);
+    }
+
+    async function redraw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const tiles = await loadTiles();
+      const inkLayers = await loadInkLayers();
+
+      tiles.forEach(tile => {
+        drawTile(tile);
+        const id = tile.tile_id;
+        if (inkLayers[id]) {
+          animateGlyph((tile.voxel_x - 100) * 10 + 5, (tile.voxel_y - 100) * 10 + 5, inkLayers[id].glyph);
+        }
+      });
+    }
+
+    redraw();
+  </script>
+</body>
+</html>
