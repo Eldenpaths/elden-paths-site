@@ -1,0 +1,16 @@
+{
+  "sketch_validator": {
+    "enabled": true,
+    "orientation_check": true,
+    "building_match_check": true,
+    "fog_overlay_check": true,
+    "scene_context_validation": [
+      "high_tide",
+      "low_tide"
+    ],
+    "error_reporting": "log_only",
+    "approved_layouts": {
+      "gravesport": "town_model_gravesport.json"
+    }
+  }
+}
