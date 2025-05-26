@@ -2,82 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths - Play</title>
+  <title>Elden Paths – Play</title>
   <style>
-    body {
-      font-family: 'Garamond', serif;
-      background: #f8f5f0;
-      color: #2e1a0e;
-      padding: 20px;
-    }
-    #playerStatus {
-      background: #fff7e6;
-      border: 2px solid #a67c52;
-      padding: 15px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      max-width: 300px;
-    }
-    #combatLog {
-      white-space: pre-wrap;
-      background: #fcf0da;
-      padding: 10px;
-      border: 1px solid #d8b585;
-      border-radius: 8px;
-      margin-top: 20px;
-    }
-    button {
-      margin: 6px 0;
-      padding: 8px 16px;
-      background: #7b5b3e;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+    body { background: #111; color: #eee; font-family: sans-serif; padding: 2em; text-align: center; }
+    #sketch { margin-top: 1em; max-width: 90%; border: 2px solid #444; }
   </style>
 </head>
 <body>
-  <h1>🌲 Elden Paths - Game Session</h1>
-  <div id="playerStatus">Loading player...</div>
-  <button onclick="savePlayerState()">💾 Save</button>
-  <button onclick="startCombat()">⚔️ Start Combat (vs Bograt)</button>
-  <div id="combatLog"></div>
+  <h1>Elden Paths – Play</h1>
+  <div id="status">Loading player data...</div>
+  <img id="sketch" style="display:none;" />
 
-  <script src="/scripts/save_load.js"></script>
-  <script src="/scripts/combat.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      displayPlayerState("playerStatus");
-    });
+    const playerName = "example_player";  // Static player for now
+    let playerData, tileMarkers;
 
-    function startCombat() {
-      const raw = localStorage.getItem("player_state");
-      if (!raw) return alert("No player state saved!");
-
-      const player = JSON.parse(raw);
-      const playerData = {
-        name: player.name || "Unnamed",
-        hp: player.hp || 20,
-        ac: 12,
-        weapon: { dmg: 6, mod: 2 }
-      };
-
-      const enemy = {
-        name: "Bograt",
-        hp: 12,
-        ac: 10,
-        weapon: { dmg: 4, mod: 1 }
-      };
-
-      const result = resolveCombat(playerData, enemy);
-      document.getElementById("combatLog").textContent = result.log.join("\n") + "\n\n🏁 Outcome: " + result.outcome;
-
-      // Save reduced HP if player survived
-      player.hp = result.playerFinalHP;
-      localStorage.setItem("player_state", JSON.stringify(player));
-      displayPlayerState("playerStatus");
+    async function fetchJSON(path) {
+      const res = await fetch(path);
+      return await res.json();
     }
+
+    async function loadGame() {
+      const players = await fetchJSON("data/players.json");
+      const tileIndex = await fetchJSON("data/tile_index.json");
+      tileMarkers = await fetchJSON("data/tile_markers.json");
+
+      playerData = players[playerName];
+      const tile = playerData.tile;
+      const fogged = !tileIndex[tile]?.fog_cleared;
+      document.getElementById("status").textContent = `You are at tile ${tile} (${fogged ? "shrouded in fog" : "visible"}).`;
+
+      // Check for sketch trigger
+      if (tileMarkers[tile]) {
+        const triggered = tileMarkers[tile].some(marker => marker.sketch_trigger);
+        if (triggered) {
+          const sketchImg = document.getElementById("sketch");
+          sketchImg.src = `sketches/${tile}.png`; // Placeholder path
+          sketchImg.alt = `Sketch for tile ${tile}`;
+          sketchImg.style.display = "block";
+        }
+      }
+    }
+
+    loadGame();
   </script>
 </body>
 </html>
