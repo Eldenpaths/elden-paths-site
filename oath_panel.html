@@ -1,69 +1,117 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Oath Binding Panel – Elden Paths</title>
+  <title>Oath Panel - Elden Paths</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: Georgia, serif; background: #111; color: #eee; padding: 2rem; }
-    h1 { color: #87ceeb; }
-    .oath {
-      background: #1e1e1e;
-      padding: 1rem;
-      margin-top: 1rem;
-      border-left: 4px solid #87ceeb;
-      border-radius: 6px;
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #111;
+      color: #f5f5f5;
+      padding: 2rem;
     }
-    label { font-weight: bold; display: block; margin-top: 1rem; }
-    input, textarea {
-      background: #222;
-      color: #fff;
-      border: 1px solid #444;
+    h1 {
+      font-size: 2rem;
+      color: #ffc107;
+    }
+    section {
+      margin-bottom: 2rem;
+      background: #1c1c1c;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 1rem;
+    }
+    label {
+      display: block;
+      margin: 0.5rem 0 0.2rem;
+    }
+    input, select, button {
       width: 100%;
       padding: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: none;
     }
     button {
-      background: #87ceeb;
+      background: #ffc107;
       color: #000;
       font-weight: bold;
-      margin-top: 1rem;
-      padding: 0.5rem 1rem;
-      border: none;
       cursor: pointer;
+    }
+    button:hover {
+      background: #ffdb58;
+    }
+    .entry {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #333;
+    }
+    .entry:last-child {
+      border-bottom: none;
+    }
+    .entry-meta {
+      font-size: 0.9rem;
+      color: #aaa;
     }
   </style>
 </head>
 <body>
-  <h1>Oath Binding Panel</h1>
+  <h1>📜 Oath Panel</h1>
 
-  <label for="player">Player Name</label>
-  <input id="player" placeholder="EchoWren" />
+  <section>
+    <h2>🧾 Bind New Oath</h2>
+    <label for="playerId">Player ID</label>
+    <input type="text" id="playerId" placeholder="e.g., SilentWalker">
 
-  <label for="location">Bound Location</label>
-  <input id="location" placeholder="Watcher’s Crown - Ridge Tower" />
+    <label for="tileId">Tile Bound</label>
+    <input type="text" id="tileId" placeholder="e.g., tile_15A">
 
-  <label for="oath">Oath Description</label>
-  <textarea id="oath" rows="4" placeholder="To guard this post against all trespassers until the frost ends."></textarea>
+    <label for="oathType">Oath Type</label>
+    <select id="oathType">
+      <option value="defender">Defender</option>
+      <option value="explorer">Explorer</option>
+      <option value="custodian">Custodian</option>
+      <option value="founder">Founder</option>
+      <option value="banisher">Banisher</option>
+    </select>
 
-  <button onclick="bindOath()">Bind Oath</button>
+    <label for="duration">Duration</label>
+    <select id="duration">
+      <option value="permanent">Permanent</option>
+      <option value="until_broken">Until Broken</option>
+      <option value="ritual_bound">Ritual Bound</option>
+    </select>
 
-  <div class="oath" id="bound"></div>
+    <button onclick="bindOath()">Bind Oath</button>
+  </section>
+
+  <section>
+    <h2>🪶 Active Oaths</h2>
+    <div id="oathLog">
+      <div class="entry">
+        <div><strong>SilentWalker</strong> | Founder of tile_15A</div>
+        <div class="entry-meta">Permanent | Bound by scroll on 2025-05-25</div>
+      </div>
+    </div>
+  </section>
 
   <script>
     function bindOath() {
-      const player = document.getElementById('player').value;
-      const location = document.getElementById('location').value;
-      const oath = document.getElementById('oath').value;
-      const time = new Date().toISOString();
+      const player = document.getElementById('playerId').value;
+      const tile = document.getElementById('tileId').value;
+      const type = document.getElementById('oathType').value;
+      const duration = document.getElementById('duration').value;
+      const now = new Date().toISOString().split('T')[0];
 
-      const card = `
-        <strong>${player}</strong> swore an oath at <strong>${location}</strong>.<br>
-        <em>“${oath}”</em><br>
-        <small>Bound on ${time}</small>
-      `;
-
-      document.getElementById('bound').innerHTML = card;
-      console.log('Oath Bound:', { player, location, oath, time });
+      const div = document.createElement('div');
+      div.className = 'entry';
+      div.innerHTML = \`
+        <div><strong>\${player}</strong> | \${type.charAt(0).toUpperCase() + type.slice(1)} of \${tile}</div>
+        <div class="entry-meta">\${duration.replace('_', ' ')} | Bound by scroll on \${now}</div>
+      \`;
+      document.getElementById('oathLog').prepend(div);
+      alert('Oath bound (simulated).');
     }
   </script>
 </body>
