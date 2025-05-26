@@ -1,0 +1,36 @@
+{
+  "bundle_name": "elden_world_export",
+  "output_path": "/export/world_bundle/elden_world_export.zip",
+  "structure": {
+    "root": {
+      "readme.txt": "Describes export purpose and format.",
+      "index.json": "Tile manifest with metadata, coordinates, and tags."
+    },
+    "tiles": {
+      "{tile_id}/voxel.json": "Micro-voxel terrain data for this tile.",
+      "{tile_id}/sketch.png": "Final sketch overlay or render.",
+      "{tile_id}/fogmask.png": "Alpha mask of player-revealed fog area.",
+      "{tile_id}/structure.gltf": "Static structure blueprint or export.",
+      "{tile_id}/trace.json": "Optional: tile activity log or memory trace."
+    },
+    "maps": {
+      "world_fogmap.png": "Composite fog of discovery map.",
+      "world_mesh.obj": "Stitched OBJ mesh of exported terrain.",
+      "world_overlay.svg": "Optional: world overlay of labels, trails, etc."
+    },
+    "config": {
+      "export_flags.json": {
+        "format": "Unity|Unreal|Generic",
+        "include_memory": true,
+        "flatten_structures": false,
+        "scale_multiplier": 1.0
+      }
+    }
+  },
+  "meta": {
+    "version": "1.0",
+    "engine": "Elden Paths Compiler",
+    "date_format": "YYYY-MM-DD",
+    "license": "Developer export only"
+  }
+}
