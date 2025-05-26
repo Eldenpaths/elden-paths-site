@@ -1,0 +1,48 @@
+{
+  "modules": {
+    "logoff_listener": {
+      "enabled": true,
+      "config_path": "/config/system/logoff_listener_config.json",
+      "bind_to": [
+        "player_logout",
+        "session_timeout"
+      ],
+      "fallback_mode": "fog_decay_only"
+    },
+    "hot_tile_logger": {
+      "enabled": true,
+      "config_path": "/config/system/hot_tile_logger_config.json",
+      "bind_to": [
+        "tile_load",
+        "combat_end",
+        "structure_built"
+      ],
+      "alert_admin_on_threshold": true
+    },
+    "terrain_mesh_exporter": {
+      "enabled": true,
+      "config_path": "/export/tools/terrain_mesh_exporter_spec.json",
+      "bind_to": [
+        "admin_tile_preview",
+        "developer_export_command"
+      ],
+      "preload_voxel_cache": true
+    }
+  },
+  "ui_hooks": {
+    "admin.html": [
+      "enable_hot_tile_overlay",
+      "mesh_export_button",
+      "show_voxel_log_events"
+    ],
+    "play.html": [
+      "logoff_listener_trigger",
+      "passive_hot_tile_tracking"
+    ]
+  },
+  "ai_supervision": {
+    "monitor_all_hooks": true,
+    "log_failures": true,
+    "auto_repair_on_missing_bind": true
+  }
+}
