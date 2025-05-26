@@ -21,6 +21,7 @@
   <script>
     const playerName = "example_player";
     let playerData, tileMarkers, encounters;
+    let currentEnemy = null;
 
     async function fetchJSON(path) {
       const res = await fetch(path);
@@ -71,13 +72,13 @@
                 encounterImg.style.display = "block";
               }
 
-              // Combat preview
               const enemy = enc.enemy;
               if (enemy) {
+                currentEnemy = { ...enemy };
                 combatDiv.innerHTML = `
                   <p><strong>Enemy:</strong> ${enemy.name} (HP: ${enemy.hp}, Attack: ${enemy.attack_die})</p>
                   <p><strong>Your HP:</strong> ${playerData.hp} | <strong>Your Weapon:</strong> Rusty Sword (d6)</p>
-                  <button onclick="fight('${enemy.name}', ${enemy.hp}, '${enemy.attack_die}')">Fight</button>
+                  <button onclick="fight()">Fight</button>
                   <button onclick="flee()">Flee</button>
                 `;
               }
@@ -88,19 +89,29 @@
       }
     }
 
-    function fight(enemyName, enemyHP, enemyDie) {
+    function fight() {
       const playerRoll = rollDice("d6");
-      const enemyRoll = rollDice(enemyDie);
-      const outcome = document.getElementById("combat");
-      outcome.innerHTML = `
-        <p>You swing your sword for <strong>${playerRoll}</strong> damage.</p>
-        <p>${enemyName} strikes back for <strong>${enemyRoll}</strong> damage.</p>
-        <p><em>(No actual damage recorded – prototype only)</em></p>
-      `;
+      const enemyRoll = rollDice(currentEnemy.attack_die);
+      playerData.hp -= enemyRoll;
+      currentEnemy.hp -= playerRoll;
+
+      let outcome = `<p>You strike the ${currentEnemy.name} for <strong>${playerRoll}</strong> damage.</p>`;
+      outcome += `<p>It hits you back for <strong>${enemyRoll}</strong> damage.</p>`;
+      outcome += `<p><strong>Your HP:</strong> ${playerData.hp} | <strong>Enemy HP:</strong> ${currentEnemy.hp}</p>`;
+
+      if (playerData.hp <= 0) {
+        outcome += `<p>You collapse from your wounds... (Not saved yet)</p>`;
+      } else if (currentEnemy.hp <= 0) {
+        outcome += `<p>You have defeated the ${currentEnemy.name}!</p>`;
+        playerData.xp += 1;
+      }
+
+      outcome += `<p><em>(Not yet saved. Future versions will persist HP + XP.)</em></p>`;
+      document.getElementById("combat").innerHTML = outcome;
     }
 
     function flee() {
-      document.getElementById("combat").innerHTML = "<p>You retreat quietly into the woods...</p>";
+      document.getElementById("combat").innerHTML = "<p>You flee into the trees...</p>";
     }
 
     loadGame();
