@@ -1,0 +1,44 @@
+{
+  "landmark": {
+    "prompt": "A field sketch of a {structure_type} on a {biome} terrain under {weather}, with {sunlight_angle}\u00b0 sunlight from the {sun_direction}. The mood is described as '{regional_emotion}'.",
+    "required_fields": [
+      "structure_type",
+      "biome",
+      "weather",
+      "sunlight_angle",
+      "sun_direction",
+      "regional_emotion"
+    ]
+  },
+  "creature_sighting": {
+    "prompt": "A naturalist sketch of a {creature_species} in the {biome}, partly obscured by {fog_density}. The creature's behavior is described as: {creature_behavior}. The light angle is {sunlight_angle}\u00b0, casting shadows {shadow_direction}.",
+    "required_fields": [
+      "creature_species",
+      "biome",
+      "fog_density",
+      "creature_behavior",
+      "sunlight_angle",
+      "shadow_direction"
+    ]
+  },
+  "camp": {
+    "prompt": "Sketch of a small camp in a {biome} clearing, firelight flickering under a {weather_description}. Nearby features: {terrain_feature}, {trail_detail}. Mood: {camp_mood}.",
+    "required_fields": [
+      "biome",
+      "weather_description",
+      "terrain_feature",
+      "trail_detail",
+      "camp_mood"
+    ]
+  },
+  "memory_echo": {
+    "prompt": "A spectral-style sketch of a memory fragment seen in fog. Elements include: {visible_object}, {emotion_trigger}, and a {symbolic_artifact}. The atmosphere is {weather} with {light_condition}.",
+    "required_fields": [
+      "visible_object",
+      "emotion_trigger",
+      "symbolic_artifact",
+      "weather",
+      "light_condition"
+    ]
+  }
+}
