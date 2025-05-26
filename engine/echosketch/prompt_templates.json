@@ -1,0 +1,6 @@
+{
+  "base_prompt": "A parchment sketch of a {biome} with {feature}, in the style of a field guide from Elden Paths.",
+  "deep_time_prompt": "An ancient view of {location}, before it fell to ruin, drawn in faded parchment ink.",
+  "glyph_overlay": "Include a small glyph mark representing {faction} carved into stone or wood in the corner.",
+  "atmosphere_tags": ["fog", "twilight", "ashfall", "moonlit", "overgrown", "buried ruins"]
+}
