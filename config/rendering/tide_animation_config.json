@@ -1,0 +1,12 @@
+{
+  "tile_animation_rules": {
+    "gravesport_tile_05": {
+      "micro_voxel_mask": "gravesport_tile_05_micro_voxel.json",
+      "flood_threshold_m": 1.2,
+      "drain_threshold_m": 0.6,
+      "frame_rate": "real-time",
+      "transition_effect": "blend",
+      "overlay_type": "wave_mask"
+    }
+  }
+}
