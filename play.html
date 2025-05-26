@@ -1,140 +1,93 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Elden Paths - Explore</title>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <title>Elden Paths - Player View</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
     body {
       font-family: 'Georgia', serif;
-      background: #e8e4db;
-      color: #2e2e2e;
-      padding: 20px;
+      background: #0d0d0d;
+      color: #f2f2f2;
+      padding: 2rem;
     }
-    #hud {
-      border: 2px solid #999;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 20px;
-      background: #fff;
+    h1 {
+      color: #ffe600;
+      font-size: 2rem;
     }
-    #actions button {
-      padding: 10px 20px;
-      margin: 5px;
-      font-size: 1em;
-      border-radius: 8px;
+    .tile-info, .sketch-area, .actions, .log {
+      margin-bottom: 2rem;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      padding: 1rem;
+      border-radius: 6px;
     }
-    #output {
-      margin-top: 20px;
-      background: #fcfcfa;
-      border: 1px solid #ccc;
-      padding: 15px;
-      min-height: 150px;
-      white-space: pre-wrap;
+    .sketch-area img {
+      max-width: 100%;
+      border-radius: 4px;
+      margin-top: 1rem;
+    }
+    button {
+      margin: 0.4rem;
+      padding: 0.6rem 1.2rem;
+      background: #ffe600;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #fff066;
     }
   </style>
 </head>
 <body>
-  <h1>🌐 Elden Paths: Player Interface</h1>
+  <h1>🧭 Elden Paths - Player View</h1>
 
-  <div id="hud">
-    <p><strong>Current Tile:</strong> <span id="tileId">tile_100</span></p>
-    <p><strong>Discovered By:</strong> <span id="discoverers"></span></p>
-    <p><strong>Biome:</strong> <span id="biome"></span></p>
-    <p><strong>Known Creatures:</strong> <span id="creatures"></span></p>
-    <p><strong>Known Flora:</strong> <span id="flora"></span></p>
-    <p><strong>Fog Cleared:</strong> <span id="fog"></span></p>
-    <p><strong>Items Dropped:</strong> <span id="items"></span></p>
+  <div class="tile-info">
+    <h2>📍 Current Tile</h2>
+    <p><strong>ID:</strong> tile_42C</p>
+    <p><strong>Terrain:</strong> Fog Forest</p>
+    <p><strong>Weather:</strong> Mist, light wind</p>
+    <p><strong>Status:</strong> Fogged (partially cleared)</p>
   </div>
 
-  <div id="actions">
-    <button onclick="exploreTile()">Explore</button>
-    <button onclick="triggerSketch()">Sketch</button>
-    <button onclick="moveTile()">Move</button>
-    <button onclick="fightCreature()">Fight</button>
-    <button onclick="pickupItem()">Pick Up Item</button>
+  <div class="sketch-area">
+    <h2>🎨 Scene Sketch</h2>
+    <img src="scene_placeholder.jpg" alt="Sketch loading...">
+    <p style="font-style: italic; color: #888;">Sketch may delay if server is under load. Retry below if needed.</p>
+    <button onclick="retrySketch()">Retry Sketch</button>
   </div>
 
-  <div id="output"></div>
+  <div class="actions">
+    <h2>⚔️ Actions</h2>
+    <button onclick="openGear()">Gear</button>
+    <button onclick="openJournal()">Journal</button>
+    <button onclick="openOath()">Oaths</button>
+    <button onclick="openMap()">Map</button>
+  </div>
+
+  <div class="log">
+    <h2>🪶 Memory Trail</h2>
+    <p>📝 “Marked the perimeter with a glyph of warning. Faint drumming heard beyond the mist.”</p>
+  </div>
 
   <script>
-    let currentTile = "tile_100";
-    let tileData = {};
-
-    function rollDice(sides) {
-      return Math.floor(Math.random() * sides) + 1;
+    function retrySketch() {
+      alert("Retrying sketch render... (simulated)");
     }
-
-    function loadTileData() {
-      Promise.all([
-        fetch('tile_state.json').then(res => res.json()),
-        fetch('models.json').then(res => res.json())
-      ]).then(([tileState, models]) => {
-        tileData = tileState[currentTile] || {};
-        const modelsList = models.models;
-
-        document.getElementById('tileId').textContent = currentTile;
-        document.getElementById('discoverers').textContent = (tileData.memory?.discovered_by || []).join(', ') || 'None';
-        document.getElementById('biome').textContent = tileData.biome || 'Unknown';
-        document.getElementById('fog').textContent = tileData.fog_cleared ? 'Yes' : 'No';
-        document.getElementById('items').textContent = (tileData.memory?.items_dropped || []).join(', ') || 'None';
-
-        const flora = [], creatures = [];
-        (tileData.models_present || []).forEach(m => {
-          if (modelsList[m]) {
-            if (modelsList[m].type === 'flora') flora.push(m);
-            if (modelsList[m].type === 'creature') creatures.push(m);
-          }
-        });
-
-        document.getElementById('creatures').textContent = creatures.join(', ') || 'None';
-        document.getElementById('flora').textContent = flora.join(', ') || 'None';
-      });
+    function openGear() {
+      window.open('gear.html', '_blank');
     }
-
-    function exploreTile() {
-      document.getElementById('output').textContent = `You step carefully into ${currentTile}... the light dims. Something stirs.`;
+    function openJournal() {
+      window.open('journal_editor.html', '_blank');
     }
-
-    function triggerSketch() {
-      document.getElementById('output').textContent = `You sketch this place in your journal. A memory is locked. You feel something new stir in the Codex.`;
+    function openOath() {
+      window.open('oath_panel.html', '_blank');
     }
-
-    function moveTile() {
-      const next = prompt("Enter next tile ID (e.g., tile_101):");
-      if (next) {
-        currentTile = next;
-        loadTileData();
-        document.getElementById('output').textContent = `You travel to ${currentTile}. The world shifts around you.`;
-      }
+    function openMap() {
+      window.open('maps.html', '_blank');
     }
-
-    function fightCreature() {
-      const rollToHit = rollDice(20);
-      const hitThreshold = 12;
-      let output = `You roll a d20 to hit... 🎲 ${rollToHit}
-`;
-
-      if (rollToHit >= hitThreshold) {
-        const damage = rollDice(8);
-        output += `Hit! You deal ${damage} damage with your weapon.`;
-      } else {
-        output += `Miss! Your attack glances off the target.`;
-      }
-
-      document.getElementById('output').textContent = output;
-    }
-
-    function pickupItem() {
-      const item = (tileData.memory?.items_dropped || [])[0];
-      if (item) {
-        document.getElementById('output').textContent = `You pick up the ${item} and stow it.`;
-      } else {
-        document.getElementById('output').textContent = `There’s nothing here to pick up.`;
-      }
-    }
-
-    loadTileData();
   </script>
 </body>
 </html>
