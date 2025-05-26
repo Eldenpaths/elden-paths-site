@@ -1,0 +1,12 @@
+{
+  "shadow_ambush": {
+    "description": "A shadow moves in the ruin... something is watching.",
+    "sketch": "shadow_encounter.png",
+    "danger": 3
+  },
+  "forest_spirit": {
+    "description": "A faint voice echoes among the mossy trees.",
+    "sketch": "forest_spirit.png",
+    "danger": 1
+  }
+}

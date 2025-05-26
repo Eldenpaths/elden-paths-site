@@ -4,7 +4,9 @@
       "type": "ruin",
       "name": "Old Watchtower",
       "sketch_trigger": true,
-      "lore": "This tower once guarded the southern valley..."
+      "lore": "This tower once guarded the southern valley...",
+      "encounter_chance": 0.3,
+      "encounter_type": "shadow_ambush"
     }
   ]
 }
