@@ -1,0 +1,13 @@
+{
+  "location": "Gravesport",
+  "den_name": "The Bone Cask",
+  "games": ["Dice of Bones", "Tide Cards"],
+  "npc_host": "Krell the Rattler",
+  "description": "A dim-lit hall beneath the wharf, lined with salt-stained tables and bone dice clattering against driftwood. Krell oversees the games with a single gleaming eye.",
+  "entry_cost": "2 coin",
+  "rumors": [
+    "Some dice are carved from actual adventurer knuckles.",
+    "Krell once lost his eye in a cursed bet with a sea witch.",
+    "The den shifts locations during high tide to avoid city guard raids."
+  ]
+}
