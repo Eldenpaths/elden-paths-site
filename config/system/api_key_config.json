@@ -1,0 +1,4 @@
+{
+  "key": "elden_admin_2025_secure",
+  "notes": "Used to protect /run_bundler endpoint and other admin API triggers."
+}
