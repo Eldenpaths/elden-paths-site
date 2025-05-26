@@ -10,6 +10,41 @@
     "real_coords": [
       42.6935,
       -120.5371
+    ],
+    "weather_flags": [
+      "wind_swept"
+    ],
+    "structure_points": [
+      {
+        "x": 782,
+        "y": 420,
+        "slope": 1.9,
+        "facing": "E"
+      },
+      {
+        "x": 120,
+        "y": 890,
+        "slope": 0.2,
+        "sacred": true
+      }
+    ],
+    "tile_memory": {
+      "blood_spilled": false,
+      "plantings": [
+        "juniper"
+      ],
+      "sketch_triggered": true,
+      "visited_by": [
+        "Kova"
+      ],
+      "structure": "stone cairn"
+    },
+    "lore_hook": {
+      "type": "mystery",
+      "text": "A lone stone pillar stands in the open basin, untouched by moss or time. Locals avoid it."
+    },
+    "trails": [
+      "ancient_passage"
     ]
   }
 }
