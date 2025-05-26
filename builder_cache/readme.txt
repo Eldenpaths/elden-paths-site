@@ -1,0 +1,1 @@
+This folder stores auto-compiled scene fragments, terrain meshes, sketch composites, and player memory for future export.
