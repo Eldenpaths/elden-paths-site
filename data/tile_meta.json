@@ -1,146 +1,15 @@
 {
-  "-3_-3": {
-    "biome": "pine_forest",
-    "elevation_avg": 1141
-  },
-  "-2_-3": {
-    "biome": "dry_meadow",
-    "elevation_avg": 982
-  },
-  "-1_-3": {
-    "biome": "ridge",
-    "elevation_avg": 1401
-  },
-  "0_-3": {
-    "biome": "high_mountain",
-    "elevation_avg": 2723
-  },
-  "1_-3": {
-    "biome": "pine_forest",
-    "elevation_avg": 1000
-  },
-  "2_-3": {
-    "biome": "lava_plateau",
-    "elevation_avg": 1353
-  },
-  "-3_-2": {
-    "biome": "dry_meadow",
-    "elevation_avg": 910
-  },
-  "-2_-2": {
-    "biome": "lava_plateau",
-    "elevation_avg": 1398
-  },
-  "-1_-2": {
-    "biome": "wetland",
-    "elevation_avg": 752
-  },
-  "0_-2": {
-    "biome": "dry_meadow",
-    "elevation_avg": 679
-  },
-  "1_-2": {
-    "biome": "pine_forest",
-    "elevation_avg": 966
-  },
-  "2_-2": {
-    "biome": "wetland",
-    "elevation_avg": 747
-  },
-  "-3_-1": {
-    "biome": "wetland",
-    "elevation_avg": 582
-  },
-  "-2_-1": {
-    "biome": "crater",
-    "elevation_avg": 1812
-  },
-  "-1_-1": {
-    "biome": "pine_forest",
-    "elevation_avg": 1078
-  },
-  "0_-1": {
-    "biome": "high_mountain",
-    "elevation_avg": 2766
-  },
-  "1_-1": {
-    "biome": "ridge",
-    "elevation_avg": 1757
-  },
-  "2_-1": {
-    "biome": "ridge",
-    "elevation_avg": 1704
-  },
-  "-3_0": {
-    "biome": "pine_forest",
-    "elevation_avg": 848
-  },
-  "-2_0": {
-    "biome": "wetland",
-    "elevation_avg": 544
-  },
-  "-1_0": {
-    "biome": "lava_plateau",
-    "elevation_avg": 1572
-  },
   "0_0": {
-    "biome": "lava_plateau",
-    "elevation_avg": 1373
-  },
-  "1_0": {
-    "biome": "pine_forest",
-    "elevation_avg": 1355
-  },
-  "2_0": {
-    "biome": "crater",
-    "elevation_avg": 1862
-  },
-  "-3_1": {
-    "biome": "ridge",
-    "elevation_avg": 1521
-  },
-  "-2_1": {
-    "biome": "wetland",
-    "elevation_avg": 832
-  },
-  "-1_1": {
-    "biome": "wetland",
-    "elevation_avg": 506
-  },
-  "0_1": {
-    "biome": "wetland",
-    "elevation_avg": 860
-  },
-  "1_1": {
-    "biome": "high_mountain",
-    "elevation_avg": 2624
-  },
-  "2_1": {
-    "biome": "crater",
-    "elevation_avg": 2044
-  },
-  "-3_2": {
-    "biome": "crater",
-    "elevation_avg": 1988
-  },
-  "-2_2": {
-    "biome": "pine_forest",
-    "elevation_avg": 1258
-  },
-  "-1_2": {
-    "biome": "lava_plateau",
-    "elevation_avg": 1569
-  },
-  "0_2": {
-    "biome": "pine_forest",
-    "elevation_avg": 1075
-  },
-  "1_2": {
-    "biome": "pine_forest",
-    "elevation_avg": 1244
-  },
-  "2_2": {
-    "biome": "ridge",
-    "elevation_avg": 1513
+    "biome": "faultblock_steppe",
+    "elevation_avg": 1612,
+    "features": [
+      "ridge",
+      "dry_basin",
+      "stone pillar"
+    ],
+    "real_coords": [
+      42.6935,
+      -120.5371
+    ]
   }
 }
