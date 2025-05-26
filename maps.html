@@ -14,6 +14,20 @@
       height: 12px;
       border: 1px solid #444;
     }
+    .marker-player {
+      background-color: cyan;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      width: 14px;
+      height: 14px;
+    }
+    .marker-echo {
+      background-color: purple;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      width: 14px;
+      height: 14px;
+    }
   </style>
 </head>
 <body>
@@ -33,7 +47,7 @@
     errorTileUrl: ''
   }).addTo(map);
 
-  // Load fog from tile_index.json
+  // Load fog overlay
   fetch("./data/tile_index.json")
     .then(res => res.json())
     .then(tileIndex => {
@@ -53,7 +67,7 @@
       }
     });
 
-  // Load markers from tile_markers.json
+  // Load shrine markers
   fetch("./data/tile_markers.json")
     .then(res => res.json())
     .then(data => {
@@ -67,6 +81,22 @@
             L.marker([py, px], { icon }).addTo(map).bindPopup(marker.name || "Shrine");
           }
         }
+      }
+    });
+
+  // Load player markers
+  fetch("./data/players.json")
+    .then(res => res.json())
+    .then(players => {
+      for (const name in players) {
+        const player = players[name];
+        const [x, y] = player.tile.split("_").map(Number);
+        const px = x * 1024 + 512;
+        const py = y * 1024 + 512;
+        const iconClass = player.is_echo ? 'marker-echo' : 'marker-player';
+        const icon = L.divIcon({ className: iconClass });
+        const label = `${name} (HP: ${player.hp}, XP: ${player.xp})`;
+        L.marker([py, px], { icon }).addTo(map).bindPopup(label);
       }
     });
 </script>
