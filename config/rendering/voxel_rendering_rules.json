@@ -1,0 +1,51 @@
+{
+  "voxel_resolution": "10x10",
+  "default_voxel_size_m": 50,
+  "layers": [
+    {
+      "name": "terrain_base",
+      "type": "elevation",
+      "render_mode": "painterly_shading",
+      "visible_in_sketch": true
+    },
+    {
+      "name": "structure_overlay",
+      "type": "buildings/props",
+      "render_mode": "soft_layer_blend",
+      "visible_in_sketch": true
+    },
+    {
+      "name": "event_overlay",
+      "type": "battle/debris/fire",
+      "render_mode": "ghost_layer",
+      "visible_in_sketch": true
+    },
+    {
+      "name": "fog_mask",
+      "type": "fog_of_discovery",
+      "render_mode": "alpha_mask",
+      "visible_in_sketch": false
+    }
+  ],
+  "style_preservation": {
+    "artistic_tone": "ink-and-watercolor",
+    "line_variation": "hand-rendered",
+    "atmospheric_additions_only": true,
+    "voxel_detail_visible": false,
+    "realism_intent": "subsurface simulation, not visible grid"
+  },
+  "usage_contexts": [
+    "shoreline_tracking",
+    "trail_precision",
+    "structure_placement",
+    "combat_field_cover",
+    "camp_zone division",
+    "sketch scene modifiers"
+  ],
+  "future_expansion": {
+    "resolution_upscale_possible": "20x20",
+    "voxel_sketch_tags": true,
+    "player_position_tracking": "per voxel",
+    "AI_micro_pathing": true
+  }
+}
