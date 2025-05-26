@@ -5,11 +5,14 @@
     "hp": 10,
     "xp": 0,
     "gear": [
-      "Rusty Sword"
+      "Rusty Sword",
+      "Worn Cloak"
     ],
     "fog": [
       "15_22"
     ],
-    "combat_state": "idle"
+    "combat_state": "idle",
+    "death_count": 0,
+    "is_echo": false
   }
 }
