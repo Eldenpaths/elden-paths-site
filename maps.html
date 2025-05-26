@@ -28,6 +28,13 @@
       width: 14px;
       height: 14px;
     }
+    .marker-encounter {
+      background-color: red;
+      border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      box-shadow: 0 0 5px 2px rgba(255, 0, 0, 0.6);
+    }
   </style>
 </head>
 <body>
@@ -67,24 +74,33 @@
       }
     });
 
-  // Load shrine markers
+  // Load markers
   fetch("./data/tile_markers.json")
     .then(res => res.json())
     .then(data => {
       for (const tile in data) {
+        const [x, y] = tile.split("_").map(Number);
+        const px = x * 1024 + 512;
+        const py = y * 1024 + 512;
+
         for (const marker of data[tile]) {
+          // Shrine
           if (marker.type === "shrine") {
-            const [x, y] = tile.split("_").map(Number);
-            const px = x * 1024 + 512;
-            const py = y * 1024 + 512;
             const icon = L.divIcon({ className: 'marker-shrine' });
             L.marker([py, px], { icon }).addTo(map).bindPopup(marker.name || "Shrine");
+          }
+
+          // Encounter
+          if (marker.type === "encounter" && marker.active) {
+            const icon = L.divIcon({ className: 'marker-encounter' });
+            const label = `Encounter: ${marker.encounter_type || "Unknown Event"}`;
+            L.marker([py, px], { icon }).addTo(map).bindPopup(label);
           }
         }
       }
     });
 
-  // Load player markers
+  // Load players
   fetch("./data/players.json")
     .then(res => res.json())
     .then(players => {
