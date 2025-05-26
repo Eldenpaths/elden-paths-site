@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Elden Paths – Lore Scroll</title>
+  <style>
+    body {
+      background: #0a0a0a;
+      color: #e8e0c4;
+      font-family: 'Georgia', serif;
+      margin: 0;
+      padding: 2em;
+      text-align: center;
+    }
+    .scroll-img {
+      max-width: 90vw;
+      max-height: 80vh;
+      border: 6px solid #aa956d;
+      box-shadow: 0 0 20px #333;
+      margin-bottom: 1em;
+    }
+    .lore {
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: 0 auto;
+      background: #1e1c1a;
+      padding: 1em;
+      border: 1px solid #705c40;
+    }
+    .back {
+      margin-top: 2em;
+      display: inline-block;
+      padding: 0.5em 1.2em;
+      background: #705c40;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Elden Paths – Lore Scroll</h1>
+  <div id="imageContainer"></div>
+  <div class="lore" id="loreText">Loading lore...</div>
+  <a class="back" href="maps.html">← Return to Map</a>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const tile = urlParams.get("tile");
+    const isEcho = urlParams.get("echo") === "1";
+    const imgPath = isEcho ? `./sketches/echo/${tile}_echo.png` : `./sketches/${tile}.png`;
+
+    const img = document.createElement("img");
+    img.src = imgPath;
+    img.alt = "Sketch for " + tile;
+    img.className = "scroll-img";
+    document.getElementById("imageContainer").appendChild(img);
+
+    fetch("./data/tile_markers.json")
+      .then(res => res.json())
+      .then(data => {
+        let loreFound = false;
+        if (data[tile]) {
+          for (let marker of data[tile]) {
+            if (marker.lore) {
+              document.getElementById("loreText").innerText = marker.lore;
+              loreFound = true;
+              break;
+            }
+          }
+        }
+        if (!loreFound) {
+          document.getElementById("loreText").innerText = "No lore has yet been recorded for this place...";
+        }
+      });
+  </script>
+</body>
+</html>
