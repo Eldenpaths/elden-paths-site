@@ -1,105 +1,39 @@
+<!-- trade_window_mira_hooked.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Trade Window - Mira Saltbite</title>
+  <title>Mira Saltbite's Market</title>
   <style>
-    body {
-      background: #fcf8ef;
-      font-family: 'Garamond', serif;
-      color: #3d2a16;
-      padding: 20px;
-      text-align: center;
-    }
-    h1 { font-size: 24px; }
-    table {
-      margin: 20px auto;
-      border-collapse: collapse;
-      width: 80%;
-      max-width: 600px;
-    }
-    th, td {
-      border: 1px solid #cbbba4;
-      padding: 12px;
-      font-size: 16px;
-    }
-    th {
-      background-color: #e8dccb;
-    }
-    button {
-      padding: 6px 16px;
-      font-size: 14px;
-      background: #634c3e;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .note {
-      font-size: 14px;
-      font-style: italic;
-      margin-top: 20px;
-    }
+    body { font-family: 'Garamond', serif; padding: 20px; background: #f9f3e8; }
+    button { padding: 8px 16px; margin: 8px 0; }
   </style>
 </head>
 <body>
-  <h1>🛒 Mira Saltbite's Stall</h1>
-  <p>“Silver first. Stories after.”</p>
+  <h2>🪙 Mira Saltbite’s Market</h2>
+  <p>Select an item to purchase:</p>
 
-  <table>
-    <thead>
-      <tr><th>Item</th><th>Price</th><th>Action</th></tr>
-    </thead>
-    <tbody id="itemTable">
-      <!-- Items will be loaded here -->
-    </tbody>
-  </table>
+  <ul>
+    <li>Trail Ration - 5c <button onclick="purchase(5)">Buy</button></li>
+    <li>Flint Kit - 8c <button onclick="purchase(8)">Buy</button></li>
+    <li>Worn Map Fragment - 12c <button onclick="purchase(12)">Buy</button></li>
+  </ul>
 
-  <div class="note">Items and prices are based on <code>gravesport_market_stall.json</code>. Coin updates stored in localStorage.</div>
+  <p id="status"></p>
 
   <script>
-    const wares = [
-      { item: "Dried Sea Kelp", price: 2, currency: "cp" },
-      { item: "Saltbone Comb", price: 5, currency: "sp" },
-      { item: "Charm: Tidebound Eye", price: 1, currency: "gp" }
-    ];
+    function purchase(cost) {
+      let log = JSON.parse(localStorage.getItem("coin_log") || '{}');
+      if (!log["default"]) log["default"] = { coin: 20 };
 
-    const baseConversion = { cp: 1, sp: 10, gp: 100, pp: 1000 };
-
-    function getCoins() {
-      const log = JSON.parse(localStorage.getItem("coin_log") || '{}');
-      return log["default"] || { coin: 10, wins: 0, losses: 0, last_game: "" };
-    }
-
-    function saveCoins(data) {
-      const log = JSON.parse(localStorage.getItem("coin_log") || '{}');
-      log["default"] = data;
-      localStorage.setItem("coin_log", JSON.stringify(log));
-    }
-
-    function purchase(item, price, currency) {
-      const player = getCoins();
-      const totalCost = price * baseConversion[currency];
-      if (player.coin >= totalCost) {
-        player.coin -= totalCost;
-        player.last_game = "Market Trade";
-        saveCoins(player);
-        alert(`✅ You purchased "${item}" for ${price} ${currency}. Coins left: ${player.coin}`);
+      if (log["default"].coin >= cost) {
+        log["default"].coin -= cost;
+        localStorage.setItem("coin_log", JSON.stringify(log));
+        window.dispatchEvent(new Event("coin_update"));
+        document.getElementById("status").textContent = "✅ Purchase complete!";
       } else {
-        alert("❌ Not enough coin!");
+        document.getElementById("status").textContent = "❌ Not enough coin!";
       }
     }
-
-    const table = document.getElementById("itemTable");
-    wares.forEach(({ item, price, currency }) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${item}</td>
-        <td>${price} ${currency}</td>
-        <td><button onclick="purchase('${item}', ${price}, '${currency}')">Buy</button></td>
-      `;
-      table.appendChild(row);
-    });
   </script>
 </body>
 </html>
