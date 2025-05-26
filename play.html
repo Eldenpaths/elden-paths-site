@@ -18,9 +18,17 @@
       border-radius: 10px;
       max-width: 300px;
     }
+    #combatLog {
+      white-space: pre-wrap;
+      background: #fcf0da;
+      padding: 10px;
+      border: 1px solid #d8b585;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
     button {
-      margin-top: 10px;
-      padding: 6px 14px;
+      margin: 6px 0;
+      padding: 8px 16px;
       background: #7b5b3e;
       color: white;
       border: none;
@@ -33,13 +41,43 @@
   <h1>🌲 Elden Paths - Game Session</h1>
   <div id="playerStatus">Loading player...</div>
   <button onclick="savePlayerState()">💾 Save</button>
+  <button onclick="startCombat()">⚔️ Start Combat (vs Bograt)</button>
+  <div id="combatLog"></div>
 
   <script src="/scripts/save_load.js"></script>
+  <script src="/scripts/combat.js"></script>
   <script>
-    // On page load, display saved player state
     document.addEventListener("DOMContentLoaded", () => {
       displayPlayerState("playerStatus");
     });
+
+    function startCombat() {
+      const raw = localStorage.getItem("player_state");
+      if (!raw) return alert("No player state saved!");
+
+      const player = JSON.parse(raw);
+      const playerData = {
+        name: player.name || "Unnamed",
+        hp: player.hp || 20,
+        ac: 12,
+        weapon: { dmg: 6, mod: 2 }
+      };
+
+      const enemy = {
+        name: "Bograt",
+        hp: 12,
+        ac: 10,
+        weapon: { dmg: 4, mod: 1 }
+      };
+
+      const result = resolveCombat(playerData, enemy);
+      document.getElementById("combatLog").textContent = result.log.join("\n") + "\n\n🏁 Outcome: " + result.outcome;
+
+      // Save reduced HP if player survived
+      player.hp = result.playerFinalHP;
+      localStorage.setItem("player_state", JSON.stringify(player));
+      displayPlayerState("playerStatus");
+    }
   </script>
 </body>
 </html>
