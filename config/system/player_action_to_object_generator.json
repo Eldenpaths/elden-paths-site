@@ -1,0 +1,9 @@
+{
+  "actions": {
+    "craft_object": "sketch + model",
+    "describe item": "prompt_to_sketch + gltf",
+    "discover landmark": "autosketch + obj export",
+    "leave mark": "structure voxel trace"
+  },
+  "notes": "All object prompts are cached and processed via autogen_model_queue.json"
+}
