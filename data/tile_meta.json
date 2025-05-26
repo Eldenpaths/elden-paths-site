@@ -1,64 +1,50 @@
 {
-  "-11_117": {
-    "biome": "coastal_estuary",
-    "elevation_avg": 8,
+  "0_0": {
+    "biome": "coastal_marsh",
+    "elevation_avg": 15,
     "features": [
-      "river_mouth",
-      "tidal_marsh",
-      "bluff"
+      "tidal_inlet",
+      "cliff",
+      "marsh_trails"
     ],
     "real_coords": [
-      46.1879,
-      -123.8313
+      43.3665,
+      -124.2179
     ],
-    "structure": "port_village",
+    "structure": "harbor_village",
     "structure_points": [
       {
         "type": "dock",
-        "x": 120,
-        "y": 900,
-        "facing": "NW",
-        "use": "trade_inlet"
+        "x": 200,
+        "y": 800
       },
       {
-        "type": "market_square",
-        "x": 540,
-        "y": 600,
-        "facing": "SE",
-        "use": "npc_hub"
+        "type": "watch_post",
+        "x": 940,
+        "y": 180
       },
       {
-        "type": "watchtower",
-        "x": 920,
-        "y": 200,
-        "elevation": 32,
-        "use": "alarm_post"
-      },
-      {
-        "type": "abandoned_bridge_ruin",
-        "x": 680,
-        "y": 150,
-        "state": "flooded"
+        "type": "fog_shelter",
+        "x": 640,
+        "y": 520
       }
     ],
     "tile_memory": {
-      "structure": "port_village",
       "visited_by": [],
       "sketch_triggered": false
     },
-    "lore_hook": {
-      "type": "harbor",
-      "text": "The harbor at Gravesport is sheltered by sea-worn cliffs and carved from centuries of tidal flow. Sailors speak of carved faces on the river stones at low tide."
-    },
     "trails": [
-      "coastline_passage",
-      "highroad_to_vale",
-      "marsh_cut",
-      "riverway_ferry"
+      "coastline_trail",
+      "marshtrack",
+      "highroad_to_reach"
     ],
     "scroll_trigger": {
       "event": "first_visit",
-      "text": "A sea mist clings to your boots as the towering bluff reveals Gravesport \u2014 a battered harbor town that smells of brine and ember."
+      "text": "Saltmarsh Deep rises from the mists like a half-remembered dream. Wooden docks creak over black water, and gulls cry beyond the cliffs."
+    },
+    "lore_hook": {
+      "type": "port",
+      "text": "Ancient runestones lie just beyond the marsh, half-sunk in brine. The villagers won\u2019t speak of what sleeps below the salt."
     }
   }
 }
