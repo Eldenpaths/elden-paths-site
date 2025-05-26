@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sketch Settings</title>
+  <style>
+    body { font-family: 'Garamond', serif; background: #f9f7f2; padding: 20px; }
+    h1 { text-align: center; }
+    label { display: block; margin: 10px 0 5px; font-weight: bold; }
+    select, button {
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 300px;
+    }
+    .description {
+      font-style: italic;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🖼️ Sketch Mode Settings</h1>
+  <label for="sketchMode">Choose your preferred sketch mode:</label>
+  <select id="sketchMode" onchange="updateDescription()">
+    <option value="auto">Auto (Smart Switching)</option>
+    <option value="grayscale">Grayscale (Fast)</option>
+    <option value="full">Full Style (Best)</option>
+    <option value="low_power">Low Power (Minimal)</option>
+  </select>
+  <div class="description" id="modeDescription">Automatically select the best sketch style based on importance, scene type, and player setting.</div>
+  <button onclick="savePreference()">Save Preference</button>
+
+  <script>
+    const descriptions = {
+      "auto": "Automatically select the best sketch style based on importance, scene type, and player setting.",
+      "grayscale": "Use fast, charcoal-style sketches for quick delivery.",
+      "full": "Always use the full watercolor/ink rendering pipeline for highest fidelity.",
+      "low_power": "Fallback mode using recycled or simplified sketch prompts only."
+    };
+
+    function updateDescription() {
+      const mode = document.getElementById("sketchMode").value;
+      document.getElementById("modeDescription").textContent = descriptions[mode];
+    }
+
+    function savePreference() {
+      const mode = document.getElementById("sketchMode").value;
+      localStorage.setItem("sketch_mode", mode);
+      alert("Sketch mode saved: " + mode);
+    }
+
+    // Load saved mode on page load
+    window.onload = function() {
+      const savedMode = localStorage.getItem("sketch_mode");
+      if (savedMode && descriptions[savedMode]) {
+        document.getElementById("sketchMode").value = savedMode;
+        updateDescription();
+      }
+    };
+  </script>
+</body>
+</html>
