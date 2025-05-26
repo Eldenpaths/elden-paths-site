@@ -1,0 +1,18 @@
+{
+  "default_mode": "auto",
+  "modes": {
+    "auto": {
+      "description": "Automatically select the best sketch style based on importance, scene type, and player setting."
+    },
+    "grayscale": {
+      "description": "Use fast, charcoal-style sketches for quick delivery."
+    },
+    "full": {
+      "description": "Always use the full watercolor/ink rendering pipeline for highest fidelity."
+    },
+    "low_power": {
+      "description": "Fallback mode using recycled or simplified sketch prompts only."
+    }
+  },
+  "override_player_setting": false
+}
