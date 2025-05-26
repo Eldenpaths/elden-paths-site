@@ -17,6 +17,7 @@
   <img id="sketch" />
   <img id="encounter" />
   <div id="combat"></div>
+  <button onclick="saveGame()">Save Game</button>
 
   <script>
     const playerName = "example_player";
@@ -37,13 +38,27 @@
       return Math.floor(Math.random() * sides) + 1;
     }
 
+    function loadLocalData() {
+      const stored = localStorage.getItem("eldenpaths_" + playerName);
+      if (stored) {
+        return JSON.parse(stored);
+      }
+      return null;
+    }
+
+    function saveGame() {
+      localStorage.setItem("eldenpaths_" + playerName, JSON.stringify(playerData));
+      alert("Game saved.");
+    }
+
     async function loadGame() {
-      const players = await fetchJSON("data/players.json");
+      const basePlayers = await fetchJSON("data/players.json");
       const tileIndex = await fetchJSON("data/tile_index.json");
       tileMarkers = await fetchJSON("data/tile_markers.json");
       encounters = await fetchJSON("data/encounters.json");
 
-      playerData = players[playerName];
+      const saved = loadLocalData();
+      playerData = saved || basePlayers[playerName];
       const tile = playerData.tile;
       const fogged = !tileIndex[tile]?.fog_cleared;
       document.getElementById("status").textContent = `You are at tile ${tile} (${fogged ? "shrouded in fog" : "visible"}).`;
@@ -100,13 +115,13 @@
       outcome += `<p><strong>Your HP:</strong> ${playerData.hp} | <strong>Enemy HP:</strong> ${currentEnemy.hp}</p>`;
 
       if (playerData.hp <= 0) {
-        outcome += `<p>You collapse from your wounds... (Not saved yet)</p>`;
+        outcome += `<p>You collapse from your wounds... (You will respawn if reset.)</p>`;
       } else if (currentEnemy.hp <= 0) {
         outcome += `<p>You have defeated the ${currentEnemy.name}!</p>`;
         playerData.xp += 1;
       }
 
-      outcome += `<p><em>(Not yet saved. Future versions will persist HP + XP.)</em></p>`;
+      outcome += `<p><em>Use "Save Game" to preserve progress.</em></p>`;
       document.getElementById("combat").innerHTML = outcome;
     }
 
