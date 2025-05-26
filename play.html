@@ -21,6 +21,7 @@
 
   <script>
     const playerName = "example_player";
+    const forestRespawnTiles = ["12_10", "14_18", "10_15", "16_11", "13_14"];
     let playerData, tileMarkers, encounters;
     let currentEnemy = null;
 
@@ -51,6 +52,15 @@
       alert("Game saved.");
     }
 
+    function respawn() {
+      const randomTile = forestRespawnTiles[Math.floor(Math.random() * forestRespawnTiles.length)];
+      playerData.hp = 6;
+      playerData.tile = randomTile;
+      playerData.combat_state = "idle";
+      localStorage.setItem("eldenpaths_" + playerName, JSON.stringify(playerData));
+      location.reload();
+    }
+
     async function loadGame() {
       const basePlayers = await fetchJSON("data/players.json");
       const tileIndex = await fetchJSON("data/tile_index.json");
@@ -61,18 +71,26 @@
       playerData = saved || basePlayers[playerName];
       const tile = playerData.tile;
       const fogged = !tileIndex[tile]?.fog_cleared;
-      document.getElementById("status").textContent = `You are at tile ${tile} (${fogged ? "shrouded in fog" : "visible"}).`;
+      document.getElementById("status").textContent = "You are at tile " + tile + " (" + (fogged ? "shrouded in fog" : "visible") + ").";
 
       const sketchImg = document.getElementById("sketch");
       const encounterImg = document.getElementById("encounter");
       const messageDiv = document.getElementById("message");
       const combatDiv = document.getElementById("combat");
 
+      if (playerData.hp <= 0) {
+        combatDiv.innerHTML = `
+          <p>You have fallen in battle...</p>
+          <button onclick='respawn()'>Respawn</button>
+        `;
+        return;
+      }
+
       if (tileMarkers[tile]) {
         const triggered = tileMarkers[tile].some(marker => marker.sketch_trigger);
         if (triggered) {
-          sketchImg.src = `sketches/${tile}.png`;
-          sketchImg.alt = `Sketch for tile ${tile}`;
+          sketchImg.src = "sketches/" + tile + ".png";
+          sketchImg.alt = "Sketch for tile " + tile;
           sketchImg.style.display = "block";
         }
 
@@ -82,7 +100,7 @@
             if (enc) {
               messageDiv.textContent = enc.description;
               if (enc.sketch) {
-                encounterImg.src = `sketches/${enc.sketch}`;
+                encounterImg.src = "sketches/" + enc.sketch;
                 encounterImg.alt = enc.description;
                 encounterImg.style.display = "block";
               }
@@ -115,7 +133,8 @@
       outcome += `<p><strong>Your HP:</strong> ${playerData.hp} | <strong>Enemy HP:</strong> ${currentEnemy.hp}</p>`;
 
       if (playerData.hp <= 0) {
-        outcome += `<p>You collapse from your wounds... (You will respawn if reset.)</p>`;
+        outcome += `<p>You collapse from your wounds... (Respawn required)</p>`;
+        outcome += `<button onclick='respawn()'>Respawn</button>`;
       } else if (currentEnemy.hp <= 0) {
         outcome += `<p>You have defeated the ${currentEnemy.name}!</p>`;
         playerData.xp += 1;
