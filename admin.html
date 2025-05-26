@@ -1,110 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Admin Panel - Elden Paths</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
-    body {
-      font-family: 'Georgia', serif;
-      background: #0d0d0d;
-      color: #f5f5f5;
-      padding: 2rem;
-    }
-    h1 {
-      color: #ffc107;
-      font-size: 2rem;
-    }
-    section {
-      margin-bottom: 2rem;
-      padding: 1rem;
-      border: 1px solid #333;
-      background-color: #1a1a1a;
-      border-radius: 6px;
-    }
-    label {
-      display: block;
-      margin: 0.5rem 0 0.2rem;
-    }
-    input, select, button {
-      margin-bottom: 1rem;
-      padding: 0.5rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 4px;
-    }
-    button {
-      background: #ffc107;
-      color: #000;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #ffdb58;
-    }
+    body { background: #111; color: #eee; font-family: sans-serif; text-align: center; padding: 2em; }
+    input, select, button { margin: 0.5em; padding: 0.5em; font-size: 1em; }
   </style>
 </head>
 <body>
-  <h1>🛠️ Admin Panel - Elden Paths</h1>
+  <h1>Admin Panel</h1>
 
-  <section>
-    <h2>📍 Move Player</h2>
-    <label for="playerId">Player ID:</label>
-    <input type="text" id="playerId" placeholder="e.g., SilentWalker" />
-    <label for="tileTarget">Target Tile:</label>
-    <input type="text" id="tileTarget" placeholder="e.g., tile_23B" />
+  <div>
+    <label for="player">Player:</label>
+    <input id="player" type="text" value="example_player">
+  </div>
+
+  <div>
+    <label for="tile">Tile (x_y):</label>
+    <input id="tile" type="text" value="15_22">
+  </div>
+
+  <div>
     <button onclick="movePlayer()">Move Player</button>
-  </section>
-
-  <section>
-    <h2>🌫️ Toggle Fog for Tile</h2>
-    <label for="fogTile">Tile ID:</label>
-    <input type="text" id="fogTile" placeholder="e.g., tile_23B" />
     <button onclick="toggleFog()">Toggle Fog</button>
-  </section>
+    <button onclick="viewTile()">View Tile Info</button>
+  </div>
 
-  <section>
-    <h2>📌 Place Marker</h2>
-    <label for="markerTile">Tile ID:</label>
-    <input type="text" id="markerTile" />
-    <label for="markerType">Marker Type:</label>
-    <select id="markerType">
-      <option value="lore">Lore</option>
-      <option value="danger">Danger</option>
-      <option value="ruin">Ruin</option>
-      <option value="camp">Camp</option>
-      <option value="trail">Trail</option>
-    </select>
-    <button onclick="placeMarker()">Place Marker</button>
-  </section>
-
-  <section>
-    <h2>🔍 Inspect Tile Meta</h2>
-    <label for="inspectTile">Tile ID:</label>
-    <input type="text" id="inspectTile" />
-    <button onclick="inspectTile()">Inspect</button>
-    <pre id="tileMetaResult"></pre>
-  </section>
+  <pre id="output" style="background:#222; padding:1em; margin-top:1em;"></pre>
 
   <script>
-    function movePlayer() {
-      const id = document.getElementById('playerId').value;
-      const tile = document.getElementById('tileTarget').value;
-      alert(`(Simulated) Moving ${id} to ${tile}`);
+    async function fetchJSON(path) {
+      const res = await fetch(path);
+      return await res.json();
     }
-    function toggleFog() {
-      const tile = document.getElementById('fogTile').value;
-      alert(`(Simulated) Toggling fog on ${tile}`);
+
+    async function movePlayer() {
+      const player = document.getElementById("player").value;
+      const tile = document.getElementById("tile").value;
+      let players = await fetchJSON("data/players.json");
+      players[player].tile = tile;
+      document.getElementById("output").textContent = `${player} moved to ${tile}. (You must save manually to persist.)`;
     }
-    function placeMarker() {
-      const tile = document.getElementById('markerTile').value;
-      const type = document.getElementById('markerType').value;
-      alert(`(Simulated) Placing ${type} marker at ${tile}`);
+
+    async function toggleFog() {
+      const tile = document.getElementById("tile").value;
+      let tileIndex = await fetchJSON("data/tile_index.json");
+      tileIndex[tile].fog_cleared = !tileIndex[tile].fog_cleared;
+      document.getElementById("output").textContent = `Fog for ${tile} is now ${tileIndex[tile].fog_cleared ? 'cleared' : 'hidden'}. (You must save manually to persist.)`;
     }
-    function inspectTile() {
-      const tile = document.getElementById('inspectTile').value;
-      // Simulated fetch of metadata
-      document.getElementById('tileMetaResult').textContent =
-        `Inspecting tile: ${tile}\nTerrain: forest\nFog: true\nMarkers: 1 lore`;
+
+    async function viewTile() {
+      const tile = document.getElementById("tile").value;
+      let tileIndex = await fetchJSON("data/tile_index.json");
+      document.getElementById("output").textContent = JSON.stringify(tileIndex[tile], null, 2);
     }
   </script>
 </body>
