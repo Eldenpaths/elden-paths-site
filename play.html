@@ -6,7 +6,8 @@
   <style>
     body { background: #111; color: #eee; font-family: sans-serif; padding: 2em; text-align: center; }
     #sketch, #encounter { margin-top: 1em; max-width: 90%; border: 2px solid #444; display: none; }
-    #message { margin-top: 1em; }
+    #message, #combat { margin-top: 1em; }
+    button { margin: 0.5em; padding: 0.5em 1em; font-size: 1em; }
   </style>
 </head>
 <body>
@@ -15,6 +16,7 @@
   <div id="message"></div>
   <img id="sketch" />
   <img id="encounter" />
+  <div id="combat"></div>
 
   <script>
     const playerName = "example_player";
@@ -27,6 +29,11 @@
 
     function chance(prob) {
       return Math.random() < prob;
+    }
+
+    function rollDice(die) {
+      const sides = parseInt(die.substring(1));
+      return Math.floor(Math.random() * sides) + 1;
     }
 
     async function loadGame() {
@@ -43,6 +50,7 @@
       const sketchImg = document.getElementById("sketch");
       const encounterImg = document.getElementById("encounter");
       const messageDiv = document.getElementById("message");
+      const combatDiv = document.getElementById("combat");
 
       if (tileMarkers[tile]) {
         const triggered = tileMarkers[tile].some(marker => marker.sketch_trigger);
@@ -62,11 +70,37 @@
                 encounterImg.alt = enc.description;
                 encounterImg.style.display = "block";
               }
+
+              // Combat preview
+              const enemy = enc.enemy;
+              if (enemy) {
+                combatDiv.innerHTML = `
+                  <p><strong>Enemy:</strong> ${enemy.name} (HP: ${enemy.hp}, Attack: ${enemy.attack_die})</p>
+                  <p><strong>Your HP:</strong> ${playerData.hp} | <strong>Your Weapon:</strong> Rusty Sword (d6)</p>
+                  <button onclick="fight('${enemy.name}', ${enemy.hp}, '${enemy.attack_die}')">Fight</button>
+                  <button onclick="flee()">Flee</button>
+                `;
+              }
               break;
             }
           }
         }
       }
+    }
+
+    function fight(enemyName, enemyHP, enemyDie) {
+      const playerRoll = rollDice("d6");
+      const enemyRoll = rollDice(enemyDie);
+      const outcome = document.getElementById("combat");
+      outcome.innerHTML = `
+        <p>You swing your sword for <strong>${playerRoll}</strong> damage.</p>
+        <p>${enemyName} strikes back for <strong>${enemyRoll}</strong> damage.</p>
+        <p><em>(No actual damage recorded – prototype only)</em></p>
+      `;
+    }
+
+    function flee() {
+      document.getElementById("combat").innerHTML = "<p>You retreat quietly into the woods...</p>";
     }
 
     loadGame();
