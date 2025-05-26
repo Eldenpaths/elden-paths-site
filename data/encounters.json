@@ -2,11 +2,21 @@
   "shadow_ambush": {
     "description": "A shadow moves in the ruin... something is watching.",
     "sketch": "shadow_encounter.png",
-    "danger": 3
+    "danger": 3,
+    "enemy": {
+      "name": "Shadow Beast",
+      "hp": 6,
+      "attack_die": "d6"
+    }
   },
   "forest_spirit": {
     "description": "A faint voice echoes among the mossy trees.",
     "sketch": "forest_spirit.png",
-    "danger": 1
+    "danger": 1,
+    "enemy": {
+      "name": "Forest Spirit",
+      "hp": 4,
+      "attack_die": "d4"
+    }
   }
 }
