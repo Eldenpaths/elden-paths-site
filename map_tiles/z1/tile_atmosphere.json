@@ -1,0 +1,19 @@
+{
+  "2_3": {
+    "latitude": 44.3021,
+    "longitude": -122.5847,
+    "elevation_avg": 428,
+    "slope_vector": "northwest",
+    "sunlight_angle": 32.7,
+    "local_hour": 7,
+    "moon_phase": "waxing crescent",
+    "cloud_cover": "high fog veil",
+    "dew_point": 3.2,
+    "wind_speed_kph": 12,
+    "wind_direction": "west",
+    "weather_condition": "foggy with chill breeze",
+    "season": "late spring",
+    "ambient_temp_c": 8,
+    "magnetic_declination": 15.3
+  }
+}
