@@ -1,0 +1,23 @@
+{
+  "tile_112_117": {
+    "title": "Hall of Echoes",
+    "epoch": "Permian",
+    "description": "This caldera basin once held the ribstone vault, a sealed ruin said to resonate with voices from the red age.",
+    "sketch_prompt": "a cracked caldera with spiral glyphs etched in basalt, glowing faintly",
+    "tags": ["volcanic", "ancient", "sealed"]
+  },
+  "tile_109_115": {
+    "title": "Salt Hollow",
+    "epoch": "Pleistocene",
+    "description": "Once walked by mammoths, this dried salt basin still holds chipped stone tools in its crust.",
+    "sketch_prompt": "a pale, windswept hollow with scattered ivory fragments and stone blades",
+    "tags": ["prehistoric", "bones", "dry"]
+  },
+  "tile_120_105": {
+    "title": "Cretaceous Wilds",
+    "epoch": "Cretaceous",
+    "description": "The ferns here grow taller than men. Shadows move in the mist, though no one has returned to confirm what left the tracks.",
+    "sketch_prompt": "dense, misty foliage with clawed footprints in soft peat",
+    "tags": ["primeval", "mist", "unknown"]
+  }
+}

@@ -1,8 +1,15 @@
-# Animated Ink Layers™ for Elden Paths
+# Codex Entry Layer
 
-This system brings parchment-style ambient animations to the map, reflecting sketch history, player memory, and Fog of Discovery™.
+This JSON defines lore-linked codex entries bound to tiles. Used for:
+- Map click lore pops
+- Echo sketch generation
+- Epoch tagging and keyword search
 
-Includes:
-- Glyph motion script (ink shimmer, pulsing marks, sketch echoes)
-- Example map ink layer JSON
-- Starter animated maps HTML shell
+Each entry includes:
+- Tile ID (e.g., tile_112_117)
+- Title + epoch
+- Descriptive lore
+- Sketch prompt
+- Tags for filtering
+
+Hook into: maps_animated.html, sketch_manifest.json, and codex.html (optional)
