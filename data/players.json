@@ -4,7 +4,9 @@
     "tile": "15_22",
     "hp": 10,
     "xp": 0,
-    "gear": [],
+    "gear": [
+      "Rusty Sword"
+    ],
     "fog": [
       "15_22"
     ],
