@@ -7,34 +7,11 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <style>
     html, body, #map { margin: 0; height: 100%; width: 100%; background: #000; }
-    .marker-shrine {
-      background-color: gold;
-      border-radius: 50%;
-      width: 12px;
-      height: 12px;
-      border: 1px solid #444;
-    }
-    .marker-player {
-      background-color: cyan;
-      border: 2px solid #fff;
-      border-radius: 50%;
-      width: 14px;
-      height: 14px;
-    }
-    .marker-echo {
-      background-color: purple;
-      border: 2px solid #fff;
-      border-radius: 50%;
-      width: 14px;
-      height: 14px;
-    }
-    .marker-encounter {
-      background-color: red;
-      border-radius: 50%;
-      width: 10px;
-      height: 10px;
-      box-shadow: 0 0 5px 2px rgba(255, 0, 0, 0.6);
-    }
+    .marker-shrine { background-color: gold; border-radius: 50%; width: 12px; height: 12px; border: 1px solid #444; }
+    .marker-player { background-color: cyan; border: 2px solid #fff; border-radius: 50%; width: 14px; height: 14px; }
+    .marker-echo { background-color: purple; border: 2px solid #fff; border-radius: 50%; width: 14px; height: 14px; }
+    .marker-encounter { background-color: red; border-radius: 50%; width: 10px; height: 10px; box-shadow: 0 0 5px 2px rgba(255, 0, 0, 0.6); }
+    .popup-sketch { max-width: 300px; max-height: 300px; display: block; }
   </style>
 </head>
 <body>
@@ -74,7 +51,7 @@
       }
     });
 
-  // Load markers
+  // Load marker types and sketch previews
   fetch("./data/tile_markers.json")
     .then(res => res.json())
     .then(data => {
@@ -84,17 +61,26 @@
         const py = y * 1024 + 512;
 
         for (const marker of data[tile]) {
-          // Shrine
           if (marker.type === "shrine") {
             const icon = L.divIcon({ className: 'marker-shrine' });
             L.marker([py, px], { icon }).addTo(map).bindPopup(marker.name || "Shrine");
           }
 
-          // Encounter
           if (marker.type === "encounter" && marker.active) {
             const icon = L.divIcon({ className: 'marker-encounter' });
             const label = `Encounter: ${marker.encounter_type || "Unknown Event"}`;
             L.marker([py, px], { icon }).addTo(map).bindPopup(label);
+          }
+
+          if (marker.sketch_trigger) {
+            const imgSrc = `./sketches/${tile}.png`;
+            const preview = `<img src="${imgSrc}" class="popup-sketch" alt="Sketch for ${tile}" />`;
+            const thumb = L.rectangle([[py-100, px-100], [py+100, px+100]], {
+              color: "#fff",
+              weight: 1,
+              fillOpacity: 0.05
+            }).addTo(map);
+            thumb.bindPopup(preview);
           }
         }
       }
