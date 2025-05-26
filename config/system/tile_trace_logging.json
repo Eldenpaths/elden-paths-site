@@ -1,0 +1,15 @@
+{
+  "enabled": true,
+  "output_file": "/logs/tile_trace_log.json",
+  "record_events": [
+    "player_step",
+    "combat_event",
+    "structure_built",
+    "weather_damage"
+  ],
+  "tile_cache_limit": 100,
+  "log_voxel_position": true,
+  "log_time_stamps": true,
+  "include_player_id": true,
+  "rotation_summary_enabled": true
+}
