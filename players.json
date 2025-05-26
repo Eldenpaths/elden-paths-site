@@ -1,42 +1,57 @@
 {
   "players": [
     {
-      "name": "SilentWalker",
-      "tile": "tile_106",
-      "hp": 28,
-      "max_hp": 30,
-      "xp": 120,
-      "level": 2,
-      "wounds": [],
-      "weapon": {
-        "name": "Iron Sword",
-        "damage": 8
+      "id": "SilentWalker",
+      "name": "Silent Walker",
+      "tile": "tile_42C",
+      "hp": 38,
+      "xp": 220,
+      "wounds": [
+        "scar_left_eye"
+      ],
+      "gear": {
+        "weapon": "iron_sword",
+        "armor": "leather_vest",
+        "tool": "hatchet"
       },
-      "combat_state": {
-        "in_combat": true,
-        "last_enemy": "Foghound",
-        "round": 3
-      }
+      "inventory": [
+        "rope_coil",
+        "trail_rations",
+        "wooden_shield"
+      ],
+      "oaths": [
+        "founder_tile_15A"
+      ],
+      "fog_explored": [
+        "tile_42C",
+        "tile_41B",
+        "tile_40B"
+      ]
     },
     {
-      "name": "Arden",
-      "tile": "tile_108",
-      "hp": 32,
-      "max_hp": 32,
-      "xp": 90,
-      "level": 1,
-      "wounds": [
-        "light_burn"
-      ],
-      "weapon": {
-        "name": "Firestaff",
-        "damage": 10
+      "id": "EmberTide",
+      "name": "Ember Tide",
+      "tile": "tile_37D",
+      "hp": 25,
+      "xp": 130,
+      "wounds": [],
+      "gear": {
+        "weapon": "staff_of_moss",
+        "armor": "cotton_robes",
+        "tool": "foraging_knife"
       },
-      "combat_state": {
-        "in_combat": false,
-        "last_enemy": "Ash Drake",
-        "round": 5
-      }
+      "inventory": [
+        "herbal_pouch",
+        "tinderbox",
+        "map_fragment"
+      ],
+      "oaths": [
+        "custodian_tile_37D"
+      ],
+      "fog_explored": [
+        "tile_37D",
+        "tile_36D"
+      ]
     }
   ]
 }
