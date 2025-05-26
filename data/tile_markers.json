@@ -1,11 +1,13 @@
 {
-  "14_18": [
+  "13_17": [
     {
       "type": "shrine",
-      "name": "Stone of Returning",
+      "name": "Forgotten Grove Shrine",
       "revival_allowed": true,
       "sketch_trigger": true,
-      "lore": "A stone that sings when Echoes pass by."
+      "hidden": true,
+      "lore": "Covered in moss, this stone once held the names of fallen wanderers."
     }
-  ]
+  ],
+  "16_20": []
 }
