@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tile Status Map</title>
+  <style>
+    body { background: #111; color: #eee; font-family: sans-serif; padding: 1rem; }
+    h1 { color: #9f9; }
+    .tile-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px; margin-top: 1rem; }
+    .tile { background: #333; width: 40px; height: 40px; text-align: center; line-height: 40px; font-size: 0.8rem; border: 1px solid #222; }
+    .hot { background: #f90; }
+    .ready { background: #5a5; }
+    .idle { background: #444; }
+  </style>
+</head>
+<body>
+  <h1>Tile Export Readiness Map</h1>
+  <div class="tile-grid">
+    <div class="tile hot">A1</div>
+    <div class="tile ready">A2</div>
+    <div class="tile idle">A3</div>
+    <div class="tile ready">A4</div>
+    <div class="tile hot">A5</div>
+    <div class="tile idle">A6</div>
+    <div class="tile ready">A7</div>
+    <div class="tile idle">A8</div>
+    <div class="tile idle">A9</div>
+    <div class="tile idle">A10</div>
+  </div>
+</body>
+</html>
