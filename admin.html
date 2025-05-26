@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel - Elden Paths</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: #0d0d0d;
+      color: #f5f5f5;
+      padding: 2rem;
+    }
+    h1 {
+      color: #ffc107;
+      font-size: 2rem;
+    }
+    section {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      border: 1px solid #333;
+      background-color: #1a1a1a;
+      border-radius: 6px;
+    }
+    label {
+      display: block;
+      margin: 0.5rem 0 0.2rem;
+    }
+    input, select, button {
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+    }
+    button {
+      background: #ffc107;
+      color: #000;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #ffdb58;
+    }
+  </style>
+</head>
+<body>
+  <h1>🛠️ Admin Panel - Elden Paths</h1>
+
+  <section>
+    <h2>📍 Move Player</h2>
+    <label for="playerId">Player ID:</label>
+    <input type="text" id="playerId" placeholder="e.g., SilentWalker" />
+    <label for="tileTarget">Target Tile:</label>
+    <input type="text" id="tileTarget" placeholder="e.g., tile_23B" />
+    <button onclick="movePlayer()">Move Player</button>
+  </section>
+
+  <section>
+    <h2>🌫️ Toggle Fog for Tile</h2>
+    <label for="fogTile">Tile ID:</label>
+    <input type="text" id="fogTile" placeholder="e.g., tile_23B" />
+    <button onclick="toggleFog()">Toggle Fog</button>
+  </section>
+
+  <section>
+    <h2>📌 Place Marker</h2>
+    <label for="markerTile">Tile ID:</label>
+    <input type="text" id="markerTile" />
+    <label for="markerType">Marker Type:</label>
+    <select id="markerType">
+      <option value="lore">Lore</option>
+      <option value="danger">Danger</option>
+      <option value="ruin">Ruin</option>
+      <option value="camp">Camp</option>
+      <option value="trail">Trail</option>
+    </select>
+    <button onclick="placeMarker()">Place Marker</button>
+  </section>
+
+  <section>
+    <h2>🔍 Inspect Tile Meta</h2>
+    <label for="inspectTile">Tile ID:</label>
+    <input type="text" id="inspectTile" />
+    <button onclick="inspectTile()">Inspect</button>
+    <pre id="tileMetaResult"></pre>
+  </section>
+
+  <script>
+    function movePlayer() {
+      const id = document.getElementById('playerId').value;
+      const tile = document.getElementById('tileTarget').value;
+      alert(`(Simulated) Moving ${id} to ${tile}`);
+    }
+    function toggleFog() {
+      const tile = document.getElementById('fogTile').value;
+      alert(`(Simulated) Toggling fog on ${tile}`);
+    }
+    function placeMarker() {
+      const tile = document.getElementById('markerTile').value;
+      const type = document.getElementById('markerType').value;
+      alert(`(Simulated) Placing ${type} marker at ${tile}`);
+    }
+    function inspectTile() {
+      const tile = document.getElementById('inspectTile').value;
+      // Simulated fetch of metadata
+      document.getElementById('tileMetaResult').textContent =
+        `Inspecting tile: ${tile}\nTerrain: forest\nFog: true\nMarkers: 1 lore`;
+    }
+  </script>
+</body>
+</html>
