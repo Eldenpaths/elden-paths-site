@@ -1,0 +1,36 @@
+{
+  "compiler_name": "Echo Compiler\u2122",
+  "triggers": {
+    "on_logoff": true,
+    "on_inactivity_timeout": true,
+    "on_sketch_complete": true,
+    "on_tile_upgrade": true,
+    "manual_admin_run": true
+  },
+  "output_assets": [
+    "voxel_slice",
+    "scene_sketch_overlay",
+    "fog_memory_map",
+    "structure_blueprint",
+    "player_trail_log",
+    "combat_arena_snapshot"
+  ],
+  "storage_path": "/builder_cache/",
+  "export_format": {
+    "terrain": "OBJ",
+    "structure": "GLTF",
+    "sketches": "PNG",
+    "memory": "JSON"
+  },
+  "crowd_source_opt_in": {
+    "enabled": true,
+    "max_cpu_percent": 5,
+    "task_window_seconds": 20,
+    "anonymized_data_use": true,
+    "client_job_types": [
+      "sketch_bake",
+      "mesh_merge",
+      "delta_checker"
+    ]
+  }
+}
