@@ -5,41 +5,66 @@
   <title>Elden Paths – Play</title>
   <style>
     body { background: #111; color: #eee; font-family: sans-serif; padding: 2em; text-align: center; }
-    #sketch { margin-top: 1em; max-width: 90%; border: 2px solid #444; }
+    #sketch, #encounter { margin-top: 1em; max-width: 90%; border: 2px solid #444; display: none; }
+    #message { margin-top: 1em; }
   </style>
 </head>
 <body>
   <h1>Elden Paths – Play</h1>
   <div id="status">Loading player data...</div>
-  <img id="sketch" style="display:none;" />
+  <div id="message"></div>
+  <img id="sketch" />
+  <img id="encounter" />
 
   <script>
-    const playerName = "example_player";  // Static player for now
-    let playerData, tileMarkers;
+    const playerName = "example_player";
+    let playerData, tileMarkers, encounters;
 
     async function fetchJSON(path) {
       const res = await fetch(path);
       return await res.json();
     }
 
+    function chance(prob) {
+      return Math.random() < prob;
+    }
+
     async function loadGame() {
       const players = await fetchJSON("data/players.json");
       const tileIndex = await fetchJSON("data/tile_index.json");
       tileMarkers = await fetchJSON("data/tile_markers.json");
+      encounters = await fetchJSON("data/encounters.json");
 
       playerData = players[playerName];
       const tile = playerData.tile;
       const fogged = !tileIndex[tile]?.fog_cleared;
       document.getElementById("status").textContent = `You are at tile ${tile} (${fogged ? "shrouded in fog" : "visible"}).`;
 
-      // Check for sketch trigger
+      const sketchImg = document.getElementById("sketch");
+      const encounterImg = document.getElementById("encounter");
+      const messageDiv = document.getElementById("message");
+
       if (tileMarkers[tile]) {
         const triggered = tileMarkers[tile].some(marker => marker.sketch_trigger);
         if (triggered) {
-          const sketchImg = document.getElementById("sketch");
-          sketchImg.src = `sketches/${tile}.png`; // Placeholder path
+          sketchImg.src = `sketches/${tile}.png`;
           sketchImg.alt = `Sketch for tile ${tile}`;
           sketchImg.style.display = "block";
+        }
+
+        for (let marker of tileMarkers[tile]) {
+          if (marker.encounter_chance && chance(marker.encounter_chance)) {
+            const enc = encounters[marker.encounter_type];
+            if (enc) {
+              messageDiv.textContent = enc.description;
+              if (enc.sketch) {
+                encounterImg.src = `sketches/${enc.sketch}`;
+                encounterImg.alt = enc.description;
+                encounterImg.style.display = "block";
+              }
+              break;
+            }
+          }
         }
       }
     }
