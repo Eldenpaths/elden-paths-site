@@ -1,0 +1,42 @@
+{
+  "default_resolution": "10x10",
+  "max_allowed_resolution": "100x100",
+  "dynamic_upgrade": true,
+  "ai_monitor_threshold": 12,
+  "preload_threshold": 0.25,
+  "tile_profiles": {
+    "world_default": "10x10",
+    "settlement": "20x20",
+    "fortification": "50x50",
+    "dungeon_boss": "100x100",
+    "cutscene_instance": "100x100"
+  },
+  "render_modes": {
+    "logic_only": true,
+    "art_overlay_enabled": false,
+    "sketch_informed": true
+  },
+  "system_cap_limits": {
+    "max_voxels_loaded": 100000,
+    "max_tiles_live": 12,
+    "failover_to_lowres": true
+  },
+  "ai_monitoring": {
+    "enabled": true,
+    "background_mode_when_player_offline": true,
+    "trigger_on_logoff": true,
+    "log_path_usage": true,
+    "cache_sketch_traces": true,
+    "predictive_growth_enabled": true
+  },
+  "future_hooks": {
+    "voxel_to_3d_mesh_enabled": true,
+    "terrain_to_navmesh_supported": true,
+    "structure_persistence_tracked": true
+  },
+  "realism_layer": {
+    "voxel_memory_scars": true,
+    "flood_fire_debris_decay": true,
+    "footprint_and_drag_tracking": true
+  }
+}
