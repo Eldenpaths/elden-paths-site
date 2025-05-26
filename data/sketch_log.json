@@ -1,0 +1,31 @@
+{
+  "player_id": "echo_001",
+  "entries": [
+    {
+      "tile": "2_3",
+      "type": "landmark",
+      "title": "Collapsed Waypost",
+      "timestamp": "2025-05-26T07:13:00Z",
+      "sketch_id": "sketch_2_3_waypost",
+      "tags": [
+        "ridge",
+        "fog",
+        "first camp"
+      ],
+      "notes": "The fog felt sentient. Something watched me from the mist."
+    },
+    {
+      "tile": "2_3",
+      "type": "creature_sighting",
+      "title": "Pine-Lurker Seen",
+      "timestamp": "2025-05-26T07:18:00Z",
+      "sketch_id": "sketch_2_3_lurker",
+      "tags": [
+        "creature",
+        "fog",
+        "escape"
+      ],
+      "notes": "Barely visible \u2014 glimmered at the edge of the trail ring."
+    }
+  ]
+}
