@@ -11,6 +11,36 @@
       46.1879,
       -123.8313
     ],
+    "structure": "port_village",
+    "structure_points": [
+      {
+        "type": "dock",
+        "x": 120,
+        "y": 900,
+        "facing": "NW",
+        "use": "trade_inlet"
+      },
+      {
+        "type": "market_square",
+        "x": 540,
+        "y": 600,
+        "facing": "SE",
+        "use": "npc_hub"
+      },
+      {
+        "type": "watchtower",
+        "x": 920,
+        "y": 200,
+        "elevation": 32,
+        "use": "alarm_post"
+      },
+      {
+        "type": "abandoned_bridge_ruin",
+        "x": 680,
+        "y": 150,
+        "state": "flooded"
+      }
+    ],
     "tile_memory": {
       "structure": "port_village",
       "visited_by": [],
@@ -21,7 +51,14 @@
       "text": "The harbor at Gravesport is sheltered by sea-worn cliffs and carved from centuries of tidal flow. Sailors speak of carved faces on the river stones at low tide."
     },
     "trails": [
-      "coastline_passage"
-    ]
+      "coastline_passage",
+      "highroad_to_vale",
+      "marsh_cut",
+      "riverway_ferry"
+    ],
+    "scroll_trigger": {
+      "event": "first_visit",
+      "text": "A sea mist clings to your boots as the towering bluff reveals Gravesport \u2014 a battered harbor town that smells of brine and ember."
+    }
   }
 }
