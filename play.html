@@ -1,201 +1,70 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elden Paths – Play (Echo Marks)</title>
+  <title>Elden Paths – Play</title>
   <style>
-    body { background: #111; color: #eee; font-family: sans-serif; padding: 2em; text-align: center; }
-    #sketch, #encounter { margin-top: 1em; max-width: 90%; border: 2px solid #444; display: none; }
-    #message, #combat, #echoMarkForm { margin-top: 1em; }
-    input[type="text"] { width: 60%; padding: 0.5em; font-size: 1em; }
-    button { margin: 0.5em; padding: 0.5em 1em; font-size: 1em; }
+    body { background: #0d0d0d; color: #eee; font-family: 'Georgia', serif; margin: 0; padding: 0; }
+    header { background: #1e1e1e; padding: 1rem; font-size: 1.25rem; color: #9f9; border-bottom: 1px solid #333; }
+    main { padding: 1rem; max-width: 800px; margin: auto; }
+    .trailbox { background: #222; padding: 1rem; margin-bottom: 1rem; border: 1px solid #444; border-radius: 6px; }
+    .trailbox h2 { margin-top: 0; color: #5a5; }
+    .log { white-space: pre-wrap; background: #1a1a1a; border: 1px solid #333; padding: 1rem; height: 300px; overflow-y: scroll; margin-bottom: 1rem; }
+    .input-box { display: flex; gap: 0.5rem; }
+    input[type="text"] {
+      flex: 1;
+      padding: 0.75rem;
+      background: #111;
+      border: 1px solid #555;
+      color: #eee;
+    }
+    button {
+      padding: 0.75rem 1.25rem;
+      background: #5a5;
+      border: none;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover { background: #6d6; }
   </style>
 </head>
 <body>
-  <h1>Elden Paths – Play</h1>
-  <div id="status">Loading player data...</div>
-  <div id="message"></div>
-  <img id="sketch" />
-  <img id="encounter" />
-  <div id="combat"></div>
-  <div id="echoMarkForm" style="display: none;">
-    <input id="echoText" type="text" placeholder="Leave a whisper...">
-    <button onclick="leaveEchoMark()">Mark Tile</button>
-  </div>
-  <button onclick="saveGame()">Save Game</button>
+  <header>Elden Paths™ – Echo Trail</header>
+  <main>
+    <div class="trailbox">
+      <h2>Trailbox</h2>
+      <p><strong>Name:</strong> Echo Wanderer</p>
+      <p><strong>Tile:</strong> A3</p>
+      <p><strong>Gear:</strong> Trail Cloak, Tin Blade, Trailbox Journal</p>
+      <p><strong>Status:</strong> 🧭 Fog thick, light east wind. Unknown symbols ahead.</p>
+    </div>
+
+    <div class="log" id="log">🧭 You awaken beneath a towering cedar. A glint of metal lies in the loam nearby.</div>
+
+    <div class="input-box">
+      <input type="text" id="prompt" placeholder="What do you do?" />
+      <button onclick="submitPrompt()">▶️</button>
+    </div>
+  </main>
 
   <script>
-    const playerName = "example_player";
-    let playerData, tileMarkers, encounters, tileIndex;
-    let currentEnemy = null;
-
-    async function fetchJSON(path) {
-      const res = await fetch(path);
-      return await res.json();
-    }
-
-    function chance(prob) {
-      return Math.random() < prob;
-    }
-
-    function rollDice(die) {
-      const sides = parseInt(die.substring(1));
-      return Math.floor(Math.random() * sides) + 1;
-    }
-
-    function loadLocalData() {
-      const stored = localStorage.getItem("eldenpaths_" + playerName);
-      if (stored) return JSON.parse(stored);
-      return null;
-    }
-
-    function saveGame() {
-      localStorage.setItem("eldenpaths_" + playerName, JSON.stringify(playerData));
-      localStorage.setItem("eldenpaths_tile_index", JSON.stringify(tileIndex));
-      alert("Game saved.");
-    }
-
-    function respawn() {
-      const forestRespawnTiles = ["12_10", "14_18", "10_15", "16_11", "13_14"];
-      const randomTile = forestRespawnTiles[Math.floor(Math.random() * forestRespawnTiles.length)];
-      playerData.hp = 6;
-      playerData.tile = randomTile;
-      playerData.combat_state = "idle";
-      localStorage.setItem("eldenpaths_" + playerName, JSON.stringify(playerData));
-      location.reload();
-    }
-
-    function leaveEchoMark() {
-      const text = document.getElementById("echoText").value;
+    function submitPrompt() {
+      const input = document.getElementById('prompt');
+      const log = document.getElementById('log');
+      const text = input.value.trim();
       if (text.length > 0) {
-        const tile = playerData.tile;
-        tileIndex[tile].echo_mark = {
-          by: playerName,
-          text: text
-        };
-        saveGame();
-        document.getElementById("message").textContent = "You have whispered to the land.";
-        document.getElementById("echoText").value = "";
+        log.innerHTML += "\n> " + text + "\n";
+        log.scrollTop = log.scrollHeight;
+        input.value = '';
+        // Here, you would eventually pass prompt to GPT or Echo system
+        setTimeout(() => {
+          log.innerHTML += "🧠 (system): You hear faint whispering from the treeline...\n";
+          log.scrollTop = log.scrollHeight;
+        }, 800);
       }
     }
-
-    async function loadGame() {
-      const basePlayers = await fetchJSON("data/players.json");
-      tileIndex = JSON.parse(localStorage.getItem("eldenpaths_tile_index")) || await fetchJSON("data/tile_index.json");
-      tileMarkers = await fetchJSON("data/tile_markers.json");
-      encounters = await fetchJSON("data/encounters.json");
-
-      const saved = loadLocalData();
-      playerData = saved || basePlayers[playerName];
-      const tile = playerData.tile;
-      const fogged = !tileIndex[tile]?.fog_cleared;
-      document.getElementById("status").textContent = "You are at tile " + tile + " (" + (fogged ? "shrouded in fog" : "visible") + ").";
-
-      const sketchImg = document.getElementById("sketch");
-      const encounterImg = document.getElementById("encounter");
-      const messageDiv = document.getElementById("message");
-      const combatDiv = document.getElementById("combat");
-
-      if (tileIndex[tile]?.echo_mark) {
-        const mark = tileIndex[tile].echo_mark;
-        messageDiv.innerHTML = `<em>A whisper remains here: "${mark.text}"</em>`;
-      }
-
-      if (playerData.is_echo) {
-        document.getElementById("echoMarkForm").style.display = "block";
-        combatDiv.innerHTML = "<p>You are now an Echo... You may leave signs, but not act directly.</p>";
-        return;
-      }
-
-      if (playerData.hp <= 0) {
-        playerData.death_count += 1;
-        if (!tileIndex[tile].dropped_gear) tileIndex[tile].dropped_gear = [];
-        tileIndex[tile].dropped_gear.push(...playerData.gear);
-        playerData.gear = [];
-
-        if (playerData.death_count >= 4) {
-          playerData.is_echo = true;
-          combatDiv.innerHTML = "<p>Your final death has come. You are now an Echo, bound to the world’s memory.</p>";
-        } else {
-          combatDiv.innerHTML = `
-            <p>You have fallen in battle. (${playerData.death_count}/4 deaths used)</p>
-            <p>Your gear has been dropped at this location.</p>
-            <button onclick='respawn()'>Respawn</button>
-          `;
-        }
-
-        saveGame();
-        return;
-      }
-
-      if (tileMarkers[tile]) {
-        const triggered = tileMarkers[tile].some(marker => marker.sketch_trigger);
-        if (triggered) {
-          
-    if (playerData.is_echo) {
-      sketchImg.src = "sketches/echo/" + tile + "_echo.png";
-    } else {
-      sketchImg.src = "sketches/" + tile + ".png";
-    }
-    
-          sketchImg.alt = "Sketch for tile " + tile;
-          sketchImg.style.display = "block";
-        }
-
-        for (let marker of tileMarkers[tile]) {
-          if (marker.encounter_chance && chance(marker.encounter_chance)) {
-            const enc = encounters[marker.encounter_type];
-            if (enc) {
-              messageDiv.textContent = enc.description;
-              if (enc.sketch) {
-                encounterImg.src = "sketches/" + enc.sketch;
-                encounterImg.alt = enc.description;
-                encounterImg.style.display = "block";
-              }
-
-              const enemy = enc.enemy;
-              if (enemy) {
-                currentEnemy = { ...enemy };
-                combatDiv.innerHTML = `
-                  <p><strong>Enemy:</strong> ${enemy.name} (HP: ${enemy.hp}, Attack: ${enemy.attack_die})</p>
-                  <p><strong>Your HP:</strong> ${playerData.hp} | <strong>Your Weapon:</strong> Rusty Sword (d6)</p>
-                  <button onclick="fight()">Fight</button>
-                  <button onclick="flee()">Flee</button>
-                `;
-              }
-              break;
-            }
-          }
-        }
-      }
-    }
-
-    function fight() {
-      const playerRoll = rollDice("d6");
-      const enemyRoll = rollDice(currentEnemy.attack_die);
-      playerData.hp -= enemyRoll;
-      currentEnemy.hp -= playerRoll;
-
-      let outcome = `<p>You strike the ${currentEnemy.name} for <strong>${playerRoll}</strong> damage.</p>`;
-      outcome += `<p>It hits you back for <strong>${enemyRoll}</strong> damage.</p>`;
-      outcome += `<p><strong>Your HP:</strong> ${playerData.hp} | <strong>Enemy HP:</strong> ${currentEnemy.hp}</p>`;
-
-      if (playerData.hp <= 0) {
-        outcome += `<p>You collapse from your wounds... (Respawn or Echo state triggered)</p>`;
-      } else if (currentEnemy.hp <= 0) {
-        outcome += `<p>You have defeated the ${currentEnemy.name}!</p>`;
-        playerData.xp += 1;
-      }
-
-      outcome += `<p><em>Use "Save Game" to preserve progress.</em></p>`;
-      document.getElementById("combat").innerHTML = outcome;
-    }
-
-    function flee() {
-      document.getElementById("combat").innerHTML = "<p>You flee into the trees...</p>";
-    }
-
-    loadGame();
   </script>
 </body>
 </html>
