@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vault Browser</title>
+  <style>
+    body { background: #111; color: #eee; font-family: sans-serif; padding: 1rem; }
+    h1 { color: #9f9; }
+    .vault { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .entry {
+      background: #222;
+      border: 1px solid #444;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    .entry h2 { font-size: 1rem; margin-bottom: 0.5rem; color: #5a5; }
+    .entry span { display: block; font-family: monospace; font-size: 0.85rem; margin: 0.2rem 0; }
+    .entry a { color: #8cf; text-decoration: none; }
+    .entry a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Parallel Game Asset Vault</h1>
+  <p>This vault includes all generated and exported structures, creatures, terrain, and items from the self-building system.</p>
+  <div class="vault">
+    <div class="entry">
+      <h2>burnt_camp_trail_01_struct.gltf</h2>
+      <span>Type: Structure</span>
+      <span>Status: static_final</span>
+      <a href="/builder_cache/burnt_camp_trail_01_struct.gltf" download>Download</a>
+    </div>
+    <div class="entry">
+      <h2>ridge_lurker.gltf</h2>
+      <span>Type: Creature</span>
+      <span>Status: requires_rig</span>
+      <a href="/builder_cache/ridge_lurker.gltf" download>Download</a>
+    </div>
+    <div class="entry">
+      <h2>obsidian_bone_hammer.gltf</h2>
+      <span>Type: Item</span>
+      <span>Status: game_ready</span>
+      <a href="/builder_cache/obsidian_bone_hammer.gltf" download>Download</a>
+    </div>
+    <div class="entry">
+      <h2>ridge_valley_obj_013.obj</h2>
+      <span>Type: Terrain</span>
+      <span>Status: static_final</span>
+      <a href="/builder_cache/ridge_valley_obj_013.obj" download>Download</a>
+    </div>
+  </div>
+</body>
+</html>
