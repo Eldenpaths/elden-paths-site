@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,42 +28,7 @@
     }
     button:hover { background: #6d6; }
   </style>
+
+  <!-- ✅ Put this OUTSIDE the style tag -->
+  <script src="map.js"></script>
 </head>
-<body>
-  <header>Elden Paths™ – Echo Trail</header>
-  <main>
-    <div class="trailbox">
-      <h2>Trailbox</h2>
-      <p><strong>Name:</strong> Echo Wanderer</p>
-      <p><strong>Tile:</strong> A3</p>
-      <p><strong>Gear:</strong> Trail Cloak, Tin Blade, Trailbox Journal</p>
-      <p><strong>Status:</strong> 🧭 Fog thick, light east wind. Unknown symbols ahead.</p>
-    </div>
-
-    <div class="log" id="log">🧭 You awaken beneath a towering cedar. A glint of metal lies in the loam nearby.</div>
-
-    <div class="input-box">
-      <input type="text" id="prompt" placeholder="What do you do?" />
-      <button onclick="submitPrompt()">▶️</button>
-    </div>
-  </main>
-
-  <script>
-    function submitPrompt() {
-      const input = document.getElementById('prompt');
-      const log = document.getElementById('log');
-      const text = input.value.trim();
-      if (text.length > 0) {
-        log.innerHTML += "\n> " + text + "\n";
-        log.scrollTop = log.scrollHeight;
-        input.value = '';
-        // Here, you would eventually pass prompt to GPT or Echo system
-        setTimeout(() => {
-          log.innerHTML += "🧠 (system): You hear faint whispering from the treeline...\n";
-          log.scrollTop = log.scrollHeight;
-        }, 800);
-      }
-    }
-  </script>
-</body>
-</html>
