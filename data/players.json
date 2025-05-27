@@ -4,15 +4,13 @@
     "tile": "15_22",
     "hp": 10,
     "xp": 0,
-    "gear": [
-      "Rusty Sword",
-      "Worn Cloak"
-    ],
-    "fog": [
-      "15_22"
-    ],
+    "gear": ["Rusty Sword", "Worn Cloak"],
+    "fog": ["15_22"],
     "combat_state": "idle",
     "death_count": 0,
-    "is_echo": false
+    "is_echo": false,
+    "last_active": "2025-05-26T18:04:00Z",        // ✅ ISO format
+    "session_status": "offline",                  // ✅ online/offline
+    "pose": "idle"                                // ✅ standing, walking, resting...
   }
 }
