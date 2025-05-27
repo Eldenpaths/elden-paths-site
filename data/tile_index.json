@@ -3,6 +3,9 @@
     "biome": "forest",
     "terrain": "hills",
     "fog_cleared": true,
-    "dropped_gear": []
+    "dropped_gear": [],
+    "visits": 3,
+    "discovered_by": ["Ash", "Riven"],
+    "last_seen": "2025-05-26T19:22:00Z"
   }
 }
