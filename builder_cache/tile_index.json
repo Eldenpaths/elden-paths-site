@@ -1,0 +1,20 @@
+{
+  "tiles": {
+    "A1": {
+      "fog": true
+    },
+    "A2": {
+      "fog": true
+    },
+    "A3": {
+      "fog": false
+    },
+    "A4": {
+      "fog": true
+    },
+    "A5": {
+      "fog": true
+    }
+  },
+  "last_updated": "2025-05-26T22:30Z"
+}
