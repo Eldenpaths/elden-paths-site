@@ -1,7 +1,0 @@
-Sketch Style Guide for EchoSketch Engine™
-
-- Medium: Pencil, ink, and watercolor
-- Surface: Textured parchment or field scroll
-- No digital glow, blur, or neon
-- Subject proportions: grounded realism, mythic exaggeration allowed for ruins and relics
-- Atmosphere: Weathered, aged, fogged if needed
