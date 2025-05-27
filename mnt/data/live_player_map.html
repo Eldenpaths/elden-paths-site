@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Map – Player Locations</title>
+  <style>
+    body {
+      background: #eef1f3;
+      font-family: sans-serif;
+      padding: 2rem;
+    }
+    h1 {
+      color: #2a2f33;
+    }
+    .player {
+      margin: 0.75rem 0;
+      padding: 1rem;
+      background: #ffffff;
+      border-left: 5px solid #77aabb;
+      box-shadow: 0 0 3px rgba(0,0,0,0.1);
+    }
+    .meta {
+      font-size: 0.85rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧭 Live Player Map</h1>
+  <div id="player-list">Loading...</div>
+  <script>
+    fetch('/mnt/data/live_player_map.json')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('player-list');
+        if (!data.players || data.players.length === 0) {
+          container.innerHTML = "<p>No players currently active or tracked.</p>";
+          return;
+        }
+        container.innerHTML = data.players.map(player => `
+          <div class="player">
+            <strong>${player.name}</strong>
+            <div class="meta">Tile: ${player.tile} | Last seen: ${player.last_seen}</div>
+          </div>
+        `).join('');
+      })
+      .catch(err => {
+        document.getElementById('player-list').innerHTML = "<p>Error loading live map data.</p>";
+      });
+  </script>
+</body>
+</html>
