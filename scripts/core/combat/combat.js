@@ -12,6 +12,7 @@ function resolveCombat(player, enemy) {
   let enemyHP = enemy.hp;
 
   combatLog.push(`⚔️ Combat begins between ${player.name} and ${enemy.name}`);
+  player.combat_state = "engaged";
 
   while (playerHP > 0 && enemyHP > 0) {
     combatLog.push(`--- Round ${round} ---`);
@@ -41,33 +42,33 @@ function resolveCombat(player, enemy) {
     round++;
   }
 
+  // Final HP sync back to player object
+  player.hp = Math.max(playerHP, 0);
+  enemy.hp = Math.max(enemyHP, 0);
+
+  if (player.hp <= 0) {
+    player.combat_state = "defeated";
+    player.wounds ??= [];
+    player.wounds.push("knocked unconscious");
+
+    player.death_count = (player.death_count || 0) + 1;
+    combatLog.push(`☠️ ${player.name} is defeated!`);
+  } else {
+    player.combat_state = "idle";
+    combatLog.push(`🏆 ${player.name} is victorious!`);
+  }
+
+  // Save updated state (if needed)
+  if (typeof savePlayerState === "function") {
+    savePlayerState(player); // Hook to your save system
+  }
+
   const result = {
-    playerFinalHP: Math.max(playerHP, 0),
-    enemyFinalHP: Math.max(enemyHP, 0),
-    outcome: playerHP > 0 ? "Victory" : "Defeat",
+    playerFinalHP: player.hp,
+    enemyFinalHP: enemy.hp,
+    outcome: player.hp > 0 ? "Victory" : "Defeat",
     log: combatLog
   };
 
   return result;
 }
-
-// Example usage
-/*
-const player = {
-  name: "Ash",
-  hp: 20,
-  ac: 12,
-  weapon: { dmg: 6, mod: 2 }
-};
-
-const enemy = {
-  name: "Bograt",
-  hp: 12,
-  ac: 10,
-  weapon: { dmg: 4, mod: 1 }
-};
-
-const battle = resolveCombat(player, enemy);
-console.log(battle.log.join("\n"));
-console.log("Outcome:", battle.outcome);
-*/
