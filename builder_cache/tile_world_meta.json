@@ -1,0 +1,80 @@
+{
+  "version": "1.0",
+  "tiles": {
+    "NW_America": {
+      "biome": "forest_mountain",
+      "avg_elevation": 1200,
+      "features": [
+        "Cascades",
+        "Rockies"
+      ]
+    },
+    "NE_America": {
+      "biome": "plains_forest",
+      "avg_elevation": 300,
+      "features": [
+        "Great Lakes"
+      ]
+    },
+    "South_America": {
+      "biome": "jungle_andes",
+      "avg_elevation": 1800,
+      "features": [
+        "Amazon",
+        "Andes"
+      ]
+    },
+    "Europe": {
+      "biome": "mixed_temperate",
+      "avg_elevation": 500,
+      "features": [
+        "Alps",
+        "Black Forest"
+      ]
+    },
+    "Africa": {
+      "biome": "desert_savanna",
+      "avg_elevation": 600,
+      "features": [
+        "Sahara",
+        "Nile Valley"
+      ]
+    },
+    "Asia": {
+      "biome": "mountain_steppe",
+      "avg_elevation": 1500,
+      "features": [
+        "Himalayas",
+        "Mongolia"
+      ]
+    },
+    "Southeast_Asia": {
+      "biome": "tropical_archipelago",
+      "avg_elevation": 50,
+      "features": [
+        "Island chains"
+      ]
+    },
+    "Australia": {
+      "biome": "outback",
+      "avg_elevation": 400,
+      "features": [
+        "Great Dividing Range"
+      ]
+    },
+    "Antarctica": {
+      "biome": "polar_ice",
+      "avg_elevation": 2200,
+      "features": [
+        "Polar Plateau"
+      ]
+    },
+    "Pacific_Ocean": {
+      "biome": "deep_ocean",
+      "avg_elevation": -4000,
+      "features": [
+        "Mariana Trench"
+      ]
+    }
+  }
+}
