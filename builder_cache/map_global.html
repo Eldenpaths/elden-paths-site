@@ -19,11 +19,35 @@
       font-size: 0.85rem;
       color: #ccc;
       text-align: center;
+      position: relative;
+      transition: 0.3s ease;
+    }
+    .tile.fogged {
+      opacity: 0.3;
+      filter: blur(1px);
     }
     .tile:hover {
-      background: #4a4;
+      background: #6f6;
       color: #000;
       cursor: pointer;
+    }
+    .tooltip {
+      position: absolute;
+      bottom: -1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.65rem;
+      background: #111;
+      color: #9f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .tile:hover .tooltip {
+      opacity: 1;
     }
   </style>
 </head>
@@ -33,25 +57,31 @@
 
   <script>
     const tiles = {
-      "NW_America": { x: 0, y: 0, biome: "forest_mountain" },
-      "NE_America": { x: 1, y: 0, biome: "plains_forest" },
-      "South_America": { x: 0, y: 1, biome: "jungle_andes" },
-      "Europe": { x: 2, y: 0, biome: "mixed_temperate" },
-      "Africa": { x: 2, y: 1, biome: "desert_savanna" },
-      "Asia": { x: 3, y: 0, biome: "mountain_steppe" },
-      "Southeast_Asia": { x: 3, y: 1, biome: "tropical_archipelago" },
-      "Australia": { x: 4, y: 1, biome: "outback" },
-      "Antarctica": { x: 2, y: 2, biome: "polar_ice" },
-      "Pacific_Ocean": { x: 4, y: 0, biome: "deep_ocean" }
+      "NW_America": { x: 0, y: 0, biome: "forest_mountain", fog: false, players: 2, lore: "Snow-fed peaks and buried oaths." },
+      "NE_America": { x: 1, y: 0, biome: "plains_forest", fog: true, players: 0, lore: "A land of rivers and rusted iron." },
+      "South_America": { x: 0, y: 1, biome: "jungle_andes", fog: true, players: 0, lore: "Tangled roots whisper names older than man." },
+      "Europe": { x: 2, y: 0, biome: "mixed_temperate", fog: false, players: 1, lore: "Old roads still echo the march of vanished kings." },
+      "Africa": { x: 2, y: 1, biome: "desert_savanna", fog: true, players: 0, lore: "Endless dunes conceal forgotten cities." },
+      "Asia": { x: 3, y: 0, biome: "mountain_steppe", fog: true, players: 0, lore: "The winds here remember." },
+      "Southeast_Asia": { x: 3, y: 1, biome: "tropical_archipelago", fog: true, players: 0, lore: "Storms circle sacred islands uncharted." },
+      "Australia": { x: 4, y: 1, biome: "outback", fog: true, players: 0, lore: "Dust trails lead to fire circles and secrets." },
+      "Antarctica": { x: 2, y: 2, biome: "polar_ice", fog: true, players: 0, lore: "Beneath the ice, the world still listens." },
+      "Pacific_Ocean": { x: 4, y: 0, biome: "deep_ocean", fog: true, players: 0, lore: "No land. But something waits." }
     };
 
     const worldGrid = document.getElementById('worldGrid');
     for (const id in tiles) {
       const el = document.createElement('div');
       el.className = 'tile';
+      if (tiles[id].fog) el.classList.add('fogged');
       el.dataset.tile = id;
-      el.innerHTML = `<strong>${id}</strong><br>${tiles[id].biome.replace('_', ' ')}`;
-      el.onclick = () => alert(`Tile: ${id}\nBiome: ${tiles[id].biome}`);
+      el.innerHTML = `
+        <strong>${id}</strong><br>
+        ${tiles[id].biome.replace('_', ' ')}<br>
+        👥 ${tiles[id].players}
+        <div class="tooltip">${tiles[id].lore}</div>
+      `;
+      el.onclick = () => alert(`Tile: ${id}\nBiome: ${tiles[id].biome}\nPlayers: ${tiles[id].players}`);
       worldGrid.appendChild(el);
     }
   </script>
