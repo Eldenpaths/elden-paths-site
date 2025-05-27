@@ -1,0 +1,17 @@
+{
+  "players": [
+    {
+      "name": "Echo Wanderer",
+      "tile": "A3",
+      "gear": [
+        "Trail Cloak",
+        "Tin Blade",
+        "Trailbox Journal"
+      ],
+      "fog_cleared": [
+        "A3"
+      ],
+      "last_active": "2025-05-26T22:00Z"
+    }
+  ]
+}
