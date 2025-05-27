@@ -1,16 +1,32 @@
 {
-  "example_player": {
-    "name": "example_player",
-    "tile": "15_22",
-    "hp": 10,
-    "xp": 0,
-    "gear": ["Rusty Sword", "Worn Cloak"],
-    "fog": ["15_22"],
-    "combat_state": "idle",
-    "death_count": 0,
-    "is_echo": false,
-    "last_active": "2025-05-26T18:04:00Z",        // ✅ ISO format
-    "session_status": "offline",                  // ✅ online/offline
-    "pose": "idle"                                // ✅ standing, walking, resting...
+  "SilentWalker": {
+    "name": "Silent Walker",
+    "tile": "tile_42C",
+    "hp": 38,
+    "xp": 220,
+    "wounds": ["scar_left_eye"],
+    "gear": {
+      "weapon": "iron_sword",
+      "armor": "leather_vest",
+      "tool": "hatchet"
+    },
+    "inventory": ["rope_coil", "trail_rations", "wooden_shield"],
+    "oaths": ["founder_tile_15A"],
+    "fog_explored": ["tile_42C", "tile_41B", "tile_40B"]
+  },
+  "EmberTide": {
+    "name": "Ember Tide",
+    "tile": "tile_37D",
+    "hp": 25,
+    "xp": 130,
+    "wounds": [],
+    "gear": {
+      "weapon": "staff_of_moss",
+      "armor": "cotton_robes",
+      "tool": "foraging_knife"
+    },
+    "inventory": ["herbal_pouch", "tinderbox", "map_fragment"],
+    "oaths": ["custodian_tile_37D"],
+    "fog_explored": ["tile_37D", "tile_36D"]
   }
 }
