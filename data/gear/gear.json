@@ -1,0 +1,42 @@
+{
+  "Rusty Sword": {
+    "type": "weapon",
+    "damage": "1d6",
+    "durability": 25,
+    "weight": 3,
+    "slots": ["main_hand"],
+    "rarity": "common",
+    "material": "iron",
+    "description": "A dull, corroded sword that has seen better days."
+  },
+  "Worn Cloak": {
+    "type": "armor",
+    "armor_bonus": 1,
+    "durability": 10,
+    "weight": 1,
+    "slots": ["body"],
+    "rarity": "common",
+    "material": "cloth",
+    "description": "A threadbare cloak, good enough to block wind."
+  },
+  "Traveler’s Boots": {
+    "type": "armor",
+    "armor_bonus": 0,
+    "durability": 12,
+    "weight": 1,
+    "slots": ["feet"],
+    "rarity": "common",
+    "material": "leather",
+    "description": "Scuffed but reliable footwear for the road ahead."
+  },
+  "Wooden Shield": {
+    "type": "armor",
+    "armor_bonus": 2,
+    "durability": 20,
+    "weight": 4,
+    "slots": ["off_hand"],
+    "rarity": "uncommon",
+    "material": "wood",
+    "description": "A basic round shield reinforced with leather."
+  }
+}
